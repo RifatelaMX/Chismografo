@@ -81,8 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	const resolvedUrlLink = document.getElementById('resolved-url-link');
 	const resultStatusLabel = document.getElementById('result-status-label');
 	const techIconContainer = document.getElementById('tech-icon-container');
-	const confidencePercent = document.getElementById('confidence-percent');
-	const confidenceCircle = document.getElementById('confidence-circle');
+	const _confidencePercent = document.getElementById('confidence-percent');
+	const _confidenceCircle = document.getElementById('confidence-circle');
 	const signalsContainer = document.getElementById('signals-container');
 	const totalRulesCount = document.getElementById('total-rules-count');
 	const matchedRulesCount = document.getElementById('matched-rules-count');
@@ -98,15 +98,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// BuiltWith Elements
 	const bwMissingKeyBanner = document.getElementById('bw-missing-key-banner');
-	const bwResultsContainer = document.getElementById('bw-results-container');
+	const _bwResultsContainer = document.getElementById('bw-results-container');
 	const bwApiKeyBannerInput = document.getElementById('bw-api-key-banner');
 	const bwSaveKeyBannerBtn = document.getElementById('bw-save-key-banner-btn');
-	const bwSpendLabel = document.getElementById('bw-spend-label');
-	const bwSpendChart = document.getElementById('bw-spend-chart');
-	const bwTechCount = document.getElementById('bw-tech-count');
-	const bwHistTechCount = document.getElementById('bw-hist-tech-count');
-	const bwActiveTechGrid = document.getElementById('bw-active-tech-grid');
-	const bwHistoricalTechGrid = document.getElementById('bw-historical-tech-grid');
+	const _bwSpendLabel = document.getElementById('bw-spend-label');
+	const _bwSpendChart = document.getElementById('bw-spend-chart');
+	const _bwTechCount = document.getElementById('bw-tech-count');
+	const _bwHistTechCount = document.getElementById('bw-hist-tech-count');
+	const _bwActiveTechGrid = document.getElementById('bw-active-tech-grid');
+	const _bwHistoricalTechGrid = document.getElementById('bw-historical-tech-grid');
 	const bwSubTabButtons = document.querySelectorAll('.sub-tab-btn');
 	const bwSubPanes = document.querySelectorAll('.bw-sub-pane');
 
@@ -150,8 +150,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Tab switching
 	tabButtons.forEach((btn) => {
 		btn.addEventListener('click', () => {
-			tabButtons.forEach((b) => b.classList.remove('active'));
-			tabPanes.forEach((p) => p.classList.remove('active'));
+			tabButtons.forEach((b) => {
+				b.classList.remove('active');
+			});
+			tabPanes.forEach((p) => {
+				p.classList.remove('active');
+			});
 
 			btn.classList.add('active');
 			const targetId = btn.getAttribute('data-target');
@@ -163,8 +167,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	// BuiltWith sub-tab switching
 	bwSubTabButtons.forEach((btn) => {
 		btn.addEventListener('click', () => {
-			bwSubTabButtons.forEach((b) => b.classList.remove('active'));
-			bwSubPanes.forEach((p) => p.classList.remove('active'));
+			bwSubTabButtons.forEach((b) => {
+				b.classList.remove('active');
+			});
+			bwSubPanes.forEach((p) => {
+				p.classList.remove('active');
+			});
 
 			btn.classList.add('active');
 			const targetId = btn.getAttribute('data-bwtab');
@@ -187,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				navigator.clipboard
 					.writeText(codeElement.textContent)
 					.then(() => {
-						const icon = btn.querySelector('i');
+						const _icon = btn.querySelector('i');
 						btn.innerHTML = '<i data-lucide="check" style="color: #10b981;"></i>';
 						lucide.createIcons();
 						setTimeout(() => {
@@ -288,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					showError(data.error || 'Error desconocido al escanear la página.');
 				}
 			}, 300);
-		} catch (err) {
+		} catch (_err) {
 			clearInterval(interval);
 			scanningState.classList.add('hidden');
 			submitBtn.disabled = false;
@@ -341,17 +349,17 @@ document.addEventListener('DOMContentLoaded', () => {
 					if (badgeEl) {
 						const suffix = data.isDemo ? ' (Simulado)' : '';
 						if (score >= 90) {
-							badgeEl.textContent = 'Bueno' + suffix;
+							badgeEl.textContent = `Bueno${suffix}`;
 							badgeEl.style.background = 'rgba(37, 211, 102, 0.1)';
 							badgeEl.style.color = '#25d366';
 							badgeEl.style.border = '1px solid rgba(37, 211, 102, 0.2)';
 						} else if (score >= 50) {
-							badgeEl.textContent = 'Regular' + suffix;
+							badgeEl.textContent = `Regular${suffix}`;
 							badgeEl.style.background = 'rgba(245, 158, 11, 0.1)';
 							badgeEl.style.color = '#f59e0b';
 							badgeEl.style.border = '1px solid rgba(245, 158, 11, 0.2)';
 						} else {
-							badgeEl.textContent = 'Malo' + suffix;
+							badgeEl.textContent = `Malo${suffix}`;
 							badgeEl.style.background = 'rgba(239, 68, 68, 0.1)';
 							badgeEl.style.color = '#ef4444';
 							badgeEl.style.border = '1px solid rgba(239, 68, 68, 0.2)';
@@ -419,7 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const screenshotDesktopImg = document.getElementById('screenshot-desktop-img');
 		const screenshotMobileImg = document.getElementById('screenshot-mobile-img');
 
-		if (data.screenshots && data.screenshots.desktop && data.screenshots.mobile) {
+		if (data.screenshots?.desktop && data.screenshots.mobile) {
 			if (screenshotDesktopImg) screenshotDesktopImg.src = data.screenshots.desktop;
 			if (screenshotMobileImg) screenshotMobileImg.src = data.screenshots.mobile;
 			if (headerPreviewsContainer) headerPreviewsContainer.style.display = 'flex';
@@ -436,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		// Render Server Location Map & Latency
 		const mapCard = document.getElementById('map-card');
 		if (mapCard) {
-			if (data.location && data.location.success && data.location.ll) {
+			if (data.location?.success && data.location.ll) {
 				mapCard.style.display = 'block';
 
 				const ip = data.location.ip || 'Desconocida';
@@ -449,7 +457,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				// Update labels
 				document.getElementById('server-ip-val').textContent = ip;
 				document.getElementById('server-location-val').textContent =
-					`${city ? city + ', ' : ''}${region ? region + ', ' : ''}${country}`;
+					`${city ? `${city}, ` : ''}${region ? `${region}, ` : ''}${country}`;
 
 				// Mexico City representative coords
 				const mexLat = 19.4326;
@@ -502,10 +510,10 @@ document.addEventListener('DOMContentLoaded', () => {
 					});
 
 					// Trigger tooltip manually on mouseover
-					marker.on('mouseover', function (e) {
+					marker.on('mouseover', function (_e) {
 						this.openTooltip();
 					});
-					marker.on('mouseout', function (e) {
+					marker.on('mouseout', function (_e) {
 						this.closeTooltip();
 					});
 
@@ -622,7 +630,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (data.detected && data.matches) {
 			// Loop over detected technology rules
 			const activeTechMatches = data.matches[data.technology];
-			if (activeTechMatches && activeTechMatches.matchedRules) {
+			if (activeTechMatches?.matchedRules) {
 				matchCount = activeTechMatches.matchedRules.length;
 
 				activeTechMatches.matchedRules.forEach((rule) => {
@@ -707,12 +715,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		const allActive = [];
 
 		// Helper to check if a tech is excluded (CDN, Edge, SSL, Root Authority)
-		const isExcluded = (name, category) => {
+		const isExcluded = (_name, _category) => {
 			return false;
 		};
 
 		// Helper to check if a tech is included (CMS, E-Commerce, Shopify Apps, Payment Methods, Pay Later, Hosting)
-		const isIncluded = (name, category) => {
+		const isIncluded = (_name, _category) => {
 			return true;
 		};
 
@@ -730,7 +738,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (isExcluded(name, category)) return;
 			if (source !== 'Motor Local' && !isIncluded(name, category)) return;
 
-			const translatedCat = translateCategory(category);
+			const _translatedCat = translateCategory(category);
 
 			const key = name.toLowerCase().trim();
 			let existing = allActive.find((item) => item.name.toLowerCase().trim() === key);
@@ -998,12 +1006,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (tech.link) {
 			try {
 				domain = new URL(tech.link).hostname.replace(/^www\./i, '');
-			} catch (e) {}
+			} catch (_e) {}
 		}
 		if (!domain && tech.website) {
 			try {
 				domain = new URL(tech.website).hostname.replace(/^www\./i, '');
-			} catch (e) {}
+			} catch (_e) {}
 		}
 
 		const token = serverConfig.logoDevToken;
@@ -1175,7 +1183,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	// Sort comparator to order categories: CMS -> Apps -> Payments -> Rest
-	function compareCategories(catA, catB) {
+	function _compareCategories(catA, catB) {
 		const getCategoryPriority = (name) => {
 			const lower = name.toLowerCase();
 

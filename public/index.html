@@ -135,6 +135,95 @@
               <img id="screenshot-mobile-img" src="" alt="Mobile Preview" style="width: 100%; height: calc(100% - 6px); object-fit: cover;">
             </div>
           </div>
+          <!-- Email Report Button (only visible when emailEnabled is true) -->
+          <div id="email-report-btn-wrapper" style="display: none; margin-top: 1rem; justify-content: flex-end;">
+            <button type="button" id="open-email-report-btn"
+              style="display: inline-flex; align-items: center; gap: 8px; background: rgba(138,43,226,0.12); 
+                     border: 1px solid rgba(138,43,226,0.35); color: #c084fc; font-size: 13px; font-weight: 600; 
+                     padding: 9px 18px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
+                     letter-spacing: 0.01em;"
+              onmouseover="this.style.background='rgba(138,43,226,0.22)'; this.style.borderColor='rgba(138,43,226,0.6)'"
+              onfocus="this.style.background='rgba(138,43,226,0.22)'; this.style.borderColor='rgba(138,43,226,0.6)'"
+              onmouseout="this.style.background='rgba(138,43,226,0.12)'; this.style.borderColor='rgba(138,43,226,0.35)'"
+              onblur="this.style.background='rgba(138,43,226,0.12)'; this.style.borderColor='rgba(138,43,226,0.35)'">
+              <i data-lucide="mail" style="width:15px;height:15px;"></i>
+              Enviar reporte por correo
+            </button>
+          </div>
+        </div>
+
+        <!-- ✉️ Email Report Modal -->
+        <div id="email-report-modal" style="display: none; position: fixed; inset: 0; z-index: 9999; 
+             background: rgba(0,0,0,0.75); backdrop-filter: blur(6px); align-items: center; justify-content: center;">
+          <div style="background: #0d1117; border: 1px solid rgba(138,43,226,0.3); border-radius: 20px; 
+                      padding: 36px 40px; width: 100%; max-width: 440px; position: relative; box-shadow: 0 24px 80px rgba(0,0,0,0.7);">
+            <!-- Top gradient bar -->
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 20px 20px 0 0;
+                        background: linear-gradient(90deg, #8a2be2, #00f2fe);"></div>
+
+            <!-- Close button -->
+            <button type="button" id="close-email-modal-btn" aria-label="Cerrar"
+              style="position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.06); 
+                     border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; width: 30px; height: 30px;
+                     border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+                     font-size: 16px; line-height: 1;">✕</button>
+
+            <!-- Header -->
+            <div style="margin-bottom: 24px;">
+              <div style="width: 44px; height: 44px; background: linear-gradient(135deg, rgba(138,43,226,0.2), rgba(0,242,254,0.1));
+                          border: 1px solid rgba(138,43,226,0.3); border-radius: 12px; display: flex; align-items: center; 
+                          justify-content: center; margin-bottom: 16px;">
+                <i data-lucide="mail" style="width:20px;height:20px;color:#c084fc;"></i>
+              </div>
+              <h3 style="margin: 0 0 6px; color: #f1f5f9; font-size: 18px; font-weight: 700;">Enviar Reporte por Correo</h3>
+              <p style="margin: 0; color: #64748b; font-size: 13px; line-height: 1.5;">
+                Recibirás un reporte completo con la detección, apps, infraestructura y métricas de rendimiento.
+              </p>
+            </div>
+
+            <!-- Form -->
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              <div>
+                <label for="report-email-input" style="display: block; font-size: 12px; font-weight: 600; color: #94a3b8; margin-bottom: 6px; letter-spacing: 0.04em; text-transform: uppercase;">
+                  Correo electrónico *
+                </label>
+                <input type="email" id="report-email-input" placeholder="nombre@empresa.com"
+                  style="width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); 
+                         color: #f1f5f9; font-size: 14px; padding: 11px 14px; border-radius: 10px; outline: none;
+                         transition: border-color 0.2s; font-family: inherit;"
+                  onfocus="this.style.borderColor='rgba(138,43,226,0.6)'"
+                  onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+              </div>
+              <div>
+                <label for="report-name-input" style="display: block; font-size: 12px; font-weight: 600; color: #94a3b8; margin-bottom: 6px; letter-spacing: 0.04em; text-transform: uppercase;">
+                  Nombre (opcional)
+                </label>
+                <input type="text" id="report-name-input" placeholder="Tu nombre"
+                  style="width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); 
+                         color: #f1f5f9; font-size: 14px; padding: 11px 14px; border-radius: 10px; outline: none;
+                         transition: border-color 0.2s; font-family: inherit;"
+                  onfocus="this.style.borderColor='rgba(138,43,226,0.6)'"
+                  onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+              </div>
+
+              <!-- Status message -->
+              <div id="email-report-status" style="display: none; font-size: 13px; padding: 10px 14px; border-radius: 8px;"></div>
+
+              <!-- Submit button -->
+              <button type="button" id="send-report-btn"
+                style="width: 100%; background: linear-gradient(90deg, #8a2be2, #00f2fe); color: white; 
+                       font-weight: 700; font-size: 14px; padding: 13px; border-radius: 12px; 
+                       cursor: pointer; border: none; letter-spacing: 0.01em; transition: opacity 0.2s;
+                       display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit;"
+                onmouseover="this.style.opacity='0.9'"
+                onfocus="this.style.opacity='0.9'"
+                onmouseout="this.style.opacity='1'"
+                onblur="this.style.opacity='1'">
+                <i data-lucide="send" style="width:15px;height:15px;"></i>
+                Enviar reporte
+              </button>
+            </div>
+          </div>
         </div>
 
 
@@ -322,6 +411,7 @@
                   </div>
                   <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">Copia y pega este código HTML en cualquier parte de tu sitio web para mostrar el badge en tiempo real.</p>
                 </div>
+              </div>
             </div>
 
             <!-- Embeddable Search Widget Card -->

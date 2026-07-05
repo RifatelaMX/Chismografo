@@ -9,6 +9,7 @@ import express from 'express';
 import morgan from 'morgan';
 import screenshotmachine from 'screenshotmachine';
 import { detectTechnology, normalizeUrl } from './src/detector.js';
+import { sendReportEmail } from './src/emailService.js';
 import { getDomainLocation } from './src/location.js';
 
 // Configuration
@@ -256,7 +257,40 @@ app.get('/api/config', (_req, res) => {
 	res.json({
 		logoDevToken: process.env.LOGODEV_PUBLISHABLE_KEY || '',
 		appUrl: process.env.APP_URL || '',
+		emailEnabled: !!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS),
 	});
+});
+
+/**
+ * @api {post} /api/report Send scan report via email
+ * Body: { "email": "user@example.com", "name": "Juan", "data": { ...scanResult } }
+ */
+app.post('/api/report', async (req, res) => {
+	const { email, name = '', data } = req.body;
+
+	if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+		return res.status(400).json({ success: false, error: 'Email inválido o faltante.' });
+	}
+	if (!data?.resolvedUrl) {
+		return res.status(400).json({ success: false, error: 'Datos del reporte incompletos.' });
+	}
+	if (!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS)) {
+		return res
+			.status(503)
+			.json({ success: false, error: 'El servicio de correo no está configurado en el servidor.' });
+	}
+
+	try {
+		const result = await sendReportEmail(email, name, data);
+		console.log(`[Email] Report sent to ${email} — messageId: ${result.messageId}`);
+		return res.json({ success: true, messageId: result.messageId });
+	} catch (err) {
+		console.error(`[Email] Failed to send report to ${email}:`, err.message);
+		return res.status(500).json({
+			success: false,
+			error: 'Error al enviar el correo. Verifica la configuración SMTP.',
+		});
+	}
 });
 
 /**
