@@ -1,0 +1,20 @@
+{
+  "name": "Fastly",
+  "category": "CDN / Proxy",
+  "web": "https://www.fastly.com",
+  "logo": "fastly.com",
+  "detectionRules": [
+    {
+      "type": "header",
+      "key": "x-served-by",
+      "pattern": "cache-",
+      "description": "Served by Fastly cache header"
+    },
+    {
+      "type": "header",
+      "key": "x-cache",
+      "pattern": "HIT|MISS",
+      "description": "Fastly cache status header"
+    }
+  ]
+}

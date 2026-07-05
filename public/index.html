@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Commerce Technology Detector | Scrapper Engine</title>
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Detecta al instante la tecnología e-commerce utilizada por cualquier sitio web. Especializado en Shopify, Magento, WooCommerce, PrestaShop y VTEX.">
+  <meta name="keywords" content="Shopify, Magento, WooCommerce, PrestaShop, VTEX, Scraper, Detect, E-commerce, API">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+  <!-- Background Decorative Glows -->
+  <div class="glow-sphere glow-1"></div>
+  <div class="glow-sphere glow-2"></div>
+  <div class="glow-sphere glow-3"></div>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-wrapper">
+        <div class="logo-icon-svg" style="margin-right: 0.75rem;">
+          <svg width="42" height="42" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.55));">
+            <rect width="40" height="40" rx="10" fill="url(#logo-grad)" />
+            <path d="M11 15C11 12.7909 12.7909 11 15 11H25C27.2091 11 29 12.7909 29 15V25C29 27.2091 27.2091 29 25 29H15C12.7909 29 11 27.2091 11 25V15Z" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M15 18L20 23L25 18" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="20" cy="27" r="1.5" fill="#00f2fe"/>
+            <defs>
+              <linearGradient id="logo-grad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#8a2be2" />
+                <stop offset="1" stop-color="#00f2fe" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div>
+          <h1>Detector E-Commerce</h1>
+          <p class="tagline">Scrapper Engine &amp; REST API</p>
+        </div>
+      </div>
+      <div class="header-links">
+        <a href="#api-doc" class="btn-secondary small-btn">
+          <i data-lucide="code-2"></i> Documentación API
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+      <!-- Search Input Section -->
+      <section class="card glass-panel search-section">
+        <h2>Escribe la URL del sitio e-commerce</h2>
+        <p class="section-desc">Analizaremos las cabeceras HTTP, etiquetas meta, scripts cargados y clases del DOM para detectar la plataforma.</p>
+        
+        <form id="detect-form" class="search-form">
+          <div class="input-wrapper">
+            <i data-lucide="globe" class="input-icon"></i>
+            <input type="text" id="target-url" placeholder="ejemplo.com o https://tienda.com" required autocomplete="off">
+            <button type="submit" id="submit-btn" class="btn-primary">
+              <span>Analizar Sitio</span>
+              <i data-lucide="arrow-right"></i>
+            </button>
+          </div>
+        </form>
+
+
+      </section>
+
+      <!-- Scanning / Progress State (Hidden by default) -->
+      <section id="scanning-state" class="card glass-panel scanning-section hidden">
+        <div class="scanner-container">
+          <div class="scanner-ring">
+            <div class="scanner-dot"></div>
+          </div>
+          <div class="scanner-status">
+            <h3>Analizando sitio web...</h3>
+            <p id="scanner-step">Enviando petición de scraping HTTP...</p>
+            <div class="progress-bar-container">
+              <div id="scanner-progress-bar" class="progress-bar"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results Section (Hidden by default) -->
+      <section id="results-state" class="results-section hidden">
+        
+        <!-- Technology Header Card -->
+        <div class="card glass-panel result-header-card" style="display: flex; justify-content: space-between; align-items: center; gap: 2rem;">
+          <div class="result-headline" style="flex: 1; display: flex; align-items: center; gap: 1.5rem;">
+            <div id="tech-icon-container" class="tech-icon-large">
+              <i data-lucide="shopping-bag"></i>
+            </div>
+            <div class="result-text-summary">
+              <h2 style="display: flex; align-items: center; gap: 0.75rem; margin: 0; color: white;">
+                <span id="detected-tech-name">Shopify</span>
+                <span id="confidence-text-badge" style="font-size: 0.8rem; font-weight: 600; padding: 0.15rem 0.6rem; border-radius: 12px; background: rgba(173, 255, 0, 0.08); color: var(--primary); border: 1px solid rgba(173, 255, 0, 0.2);">100% Confianza</span>
+              </h2>
+              <div id="detected-theme-container" style="display: none; margin-top: 0.25rem;">
+                <span style="font-size: 0.95rem; color: var(--text-secondary);">Tema / Plantilla: <strong id="detected-theme-name" style="font-weight: 600; color: var(--secondary);">Stretch</strong></span>
+              </div>
+              <div id="product-count-container" style="display: none; margin-top: 0.25rem;">
+                <span style="font-size: 0.95rem; color: var(--text-secondary);">Productos Detectados: <strong id="product-count-val" style="font-weight: 600; color: var(--primary);">0</strong></span>
+              </div>
+              <p class="resolved-url-text" style="margin-top: 0.5rem; margin-bottom: 0;">URL: <a href="#" id="resolved-url-link" target="_blank">https://tienda.com</a></p>
+            </div>
+          </div>
+
+          <!-- Previews Container -->
+          <div class="header-previews-container" id="header-previews-container" style="display: none; align-items: center; gap: 1rem; max-height: 110px;">
+            <div class="desktop-mockup-mini" style="position: relative; width: 140px; height: 90px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15); overflow: hidden; background: #000;">
+              <div class="mockup-header-mini" style="height: 6px; background: rgba(255,255,255,0.08); display: flex; gap: 2px; align-items: center; padding: 0 4px;">
+                <span style="width: 2px; height: 2px; border-radius: 50%; background: #ff5f56; display: inline-block;"></span>
+                <span style="width: 2px; height: 2px; border-radius: 50%; background: #ffbd2e; display: inline-block;"></span>
+                <span style="width: 2px; height: 2px; border-radius: 50%; background: #27c93f; display: inline-block;"></span>
+              </div>
+              <img id="screenshot-desktop-img" src="" alt="Desktop Preview" style="width: 100%; height: calc(100% - 6px); object-fit: cover;">
+            </div>
+            <div class="mobile-mockup-mini" style="position: relative; width: 50px; height: 90px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); overflow: hidden; background: #000;">
+              <div class="mockup-header-mini" style="height: 6px; background: rgba(255,255,255,0.08); display: flex; justify-content: center; align-items: center;">
+                <span style="width: 8px; height: 2px; border-radius: 1px; background: rgba(255,255,255,0.3); display: inline-block;"></span>
+              </div>
+              <img id="screenshot-mobile-img" src="" alt="Mobile Preview" style="width: 100%; height: calc(100% - 6px); object-fit: cover;">
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Unified Layout -->
+        <div class="unified-dashboard-layout">
+          <!-- Main Left Column -->
+          <div class="unified-main-column">
+            <!-- Server Location Map Card -->
+            <div class="card glass-panel map-card" id="map-card" style="margin-bottom: 2rem; display: none;">
+              <div class="card-header">
+                <i data-lucide="map-pin"></i>
+                <h3>Ubicación y Latencia de Respuesta del Servidor</h3>
+              </div>
+              <p class="section-desc">Ubicación del servidor de hosting y estimación de latencia de red hacia México.</p>
+              
+              <div class="map-section-wrapper" style="display: flex; flex-direction: column; gap: 1rem;">
+                <div id="server-map" style="height: 350px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.2);"></div>
+                <div class="latency-info-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                  <div class="latency-card" style="padding: 1rem; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span style="font-size: 0.72rem; color: var(--text-dark); text-transform: uppercase;">Latencia Estimada a México</span>
+                    <span id="mexico-latency-val" style="font-size: 1.5rem; font-weight: 700; color: var(--accent-turquoise);">0 ms</span>
+                  </div>
+                  <div class="latency-card" style="padding: 1rem; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span style="font-size: 0.72rem; color: var(--text-dark); text-transform: uppercase;">Dirección IP del Servidor</span>
+                    <span id="server-ip-val" style="font-size: 1.2rem; font-weight: 600; color: white;">0.0.0.0</span>
+                  </div>
+                  <div class="latency-card" style="padding: 1rem; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span style="font-size: 0.72rem; color: var(--text-dark); text-transform: uppercase;">Ubicación Física</span>
+                    <span id="server-location-val" style="font-size: 1.2rem; font-weight: 600; color: white;">Desconocida</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PageSpeed Insights Performance Card -->
+            <div class="card glass-panel pagespeed-card" id="pagespeed-card" style="margin-bottom: 2rem; display: none;">
+              <div class="card-header">
+                <i data-lucide="zap"></i>
+                <h3>Rendimiento del Sitio (Google PageSpeed)</h3>
+              </div>
+              <p class="section-desc">Auditoría en tiempo real de velocidad y métricas clave de la experiencia de usuario (Core Web Vitals) en dispositivos móviles.</p>
+              
+              <!-- Loader state inside the card -->
+              <div id="pagespeed-loader" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; gap: 1rem;">
+                <div class="scanner-ring" style="width: 40px; height: 40px;">
+                  <div class="scanner-dot" style="width: 6px; height: 6px;"></div>
+                </div>
+                <span style="font-size: 0.88rem; color: var(--text-secondary);">Ejecutando auditoría Lighthouse en dispositivos móviles...</span>
+              </div>
+
+              <!-- Content state inside the card (hidden by default) -->
+              <div id="pagespeed-content" class="hidden" style="display: flex; flex-direction: column; gap: 1.75rem;">
+                <!-- Three Gauges Grid -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem;">
+                  
+                  <!-- Performance Gauge -->
+                  <div style="display: flex; align-items: center; gap: 1.25rem; padding: 1.15rem 1.25rem; border-radius: 8px; background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.03);">
+                    <div style="position: relative; width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                      <svg width="72" height="72" viewBox="0 0 80 80" style="transform: rotate(-90deg); width: 100%; height: 100%;">
+                        <circle cx="40" cy="40" r="34" stroke="rgba(255,255,255,0.03)" stroke-width="6" fill="none"></circle>
+                        <circle id="pagespeed-score-circle" cx="40" cy="40" r="34" stroke="var(--primary)" stroke-width="6" fill="none" stroke-dasharray="214" stroke-dashoffset="214" stroke-linecap="round" style="transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);"></circle>
+                      </svg>
+                      <div style="position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <span id="pagespeed-score-val" style="font-size: 1.35rem; font-weight: 800; color: #fff; line-height: 1;">0</span>
+                      </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.25rem; min-width: 0;">
+                      <h4 style="margin: 0; color: white; font-size: 0.95rem; font-weight: 700;">Rendimiento</h4>
+                      <span id="pagespeed-level-badge" style="display: inline-block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; padding: 0.1rem 0.4rem; border-radius: 4px; align-self: flex-start;">Regular</span>
+                    </div>
+                  </div>
+
+                  <!-- Accessibility Gauge -->
+                  <div style="display: flex; align-items: center; gap: 1.25rem; padding: 1.15rem 1.25rem; border-radius: 8px; background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.03);">
+                    <div style="position: relative; width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                      <svg width="72" height="72" viewBox="0 0 80 80" style="transform: rotate(-90deg); width: 100%; height: 100%;">
+                        <circle cx="40" cy="40" r="34" stroke="rgba(255,255,255,0.03)" stroke-width="6" fill="none"></circle>
+                        <circle id="pagespeed-acc-circle" cx="40" cy="40" r="34" stroke="var(--primary)" stroke-width="6" fill="none" stroke-dasharray="214" stroke-dashoffset="214" stroke-linecap="round" style="transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);"></circle>
+                      </svg>
+                      <div style="position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <span id="pagespeed-acc-val" style="font-size: 1.35rem; font-weight: 800; color: #fff; line-height: 1;">0</span>
+                      </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.25rem; min-width: 0;">
+                      <h4 style="margin: 0; color: white; font-size: 0.95rem; font-weight: 700;">Accesibilidad</h4>
+                      <span id="pagespeed-acc-badge" style="display: inline-block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; padding: 0.1rem 0.4rem; border-radius: 4px; align-self: flex-start;">Regular</span>
+                    </div>
+                  </div>
+
+                  <!-- SEO Gauge -->
+                  <div style="display: flex; align-items: center; gap: 1.25rem; padding: 1.15rem 1.25rem; border-radius: 8px; background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.03);">
+                    <div style="position: relative; width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                      <svg width="72" height="72" viewBox="0 0 80 80" style="transform: rotate(-90deg); width: 100%; height: 100%;">
+                        <circle cx="40" cy="40" r="34" stroke="rgba(255,255,255,0.03)" stroke-width="6" fill="none"></circle>
+                        <circle id="pagespeed-seo-circle" cx="40" cy="40" r="34" stroke="var(--primary)" stroke-width="6" fill="none" stroke-dasharray="214" stroke-dashoffset="214" stroke-linecap="round" style="transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);"></circle>
+                      </svg>
+                      <div style="position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <span id="pagespeed-seo-val" style="font-size: 1.35rem; font-weight: 800; color: #fff; line-height: 1;">0</span>
+                      </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.25rem; min-width: 0;">
+                      <h4 style="margin: 0; color: white; font-size: 0.95rem; font-weight: 700;">SEO</h4>
+                      <span id="pagespeed-seo-badge" style="display: inline-block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; padding: 0.1rem 0.4rem; border-radius: 4px; align-self: flex-start;">Regular</span>
+                    </div>
+                  </div>
+
+                </div>
+
+                <!-- Metrics Grid -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                  <div class="latency-card" style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase;">First Contentful Paint (FCP)</span>
+                    <span id="ps-metric-fcp" style="font-size: 1.25rem; font-weight: 700; color: white;">0 s</span>
+                  </div>
+                  <div class="latency-card" style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase;">Largest Contentful Paint (LCP)</span>
+                    <span id="ps-metric-lcp" style="font-size: 1.25rem; font-weight: 700; color: white;">0 s</span>
+                  </div>
+                  <div class="latency-card" style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase;">Total Blocking Time (TBT)</span>
+                    <span id="ps-metric-tbt" style="font-size: 1.25rem; font-weight: 700; color: white;">0 ms</span>
+                  </div>
+                  <div class="latency-card" style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase;">Cumulative Layout Shift (CLS)</span>
+                    <span id="ps-metric-cls" style="font-size: 1.25rem; font-weight: 700; color: white;">0</span>
+                  </div>
+                  <div class="latency-card" style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase;">Speed Index</span>
+                    <span id="ps-metric-speedindex" style="font-size: 1.25rem; font-weight: 700; color: white;">0 s</span>
+                  </div>
+                  <div class="latency-card" style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase;">Time to Interactive</span>
+                    <span id="ps-metric-interactive" style="font-size: 1.25rem; font-weight: 700; color: white;">0 s</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment Gateways Card -->
+            <div class="card glass-panel" id="payment-gateways-card" style="margin-bottom: 2rem; display: none;">
+              <div class="card-header">
+                <i data-lucide="credit-card"></i>
+                <h3>Pasarelas de Pago Detectadas</h3>
+              </div>
+              <p class="section-desc">Procesadores de pago y pasarelas activas en el sitio para transacciones y BNPL.</p>
+              <div class="tech-grid" id="payment-gateways-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem; margin-top: 1.25rem;">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+
+            <!-- Active Technologies Card -->
+            <div class="card glass-panel">
+              <div class="card-header">
+                <i data-lucide="package-open"></i>
+                <h3>Tecnologías y Aplicaciones Detectadas</h3>
+              </div>
+              <p class="section-desc">Pila tecnológica consolidada de la tienda, agrupada por categorías comerciales.</p>
+              <div class="tech-grid" id="unified-tech-grid">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+
+            <!-- Embeddable Widget Card -->
+            <div class="card glass-panel" id="embed-widget-card" style="margin-bottom: 2rem;">
+              <div class="card-header">
+                <i data-lucide="layout-template"></i>
+                <h3>Incrustar Insignia de Verificación</h3>
+              </div>
+              <p class="section-desc">Muestra la plataforma detectada de este sitio directamente en tu propia web con esta insignia responsiva.</p>
+              
+              <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: flex-start;">
+                <!-- Live Preview -->
+                <div style="flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 0.5rem;">
+                  <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;">Vista Previa de la Insignia</span>
+                  <div style="padding: 1rem; border-radius: 8px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; min-height: 140px;">
+                    <iframe id="widget-preview-iframe" src="" width="320" height="120" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); background: #000;"></iframe>
+                  </div>
+                </div>
+                <!-- Copy Code Area -->
+                <div style="flex: 1.2; min-width: 300px; display: flex; flex-direction: column; gap: 0.5rem;">
+                  <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;">Código de Inserción (iframe)</span>
+                  <div class="code-wrapper">
+                    <pre><code class="language-html" id="widget-embed-code">&lt;iframe src="" width="320" height="120" style="border:none; border-radius:8px;"&gt;&lt;/iframe&gt;</code></pre>
+                    <button class="copy-code-btn" data-target="widget-embed-code"><i data-lucide="copy"></i></button>
+                  </div>
+                  <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">Copia y pega este código HTML en cualquier parte de tu sitio web para mostrar el badge en tiempo real.</p>
+                </div>
+            </div>
+
+            <!-- Embeddable Search Widget Card -->
+            <div class="card glass-panel" id="embed-search-widget-card" style="margin-bottom: 2rem;">
+              <div class="card-header">
+                <i data-lucide="search-code"></i>
+                <h3>Incrustar Buscador de Auditorías</h3>
+              </div>
+              <p class="section-desc">Permite a los visitantes de tu web buscar y auditar cualquier sitio de e-commerce incrustando este buscador funcional interactivo.</p>
+              
+              <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: flex-start;">
+                <!-- Live Preview -->
+                <div style="flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 0.5rem;">
+                  <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;">Vista Previa del Buscador</span>
+                  <div style="padding: 1rem; border-radius: 8px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; min-height: 480px;">
+                    <iframe id="search-widget-preview-iframe" src="" width="100%" height="450" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); background: #000; width: 100%;"></iframe>
+                  </div>
+                </div>
+                <!-- Copy Code Area -->
+                <div style="flex: 1.2; min-width: 300px; display: flex; flex-direction: column; gap: 1rem;">
+                  <!-- Option A: Compact Widget -->
+                  <div>
+                    <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 0.35rem;">Opción A: Buscador Compacto (Widget)</span>
+                    <div class="code-wrapper">
+                      <pre><code class="language-html" id="search-widget-embed-code">&lt;iframe src="" width="100%" height="480" style="border:1px solid rgba(255,255,255,0.1); border-radius:12px; background:#000;"&gt;&lt;/iframe&gt;</code></pre>
+                      <button class="copy-code-btn" data-target="search-widget-embed-code"><i data-lucide="copy"></i></button>
+                    </div>
+                    <p style="margin-top: 0.25rem; font-size: 0.7rem; color: var(--text-muted);">Muestra un buscador e informes de rendimiento/tecnología ultralivianos.</p>
+                  </div>
+
+                  <!-- Option B: Full Web Dashboard Embed -->
+                  <div>
+                    <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 0.35rem;">Opción B: Buscador Completo (Diseño Web Principal)</span>
+                    <div class="code-wrapper">
+                      <pre><code class="language-html" id="full-embed-code">&lt;iframe src="" width="100%" height="700" style="border:1px solid rgba(255,255,255,0.1); border-radius:12px; background:#000;"&gt;&lt;/iframe&gt;</code></pre>
+                      <button class="copy-code-btn" data-target="full-embed-code"><i data-lucide="copy"></i></button>
+                    </div>
+                    <p style="margin-top: 0.25rem; font-size: 0.7rem; color: var(--text-muted);">Incrusta la interfaz completa del dashboard (gráficos, capturas, mapas detallados) con el parámetro <code>?embed=true</code>.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Error State (Hidden by default) -->
+      <section id="error-state" class="card glass-panel error-section hidden">
+        <div class="error-icon-wrapper">
+          <i data-lucide="alert-triangle"></i>
+        </div>
+        <div class="error-details">
+          <h3>Error en el Scraping</h3>
+          <p id="error-message">No se pudo acceder al servidor de destino. Verifica que la URL sea correcta y que el sitio esté en línea.</p>
+          <button id="retry-btn" class="btn-secondary">Reintentar</button>
+        </div>
+      </section>
+
+      <!-- API Documentation Section -->
+      <section id="api-doc" class="card glass-panel api-doc-section">
+        <div class="card-header">
+          <i data-lucide="code-2"></i>
+          <h2>Consumo mediante REST API</h2>
+        </div>
+        <p class="section-desc">Integra este detector de e-commerce en tus propios sistemas usando endpoints REST simples que devuelven JSON detallado.</p>
+        
+        <div class="api-endpoints">
+          <!-- POST Endpoint -->
+          <div class="endpoint-block">
+            <div class="endpoint-header">
+              <span class="method post">POST</span>
+              <span class="path">/api/detect</span>
+            </div>
+            <p>Envía un JSON con el parámetro <code>url</code> en el cuerpo de la petición. Recomendado para entornos de producción.</p>
+            
+            <h5>Ejemplo de Petición (cURL)</h5>
+            <div class="code-wrapper">
+              <pre><code class="language-bash" id="curl-post-example">curl -X POST -H "Content-Type: application/json" \
+  -d '{"url": "https://tienda-ejemplo.com"}' \
+  http://localhost:3000/api/detect</code></pre>
+              <button class="copy-code-btn" data-target="curl-post-example"><i data-lucide="copy"></i></button>
+            </div>
+          </div>
+
+          <!-- GET Endpoint -->
+          <div class="endpoint-block">
+            <div class="endpoint-header">
+              <span class="method get">GET</span>
+              <span class="path">/api/detect</span>
+            </div>
+            <p>Envía la URL como un parámetro de consulta (query param) <code>?url=...</code>. Ideal para pruebas rápidas y navegadores.</p>
+            
+            <h5>Ejemplo de Petición (cURL)</h5>
+            <div class="code-wrapper">
+              <pre><code class="language-bash" id="curl-get-example">curl "http://localhost:3000/api/detect?url=https://tienda-ejemplo.com"</code></pre>
+              <button class="copy-code-btn" data-target="curl-get-example"><i data-lucide="copy"></i></button>
+            </div>
+          </div>
+
+          <!-- Response Example -->
+          <div class="endpoint-block">
+            <h5>Ejemplo de Respuesta (JSON)</h5>
+            <div class="code-wrapper">
+              <pre><code class="language-json" id="json-response-example">{
+  "url": "https://tienda-ejemplo.com",
+  "resolvedUrl": "https://tienda-ejemplo.com/",
+  "success": true,
+  "detected": true,
+  "technology": "Shopify",
+  "confidence": 0.99,
+  "matches": {
+    "Shopify": {
+      "detected": true,
+      "confidence": 0.99,
+      "matchedRules": [
+        {
+          "id": "shopify-meta-generator",
+          "description": "Meta generator contains \"Shopify\"",
+          "type": "meta",
+          "context": "&lt;meta name=\"generator\" content=\"Shopify\"&gt;",
+          "weight": 1
+        }
+      ]
+    }
+  }
+}</code></pre>
+              <button class="copy-code-btn" data-target="json-response-example"><i data-lucide="copy"></i></button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>&copy; 2026 E-Commerce Technology Detector Engine. Todos los derechos reservados.</p>
+      <p class="footer-meta">Construido con Node.js, Express, Axios &amp; Cheerio.</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

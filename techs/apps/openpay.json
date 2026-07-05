@@ -1,0 +1,22 @@
+{
+  "name": "Openpay",
+  "developer": "Openpay",
+  "category": "Pasarela de Pago",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.openpay.com",
+  "appStores": [],
+  "logo": "openpay.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "openpay\\.js|openpay\\.mx|openpay\\.co|openpay\\.pe",
+      "description": "Openpay integration script or resource detected"
+    }
+  ]
+}

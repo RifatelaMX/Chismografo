@@ -1,0 +1,23 @@
+{
+  "name": "Appstle",
+  "developer": "Appstle",
+  "category": "Suscripciones",
+  "compatibleCMS": [
+    "Shopify"
+  ],
+  "web": "https://www.appstle.com",
+  "appStores": [
+    {
+      "cms": "Shopify",
+      "link": "https://apps.shopify.com/appstle"
+    }
+  ],
+  "logo": "appstle.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "appstle",
+      "description": "Appstle integration script or resource detected"
+    }
+  ]
+}

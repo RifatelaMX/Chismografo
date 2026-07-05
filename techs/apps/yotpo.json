@@ -1,0 +1,22 @@
+{
+  "name": "Yotpo",
+  "developer": "Yotpo",
+  "category": "Reseñas / Marketing",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.yotpo.com",
+  "appStores": [],
+  "logo": "yotpo.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "yotpo\\.js|static\\.yotpo\\.com",
+      "description": "Yotpo integration script or resource detected"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Klarna",
+  "developer": "Klarna",
+  "category": "Pasarela de Pago (BNPL)",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.klarna.com",
+  "appStores": [],
+  "logo": "klarna.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "klarna\\.com|klarnacdn\\.net",
+      "description": "Klarna integration script or resource detected"
+    }
+  ]
+}

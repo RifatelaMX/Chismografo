@@ -1,0 +1,22 @@
+{
+  "name": "Google Analytics",
+  "developer": "Google Analytics",
+  "category": "Analítica",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.google.com",
+  "appStores": [],
+  "logo": "google.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "google-analytics\\.com\\/analytics\\.js|googletagmanager\\.com\\/gtag\\/js",
+      "description": "Google Analytics integration script or resource detected"
+    }
+  ]
+}

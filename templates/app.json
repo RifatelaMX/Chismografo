@@ -1,0 +1,16 @@
+{
+  "name": "{{name}}",
+  "developer": "{{developer}}",
+  "category": "{{category}}",
+  "compatibleCMS": "{{compatibleCMS}}",
+  "web": "{{web}}",
+  "appStores": "{{appStores}}",
+  "logo": "{{logo}}",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "{{slug}}",
+      "description": "Script de integración de {{name}} detectado"
+    }
+  ]
+}

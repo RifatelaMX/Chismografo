@@ -1,0 +1,22 @@
+{
+  "name": "Afterpay",
+  "developer": "Afterpay",
+  "category": "Pasarela de Pago (BNPL)",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.afterpay.com",
+  "appStores": [],
+  "logo": "afterpay.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "afterpay\\.com|afterpay-sdk",
+      "description": "Afterpay integration script or resource detected"
+    }
+  ]
+}

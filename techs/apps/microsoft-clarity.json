@@ -1,0 +1,22 @@
+{
+  "name": "Microsoft Clarity",
+  "developer": "Microsoft Clarity",
+  "category": "Analítica",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.microsoft.com",
+  "appStores": [],
+  "logo": "microsoft.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "clarity\\.ms\\/tag\\/|clarity\\.js",
+      "description": "Microsoft Clarity integration script or resource detected"
+    }
+  ]
+}

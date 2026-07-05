@@ -1,0 +1,22 @@
+{
+  "name": "Zendesk",
+  "developer": "Zendesk",
+  "category": "Soporte / Chat",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.zendesk.com",
+  "appStores": [],
+  "logo": "zendesk.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "zopim\\.com|zendesk\\.com",
+      "description": "Zendesk integration script or resource detected"
+    }
+  ]
+}

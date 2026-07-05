@@ -1,0 +1,22 @@
+{
+  "name": "Mercado Pago",
+  "developer": "Mercado Pago",
+  "category": "Pasarela de Pago",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.mercado-pago.com",
+  "appStores": [],
+  "logo": "mercado-pago.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "mercadopago\\.js|sdk\\.mercadopago\\.com",
+      "description": "Mercado Pago integration script or resource detected"
+    }
+  ]
+}

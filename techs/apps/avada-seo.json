@@ -1,0 +1,23 @@
+{
+  "name": "Avada SEO",
+  "developer": "Avada SEO",
+  "category": "SEO",
+  "compatibleCMS": [
+    "Shopify"
+  ],
+  "web": "https://www.avada.io",
+  "appStores": [
+    {
+      "cms": "Shopify",
+      "link": "https://apps.shopify.com/avada-seo"
+    }
+  ],
+  "logo": "avada.io",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "avada-seo|avada\\.io",
+      "description": "Avada SEO integration script or resource detected"
+    }
+  ]
+}

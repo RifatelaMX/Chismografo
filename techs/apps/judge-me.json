@@ -1,0 +1,23 @@
+{
+  "name": "Judge.me",
+  "developer": "Judge.me",
+  "category": "Reseñas",
+  "compatibleCMS": [
+    "Shopify"
+  ],
+  "web": "https://www.judge.me",
+  "appStores": [
+    {
+      "cms": "Shopify",
+      "link": "https://apps.shopify.com/judge-me"
+    }
+  ],
+  "logo": "judge.me",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "judgeme|judge\\.me",
+      "description": "Judge.me integration script or resource detected"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "{{name}}",
+  "category": "{{category}}",
+  "web": "{{web}}",
+  "logo": "{{logo}}",
+  "detectionRules": [
+    {
+      "type": "header",
+      "key": "server",
+      "pattern": "{{slug}}",
+      "description": "Cabecera de servidor de {{name}} detectada"
+    }
+  ]
+}

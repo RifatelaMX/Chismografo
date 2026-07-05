@@ -1,0 +1,23 @@
+{
+  "name": "Zipify Pages",
+  "developer": "Zipify Pages",
+  "category": "Diseño de Páginas",
+  "compatibleCMS": [
+    "Shopify"
+  ],
+  "web": "https://www.zipify-pages.com",
+  "appStores": [
+    {
+      "cms": "Shopify",
+      "link": "https://apps.shopify.com/zipify-pages"
+    }
+  ],
+  "logo": "zipify-pages.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "zipify",
+      "description": "Zipify Pages integration script or resource detected"
+    }
+  ]
+}

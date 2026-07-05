@@ -1,0 +1,22 @@
+{
+  "name": "Stamped.io",
+  "developer": "Stamped.io",
+  "category": "Reseñas",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.stamped.io",
+  "appStores": [],
+  "logo": "stamped.io",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "stamped\\.io",
+      "description": "Stamped.io integration script or resource detected"
+    }
+  ]
+}

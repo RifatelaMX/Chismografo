@@ -1,0 +1,23 @@
+{
+  "name": "Ali Reviews",
+  "developer": "Ali Reviews",
+  "category": "Reseñas",
+  "compatibleCMS": [
+    "Shopify"
+  ],
+  "web": "https://www.ali-reviews.com",
+  "appStores": [
+    {
+      "cms": "Shopify",
+      "link": "https://apps.shopify.com/ali-reviews"
+    }
+  ],
+  "logo": "ali-reviews.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "alireviews",
+      "description": "Ali Reviews integration script or resource detected"
+    }
+  ]
+}

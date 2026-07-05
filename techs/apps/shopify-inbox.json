@@ -1,0 +1,23 @@
+{
+  "name": "Shopify Inbox",
+  "developer": "Shopify Inbox",
+  "category": "Soporte / Chat",
+  "compatibleCMS": [
+    "Shopify"
+  ],
+  "web": "https://www.shopify-inbox.com",
+  "appStores": [
+    {
+      "cms": "Shopify",
+      "link": "https://apps.shopify.com/shopify-inbox"
+    }
+  ],
+  "logo": "shopify-inbox.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "shopify-chat|shopify-inbox",
+      "description": "Shopify Inbox integration script or resource detected"
+    }
+  ]
+}

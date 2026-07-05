@@ -1,0 +1,23 @@
+{
+  "name": "Test CLI",
+  "developer": "Test CLI",
+  "category": "}",
+  "compatibleCMS": [
+    "Shopify"
+  ],
+  "web": "https://www.test-cli.com",
+  "appStores": [
+    {
+      "cms": "Shopify",
+      "link": ""
+    }
+  ],
+  "logo": "test-cli.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "test-cli",
+      "description": "Script de integración de Test CLI detectado"
+    }
+  ]
+}

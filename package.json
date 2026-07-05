@@ -1,0 +1,35 @@
+{
+  "name": "ecommerce-technology-detector",
+  "version": "1.0.0",
+  "description": "Scraper and REST API to detect e-commerce technologies like Shopify, Magento, WooCommerce, PrestaShop, and VTEX.",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node cli.js dev",
+    "cli": "node cli.js"
+  },
+  "keywords": [
+    "scraper",
+    "ecommerce",
+    "detector",
+    "shopify",
+    "magento",
+    "woocommerce",
+    "prestashop",
+    "vtex",
+    "api"
+  ],
+  "author": "",
+  "license": "AGPL-3.0-only",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "cheerio": "^1.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "geoip-lite": "^2.0.3",
+    "morgan": "^1.10.0",
+    "screenshotmachine": "^2.0.0"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Mailchimp",
+  "developer": "Mailchimp",
+  "category": "Marketing / Email",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.mailchimp.com",
+  "appStores": [],
+  "logo": "mailchimp.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "chimpstatic\\.com|mailchimp\\.com",
+      "description": "Mailchimp integration script or resource detected"
+    }
+  ]
+}

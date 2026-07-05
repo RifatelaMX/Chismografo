@@ -1,0 +1,22 @@
+{
+  "name": "Conekta",
+  "developer": "Conekta",
+  "category": "Pasarela de Pago",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.conekta.com",
+  "appStores": [],
+  "logo": "conekta.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "conekta\\.js|cdn\\.conekta\\.io",
+      "description": "Conekta integration script or resource detected"
+    }
+  ]
+}

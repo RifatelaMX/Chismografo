@@ -1,0 +1,22 @@
+{
+  "name": "Privy",
+  "developer": "Privy",
+  "category": "Marketing / Popups",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.privy.com",
+  "appStores": [],
+  "logo": "privy.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "privy\\.com",
+      "description": "Privy integration script or resource detected"
+    }
+  ]
+}

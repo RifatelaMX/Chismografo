@@ -1,0 +1,22 @@
+{
+  "name": "Tidio",
+  "developer": "Tidio",
+  "category": "Soporte / Chat",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.tidio.com",
+  "appStores": [],
+  "logo": "tidio.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "tidio\\.co|tidiochat\\.com",
+      "description": "Tidio integration script or resource detected"
+    }
+  ]
+}

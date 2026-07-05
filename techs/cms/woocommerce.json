@@ -1,0 +1,43 @@
+{
+  "name": "WooCommerce",
+  "web": "https://woocommerce.com",
+  "logo": "woocommerce.com",
+  "detectionRules": [
+    {
+      "id": "woocommerce-meta-generator",
+      "type": "meta",
+      "key": "generator",
+      "pattern": "woocommerce",
+      "description": "Meta generator contains \"WooCommerce\"",
+      "weight": 1.0
+    },
+    {
+      "id": "woocommerce-script-src-plugin",
+      "type": "script-src",
+      "pattern": "wp-content\\/plugins\\/woocommerce",
+      "description": "WooCommerce scripts loaded from plugins directory",
+      "weight": 0.95
+    },
+    {
+      "id": "woocommerce-link-href-plugin",
+      "type": "link-href",
+      "pattern": "wp-content\\/plugins\\/woocommerce",
+      "description": "WooCommerce stylesheets loaded from plugins directory",
+      "weight": 0.95
+    },
+    {
+      "id": "woocommerce-body-class",
+      "type": "html-class",
+      "pattern": "woocommerce|woocommerce-page|woocommerce-no-js",
+      "description": "WooCommerce CSS class found in body/html tags",
+      "weight": 0.9
+    },
+    {
+      "id": "woocommerce-js-params",
+      "type": "script-content",
+      "pattern": "wc_add_to_cart_params|woocommerce_params",
+      "description": "WooCommerce parameter variables in page scripts",
+      "weight": 0.95
+    }
+  ]
+}

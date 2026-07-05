@@ -1,0 +1,22 @@
+{
+  "name": "Google Tag Manager",
+  "developer": "Google Tag Manager",
+  "category": "Analítica",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.google.com",
+  "appStores": [],
+  "logo": "google.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "googletagmanager\\.com\\/gtm\\.js",
+      "description": "Google Tag Manager integration script or resource detected"
+    }
+  ]
+}

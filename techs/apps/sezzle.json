@@ -1,0 +1,22 @@
+{
+  "name": "Sezzle",
+  "developer": "Sezzle",
+  "category": "Pasarela de Pago (BNPL)",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.sezzle.com",
+  "appStores": [],
+  "logo": "sezzle.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "sezzle\\.com",
+      "description": "Sezzle integration script or resource detected"
+    }
+  ]
+}

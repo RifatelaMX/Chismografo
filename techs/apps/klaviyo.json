@@ -1,0 +1,22 @@
+{
+  "name": "Klaviyo",
+  "developer": "Klaviyo",
+  "category": "Marketing / Email",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.klaviyo.com",
+  "appStores": [],
+  "logo": "klaviyo.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "klaviyo\\.js|static\\.klaviyo\\.com",
+      "description": "Klaviyo integration script or resource detected"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Smile.io",
+  "developer": "Smile.io",
+  "category": "Fidelización / Lealtad",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.smile.io",
+  "appStores": [],
+  "logo": "smile.io",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "smile\\.io",
+      "description": "Smile.io integration script or resource detected"
+    }
+  ]
+}

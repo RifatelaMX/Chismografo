@@ -1,0 +1,22 @@
+{
+  "name": "Recharge",
+  "developer": "Recharge",
+  "category": "Suscripciones",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.recharge.com",
+  "appStores": [],
+  "logo": "recharge.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "rechargecdn\\.com|recharge",
+      "description": "Recharge integration script or resource detected"
+    }
+  ]
+}

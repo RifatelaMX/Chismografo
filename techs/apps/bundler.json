@@ -1,0 +1,23 @@
+{
+  "name": "Bundler",
+  "developer": "Bundler",
+  "category": "Checkout / Ofertas",
+  "compatibleCMS": [
+    "Shopify"
+  ],
+  "web": "https://www.bundler.com",
+  "appStores": [
+    {
+      "cms": "Shopify",
+      "link": "https://apps.shopify.com/bundler"
+    }
+  ],
+  "logo": "bundler.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "bundler\\.cc|bundler-app",
+      "description": "Bundler integration script or resource detected"
+    }
+  ]
+}

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Commerce Detector Search Widget</title>
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Leaflet Map library -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  
+  <style>
+    :root {
+      --bg-primary: #000000;
+      --surface: #121212;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.18);
+      --text-primary: #ffffff;
+      --text-secondary: #a3a3a3;
+      --text-muted: #666666;
+      
+      --primary: #adff00;             /* Lime */
+      --primary-hover: #9ce600;
+      --primary-glow: rgba(173, 255, 0, 0.15);
+      --secondary: #25d366;           /* WhatsApp Green */
+      
+      --success: #25d366;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius: 8px;
+    }
+
+    body {
+      margin: 0;
+      padding: 1rem;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      line-height: 1.4;
+      overflow-x: hidden;
+    }
+
+    .widget-container {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      min-height: 430px;
+      box-sizing: border-box;
+    }
+
+    .widget-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+
+    .widget-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff 40%, var(--primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .widget-tagline {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* SEARCH VIEW */
+    .search-view {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      justify-content: center;
+      flex-grow: 1;
+    }
+
+    .search-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      text-align: center;
+      margin-bottom: 0.25rem;
+    }
+
+    .search-desc {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .input-group {
+      display: flex;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.25rem 0.25rem 0.25rem 0.75rem;
+      align-items: center;
+    }
+
+    .input-group:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    .input-group input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+    }
+
+    .input-group input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .btn-search {
+      background: var(--primary);
+      color: #000000;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: background 0.2s;
+    }
+
+    .btn-search:hover {
+      background: var(--primary-hover);
+    }
+
+    /* SCANNING VIEW */
+    .scanning-view {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-grow: 1;
+    }
+
+    .scanner-ring {
+      width: 44px;
+      height: 44px;
+      border: 2px solid rgba(255, 255, 255, 0.02);
+      border-top: 2px solid var(--primary);
+      border-bottom: 2px solid var(--secondary);
+      border-radius: 50%;
+      animation: spin 1.2s linear infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scanner-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--primary);
+      border-radius: 50%;
+      box-shadow: 0 0 6px 0 var(--primary);
+    }
+
+    .scanner-status {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      max-width: 260px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 15%;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+
+    /* RESULTS VIEW */
+    .results-view {
+      display: none;
+      flex-direction: column;
+      gap: 1rem;
+      flex-grow: 1;
+      max-height: 420px;
+      overflow-y: auto;
+      padding-right: 0.25rem;
+    }
+
+    .results-view::-webkit-scrollbar {
+      width: 4px;
+    }
+    .results-view::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 2px;
+    }
+
+    .results-header-card {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.85rem;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+    }
+
+    .tech-logo-container {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 4px;
+      box-sizing: border-box;
+      flex-shrink: 0;
+    }
+
+    .tech-logo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .tech-meta-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      flex-grow: 1;
+    }
+
+    .tech-meta-name {
+      font-size: 0.95rem;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .confidence-badge {
+      font-size: 0.65rem;
+      color: var(--primary);
+      background: rgba(173, 255, 0, 0.08);
+      border: 1px solid rgba(173, 255, 0, 0.2);
+      padding: 0.08rem 0.4rem;
+      border-radius: 4px;
+      align-self: flex-start;
+      margin-top: 0.15rem;
+      font-weight: 600;
+    }
+
+    .reset-btn-wrapper {
+      flex-shrink: 0;
+    }
+
+    /* Gauges block */
+    .gauges-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+
+    .gauge-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.5rem;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.01);
+      border: 1px solid var(--border);
+      gap: 0.25rem;
+    }
+
+    .gauge-wrapper {
+      position: relative;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gauge-wrapper svg {
+      transform: rotate(-90deg);
+      width: 100%;
+      height: 100%;
+    }
+
+    .gauge-value {
+      position: absolute;
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+
+    .gauge-label {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    /* Map box */
+    .map-box {
+      height: 120px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: #000;
+    }
+
+    /* Technologies list */
+    .tech-list-box {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .tech-list-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      border-left: 2px solid var(--primary);
+      padding-left: 0.4rem;
+    }
+
+    .tech-badges-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tech-badge-item {
+      font-size: 0.72rem;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .tech-badge-item img {
+      width: 14px;
+      height: 14px;
+      object-fit: contain;
+    }
+
+    /* Attribution footer */
+    .widget-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.65rem;
+      border-top: 1px solid var(--border);
+      padding-top: 0.65rem;
+    }
+
+    .attribution-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+      font-weight: 600;
+    }
+
+    .attribution-link:hover {
+      color: var(--primary);
+    }
+
+    .reset-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .reset-link:hover {
+      text-decoration: underline;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="widget-container">
+    
+    <!-- Widget Header -->
+    <div class="widget-header">
+      <span class="widget-title">E-Commerce Detector Widget</span>
+      <span class="widget-tagline">Scanner Engine</span>
+    </div>
+
+    <!-- 1. SEARCH VIEW -->
+    <div id="search-view" class="search-view">
+      <h3 class="search-title">Analizar una Tienda</h3>
+      <p class="search-desc">Ingresa el dominio de cualquier sitio web para auditar su tecnología y rendimiento.</p>
+      
+      <form id="search-form" onsubmit="event.preventDefault(); startAnalysis();">
+        <div class="input-group">
+          <input type="text" id="target-url" placeholder="ejemplo.com" required autocomplete="off">
+          <button type="submit" class="btn-search">
+            <i data-lucide="search" style="width: 14px; height: 14px;"></i>
+            <span>Auditar</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- 2. SCANNING VIEW -->
+    <div id="scanning-view" class="scanning-view">
+      <div class="scanner-ring">
+        <div class="scanner-dot"></div>
+      </div>
+      <div id="scanning-status" class="scanner-status">Iniciando conexión...</div>
+      <div class="progress-bar-container">
+        <div id="progress-bar" class="progress-bar"></div>
+      </div>
+    </div>
+
+    <!-- 3. RESULTS VIEW -->
+    <div id="results-view" class="results-view">
+      
+      <!-- Tech Header -->
+      <div class="results-header-card">
+        <div class="tech-logo-container" id="res-logo-container">
+          <!-- Logo loaded dynamically -->
+        </div>
+        <div class="tech-meta-info">
+          <span class="tech-meta-name" id="res-tech-name">Desconocido</span>
+          <span class="confidence-badge" id="res-confidence">0% Confianza</span>
+        </div>
+      </div>
+
+      <!-- Gauges Grid (Lighthouse) -->
+      <div class="gauges-grid" id="res-gauges-grid" style="display: none;">
+        <!-- Performance -->
+        <div class="gauge-card">
+          <div class="gauge-wrapper">
+            <svg width="48" height="48" viewBox="0 0 80 80">
+              <circle cx="40" cy="40" r="34" stroke="rgba(255,255,255,0.03)" stroke-width="6" fill="none"></circle>
+              <circle id="gauge-perf-circle" cx="40" cy="40" r="34" stroke="var(--primary)" stroke-width="6" fill="none" stroke-dasharray="214" stroke-dashoffset="214" stroke-linecap="round" style="transition: stroke-dashoffset 0.8s ease;"></circle>
+            </svg>
+            <span id="gauge-perf-val" class="gauge-value">0</span>
+          </div>
+          <span class="gauge-label">Rend.</span>
+        </div>
+        <!-- Accessibility -->
+        <div class="gauge-card">
+          <div class="gauge-wrapper">
+            <svg width="48" height="48" viewBox="0 0 80 80">
+              <circle cx="40" cy="40" r="34" stroke="rgba(255,255,255,0.03)" stroke-width="6" fill="none"></circle>
+              <circle id="gauge-acc-circle" cx="40" cy="40" r="34" stroke="var(--primary)" stroke-width="6" fill="none" stroke-dasharray="214" stroke-dashoffset="214" stroke-linecap="round" style="transition: stroke-dashoffset 0.8s ease;"></circle>
+            </svg>
+            <span id="gauge-acc-val" class="gauge-value">0</span>
+          </div>
+          <span class="gauge-label">Acces.</span>
+        </div>
+        <!-- SEO -->
+        <div class="gauge-card">
+          <div class="gauge-wrapper">
+            <svg width="48" height="48" viewBox="0 0 80 80">
+              <circle cx="40" cy="40" r="34" stroke="rgba(255,255,255,0.03)" stroke-width="6" fill="none"></circle>
+              <circle id="gauge-seo-circle" cx="40" cy="40" r="34" stroke="var(--primary)" stroke-width="6" fill="none" stroke-dasharray="214" stroke-dashoffset="214" stroke-linecap="round" style="transition: stroke-dashoffset 0.8s ease;"></circle>
+            </svg>
+            <span id="gauge-seo-val" class="gauge-value">0</span>
+          </div>
+          <span class="gauge-label">SEO</span>
+        </div>
+      </div>
+
+      <!-- Map box -->
+      <div id="res-map" class="map-box"></div>
+
+      <!-- Tech stack list -->
+      <div class="tech-list-box">
+        <span class="tech-list-title">Tecnologías Detectadas</span>
+        <div class="tech-badges-container" id="res-tech-badges">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Widget Footer -->
+    <div class="widget-footer">
+      <a href="/" target="_blank" class="attribution-link">Ver en Detector Completo &nearr;</a>
+      <span id="reset-link" class="reset-link hidden" onclick="resetWidget()">Analizar Otro</span>
+    </div>
+
+  </div>
+
+  <script>
+    // Initialize icons
+    lucide.createIcons();
+
+    let leafletMap = null;
+
+    // Toggle views helper
+    function showView(viewId) {
+      document.getElementById('search-view').style.display = viewId === 'search' ? 'flex' : 'none';
+      document.getElementById('scanning-view').style.display = viewId === 'scanning' ? 'flex' : 'none';
+      document.getElementById('results-view').style.display = viewId === 'results' ? 'flex' : 'none';
+      
+      const resetLink = document.getElementById('reset-link');
+      if (viewId === 'results') {
+        resetLink.classList.remove('hidden');
+      } else {
+        resetLink.classList.add('hidden');
+      }
+    }
+
+    // Reset Widget
+    function resetWidget() {
+      document.getElementById('target-url').value = '';
+      showView('search');
+    }
+
+    // Start audit analysis
+    async function startAnalysis() {
+      const urlVal = document.getElementById('target-url').value.trim();
+      if (!urlVal) return;
+
+      showView('scanning');
+      const progressBar = document.getElementById('progress-bar');
+      const statusText = document.getElementById('scanning-status');
+
+      progressBar.style.width = '10%';
+      statusText.textContent = 'Analizando firmas e-commerce...';
+
+      // Animate progress simulation
+      let progress = 10;
+      const interval = setInterval(() => {
+        if (progress < 85) {
+          progress += 15;
+          progressBar.style.width = progress + '%';
+          if (progress === 40) statusText.textContent = 'Auditando el árbol DOM...';
+          if (progress === 70) statusText.textContent = 'Verificando scripts e infraestructura...';
+        }
+      }, 250);
+
+      try {
+        // Fetch technology scan
+        const res = await fetch('/api/detect', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: urlVal })
+        });
+        const data = await res.json();
+        
+        clearInterval(interval);
+        progressBar.style.width = '100%';
+        statusText.textContent = 'Análisis completo. Cargando auditoría de velocidad...';
+
+        if (data.success) {
+          renderWidgetResults(data);
+          showView('results');
+          
+          // Trigger async PageSpeed fetch
+          fetchWidgetPageSpeed(urlVal);
+        } else {
+          alert('Error: ' + (data.error || 'No se pudo escanear el sitio.'));
+          showView('search');
+        }
+      } catch (err) {
+        clearInterval(interval);
+        alert('Error al conectar con la API de escaneo.');
+        showView('search');
+      }
+    }
+
+    // Render technology results in the widget
+    function renderWidgetResults(data) {
+      const nameEl = document.getElementById('res-tech-name');
+      const confEl = document.getElementById('res-confidence');
+      const logoContainer = document.getElementById('res-logo-container');
+
+      if (data.detected) {
+        nameEl.textContent = data.technology;
+        confEl.textContent = Math.round(data.confidence * 100) + '% Confianza';
+
+        const cmsDomains = {
+          Shopify: 'shopify.com',
+          Magento: 'magento.com',
+          WooCommerce: 'woocommerce.com',
+          PrestaShop: 'prestashop.com',
+          VTEX: 'vtex.com'
+        };
+        const cmsDom = cmsDomains[data.technology];
+        if (cmsDom) {
+          logoContainer.innerHTML = `<img src="https://img.logo.dev/${cmsDom}?token=pk_MgKPAkEuRMOiYecOkx67wQ" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" /><i data-lucide="shopping-bag" style="display:none; width: 18px; height: 18px;"></i>`;
+        } else {
+          logoContainer.innerHTML = `<i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>`;
+        }
+      } else {
+        nameEl.textContent = 'No Detectada';
+        confEl.textContent = '0% Confianza';
+        logoContainer.innerHTML = `<i data-lucide="help-circle" style="width: 18px; height: 18px;"></i>`;
+      }
+
+      // Populate badges container
+      const badgesContainer = document.getElementById('res-tech-badges');
+      badgesContainer.innerHTML = '';
+
+      const items = [];
+      if (data.plugins) {
+        data.plugins.forEach(p => items.push({ name: p.name, logo: p.shopifyAppIcon }));
+      }
+      if (data.infrastructure) {
+        data.infrastructure.forEach(inf => items.push({ name: inf.name }));
+      }
+
+      if (items.length > 0) {
+        items.forEach(it => {
+          const badge = document.createElement('div');
+          badge.className = 'tech-badge-item';
+          
+          let iconHtml = '';
+          if (it.logo) {
+            iconHtml = `<img src="${it.logo}" onerror="this.style.display='none';" />`;
+          }
+          badge.innerHTML = `${iconHtml}<span>${it.name}</span>`;
+          badgesContainer.appendChild(badge);
+        });
+      } else {
+        badgesContainer.innerHTML = '<span style="font-size:0.75rem; color:var(--text-muted);">Ninguna tecnología secundaria detectada.</span>';
+      }
+
+      // Render Map
+      const mapCard = document.getElementById('res-map');
+      if (data.location && data.location.success && data.location.ll) {
+        mapCard.style.display = 'block';
+        const coords = data.location.ll;
+
+        setTimeout(() => {
+          if (!leafletMap) {
+            leafletMap = L.map('res-map', {
+              zoomControl: false,
+              scrollWheelZoom: false,
+              attributionControl: false
+            });
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(leafletMap);
+          }
+          leafletMap.setView(coords, 3);
+          
+          // Clear older markers
+          leafletMap.eachLayer((layer) => {
+            if (layer instanceof L.Marker) leafletMap.removeLayer(layer);
+          });
+
+          L.marker(coords).addTo(leafletMap);
+          leafletMap.invalidateSize();
+        }, 100);
+      } else {
+        mapCard.style.display = 'none';
+      }
+
+      lucide.createIcons();
+    }
+
+    // Fetch and render PageSpeed score for widget
+    async function fetchWidgetPageSpeed(targetUrl) {
+      const gaugesGrid = document.getElementById('res-gauges-grid');
+      gaugesGrid.style.display = 'none'; // reset
+
+      try {
+        const res = await fetch('/api/pagespeed', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: targetUrl })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          gaugesGrid.style.display = 'grid';
+          const scores = data.scores || {};
+
+          // Gauge animator helper
+          const animateWidgetGauge = (circleId, valId, scoreValue) => {
+            const score = scoreValue !== undefined && scoreValue !== null ? scoreValue : 0;
+            document.getElementById(valId).textContent = score;
+            const circle = document.getElementById(circleId);
+            if (circle) {
+              const offset = 214 - (214 * score) / 100;
+              circle.style.strokeDashoffset = offset;
+
+              if (score >= 90) {
+                circle.setAttribute('stroke', '#25d366');
+              } else if (score >= 50) {
+                circle.setAttribute('stroke', '#f59e0b');
+              } else {
+                circle.setAttribute('stroke', '#ef4444');
+              }
+            }
+          };
+
+          animateWidgetGauge('gauge-perf-circle', 'gauge-perf-val', scores.performance);
+          animateWidgetGauge('gauge-acc-circle', 'gauge-acc-val', scores.accessibility);
+          animateWidgetGauge('gauge-seo-circle', 'gauge-seo-val', scores.seo);
+        }
+      } catch (err) {
+        console.error('PageSpeed load failed inside widget', err);
+      }
+    }
+  </script>
+</body>
+</html>

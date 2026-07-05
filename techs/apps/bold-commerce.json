@@ -1,0 +1,22 @@
+{
+  "name": "Bold Commerce",
+  "developer": "Bold Commerce",
+  "category": "Checkout / Ofertas",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.bold-commerce.com",
+  "appStores": [],
+  "logo": "bold-commerce.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "boldapps\\.net",
+      "description": "Bold Commerce integration script or resource detected"
+    }
+  ]
+}

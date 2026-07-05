@@ -1,0 +1,22 @@
+{
+  "name": "Hotjar",
+  "developer": "Hotjar",
+  "category": "Analítica",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.hotjar.com",
+  "appStores": [],
+  "logo": "hotjar.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "hotjar\\.com|static\\.hotjar\\.com",
+      "description": "Hotjar integration script or resource detected"
+    }
+  ]
+}
