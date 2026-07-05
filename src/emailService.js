@@ -74,13 +74,13 @@ export function buildReportEmail(data, recipientName = '') {
 
 	// Platform badge color
 	const platformColors = {
-		Shopify: '#96bf48',
-		Magento: '#f26322',
-		WooCommerce: '#7f54b3',
-		PrestaShop: '#df0067',
-		VTEX: '#f71963',
+		Shopify: '#adff00',
+		Magento: '#adff00',
+		WooCommerce: '#adff00',
+		PrestaShop: '#adff00',
+		VTEX: '#adff00',
 	};
-	const platformColor = platformColors[technology] || '#00f2fe';
+	const platformColor = platformColors[technology] || '#adff00';
 
 	// CMS confidence bar width
 	const barWidth = Math.max(confidencePct, 5);
@@ -92,7 +92,7 @@ export function buildReportEmail(data, recipientName = '') {
 					.map(
 						(p) => `
         <tr>
-          <td style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <td style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
             <table role="presentation" cellpadding="0" cellspacing="0" border="0">
               <tr>
                 <td style="padding-right: 10px;">
@@ -102,8 +102,8 @@ export function buildReportEmail(data, recipientName = '') {
                        onerror="this.style.display='none'">
                 </td>
                 <td>
-                  <span style="color: #e2e8f0; font-size: 13px; font-weight: 500;">${p.name}</span>
-                  <span style="color: #64748b; font-size: 11px; margin-left: 8px;">${p.category || ''}</span>
+                  <span style="color: #ffffff; font-size: 13px; font-weight: 500; font-family: 'Inter', sans-serif;">${p.name}</span>
+                  <span style="color: #666666; font-size: 11px; margin-left: 8px; font-family: 'Inter', sans-serif;">${p.category || ''}</span>
                 </td>
               </tr>
             </table>
@@ -111,7 +111,7 @@ export function buildReportEmail(data, recipientName = '') {
         </tr>`
 					)
 					.join('')
-			: '<tr><td style="color: #64748b; font-size: 13px; padding: 8px 0;">No se detectaron apps o plugins.</td></tr>';
+			: '<tr><td style="color: #666666; font-size: 13px; padding: 8px 0; font-family: \'Inter\', sans-serif;">No se detectaron apps o plugins.</td></tr>';
 
 	// Infrastructure list HTML
 	const infraHtml =
@@ -119,16 +119,16 @@ export function buildReportEmail(data, recipientName = '') {
 			? infrastructure
 					.map(
 						(i) => `
-        <span style="display: inline-block; background: rgba(0,242,254,0.08); border: 1px solid rgba(0,242,254,0.2); 
-                     color: #7dd3fc; font-size: 11px; font-weight: 600; padding: 3px 10px; 
+        <span style="display: inline-block; background: rgba(173,255,0,0.08); border: 1px solid rgba(173,255,0,0.25); 
+                     color: #adff00; font-size: 11px; font-weight: 600; padding: 3px 10px; font-family: 'Inter', sans-serif;
                      border-radius: 20px; margin: 3px 4px 3px 0;">${i.name}</span>`
 					)
 					.join('')
-			: '<span style="color: #64748b; font-size: 13px;">No detectada</span>';
+			: '<span style="color: #666666; font-size: 13px; font-family: \'Inter\', sans-serif;">No detectada</span>';
 
 	// Location info
 	const locationHtml = location?.country
-		? `<span style="color: #94a3b8; font-size: 12px;">📍 ${location.country}${location.city ? ` · ${location.city}` : ''}</span>`
+		? `<span style="color: #a3a3a3; font-size: 12px; font-family: 'Inter', sans-serif;">📍 ${location.country}${location.city ? ` · ${location.city}` : ''}</span>`
 		: '';
 
 	// PageSpeed section (optional)
@@ -138,29 +138,29 @@ export function buildReportEmail(data, recipientName = '') {
 				const perf = Math.round((cats.performance?.score || 0) * 100);
 				const acc = Math.round((cats.accessibility?.score || 0) * 100);
 				const seo = Math.round((cats.seo?.score || 0) * 100);
-				const scoreColor = (s) => (s >= 90 ? '#22c55e' : s >= 50 ? '#f59e0b' : '#ef4444');
+				const scoreColor = (s) => (s >= 90 ? '#25d366' : s >= 50 ? '#f59e0b' : '#ef4444');
 				return `
       <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" 
-             style="margin-top: 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); 
+             style="margin-top: 24px; background: rgba(255,255,255,0.02); border: 1px solid #262626; 
                     border-radius: 12px; overflow: hidden;">
         <tr>
           <td style="padding: 20px 24px;">
-            <p style="margin: 0 0 16px; color: #94a3b8; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;">
+            <p style="margin: 0 0 16px; color: #a3a3a3; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Inter', sans-serif;">
               ⚡ PageSpeed Insights
             </p>
             <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
               <tr>
                 <td align="center" width="33%" style="padding: 8px;">
-                  <div style="font-size: 28px; font-weight: 800; color: ${scoreColor(perf)};">${perf}</div>
-                  <div style="font-size: 11px; color: #64748b; margin-top: 4px;">Rendimiento</div>
+                  <div style="font-size: 28px; font-weight: 800; color: ${scoreColor(perf)}; font-family: 'Inter', sans-serif;">${perf}</div>
+                  <div style="font-size: 11px; color: #a3a3a3; margin-top: 4px; font-family: 'Inter', sans-serif;">Rendimiento</div>
                 </td>
-                <td align="center" width="33%" style="padding: 8px; border-left: 1px solid rgba(255,255,255,0.06); border-right: 1px solid rgba(255,255,255,0.06);">
-                  <div style="font-size: 28px; font-weight: 800; color: ${scoreColor(acc)};">${acc}</div>
-                  <div style="font-size: 11px; color: #64748b; margin-top: 4px;">Accesibilidad</div>
+                <td align="center" width="33%" style="padding: 8px; border-left: 1px solid #262626; border-right: 1px solid #262626;">
+                  <div style="font-size: 28px; font-weight: 800; color: ${scoreColor(acc)}; font-family: 'Inter', sans-serif;">${acc}</div>
+                  <div style="font-size: 11px; color: #a3a3a3; margin-top: 4px; font-family: 'Inter', sans-serif;">Accesibilidad</div>
                 </td>
                 <td align="center" width="33%" style="padding: 8px;">
-                  <div style="font-size: 28px; font-weight: 800; color: ${scoreColor(seo)};">${seo}</div>
-                  <div style="font-size: 11px; color: #64748b; margin-top: 4px;">SEO</div>
+                  <div style="font-size: 28px; font-weight: 800; color: ${scoreColor(seo)}; font-family: 'Inter', sans-serif;">${seo}</div>
+                  <div style="font-size: 11px; color: #a3a3a3; margin-top: 4px; font-family: 'Inter', sans-serif;">SEO</div>
                 </td>
               </tr>
             </table>
@@ -179,21 +179,21 @@ export function buildReportEmail(data, recipientName = '') {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reporte de Auditoría — ${domain}</title>
 </head>
-<body style="margin: 0; padding: 0; background-color: #050813; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+<body style="margin: 0; padding: 0; background-color: #000000; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
 
   <!-- Outer wrapper -->
-  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #050813;">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #000000;">
     <tr>
       <td align="center" style="padding: 40px 16px;">
 
         <!-- Email container -->
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" 
-               style="max-width: 600px; width: 100%; background: #0d1117; border: 1px solid rgba(255,255,255,0.08); 
+               style="max-width: 600px; width: 100%; background: #121212; border: 1px solid #262626; 
                       border-radius: 20px; overflow: hidden;">
 
           <!-- Header gradient bar -->
           <tr>
-            <td style="background: linear-gradient(90deg, #8a2be2 0%, #00f2fe 100%); height: 4px; font-size: 0; line-height: 0;">&nbsp;</td>
+            <td style="background: linear-gradient(90deg, #25d366 0%, #adff00 100%); height: 4px; font-size: 0; line-height: 0;">&nbsp;</td>
           </tr>
 
           <!-- Header -->
@@ -206,21 +206,21 @@ export function buildReportEmail(data, recipientName = '') {
                     <table role="presentation" cellpadding="0" cellspacing="0" border="0">
                       <tr>
                         <td style="padding-right: 12px; vertical-align: middle;">
-                          <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #8a2be2, #00f2fe); 
+                          <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #25d366, #adff00); 
                                       border-radius: 10px; display: flex; align-items: center; justify-content: center;">
                             <img src="${appUrl}/favicon.ico" width="24" height="24" alt="⚡" 
                                  style="display: block;" onerror="this.style.display='none'">
                           </div>
                         </td>
                         <td style="vertical-align: middle;">
-                          <span style="font-size: 18px; font-weight: 800; color: #ffffff; letter-spacing: -0.02em;">Rífatela</span>
-                          <span style="font-size: 18px; font-weight: 300; color: #00f2fe;"> Detector</span>
+                          <span style="font-size: 18px; font-weight: 800; color: #ffffff; letter-spacing: -0.02em; font-family: 'Inter', sans-serif;">Rífatela</span>
+                          <span style="font-size: 18px; font-weight: 800; color: #adff00; font-family: 'Inter', sans-serif;"> Detector</span>
                         </td>
                       </tr>
                     </table>
                   </td>
                   <td align="right" style="vertical-align: middle;">
-                    <span style="font-size: 11px; color: #475569; font-weight: 500;">Auditoría de Tecnología E-Commerce</span>
+                    <span style="font-size: 11px; color: #666666; font-weight: 500; font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.05em;">Auditoría Tecnológica</span>
                   </td>
                 </tr>
               </table>
@@ -231,21 +231,21 @@ export function buildReportEmail(data, recipientName = '') {
           <tr>
             <td style="padding: 0 40px 32px;">
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"
-                     style="background: linear-gradient(135deg, rgba(138,43,226,0.12) 0%, rgba(0,242,254,0.06) 100%); 
-                            border: 1px solid rgba(138,43,226,0.2); border-radius: 16px; overflow: hidden;">
+                     style="background: linear-gradient(135deg, rgba(37,211,102,0.12) 0%, rgba(173,255,0,0.06) 100%); 
+                            border: 1px solid rgba(173,255,0,0.25); border-radius: 16px; overflow: hidden;">
                 <tr>
                   <td style="padding: 28px 28px 24px;">
-                    <p style="margin: 0 0 12px; color: #ffffff; font-size: 14px; font-weight: 500;">
+                    <p style="margin: 0 0 12px; color: #ffffff; font-size: 14px; font-weight: 500; font-family: 'Inter', sans-serif;">
                       ${greeting},
                     </p>
-                    <p style="margin: 0 0 6px; color: #94a3b8; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;">
+                    <p style="margin: 0 0 6px; color: #a3a3a3; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Inter', sans-serif;">
                       Reporte de Auditoría
                     </p>
-                    <h1 style="margin: 0 0 8px; color: #ffffff; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; word-break: break-all;">
+                    <h1 style="margin: 0 0 8px; color: #ffffff; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; word-break: break-all; font-family: 'Inter', sans-serif;">
                       ${domain}
                     </h1>
                     ${locationHtml}
-                    <p style="margin: 12px 0 0; color: #64748b; font-size: 12px;">Generado el ${scanDate}</p>
+                    <p style="margin: 12px 0 0; color: #666666; font-size: 12px; font-family: 'Inter', sans-serif;">Generado el ${scanDate}</p>
                   </td>
                 </tr>
                 <!-- Divider -->
@@ -258,7 +258,7 @@ export function buildReportEmail(data, recipientName = '') {
                     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
                       <tr>
                         <td>
-                          <p style="margin: 0 0 10px; color: #94a3b8; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;">
+                          <p style="margin: 0 0 10px; color: #a3a3a3; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Inter', sans-serif;">
                             Plataforma detectada
                           </p>
                           <table role="presentation" cellpadding="0" cellspacing="0" border="0">
@@ -270,8 +270,8 @@ export function buildReportEmail(data, recipientName = '') {
                                      onerror="this.style.display='none'">
                               </td>
                               <td style="vertical-align: middle;">
-                                <div style="font-size: 22px; font-weight: 800; color: ${platformColor};">${technology}</div>
-                                ${theme ? `<div style="font-size: 12px; color: #64748b; margin-top: 2px;">Tema: ${theme}</div>` : ''}
+                                <div style="font-size: 22px; font-weight: 800; color: ${platformColor}; font-family: 'Inter', sans-serif;">${technology}</div>
+                                ${theme ? `<div style="font-size: 12px; color: #a3a3a3; margin-top: 2px; font-family: 'Inter', sans-serif;">Tema: ${theme}</div>` : ''}
                               </td>
                             </tr>
                           </table>
@@ -279,11 +279,11 @@ export function buildReportEmail(data, recipientName = '') {
                         <td align="right" style="vertical-align: bottom;">
                           <!-- Confidence -->
                           <div style="text-align: right;">
-                            <span style="font-size: 32px; font-weight: 900; color: #ffffff;">${confidencePct}<span style="font-size: 18px; color: #94a3b8;">%</span></span>
+                            <span style="font-size: 32px; font-weight: 900; color: #ffffff; font-family: 'Inter', sans-serif;">${confidencePct}<span style="font-size: 18px; color: #a3a3a3;">%</span></span>
                             <div style="margin-top: 6px; width: 120px; height: 6px; background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; margin-left: auto;">
-                              <div style="height: 100%; width: ${barWidth}%; background: linear-gradient(90deg, #8a2be2, #00f2fe); border-radius: 999px;"></div>
+                              <div style="height: 100%; width: ${barWidth}%; background: linear-gradient(90deg, #25d366, #adff00); border-radius: 999px;"></div>
                             </div>
-                            <p style="margin: 4px 0 0; font-size: 10px; color: #475569; text-transform: uppercase; letter-spacing: 0.06em;">Confianza</p>
+                            <p style="margin: 4px 0 0; font-size: 10px; color: #666666; text-transform: uppercase; letter-spacing: 0.06em; font-family: 'Inter', sans-serif;">Confianza</p>
                           </div>
                         </td>
                       </tr>
@@ -300,11 +300,11 @@ export function buildReportEmail(data, recipientName = '') {
 
               <!-- Plugins / Apps -->
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"
-                     style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07); 
+                     style="background: rgba(255,255,255,0.02); border: 1px solid #262626; 
                             border-radius: 12px; overflow: hidden; margin-bottom: 20px;">
                 <tr>
                   <td style="padding: 20px 24px 4px;">
-                    <p style="margin: 0 0 16px; color: #94a3b8; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;">
+                    <p style="margin: 0 0 16px; color: #a3a3a3; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Inter', sans-serif;">
                       🧩 Apps y Plugins detectados (${plugins.length})
                     </p>
                     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -317,11 +317,11 @@ export function buildReportEmail(data, recipientName = '') {
 
               <!-- Infrastructure -->
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"
-                     style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07); 
+                     style="background: rgba(255,255,255,0.02); border: 1px solid #262626; 
                             border-radius: 12px; overflow: hidden; margin-bottom: 20px;">
                 <tr>
                   <td style="padding: 20px 24px;">
-                    <p style="margin: 0 0 12px; color: #94a3b8; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;">
+                    <p style="margin: 0 0 12px; color: #a3a3a3; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Inter', sans-serif;">
                       🛡️ Infraestructura (${infrastructure.length})
                     </p>
                     <div>${infraHtml}</div>
@@ -339,9 +339,9 @@ export function buildReportEmail(data, recipientName = '') {
           <tr>
             <td style="padding: 0 40px 36px;" align="center">
               <a href="${appUrl}/?url=${encodeURIComponent(resolvedUrl)}" 
-                 style="display: inline-block; background: linear-gradient(90deg, #8a2be2, #00f2fe); 
-                        color: #ffffff; text-decoration: none; font-weight: 700; font-size: 14px; 
-                        padding: 14px 32px; border-radius: 12px; letter-spacing: 0.01em;">
+                 style="display: inline-block; background: linear-gradient(90deg, #25d366, #adff00); 
+                        color: #000000; text-decoration: none; font-weight: 800; font-size: 14px; 
+                        padding: 14px 32px; border-radius: 12px; letter-spacing: 0.01em; font-family: 'Inter', sans-serif;">
                 Ver auditoría completa →
               </a>
             </td>
@@ -349,17 +349,17 @@ export function buildReportEmail(data, recipientName = '') {
 
           <!-- Footer -->
           <tr>
-            <td style="padding: 24px 40px; border-top: 1px solid rgba(255,255,255,0.06);">
+            <td style="padding: 24px 40px; border-top: 1px solid #262626;">
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
                 <tr>
                   <td>
-                    <p style="margin: 0; font-size: 11px; color: #334155; line-height: 1.5;">
-                      Este reporte fue generado automáticamente por <strong style="color: #475569;">Rífatela Detector</strong>.<br>
+                    <p style="margin: 0; font-size: 11px; color: #666666; line-height: 1.5; font-family: 'Inter', sans-serif;">
+                      Este reporte fue generado automáticamente por <strong style="color: #a3a3a3;">Rífatela Detector</strong>.<br>
                       Si no solicitaste este correo, puedes ignorarlo de forma segura.
                     </p>
                   </td>
                   <td align="right" style="vertical-align: middle;">
-                    <p style="margin: 0; font-size: 11px; color: #1e293b; font-weight: 600;">⚡ rifatela.com</p>
+                    <p style="margin: 0; font-size: 11px; color: #adff00; font-weight: 800; font-family: 'Inter', sans-serif;">⚡ rifatela.com</p>
                   </td>
                 </tr>
               </table>
@@ -368,15 +368,15 @@ export function buildReportEmail(data, recipientName = '') {
 
           <!-- Bottom gradient bar -->
           <tr>
-            <td style="background: linear-gradient(90deg, #00f2fe 0%, #8a2be2 100%); height: 3px; font-size: 0; line-height: 0;">&nbsp;</td>
+            <td style="background: linear-gradient(90deg, #adff00 0%, #25d366 100%); height: 3px; font-size: 0; line-height: 0;">&nbsp;</td>
           </tr>
 
         </table>
 
         <!-- Legal note below card -->
-        <p style="margin: 24px 0 0; font-size: 11px; color: #1e293b; text-align: center;">
+        <p style="margin: 24px 0 0; font-size: 11px; color: #666666; text-align: center; font-family: 'Inter', sans-serif;">
           © ${new Date().getFullYear()} Rífatela · 
-          <a href="${appUrl}" style="color: #334155; text-decoration: none;">rifatela.com</a>
+          <a href="${appUrl}" style="color: #a3a3a3; text-decoration: none;">rifatela.com</a>
         </p>
 
       </td>
