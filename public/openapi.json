@@ -1,0 +1,370 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "E-Commerce Technology Detector API",
+    "description": "API REST y widgets incrustables para detectar plataformas de e-commerce, pasarelas de pago, aplicaciones de Shopify, geolocalización de servidores y auditorías móviles de PageSpeed (Lighthouse).",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Servidor local de desarrollo"
+    }
+  ],
+  "paths": {
+    "/api/detect": {
+      "post": {
+        "summary": "Analizar tecnologías e-commerce (POST)",
+        "description": "Envía una URL en el cuerpo de la petición para analizar su estructura DOM y detectar firmas de e-commerce, geolocalización de servidor y capturas de pantalla.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetectRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Análisis tecnológico completado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetectResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "URL faltante o no válida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Denegado por restricciones de CORS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Error al realizar scraping o conectar con el sitio objetivo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetectResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Analizar tecnologías e-commerce (GET)",
+        "description": "Envía una URL como parámetro de consulta (query) para analizar firmas de e-commerce y geolocalizar el servidor.",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "required": true,
+            "description": "La URL del sitio web a auditar",
+            "schema": {
+              "type": "string",
+              "format": "uri",
+              "example": "https://tienda-ejemplo.com"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Análisis tecnológico completado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetectResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "URL faltante o no válida"
+          },
+          "422": {
+            "description": "Error de conexión con el sitio"
+          }
+        }
+      }
+    },
+    "/api/infra": {
+      "get": {
+        "summary": "Obtener pila de infraestructura",
+        "description": "Retorna exclusivamente los componentes de infraestructura (CDN, Proxy, Servidor Web) detectados para la URL objetivo.",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "required": true,
+            "description": "La URL del sitio web a auditar",
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Infraestructura analizada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InfraResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/pagespeed": {
+      "post": {
+        "summary": "Auditoría PageSpeed Insights",
+        "description": "Realiza una consulta a la API de Google PageSpeed en las categorías de rendimiento, accesibilidad y SEO sobre entorno móvil.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetectRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resultados de la auditoría Lighthouse móvil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageSpeedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/widget": {
+      "get": {
+        "summary": "Insignia de verificación e-commerce",
+        "description": "Servicio que genera un badge HTML responsivo diseñado en tema oscuro de alto contraste que resume el CMS detectado del sitio solicitado.",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Documento HTML con la insignia de verificación e-commerce",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search-widget": {
+      "get": {
+        "summary": "Buscador de auditorías compacto",
+        "description": "Página HTML responsiva autocontenida que integra el formulario de búsqueda, barra de carga y panel de resultados simplificado (CMS, Lighthouse y Leaflet).",
+        "responses": {
+          "200": {
+            "description": "Documento HTML del buscador incrustable",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DetectRequest": {
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Dirección URL del sitio web a analizar",
+            "example": "https://tienda-ejemplo.com"
+          }
+        }
+      },
+      "DetectResponse": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "resolvedUrl": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "detected": {
+            "type": "boolean"
+          },
+          "technology": {
+            "type": "string",
+            "example": "Shopify"
+          },
+          "confidence": {
+            "type": "number",
+            "format": "float",
+            "example": 1
+          },
+          "theme": {
+            "type": "string",
+            "example": "Dawn"
+          },
+          "plugins": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "category": { "type": "string" },
+                "evidence": { "type": "string" }
+              }
+            }
+          },
+          "infrastructure": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "category": { "type": "string" }
+              }
+            }
+          },
+          "paymentGateways": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "Stripe"
+            }
+          },
+          "location": {
+            "type": "object",
+            "properties": {
+              "success": { "type": "boolean" },
+              "ip": { "type": "string" },
+              "country": { "type": "string" },
+              "city": { "type": "string" },
+              "ll": {
+                "type": "array",
+                "items": { "type": "number" },
+                "example": [19.43, -99.13]
+              }
+            }
+          },
+          "screenshots": {
+            "type": "object",
+            "properties": {
+              "desktop": { "type": "string", "description": "URL base64 o de imagen de previsualización desktop" },
+              "mobile": { "type": "string", "description": "URL base64 o de imagen de previsualización móvil" }
+            }
+          }
+        }
+      },
+      "InfraResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "url": { "type": "string" },
+          "infrastructure": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "category": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "PageSpeedResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "scores": {
+            "type": "object",
+            "properties": {
+              "performance": { "type": "integer", "example": 74 },
+              "accessibility": { "type": "integer", "example": 88 },
+              "seo": { "type": "integer", "example": 95 }
+            }
+          },
+          "isDemo": {
+            "type": "boolean",
+            "description": "Indica si los resultados son simulados debido a límites de la API pública"
+          },
+          "metrics": {
+            "type": "object",
+            "properties": {
+              "fcp": { "type": "string", "example": "1.7 s" },
+              "lcp": { "type": "string", "example": "3.1 s" },
+              "tbt": { "type": "string", "example": "180 ms" },
+              "cls": { "type": "string", "example": "0.03" },
+              "speedIndex": { "type": "string", "example": "2.0 s" },
+              "interactive": { "type": "string", "example": "3.3 s" }
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "error": {
+            "type": "string",
+            "example": "No permitido por CORS (Origen no autorizado)"
+          }
+        }
+      }
+    }
+  }
+}

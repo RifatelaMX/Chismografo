@@ -84,6 +84,8 @@ node cli.js add-infra
 
 ## Documentación de la API REST
 
+La especificación completa en formato OpenAPI 3.0 está disponible en [public/openapi.json](file:///Users/cesarayar/Documents/Desarrollo/Scrapper/public/openapi.json) o expuesta en el servidor en la ruta `/openapi.json`.
+
 Todos los endpoints REST admiten validación de orígenes CORS y retornan respuestas JSON detalladas.
 
 ### 1. Escanear Sitio Web (POST)
