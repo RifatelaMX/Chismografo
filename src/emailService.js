@@ -170,6 +170,51 @@ export function buildReportEmail(data, recipientName = '') {
 			})()
 		: '';
 
+	// Screenshots section (optional)
+	const screenshotsHtml =
+		data.screenshots?.desktop && data.screenshots?.mobile
+			? `
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" 
+             style="margin-top: 24px; background: rgba(255,255,255,0.02); border: 1px solid #262626; 
+                    border-radius: 12px; overflow: hidden; margin-bottom: 20px;">
+        <tr>
+          <td style="padding: 20px 24px;">
+            <p style="margin: 0 0 16px; color: #a3a3a3; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Inter', sans-serif;">
+              📸 Capturas de Pantalla
+            </p>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+              <tr>
+                <!-- Desktop Preview -->
+                <td style="padding: 4px; vertical-align: top;" width="70%">
+                  <div style="background: #000000; border: 1px solid #262626; border-radius: 6px; overflow: hidden;">
+                    <!-- Browser header mini -->
+                    <div style="height: 10px; background: rgba(255,255,255,0.06); padding: 0 8px; display: flex; align-items: center;">
+                      <span style="width: 4px; height: 4px; border-radius: 50%; background: #ff5f56; display: inline-block; margin-right: 3px;"></span>
+                      <span style="width: 4px; height: 4px; border-radius: 50%; background: #ffbd2e; display: inline-block; margin-right: 3px;"></span>
+                      <span style="width: 4px; height: 4px; border-radius: 50%; background: #27c93f; display: inline-block;"></span>
+                    </div>
+                    <img src="${appUrl}${data.screenshots.desktop}" alt="Desktop Preview" 
+                         style="width: 100%; height: auto; display: block; object-fit: cover;" width="350">
+                  </div>
+                </td>
+                <!-- Mobile Preview -->
+                <td style="padding: 4px; vertical-align: top;" width="30%">
+                  <div style="background: #000000; border: 1px solid #262626; border-radius: 8px; overflow: hidden; max-width: 120px; margin-left: auto;">
+                    <!-- Phone camera/speaker notch mini -->
+                    <div style="height: 10px; background: rgba(255,255,255,0.06); text-align: center; line-height: 10px;">
+                      <span style="width: 16px; height: 3px; border-radius: 1.5px; background: rgba(255,255,255,0.3); display: inline-block; vertical-align: middle;"></span>
+                    </div>
+                    <img src="${appUrl}${data.screenshots.mobile}" alt="Mobile Preview" 
+                         style="width: 100%; height: auto; display: block; object-fit: cover;" width="110">
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>`
+			: '';
+
 	const greeting = recipientName ? `Hola, <strong>${recipientName}</strong>` : 'Hola';
 
 	const html = `<!DOCTYPE html>
@@ -331,6 +376,9 @@ export function buildReportEmail(data, recipientName = '') {
 
               <!-- PageSpeed (conditional) -->
               ${pagespeedHtml}
+
+              <!-- Screenshots (conditional) -->
+              ${screenshotsHtml}
 
             </td>
           </tr>
