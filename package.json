@@ -10,7 +10,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "detector dev",
-    "cli": "detector"
+    "cli": "detector",
+    "build": "node ./cli/bin/index.js build-index"
   },
   "keywords": [
     "scraper",
