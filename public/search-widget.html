@@ -124,6 +124,8 @@
 
     .input-group input {
       flex: 1;
+      min-width: 0;
+      width: 100%;
       background: transparent;
       border: none;
       outline: none;
@@ -149,6 +151,7 @@
       align-items: center;
       gap: 0.35rem;
       transition: background 0.2s;
+      flex-shrink: 0;
     }
 
     .btn-search:hover {
