@@ -1452,11 +1452,12 @@ document.addEventListener('DOMContentLoaded', () => {
 				});
 				const result = await res.json();
 				if (result.success) {
-					showEmailStatus(
-						'success',
-						`✓ Reporte enviado a <strong>${email}</strong>. Revisa tu bandeja de entrada.`
-					);
-					setTimeout(closeEmailModal, 3500);
+					let successMsg = `✓ Reporte enviado a <strong>${email}</strong>. Revisa tu bandeja de entrada.`;
+					if (result.previewUrl) {
+						successMsg = `✓ [Desarrollo] Reporte simulado. <a href="${result.previewUrl}" target="_blank" style="color: #00f2fe; text-decoration: underline; font-weight: bold;">Ver previsualización en Ethereal →</a>`;
+					}
+					showEmailStatus('success', successMsg);
+					setTimeout(closeEmailModal, result.previewUrl ? 15000 : 3500);
 				} else {
 					showEmailStatus('error', result.error || 'Error desconocido al enviar el correo.');
 				}

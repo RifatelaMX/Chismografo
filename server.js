@@ -257,7 +257,9 @@ app.get('/api/config', (_req, res) => {
 	res.json({
 		logoDevToken: process.env.LOGODEV_PUBLISHABLE_KEY || '',
 		appUrl: process.env.APP_URL || '',
-		emailEnabled: !!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS),
+		emailEnabled:
+			!!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) ||
+			process.env.DEV === 'true',
 	});
 });
 
@@ -274,7 +276,11 @@ app.post('/api/report', async (req, res) => {
 	if (!data?.resolvedUrl) {
 		return res.status(400).json({ success: false, error: 'Datos del reporte incompletos.' });
 	}
-	if (!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS)) {
+
+	const hasSmtp = !!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
+	const isDev = process.env.DEV === 'true';
+
+	if (!hasSmtp && !isDev) {
 		return res
 			.status(503)
 			.json({ success: false, error: 'El servicio de correo no está configurado en el servidor.' });
@@ -283,7 +289,11 @@ app.post('/api/report', async (req, res) => {
 	try {
 		const result = await sendReportEmail(email, name, data);
 		console.log(`[Email] Report sent to ${email} — messageId: ${result.messageId}`);
-		return res.json({ success: true, messageId: result.messageId });
+		return res.json({
+			success: true,
+			messageId: result.messageId,
+			previewUrl: result.previewUrl || '',
+		});
 	} catch (err) {
 		console.error(`[Email] Failed to send report to ${email}:`, err.message);
 		return res.status(500).json({

@@ -6,17 +6,30 @@
 import nodemailer from 'nodemailer';
 
 /**
- * Returns a configured Nodemailer transporter from environment variables.
+ * Returns a configured Nodemailer transporter from environment variables,
+ * or creates an Ethereal Email test account as a fallback for development.
  */
-function createTransporter() {
+async function createTransporter() {
 	const host = process.env.SMTP_HOST;
 	const port = Number.parseInt(process.env.SMTP_PORT || '587', 10);
 	const secure = process.env.SMTP_SECURE === 'true'; // true = TLS/465, false = STARTTLS/587
 
 	if (!host || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-		throw new Error(
-			'SMTP configuration is incomplete. Check SMTP_HOST, SMTP_USER and SMTP_PASS in your .env file.'
+		// Fallback for development: Ethereal test account
+		console.log(
+			'[Email] No SMTP configuration found in .env. Creating an Ethereal test account...'
 		);
+		const testAccount = await nodemailer.createTestAccount();
+		console.log(`[Email] Ethereal test account created: ${testAccount.user}`);
+		return nodemailer.createTransport({
+			host: 'smtp.ethereal.email',
+			port: 587,
+			secure: false,
+			auth: {
+				user: testAccount.user,
+				pass: testAccount.pass,
+			},
+		});
 	}
 
 	return nodemailer.createTransport({
@@ -402,12 +415,15 @@ Este reporte fue generado por Rífatela Detector · rifatela.com
  * @param {object} scanData  - Full detection result from /api/detect
  */
 export async function sendReportEmail(toEmail, toName, scanData) {
-	const transporter = createTransporter();
+	const transporter = await createTransporter();
 
 	const domain = (scanData.resolvedUrl || '').replace(/^https?:\/\//, '').split('/')[0];
 
+	const isEthereal = transporter.options.host === 'smtp.ethereal.email';
 	const fromName = process.env.SMTP_FROM_NAME || 'Rífatela Detector';
-	const fromEmail = process.env.SMTP_FROM || process.env.SMTP_USER;
+	const fromEmail = isEthereal
+		? transporter.options.auth.user
+		: process.env.SMTP_FROM || process.env.SMTP_USER;
 
 	const { html, text } = buildReportEmail(scanData, toName);
 
@@ -419,8 +435,15 @@ export async function sendReportEmail(toEmail, toName, scanData) {
 		html,
 	});
 
+	let previewUrl = '';
+	if (isEthereal) {
+		previewUrl = nodemailer.getTestMessageUrl(info);
+		console.log(`[Email] Ethereal Preview URL: ${previewUrl}`);
+	}
+
 	return {
 		messageId: info.messageId,
 		accepted: info.accepted,
+		previewUrl,
 	};
 }
