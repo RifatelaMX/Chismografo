@@ -223,35 +223,37 @@ const command = args[0];
 
 // Help text
 const helpText = `
-E-Commerce Technology Detector - CLI Tools
+\x1b[1m\x1b[32m⚡ RÍFATELA DETECTOR - CLI ENGINE\x1b[0m
 
-Comandos disponibles:
-  dev                                     Arranca el entorno de desarrollo con recarga en caliente.
-  build-index [opciones]                  Crea y comprime (minifica) el archivo index.json.
-                                          Opciones:
-                                            --category <categoria>  Filtra las herramientas por categoría.
-                                            --cms <cms>             Filtra las aplicaciones compatibles con este CMS.
-  validate-index                          Valida la estructura y formato de techs/index.json.
-  check-tech <ruta_archivo>               Valida la estructura de un archivo JSON de alguna herramienta.
-  add-app <nombre> [opciones]             Crea una aplicación desde una plantilla.
-                                          Opciones:
-                                            --category <categoria>  Categoría de la app (Por defecto: Otros).
-                                            --cms <cms>             CMS compatibles separados por comas.
-                                            --links <links>         Enlaces de tiendas correspondientes en crudo (separados por comas).
-                                            --web <url>             URL oficial del sitio web.
-                                            --logo <logo>           Identificador/logo de la app (ej: loox.app).
-  add-infra <nombre> [opciones]           Crea un elemento de infraestructura desde una plantilla.
-                                          Opciones:
-                                            --category <categoria>  Categoría (Por defecto: CDN / Proxy).
-                                            --web <url>             URL oficial del sitio web.
-                                            --logo <logo>           Identificador/logo de la infra.
-  add-cms <nombre> [opciones]             Crea un CMS desde una plantilla.
-                                          Opciones:
-                                            --web <url>             URL oficial del sitio web.
-                                            --logo <logo>           Identificador/logo del CMS.
-  test-domain <url> [opciones]            Analiza y detecta las tecnologías en un dominio web real.
-                                          Opciones:
-                                            --attr <propiedad>      Imprime únicamente el valor de la propiedad especificada.
+\x1b[1mComandos Disponibles:\x1b[0m
+  \x1b[1m\x1b[36mdev\x1b[0m                                     Arranca el entorno de desarrollo web en caliente.
+  
+  \x1b[1m\x1b[36mtest-domain\x1b[0m \x1b[33m<url>\x1b[0m                         Analiza y audita tecnologías en un sitio web real.
+    \x1b[90m--attr <propiedad>                    Imprime únicamente el valor de la propiedad especificada.
+                                          Atributos: cms, theme, plugins, infrastructure, location.\x1b[0m
+
+  \x1b[1m\x1b[36mbuild-index\x1b[0m                               Compila, optimiza y minifica las firmas en index.json.
+    \x1b[90m--category <categoria>                Filtra las herramientas por categoría.
+    \x1b[90m--cms <cms>                           Filtra las aplicaciones compatibles con este CMS.\x1b[0m
+
+  \x1b[1m\x1b[36mvalidate-index\x1b[0m                            Valida la integridad de techs/index.json.
+  \x1b[1m\x1b[36mcheck-tech\x1b[0m \x1b[33m<ruta_archivo>\x1b[0m                 Valida la estructura de firma JSON de una herramienta.
+
+  \x1b[1m\x1b[36madd-cms\x1b[0m \x1b[33m<nombre> [opciones]\x1b[0m              Registra un nuevo CMS interactivo/plantilla.
+    \x1b[90m--web <url>                           URL del sitio web oficial del CMS.
+    \x1b[90m--logo <logo>                         Logo identificador del CMS (ej. shopify.com).\x1b[0m
+
+  \x1b[1m\x1b[36madd-app\x1b[0m \x1b[33m<nombre> [opciones]\x1b[0m              Registra una nueva aplicación/plugin de e-commerce.
+    \x1b[90m--category <categoria>                Categoría de la aplicación (Por defecto: Otros).
+    \x1b[90m--cms <cms>                           Nombres de CMS compatibles separados por comas.
+    \x1b[90m--links <links>                       Enlaces correspondientes de tiendas en crudo.
+    \x1b[90m--web <url>                           URL del sitio oficial de la app.
+    \x1b[90m--logo <logo>                         Logo de la aplicación (ej. loox.app).\x1b[0m
+
+  \x1b[1m\x1b[36madd-infra\x1b[0m \x1b[33m<nombre> [opciones]\x1b[0m            Registra un nuevo elemento de infraestructura.
+    \x1b[90m--category <categoria>                Categoría del elemento (Por defecto: CDN / Proxy).
+    \x1b[90m--web <url>                           URL oficial del sitio web.
+    \x1b[90m--logo <logo>                         Logo de la infraestructura.\x1b[0m
 `;
 
 function getOption(flag) {
