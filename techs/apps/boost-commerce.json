@@ -1,23 +1,21 @@
 {
-  "name": "Boost Commerce",
-  "developer": "Boost Commerce",
-  "category": "Buscador / Filtros",
-  "compatibleCMS": [
-    "Shopify"
-  ],
-  "web": "https://www.boost-commerce.com",
-  "appStores": [
-    {
-      "cms": "Shopify",
-      "link": "https://apps.shopify.com/boost-commerce"
-    }
-  ],
-  "logo": "boost-commerce.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "boostcommerce\\.net|boost-pfs",
-      "description": "Boost Commerce integration script or resource detected"
-    }
-  ]
+	"name": "Boost Commerce",
+	"developer": "Boost Commerce",
+	"category": "Buscador / Filtros",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.boost-commerce.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "https://apps.shopify.com/boost-commerce"
+		}
+	],
+	"logo": "boost-commerce.com",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "boostcommerce\\.net|boost-pfs",
+			"description": "Boost Commerce integration script or resource detected"
+		}
+	]
 }

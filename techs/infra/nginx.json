@@ -1,14 +1,14 @@
 {
-  "name": "Nginx",
-  "category": "Servidor Web",
-  "web": "https://www.nginx.com",
-  "logo": "nginx.com",
-  "detectionRules": [
-    {
-      "type": "header",
-      "key": "server",
-      "pattern": "^nginx",
-      "description": "Server header starts with 'nginx'"
-    }
-  ]
+	"name": "Nginx",
+	"category": "Servidor Web",
+	"web": "https://www.nginx.com",
+	"logo": "nginx.com",
+	"detectionRules": [
+		{
+			"type": "header",
+			"key": "server",
+			"pattern": "^nginx",
+			"description": "Server header starts with 'nginx'"
+		}
+	]
 }

@@ -1,39 +1,45 @@
 {
-  "name": "rifatela-detector",
-  "version": "1.0.0",
-  "description": "Rifatela Detector es una aplicación ",
-  "type": "module",
-  "main": "server.js",
-  "bin": {
-    "detector": "./cli/bin/index.js"
-  },
-  "scripts": {
-    "start": "node server.js",
-    "dev": "detector dev",
-    "cli": "detector",
-    "build": "node ./cli/bin/index.js build-index"
-  },
-  "keywords": [
-    "scraper",
-    "ecommerce",
-    "detector",
-    "shopify",
-    "magento",
-    "woocommerce",
-    "prestashop",
-    "vtex",
-    "api"
-  ],
-  "author": "Rífatela",
-  "license": "AGPL-3.0-only",
-  "dependencies": {
-    "axios": "^1.7.9",
-    "cheerio": "^1.0.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.2",
-    "geoip-lite": "^2.0.3",
-    "morgan": "^1.10.0",
-    "screenshotmachine": "^2.0.0"
-  }
+	"name": "rifatela-detector",
+	"version": "1.0.0",
+	"description": "Rifatela Detector es una aplicación ",
+	"type": "module",
+	"main": "server.js",
+	"bin": {
+		"detector": "./cli/bin/index.js"
+	},
+	"scripts": {
+		"start": "node server.js",
+		"dev": "detector dev",
+		"cli": "detector",
+		"build": "node ./cli/bin/index.js build-index",
+		"lint": "biome lint .",
+		"format": "biome format --write .",
+		"check": "biome check --write ."
+	},
+	"keywords": [
+		"scraper",
+		"ecommerce",
+		"detector",
+		"shopify",
+		"magento",
+		"woocommerce",
+		"prestashop",
+		"vtex",
+		"api"
+	],
+	"author": "Rífatela",
+	"license": "AGPL-3.0-only",
+	"dependencies": {
+		"axios": "^1.7.9",
+		"cheerio": "^1.0.0",
+		"cors": "^2.8.5",
+		"dotenv": "^16.4.5",
+		"express": "^4.21.2",
+		"geoip-lite": "^2.0.3",
+		"morgan": "^1.10.0",
+		"screenshotmachine": "^2.0.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.5.2"
+	}
 }

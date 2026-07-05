@@ -1,22 +1,16 @@
 {
-  "name": "Meta Pixel (Facebook)",
-  "developer": "Meta Pixel (Facebook)",
-  "category": "Analítica / Marketing",
-  "compatibleCMS": [
-    "Shopify",
-    "Magento",
-    "WooCommerce",
-    "PrestaShop",
-    "VTEX"
-  ],
-  "web": "https://www.facebook.com",
-  "appStores": [],
-  "logo": "facebook.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "connect\\.facebook\\.net\\/[a-zA-Z_]+\\/fbevents\\.js",
-      "description": "Meta Pixel (Facebook) integration script or resource detected"
-    }
-  ]
+	"name": "Meta Pixel (Facebook)",
+	"developer": "Meta Pixel (Facebook)",
+	"category": "Analítica / Marketing",
+	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"web": "https://www.facebook.com",
+	"appStores": [],
+	"logo": "facebook.com",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "connect\\.facebook\\.net\\/[a-zA-Z_]+\\/fbevents\\.js",
+			"description": "Meta Pixel (Facebook) integration script or resource detected"
+		}
+	]
 }

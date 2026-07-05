@@ -1,23 +1,21 @@
 {
-  "name": "Rivo",
-  "developer": "Rivo",
-  "category": "Fidelización / Lealtad",
-  "compatibleCMS": [
-    "Shopify"
-  ],
-  "web": "https://www.rivo.io",
-  "appStores": [
-    {
-      "cms": "Shopify",
-      "link": "https://apps.shopify.com/rivo"
-    }
-  ],
-  "logo": "rivo.io",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "rivo\\.io|rivo-app",
-      "description": "Rivo integration script or resource detected"
-    }
-  ]
+	"name": "Rivo",
+	"developer": "Rivo",
+	"category": "Fidelización / Lealtad",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.rivo.io",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "https://apps.shopify.com/rivo"
+		}
+	],
+	"logo": "rivo.io",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "rivo\\.io|rivo-app",
+			"description": "Rivo integration script or resource detected"
+		}
+	]
 }

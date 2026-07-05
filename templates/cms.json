@@ -1,15 +1,15 @@
 {
-  "name": "{{name}}",
-  "web": "{{web}}",
-  "logo": "{{logo}}",
-  "detectionRules": [
-    {
-      "id": "{{slug}}-meta-generator",
-      "type": "meta",
-      "key": "generator",
-      "pattern": "{{slug}}",
-      "description": "Meta generador que contiene {{name}}",
-      "weight": 1.0
-    }
-  ]
+	"name": "{{name}}",
+	"web": "{{web}}",
+	"logo": "{{logo}}",
+	"detectionRules": [
+		{
+			"id": "{{slug}}-meta-generator",
+			"type": "meta",
+			"key": "generator",
+			"pattern": "{{slug}}",
+			"description": "Meta generador que contiene {{name}}",
+			"weight": 1.0
+		}
+	]
 }

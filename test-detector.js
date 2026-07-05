@@ -2,9 +2,9 @@ import { analyze } from './src/detector.js';
 
 // Define mock test suites
 const testCases = [
-  {
-    name: 'Shopify site (Standard generator, CDN & App signatures)',
-    html: `
+	{
+		name: 'Shopify site (Standard generator, CDN & App signatures)',
+		html: `
       <!DOCTYPE html>
       <html>
         <head>
@@ -23,16 +23,16 @@ const testCases = [
         </body>
       </html>
     `,
-    headers: {
-      'content-type': 'text/html'
-    },
-    expectedTech: 'Shopify',
-    minConfidence: 0.99,
-    expectedPlugins: ['Klaviyo', 'Loox', 'Klarna', 'Google Tag Manager', 'Meta Pixel (Facebook)']
-  },
-  {
-    name: 'Shopify site (JS variable & Cart Form match & PageFly & LatAm gateways)',
-    html: `
+		headers: {
+			'content-type': 'text/html',
+		},
+		expectedTech: 'Shopify',
+		minConfidence: 0.99,
+		expectedPlugins: ['Klaviyo', 'Loox', 'Klarna', 'Google Tag Manager', 'Meta Pixel (Facebook)'],
+	},
+	{
+		name: 'Shopify site (JS variable & Cart Form match & PageFly & LatAm gateways)',
+		html: `
       <!DOCTYPE html>
       <html>
         <head>
@@ -52,16 +52,16 @@ const testCases = [
         </body>
       </html>
     `,
-    headers: {
-      'content-type': 'text/html'
-    },
-    expectedTech: 'Shopify',
-    minConfidence: 0.95,
-    expectedPlugins: ['PageFly', 'Mercado Pago', 'Conekta', 'Openpay']
-  },
-  {
-    name: 'Magento site (RequireJS, static paths & Magento Tax module)',
-    html: `
+		headers: {
+			'content-type': 'text/html',
+		},
+		expectedTech: 'Shopify',
+		minConfidence: 0.95,
+		expectedPlugins: ['PageFly', 'Mercado Pago', 'Conekta', 'Openpay'],
+	},
+	{
+		name: 'Magento site (RequireJS, static paths & Magento Tax module)',
+		html: `
       <!DOCTYPE html>
       <html>
         <head>
@@ -79,16 +79,16 @@ const testCases = [
         </body>
       </html>
     `,
-    headers: {
-      'set-cookie': 'frontend=abcdefg; Path=/; Secure'
-    },
-    expectedTech: 'Magento',
-    minConfidence: 0.95,
-    expectedPlugins: ['Magento Tax']
-  },
-  {
-    name: 'WooCommerce site (Body classes, parameters & dynamic WordPress plugins)',
-    html: `
+		headers: {
+			'set-cookie': 'frontend=abcdefg; Path=/; Secure',
+		},
+		expectedTech: 'Magento',
+		minConfidence: 0.95,
+		expectedPlugins: ['Magento Tax'],
+	},
+	{
+		name: 'WooCommerce site (Body classes, parameters & dynamic WordPress plugins)',
+		html: `
       <!DOCTYPE html>
       <html lang="en">
         <head>
@@ -105,14 +105,14 @@ const testCases = [
         </body>
       </html>
     `,
-    headers: {},
-    expectedTech: 'WooCommerce',
-    minConfidence: 0.99,
-    expectedPlugins: ['Contact Form 7', 'Wordfence']
-  },
-  {
-    name: 'PrestaShop site (Generator, prestashop global js & Blockcart module)',
-    html: `
+		headers: {},
+		expectedTech: 'WooCommerce',
+		minConfidence: 0.99,
+		expectedPlugins: ['Contact Form 7', 'Wordfence'],
+	},
+	{
+		name: 'PrestaShop site (Generator, prestashop global js & Blockcart module)',
+		html: `
       <!DOCTYPE html>
       <html>
         <head>
@@ -128,14 +128,14 @@ const testCases = [
         </body>
       </html>
     `,
-    headers: {},
-    expectedTech: 'PrestaShop',
-    minConfidence: 1.0,
-    expectedPlugins: ['Blockcart']
-  },
-  {
-    name: 'VTEX site (CDN domains & Headers & classes)',
-    html: `
+		headers: {},
+		expectedTech: 'PrestaShop',
+		minConfidence: 1.0,
+		expectedPlugins: ['Blockcart'],
+	},
+	{
+		name: 'VTEX site (CDN domains & Headers & classes)',
+		html: `
       <!DOCTYPE html>
       <html>
         <head>
@@ -150,17 +150,17 @@ const testCases = [
         </body>
       </html>
     `,
-    headers: {
-      'server': 'VTEX',
-      'x-vtex-api': 'active'
-    },
-    expectedTech: 'VTEX',
-    minConfidence: 0.99,
-    expectedPlugins: []
-  },
-  {
-    name: 'Generic non-ecommerce site',
-    html: `
+		headers: {
+			server: 'VTEX',
+			'x-vtex-api': 'active',
+		},
+		expectedTech: 'VTEX',
+		minConfidence: 0.99,
+		expectedPlugins: [],
+	},
+	{
+		name: 'Generic non-ecommerce site',
+		html: `
       <!DOCTYPE html>
       <html>
         <head>
@@ -172,16 +172,16 @@ const testCases = [
         </body>
       </html>
     `,
-    headers: {
-      'server': 'nginx'
-    },
-    expectedTech: null,
-    minConfidence: 0,
-    expectedPlugins: []
-  },
-  {
-    name: 'Shopify site theme detection (Dawn theme)',
-    html: `
+		headers: {
+			server: 'nginx',
+		},
+		expectedTech: null,
+		minConfidence: 0,
+		expectedPlugins: [],
+	},
+	{
+		name: 'Shopify site theme detection (Dawn theme)',
+		html: `
       <!DOCTYPE html>
       <html>
         <head>
@@ -194,17 +194,17 @@ const testCases = [
         </body>
       </html>
     `,
-    headers: {
-      'content-type': 'text/html'
-    },
-    expectedTech: 'Shopify',
-    minConfidence: 0.99,
-    expectedPlugins: [],
-    expectedTheme: 'Dawn'
-  },
-  {
-    name: 'Shopify site theme detection from script object (schema_name priority)',
-    html: `
+		headers: {
+			'content-type': 'text/html',
+		},
+		expectedTech: 'Shopify',
+		minConfidence: 0.99,
+		expectedPlugins: [],
+		expectedTheme: 'Dawn',
+	},
+	{
+		name: 'Shopify site theme detection from script object (schema_name priority)',
+		html: `
       <!DOCTYPE html>
       <html>
         <head>
@@ -220,14 +220,14 @@ const testCases = [
         </body>
       </html>
     `,
-    headers: {
-      'content-type': 'text/html'
-    },
-    expectedTech: 'Shopify',
-    minConfidence: 0.99,
-    expectedPlugins: [],
-    expectedTheme: 'Dawn'
-  }
+		headers: {
+			'content-type': 'text/html',
+		},
+		expectedTech: 'Shopify',
+		minConfidence: 0.99,
+		expectedPlugins: [],
+		expectedTheme: 'Dawn',
+	},
 ];
 
 // Run the verification tests
@@ -235,51 +235,57 @@ console.log('=== Running E-Commerce Detector & Plugin Verification Tests ===\n')
 let passed = 0;
 
 for (const t of testCases) {
-  try {
-    const result = analyze(t.html, t.headers);
-    
-    const isTechMatch = result.technology === t.expectedTech;
-    const isConfidenceMatch = result.confidence >= t.minConfidence;
-    const isThemeMatch = t.expectedTheme ? result.theme === t.expectedTheme : true;
-    
-    // Verify plugins list
-    const detectedPluginNames = result.plugins.map(p => p.name);
-    let pluginsMatch = true;
-    for (const expectedPlg of t.expectedPlugins) {
-      if (!detectedPluginNames.includes(expectedPlg)) {
-        pluginsMatch = false;
-        break;
-      }
-    }
+	try {
+		const result = analyze(t.html, t.headers);
 
-    if (isTechMatch && isConfidenceMatch && pluginsMatch && isThemeMatch) {
-      console.log(`✅ PASSED: ${t.name}`);
-      let techDisplay = result.technology ? `${result.technology} (Confidence: ${(result.confidence * 100).toFixed(2)}%)` : 'None';
-      if (result.theme) {
-        techDisplay += ` [Theme: ${result.theme}]`;
-      }
-      console.log(`   Detected: ${techDisplay}`);
-      if (result.plugins.length > 0) {
-        console.log(`   Plugins:  ${detectedPluginNames.join(', ')}`);
-      }
-      passed++;
-    } else {
-      console.log(`❌ FAILED: ${t.name}`);
-      console.log(`   Expected: Tech: ${t.expectedTech} (Conf >= ${t.minConfidence}), Theme: ${t.expectedTheme || 'Any'}, Plugins: [${t.expectedPlugins.join(', ')}]`);
-      console.log(`   Actual:   Tech: ${result.technology} (Conf: ${result.confidence}), Theme: ${result.theme || 'None'}, Plugins: [${detectedPluginNames.join(', ')}]`);
-      console.log(`   Full Result:`, JSON.stringify(result, null, 2));
-    }
-  } catch (err) {
-    console.error(`💥 CRASHED: ${t.name}`);
-    console.error(err);
-  }
-  console.log('--------------------------------------------------');
+		const isTechMatch = result.technology === t.expectedTech;
+		const isConfidenceMatch = result.confidence >= t.minConfidence;
+		const isThemeMatch = t.expectedTheme ? result.theme === t.expectedTheme : true;
+
+		// Verify plugins list
+		const detectedPluginNames = result.plugins.map((p) => p.name);
+		let pluginsMatch = true;
+		for (const expectedPlg of t.expectedPlugins) {
+			if (!detectedPluginNames.includes(expectedPlg)) {
+				pluginsMatch = false;
+				break;
+			}
+		}
+
+		if (isTechMatch && isConfidenceMatch && pluginsMatch && isThemeMatch) {
+			console.log(`✅ PASSED: ${t.name}`);
+			let techDisplay = result.technology
+				? `${result.technology} (Confidence: ${(result.confidence * 100).toFixed(2)}%)`
+				: 'None';
+			if (result.theme) {
+				techDisplay += ` [Theme: ${result.theme}]`;
+			}
+			console.log(`   Detected: ${techDisplay}`);
+			if (result.plugins.length > 0) {
+				console.log(`   Plugins:  ${detectedPluginNames.join(', ')}`);
+			}
+			passed++;
+		} else {
+			console.log(`❌ FAILED: ${t.name}`);
+			console.log(
+				`   Expected: Tech: ${t.expectedTech} (Conf >= ${t.minConfidence}), Theme: ${t.expectedTheme || 'Any'}, Plugins: [${t.expectedPlugins.join(', ')}]`
+			);
+			console.log(
+				`   Actual:   Tech: ${result.technology} (Conf: ${result.confidence}), Theme: ${result.theme || 'None'}, Plugins: [${detectedPluginNames.join(', ')}]`
+			);
+			console.log(`   Full Result:`, JSON.stringify(result, null, 2));
+		}
+	} catch (err) {
+		console.error(`💥 CRASHED: ${t.name}`);
+		console.error(err);
+	}
+	console.log('--------------------------------------------------');
 }
 
 console.log(`\nVerification finished: ${passed}/${testCases.length} tests passed.`);
 if (passed !== testCases.length) {
-  process.exit(1);
+	process.exit(1);
 } else {
-  console.log('All tests passed successfully! 🎉');
-  process.exit(0);
+	console.log('All tests passed successfully! 🎉');
+	process.exit(0);
 }

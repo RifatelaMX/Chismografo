@@ -1,22 +1,16 @@
 {
-  "name": "Route",
-  "developer": "Route",
-  "category": "Envíos / Seguros",
-  "compatibleCMS": [
-    "Shopify",
-    "Magento",
-    "WooCommerce",
-    "PrestaShop",
-    "VTEX"
-  ],
-  "web": "https://www.route.com",
-  "appStores": [],
-  "logo": "route.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "routeapp\\.io",
-      "description": "Route integration script or resource detected"
-    }
-  ]
+	"name": "Route",
+	"developer": "Route",
+	"category": "Envíos / Seguros",
+	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"web": "https://www.route.com",
+	"appStores": [],
+	"logo": "route.com",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "routeapp\\.io",
+			"description": "Route integration script or resource detected"
+		}
+	]
 }

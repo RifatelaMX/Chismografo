@@ -1,22 +1,16 @@
 {
-  "name": "Mixpanel",
-  "developer": "Mixpanel",
-  "category": "Analítica",
-  "compatibleCMS": [
-    "Shopify",
-    "Magento",
-    "WooCommerce",
-    "PrestaShop",
-    "VTEX"
-  ],
-  "web": "https://www.mixpanel.com",
-  "appStores": [],
-  "logo": "mixpanel.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "mixpanel-2-latest\\.min\\.js|api\\.mixpanel\\.com",
-      "description": "Mixpanel integration script or resource detected"
-    }
-  ]
+	"name": "Mixpanel",
+	"developer": "Mixpanel",
+	"category": "Analítica",
+	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"web": "https://www.mixpanel.com",
+	"appStores": [],
+	"logo": "mixpanel.com",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "mixpanel-2-latest\\.min\\.js|api\\.mixpanel\\.com",
+			"description": "Mixpanel integration script or resource detected"
+		}
+	]
 }

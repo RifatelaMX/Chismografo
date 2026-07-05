@@ -1,23 +1,21 @@
 {
-  "name": "Shogun",
-  "developer": "Shogun",
-  "category": "Diseño de Páginas",
-  "compatibleCMS": [
-    "Shopify"
-  ],
-  "web": "https://www.shogun.com",
-  "appStores": [
-    {
-      "cms": "Shopify",
-      "link": "https://apps.shopify.com/shogun"
-    }
-  ],
-  "logo": "shogun.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "shogun",
-      "description": "Shogun integration script or resource detected"
-    }
-  ]
+	"name": "Shogun",
+	"developer": "Shogun",
+	"category": "Diseño de Páginas",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.shogun.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "https://apps.shopify.com/shogun"
+		}
+	],
+	"logo": "shogun.com",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "shogun",
+			"description": "Shogun integration script or resource detected"
+		}
+	]
 }

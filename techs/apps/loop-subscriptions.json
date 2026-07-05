@@ -1,23 +1,21 @@
 {
-  "name": "Loop Subscriptions",
-  "developer": "Loop Subscriptions",
-  "category": "Suscripciones",
-  "compatibleCMS": [
-    "Shopify"
-  ],
-  "web": "https://www.loop-subscriptions.com",
-  "appStores": [
-    {
-      "cms": "Shopify",
-      "link": "https://apps.shopify.com/loop-subscriptions"
-    }
-  ],
-  "logo": "loop-subscriptions.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "loop-work|loop-subscription",
-      "description": "Loop Subscriptions integration script or resource detected"
-    }
-  ]
+	"name": "Loop Subscriptions",
+	"developer": "Loop Subscriptions",
+	"category": "Suscripciones",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.loop-subscriptions.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "https://apps.shopify.com/loop-subscriptions"
+		}
+	],
+	"logo": "loop-subscriptions.com",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "loop-work|loop-subscription",
+			"description": "Loop Subscriptions integration script or resource detected"
+		}
+	]
 }

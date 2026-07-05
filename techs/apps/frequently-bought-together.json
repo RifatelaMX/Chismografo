@@ -1,23 +1,21 @@
 {
-  "name": "Frequently Bought Together",
-  "developer": "Frequently Bought Together",
-  "category": "Checkout / Ofertas",
-  "compatibleCMS": [
-    "Shopify"
-  ],
-  "web": "https://www.frequently-bought-together.com",
-  "appStores": [
-    {
-      "cms": "Shopify",
-      "link": "https://apps.shopify.com/frequently-bought-together"
-    }
-  ],
-  "logo": "frequently-bought-together.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "frequently-bought-together",
-      "description": "Frequently Bought Together integration script or resource detected"
-    }
-  ]
+	"name": "Frequently Bought Together",
+	"developer": "Frequently Bought Together",
+	"category": "Checkout / Ofertas",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.frequently-bought-together.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "https://apps.shopify.com/frequently-bought-together"
+		}
+	],
+	"logo": "frequently-bought-together.com",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "frequently-bought-together",
+			"description": "Frequently Bought Together integration script or resource detected"
+		}
+	]
 }

@@ -1,23 +1,21 @@
 {
-  "name": "Loox",
-  "developer": "Loox",
-  "category": "Reseñas",
-  "compatibleCMS": [
-    "Shopify"
-  ],
-  "web": "https://www.loox.io",
-  "appStores": [
-    {
-      "cms": "Shopify",
-      "link": "https://apps.shopify.com/loox"
-    }
-  ],
-  "logo": "loox.app",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "loox\\.io|loox-cdn",
-      "description": "Loox integration script or resource detected"
-    }
-  ]
+	"name": "Loox",
+	"developer": "Loox",
+	"category": "Reseñas",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.loox.io",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "https://apps.shopify.com/loox"
+		}
+	],
+	"logo": "loox.app",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "loox\\.io|loox-cdn",
+			"description": "Loox integration script or resource detected"
+		}
+	]
 }

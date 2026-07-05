@@ -1,22 +1,16 @@
 {
-  "name": "TikTok Pixel",
-  "developer": "TikTok Pixel",
-  "category": "Analítica / Marketing",
-  "compatibleCMS": [
-    "Shopify",
-    "Magento",
-    "WooCommerce",
-    "PrestaShop",
-    "VTEX"
-  ],
-  "web": "https://www.tiktok.com",
-  "appStores": [],
-  "logo": "tiktok.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "analytics\\.tiktok\\.com\\/i18n\\/pixel\\/events\\.js|analytics\\.tiktok\\.com\\/i18n\\/pixel\\/sdk\\.js",
-      "description": "TikTok Pixel integration script or resource detected"
-    }
-  ]
+	"name": "TikTok Pixel",
+	"developer": "TikTok Pixel",
+	"category": "Analítica / Marketing",
+	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"web": "https://www.tiktok.com",
+	"appStores": [],
+	"logo": "tiktok.com",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "analytics\\.tiktok\\.com\\/i18n\\/pixel\\/events\\.js|analytics\\.tiktok\\.com\\/i18n\\/pixel\\/sdk\\.js",
+			"description": "TikTok Pixel integration script or resource detected"
+		}
+	]
 }

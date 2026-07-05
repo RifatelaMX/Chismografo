@@ -1,22 +1,16 @@
 {
-  "name": "Printful",
-  "developer": "Printful",
-  "category": "Impresión bajo Demanda",
-  "compatibleCMS": [
-    "Shopify",
-    "Magento",
-    "WooCommerce",
-    "PrestaShop",
-    "VTEX"
-  ],
-  "web": "https://www.printful.com",
-  "appStores": [],
-  "logo": "printful.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "printful\\.com",
-      "description": "Printful integration script or resource detected"
-    }
-  ]
+	"name": "Printful",
+	"developer": "Printful",
+	"category": "Impresión bajo Demanda",
+	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"web": "https://www.printful.com",
+	"appStores": [],
+	"logo": "printful.com",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "printful\\.com",
+			"description": "Printful integration script or resource detected"
+		}
+	]
 }

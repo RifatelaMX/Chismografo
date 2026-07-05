@@ -1,14 +1,14 @@
 {
-  "name": "Apache",
-  "category": "Servidor Web",
-  "web": "https://httpd.apache.org",
-  "logo": "apache.org",
-  "detectionRules": [
-    {
-      "type": "header",
-      "key": "server",
-      "pattern": "apache",
-      "description": "Server header contains 'apache'"
-    }
-  ]
+	"name": "Apache",
+	"category": "Servidor Web",
+	"web": "https://httpd.apache.org",
+	"logo": "apache.org",
+	"detectionRules": [
+		{
+			"type": "header",
+			"key": "server",
+			"pattern": "apache",
+			"description": "Server header contains 'apache'"
+		}
+	]
 }

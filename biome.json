@@ -1,0 +1,126 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.5.2/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"ignoreUnknown": false,
+		"includes": ["**", "!node_modules", "!package-lock.json", "!techs/index.json"]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"indentWidth": 2,
+		"lineWidth": 100
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"a11y": {
+				"noSvgWithoutTitle": "warn",
+				"useIframeTitle": "warn",
+				"useButtonType": "warn",
+				"useValidAnchor": "warn",
+				"noStaticElementInteractions": "warn",
+				"useKeyWithClickEvents": "warn"
+			},
+			"complexity": {
+				"noImportantStyles": "off"
+			},
+			"suspicious": {
+				"noConsole": "warn"
+			},
+			"style": {
+				"useConst": "warn"
+			},
+			"correctness": {
+				"noUnusedVariables": "warn"
+			}
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "single",
+			"trailingCommas": "es5",
+			"semicolons": "always"
+		}
+	},
+	"json": {
+		"formatter": {
+			"enabled": true,
+			"indentStyle": "tab",
+			"indentWidth": 2
+		},
+		"linter": {
+			"enabled": true
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	},
+	"overrides": [
+		{
+			"includes": ["techs/apps/*.json", "techs/cms/*.json", "techs/infra/*.json"],
+			"json": {
+				"formatter": {
+					"enabled": true,
+					"indentStyle": "tab",
+					"indentWidth": 2
+				},
+				"linter": {
+					"enabled": true
+				}
+			}
+		},
+		{
+			"includes": ["public/*.js"],
+			"linter": {
+				"enabled": true,
+				"rules": {
+					"recommended": true,
+					"correctness": {
+						"noUndeclaredVariables": "off"
+					},
+					"suspicious": {
+						"noConsole": "off"
+					}
+				}
+			}
+		},
+		{
+			"includes": ["**/*.html"],
+			"linter": {
+				"enabled": true,
+				"rules": {
+					"recommended": true,
+					"a11y": {
+						"noSvgWithoutTitle": "warn",
+						"useIframeTitle": "warn",
+						"useButtonType": "warn",
+						"useValidAnchor": "warn"
+					}
+				}
+			}
+		},
+		{
+			"includes": ["test-detector.js", "test-*.js", "src/**/*.js", "server.js", "cli/**/*.js"],
+			"linter": {
+				"enabled": true,
+				"rules": {
+					"recommended": true,
+					"suspicious": {
+						"noConsole": "off"
+					}
+				}
+			}
+		}
+	]
+}

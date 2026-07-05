@@ -1,20 +1,20 @@
 {
-  "name": "Cloudflare",
-  "category": "CDN / Proxy / Seguridad",
-  "web": "https://www.cloudflare.com",
-  "logo": "cloudflare.com",
-  "detectionRules": [
-    {
-      "type": "header",
-      "key": "server",
-      "pattern": "cloudflare",
-      "description": "Server header contains 'cloudflare'"
-    },
-    {
-      "type": "header",
-      "key": "cf-ray",
-      "pattern": ".*",
-      "description": "Cloudflare Ray ID header present"
-    }
-  ]
+	"name": "Cloudflare",
+	"category": "CDN / Proxy / Seguridad",
+	"web": "https://www.cloudflare.com",
+	"logo": "cloudflare.com",
+	"detectionRules": [
+		{
+			"type": "header",
+			"key": "server",
+			"pattern": "cloudflare",
+			"description": "Server header contains 'cloudflare'"
+		},
+		{
+			"type": "header",
+			"key": "cf-ray",
+			"pattern": ".*",
+			"description": "Cloudflare Ray ID header present"
+		}
+	]
 }

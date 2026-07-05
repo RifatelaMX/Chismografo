@@ -1,22 +1,16 @@
 {
-  "name": "Amplitude",
-  "developer": "Amplitude",
-  "category": "Analítica",
-  "compatibleCMS": [
-    "Shopify",
-    "Magento",
-    "WooCommerce",
-    "PrestaShop",
-    "VTEX"
-  ],
-  "web": "https://www.amplitude.com",
-  "appStores": [],
-  "logo": "amplitude.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "cdn\\.amplitude\\.com",
-      "description": "Amplitude integration script or resource detected"
-    }
-  ]
+	"name": "Amplitude",
+	"developer": "Amplitude",
+	"category": "Analítica",
+	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"web": "https://www.amplitude.com",
+	"appStores": [],
+	"logo": "amplitude.com",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "cdn\\.amplitude\\.com",
+			"description": "Amplitude integration script or resource detected"
+		}
+	]
 }

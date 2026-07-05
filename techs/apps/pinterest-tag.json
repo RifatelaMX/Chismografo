@@ -1,22 +1,16 @@
 {
-  "name": "Pinterest Tag",
-  "developer": "Pinterest Tag",
-  "category": "Analítica / Marketing",
-  "compatibleCMS": [
-    "Shopify",
-    "Magento",
-    "WooCommerce",
-    "PrestaShop",
-    "VTEX"
-  ],
-  "web": "https://www.pinterest.com",
-  "appStores": [],
-  "logo": "pinterest.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "pinterest\\.com\\/ct\\.js|ct\\.pinterest\\.com",
-      "description": "Pinterest Tag integration script or resource detected"
-    }
-  ]
+	"name": "Pinterest Tag",
+	"developer": "Pinterest Tag",
+	"category": "Analítica / Marketing",
+	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"web": "https://www.pinterest.com",
+	"appStores": [],
+	"logo": "pinterest.com",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "pinterest\\.com\\/ct\\.js|ct\\.pinterest\\.com",
+			"description": "Pinterest Tag integration script or resource detected"
+		}
+	]
 }

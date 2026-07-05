@@ -1,37 +1,37 @@
 {
-  "name": "PrestaShop",
-  "web": "https://www.prestashop.com",
-  "logo": "prestashop.com",
-  "detectionRules": [
-    {
-      "id": "prestashop-meta-generator",
-      "type": "meta",
-      "key": "generator",
-      "pattern": "prestashop",
-      "description": "Meta generator contains \"PrestaShop\"",
-      "weight": 1.0
-    },
-    {
-      "id": "prestashop-js-global",
-      "type": "script-content",
-      "pattern": "var prestashop\\s*=|prestashop\\s*=",
-      "description": "PrestaShop global JS configuration object found",
-      "weight": 0.95
-    },
-    {
-      "id": "prestashop-img-path",
-      "type": "html-attribute",
-      "attribute": "src",
-      "pattern": "\\/img\\/[a-z]\\/[0-9]+",
-      "description": "PrestaShop typical product image path structure",
-      "weight": 0.6
-    },
-    {
-      "id": "prestashop-path-themes",
-      "type": "script-src",
-      "pattern": "^(?!.*wp-content).*\\/themes\\/[^\\/]+\\/assets\\/js\\/",
-      "description": "PrestaShop assets folder structure",
-      "weight": 0.5
-    }
-  ]
+	"name": "PrestaShop",
+	"web": "https://www.prestashop.com",
+	"logo": "prestashop.com",
+	"detectionRules": [
+		{
+			"id": "prestashop-meta-generator",
+			"type": "meta",
+			"key": "generator",
+			"pattern": "prestashop",
+			"description": "Meta generator contains \"PrestaShop\"",
+			"weight": 1.0
+		},
+		{
+			"id": "prestashop-js-global",
+			"type": "script-content",
+			"pattern": "var prestashop\\s*=|prestashop\\s*=",
+			"description": "PrestaShop global JS configuration object found",
+			"weight": 0.95
+		},
+		{
+			"id": "prestashop-img-path",
+			"type": "html-attribute",
+			"attribute": "src",
+			"pattern": "\\/img\\/[a-z]\\/[0-9]+",
+			"description": "PrestaShop typical product image path structure",
+			"weight": 0.6
+		},
+		{
+			"id": "prestashop-path-themes",
+			"type": "script-src",
+			"pattern": "^(?!.*wp-content).*\\/themes\\/[^\\/]+\\/assets\\/js\\/",
+			"description": "PrestaShop assets folder structure",
+			"weight": 0.5
+		}
+	]
 }

@@ -1,22 +1,16 @@
 {
-  "name": "Omnisend",
-  "developer": "Omnisend",
-  "category": "Marketing / Email",
-  "compatibleCMS": [
-    "Shopify",
-    "Magento",
-    "WooCommerce",
-    "PrestaShop",
-    "VTEX"
-  ],
-  "web": "https://www.omnisend.com",
-  "appStores": [],
-  "logo": "omnisend.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "omnisend\\.com",
-      "description": "Omnisend integration script or resource detected"
-    }
-  ]
+	"name": "Omnisend",
+	"developer": "Omnisend",
+	"category": "Marketing / Email",
+	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"web": "https://www.omnisend.com",
+	"appStores": [],
+	"logo": "omnisend.com",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "omnisend\\.com",
+			"description": "Omnisend integration script or resource detected"
+		}
+	]
 }

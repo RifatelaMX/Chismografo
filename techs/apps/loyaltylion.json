@@ -1,22 +1,16 @@
 {
-  "name": "LoyaltyLion",
-  "developer": "LoyaltyLion",
-  "category": "Fidelización / Lealtad",
-  "compatibleCMS": [
-    "Shopify",
-    "Magento",
-    "WooCommerce",
-    "PrestaShop",
-    "VTEX"
-  ],
-  "web": "https://www.loyaltylion.com",
-  "appStores": [],
-  "logo": "loyaltylion.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "loyaltylion",
-      "description": "LoyaltyLion integration script or resource detected"
-    }
-  ]
+	"name": "LoyaltyLion",
+	"developer": "LoyaltyLion",
+	"category": "Fidelización / Lealtad",
+	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"web": "https://www.loyaltylion.com",
+	"appStores": [],
+	"logo": "loyaltylion.com",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "loyaltylion",
+			"description": "LoyaltyLion integration script or resource detected"
+		}
+	]
 }

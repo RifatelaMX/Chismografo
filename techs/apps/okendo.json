@@ -1,23 +1,21 @@
 {
-  "name": "Okendo",
-  "developer": "Okendo",
-  "category": "Reseñas",
-  "compatibleCMS": [
-    "Shopify"
-  ],
-  "web": "https://www.okendo.co",
-  "appStores": [
-    {
-      "cms": "Shopify",
-      "link": "https://apps.shopify.com/okendo"
-    }
-  ],
-  "logo": "okendo.co",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "okendo\\.co|okendocdn",
-      "description": "Okendo integration script or resource detected"
-    }
-  ]
+	"name": "Okendo",
+	"developer": "Okendo",
+	"category": "Reseñas",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.okendo.co",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "https://apps.shopify.com/okendo"
+		}
+	],
+	"logo": "okendo.co",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "okendo\\.co|okendocdn",
+			"description": "Okendo integration script or resource detected"
+		}
+	]
 }

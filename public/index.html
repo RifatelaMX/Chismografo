@@ -31,7 +31,8 @@
     <header class="app-header">
       <div class="logo-wrapper">
         <div class="logo-icon-svg" style="margin-right: 0.75rem;">
-          <svg width="42" height="42" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.55));">
+          <svg width="42" height="42" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.55));" role="img">
+            <title>Rífatela Detector Logo</title>
             <rect width="40" height="40" rx="10" fill="url(#logo-grad)" />
             <path d="M11 15C11 12.7909 12.7909 11 15 11H25C27.2091 11 29 12.7909 29 15V25C29 27.2091 27.2091 29 25 29H15C12.7909 29 11 27.2091 11 25V15Z" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M15 18L20 23L25 18" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -113,7 +114,7 @@
               <div id="product-count-container" style="display: none; margin-top: 0.25rem;">
                 <span style="font-size: 0.95rem; color: var(--text-secondary);">Productos Detectados: <strong id="product-count-val" style="font-weight: 600; color: var(--primary);">0</strong></span>
               </div>
-              <p class="resolved-url-text" style="margin-top: 0.5rem; margin-bottom: 0;">URL: <a href="#" id="resolved-url-link" target="_blank">https://tienda.com</a></p>
+              <p class="resolved-url-text" style="margin-top: 0.5rem; margin-bottom: 0;">URL: <a href="https://tienda.com" id="resolved-url-link" target="_blank" rel="noopener noreferrer">https://tienda.com</a></p>
             </div>
           </div>
 
@@ -192,7 +193,7 @@
                   <!-- Performance Gauge -->
                   <div style="display: flex; align-items: center; gap: 1.25rem; padding: 1.15rem 1.25rem; border-radius: 8px; background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.03);">
                     <div style="position: relative; width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                      <svg width="72" height="72" viewBox="0 0 80 80" style="transform: rotate(-90deg); width: 100%; height: 100%;">
+                      <svg width="72" height="72" viewBox="0 0 80 80" aria-hidden="true" style="transform: rotate(-90deg); width: 100%; height: 100%;">
                         <circle cx="40" cy="40" r="34" stroke="rgba(255,255,255,0.03)" stroke-width="6" fill="none"></circle>
                         <circle id="pagespeed-score-circle" cx="40" cy="40" r="34" stroke="var(--primary)" stroke-width="6" fill="none" stroke-dasharray="214" stroke-dashoffset="214" stroke-linecap="round" style="transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);"></circle>
                       </svg>
@@ -209,7 +210,7 @@
                   <!-- Accessibility Gauge -->
                   <div style="display: flex; align-items: center; gap: 1.25rem; padding: 1.15rem 1.25rem; border-radius: 8px; background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.03);">
                     <div style="position: relative; width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                      <svg width="72" height="72" viewBox="0 0 80 80" style="transform: rotate(-90deg); width: 100%; height: 100%;">
+                      <svg width="72" height="72" viewBox="0 0 80 80" aria-hidden="true" style="transform: rotate(-90deg); width: 100%; height: 100%;">
                         <circle cx="40" cy="40" r="34" stroke="rgba(255,255,255,0.03)" stroke-width="6" fill="none"></circle>
                         <circle id="pagespeed-acc-circle" cx="40" cy="40" r="34" stroke="var(--primary)" stroke-width="6" fill="none" stroke-dasharray="214" stroke-dashoffset="214" stroke-linecap="round" style="transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);"></circle>
                       </svg>
@@ -226,7 +227,7 @@
                   <!-- SEO Gauge -->
                   <div style="display: flex; align-items: center; gap: 1.25rem; padding: 1.15rem 1.25rem; border-radius: 8px; background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.03);">
                     <div style="position: relative; width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                      <svg width="72" height="72" viewBox="0 0 80 80" style="transform: rotate(-90deg); width: 100%; height: 100%;">
+                      <svg width="72" height="72" viewBox="0 0 80 80" aria-hidden="true" style="transform: rotate(-90deg); width: 100%; height: 100%;">
                         <circle cx="40" cy="40" r="34" stroke="rgba(255,255,255,0.03)" stroke-width="6" fill="none"></circle>
                         <circle id="pagespeed-seo-circle" cx="40" cy="40" r="34" stroke="var(--primary)" stroke-width="6" fill="none" stroke-dasharray="214" stroke-dashoffset="214" stroke-linecap="round" style="transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1);"></circle>
                       </svg>
@@ -309,7 +310,7 @@
                 <div style="flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 0.5rem;">
                   <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;">Vista Previa de la Insignia</span>
                   <div style="padding: 1rem; border-radius: 8px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; min-height: 140px;">
-                    <iframe id="widget-preview-iframe" src="" width="320" height="120" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); background: #000;"></iframe>
+                    <iframe id="widget-preview-iframe" title="Vista previa de la insignia del sitio web" src="" width="320" height="120" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); background: #000;"></iframe>
                   </div>
                 </div>
                 <!-- Copy Code Area -->
@@ -317,7 +318,7 @@
                   <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;">Código de Inserción (iframe)</span>
                   <div class="code-wrapper">
                     <pre><code class="language-html" id="widget-embed-code">&lt;iframe src="" width="320" height="120" style="border:none; border-radius:8px;"&gt;&lt;/iframe&gt;</code></pre>
-                    <button class="copy-code-btn" data-target="widget-embed-code"><i data-lucide="copy"></i></button>
+                    <button type="button" class="copy-code-btn" data-target="widget-embed-code"><i data-lucide="copy"></i></button>
                   </div>
                   <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">Copia y pega este código HTML en cualquier parte de tu sitio web para mostrar el badge en tiempo real.</p>
                 </div>
@@ -336,7 +337,7 @@
                 <div style="flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 0.5rem;">
                   <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;">Vista Previa del Buscador</span>
                   <div style="padding: 1rem; border-radius: 8px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; min-height: 480px;">
-                    <iframe id="search-widget-preview-iframe" src="" width="100%" height="450" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); background: #000; width: 100%;"></iframe>
+                    <iframe id="search-widget-preview-iframe" title="Vista previa del buscador de auditorías" src="" width="100%" height="450" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); background: #000; width: 100%;"></iframe>
                   </div>
                 </div>
                 <!-- Copy Code Area -->
@@ -346,7 +347,7 @@
                     <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 0.35rem;">Opción A: Buscador Compacto (Widget)</span>
                     <div class="code-wrapper">
                       <pre><code class="language-html" id="search-widget-embed-code">&lt;iframe src="" width="100%" height="480" style="border:1px solid rgba(255,255,255,0.1); border-radius:12px; background:#000;"&gt;&lt;/iframe&gt;</code></pre>
-                      <button class="copy-code-btn" data-target="search-widget-embed-code"><i data-lucide="copy"></i></button>
+                      <button type="button" class="copy-code-btn" data-target="search-widget-embed-code"><i data-lucide="copy"></i></button>
                     </div>
                     <p style="margin-top: 0.25rem; font-size: 0.7rem; color: var(--text-muted);">Muestra un buscador e informes de rendimiento/tecnología ultralivianos.</p>
                   </div>
@@ -356,7 +357,7 @@
                     <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 0.35rem;">Opción B: Buscador Completo (Diseño Web Principal)</span>
                     <div class="code-wrapper">
                       <pre><code class="language-html" id="full-embed-code">&lt;iframe src="" width="100%" height="700" style="border:1px solid rgba(255,255,255,0.1); border-radius:12px; background:#000;"&gt;&lt;/iframe&gt;</code></pre>
-                      <button class="copy-code-btn" data-target="full-embed-code"><i data-lucide="copy"></i></button>
+                      <button type="button" class="copy-code-btn" data-target="full-embed-code"><i data-lucide="copy"></i></button>
                     </div>
                     <p style="margin-top: 0.25rem; font-size: 0.7rem; color: var(--text-muted);">Incrusta la interfaz completa del dashboard (gráficos, capturas, mapas detallados) con el parámetro <code>?embed=true</code>.</p>
                   </div>
@@ -376,7 +377,7 @@
         <div class="error-details">
           <h3>Error en el Scraping</h3>
           <p id="error-message">No se pudo acceder al servidor de destino. Verifica que la URL sea correcta y que el sitio esté en línea.</p>
-          <button id="retry-btn" class="btn-secondary">Reintentar</button>
+          <button type="button" id="retry-btn" class="btn-secondary">Reintentar</button>
         </div>
       </section>
 
@@ -402,7 +403,7 @@
               <pre><code class="language-bash" id="curl-post-example">curl -X POST -H "Content-Type: application/json" \
   -d '{"url": "https://tienda-ejemplo.com"}' \
   http://localhost:3000/api/detect</code></pre>
-              <button class="copy-code-btn" data-target="curl-post-example"><i data-lucide="copy"></i></button>
+              <button type="button" class="copy-code-btn" data-target="curl-post-example"><i data-lucide="copy"></i></button>
             </div>
           </div>
 
@@ -417,7 +418,7 @@
             <h5>Ejemplo de Petición (cURL)</h5>
             <div class="code-wrapper">
               <pre><code class="language-bash" id="curl-get-example">curl "http://localhost:3000/api/detect?url=https://tienda-ejemplo.com"</code></pre>
-              <button class="copy-code-btn" data-target="curl-get-example"><i data-lucide="copy"></i></button>
+              <button type="button" class="copy-code-btn" data-target="curl-get-example"><i data-lucide="copy"></i></button>
             </div>
           </div>
 
@@ -448,7 +449,7 @@
     }
   }
 }</code></pre>
-              <button class="copy-code-btn" data-target="json-response-example"><i data-lucide="copy"></i></button>
+              <button type="button" class="copy-code-btn" data-target="json-response-example"><i data-lucide="copy"></i></button>
             </div>
           </div>
         </div>

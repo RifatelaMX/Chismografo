@@ -1,22 +1,16 @@
 {
-  "name": "Gorgias",
-  "developer": "Gorgias",
-  "category": "Soporte / Chat",
-  "compatibleCMS": [
-    "Shopify",
-    "Magento",
-    "WooCommerce",
-    "PrestaShop",
-    "VTEX"
-  ],
-  "web": "https://www.gorgias.com",
-  "appStores": [],
-  "logo": "gorgias.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "gorgias\\.js|gorgias\\.io",
-      "description": "Gorgias integration script or resource detected"
-    }
-  ]
+	"name": "Gorgias",
+	"developer": "Gorgias",
+	"category": "Soporte / Chat",
+	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"web": "https://www.gorgias.com",
+	"appStores": [],
+	"logo": "gorgias.com",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "gorgias\\.js|gorgias\\.io",
+			"description": "Gorgias integration script or resource detected"
+		}
+	]
 }
