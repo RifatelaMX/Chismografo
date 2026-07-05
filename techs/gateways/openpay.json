@@ -1,0 +1,18 @@
+{
+  "name": "Openpay",
+  "category": "Payment Gateway",
+  "web": "https://openpay.mx",
+  "logo": "openpay.mx",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "openpay\\.js|openpay\\.mx|openpay\\.co",
+      "description": "Script de integración de Openpay detectado"
+    },
+    {
+      "type": "html",
+      "pattern": "\\bopenpay\\b",
+      "description": "Clase o marca HTML de Openpay detectada"
+    }
+  ]
+}

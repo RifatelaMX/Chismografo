@@ -1,0 +1,18 @@
+{
+  "name": "Mercado Pago",
+  "category": "Payment Gateway",
+  "web": "https://mercadopago.com",
+  "logo": "mercadopago.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "mercadopago\\.js|sdk\\.mercadopago\\.com",
+      "description": "Script de integración de Mercado Pago detectado"
+    },
+    {
+      "type": "html",
+      "pattern": "\\bmercadopago\\b|\\bmercado-pago\\b",
+      "description": "Clase o marca HTML de Mercado Pago detectada"
+    }
+  ]
+}

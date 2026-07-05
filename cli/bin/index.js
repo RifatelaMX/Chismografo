@@ -226,6 +226,7 @@ function askCmsMultiSelect() {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const techsDir = path.join(__dirname, '../../techs');
+const templatesDir = path.join(__dirname, '../../templates');
 const indexPath = path.join(techsDir, 'index.json');
 
 const args = process.argv.slice(2);
@@ -264,6 +265,10 @@ const helpText = `
     \x1b[90m--category <categoria>                Categoría del elemento (Por defecto: CDN / Proxy).
     \x1b[90m--web <url>                           URL oficial del sitio web.
     \x1b[90m--logo <logo>                         Logo de la infraestructura.\x1b[0m
+
+  \x1b[1m\x1b[36madd-gateway\x1b[0m \x1b[33m<nombre> [opciones]\x1b[0m          Registra una nueva Pasarela de Pago.
+    \x1b[90m--web <url>                           URL de la web oficial de la pasarela.
+    \x1b[90m--logo <logo>                         Logo de la pasarela (ej. stripe.com).\x1b[0m
 `;
 
 function getOption(flag) {
@@ -318,6 +323,7 @@ else if (command === 'build-index') {
 		const cms = loadFolder('cms');
 		let apps = loadFolder('apps');
 		let infra = loadFolder('infra');
+		let gateways = loadFolder('gateways');
 
 		// Apply CMS filter (filters apps compatible with the CMS)
 		if (cmsFilter) {
@@ -336,16 +342,17 @@ else if (command === 'build-index') {
 			const catLower = categoryFilter.toLowerCase();
 			apps = apps.filter((app) => app.category?.toLowerCase().includes(catLower));
 			infra = infra.filter((inf) => inf.category?.toLowerCase().includes(catLower));
+			gateways = gateways.filter((gw) => gw.category?.toLowerCase().includes(catLower));
 		}
 
-		const indexData = { cms, apps, infra };
+		const indexData = { cms, apps, infra, gateways };
 
 		// Compress/Minify output (no spaces/newlines in JSON.stringify)
 		fs.writeFileSync(indexPath, JSON.stringify(indexData), 'utf-8');
 
 		console.log('\x1b[32m%s\x1b[0m', `✓ index.json creado y comprimido con éxito en ${indexPath}`);
 		console.log(
-			`  Resumen: ${cms.length} CMS, ${apps.length} Apps, ${infra.length} Infraestructura.`
+			`  Resumen: ${cms.length} CMS, ${apps.length} Apps, ${infra.length} Infraestructura, ${gateways.length} Pasarelas de Pago.`
 		);
 	} catch (err) {
 		console.error('\x1b[31m%s\x1b[0m', '✗ Error al crear index.json:', err.message);
@@ -492,7 +499,7 @@ else if (command === 'add-app') {
 		return { cms: cmsName, link };
 	});
 
-	const templatePath = path.join(__dirname, 'templates', 'app.json');
+	const templatePath = path.join(templatesDir, 'app.json');
 	try {
 		let templateStr = fs.readFileSync(templatePath, 'utf-8');
 		templateStr = templateStr
@@ -549,7 +556,7 @@ else if (command === 'add-infra') {
 
 	console.log('\x1b[36m%s\x1b[0m', `📝 Creando nueva Infraestructura: ${name}...`);
 
-	const templatePath = path.join(__dirname, 'templates', 'infra.json');
+	const templatePath = path.join(templatesDir, 'infra.json');
 	try {
 		let templateStr = fs.readFileSync(templatePath, 'utf-8');
 		templateStr = templateStr
@@ -600,7 +607,7 @@ else if (command === 'add-cms') {
 
 	console.log('\x1b[36m%s\x1b[0m', `📝 Creando nuevo CMS: ${name}...`);
 
-	const templatePath = path.join(__dirname, 'templates', 'cms.json');
+	const templatePath = path.join(templatesDir, 'cms.json');
 	try {
 		let templateStr = fs.readFileSync(templatePath, 'utf-8');
 		templateStr = templateStr
@@ -616,6 +623,61 @@ else if (command === 'add-cms') {
 		console.log('\x1b[32m%s\x1b[0m', `✓ CMS creado con éxito en ${targetPath}`);
 	} catch (err) {
 		console.error('\x1b[31m%s\x1b[0m', '✗ Error al crear CMS:', err.message);
+		process.exit(1);
+	}
+}
+
+// 7b. Command: add-gateway
+else if (command === 'add-gateway') {
+	let name = args[1];
+	let webVal = getOption('--web');
+	let logoVal = getOption('--logo');
+
+	if (!name) {
+		console.log(
+			'\x1b[36m%s\x1b[0m',
+			'🎮 Iniciando modo interactivo para crear Pasarela de Pago...'
+		);
+		name = await askQuestion('1. Nombre de la pasarela: ');
+		if (!name) {
+			console.error('\x1b[31m%s\x1b[0m', '✗ El nombre es obligatorio.');
+			process.exit(1);
+		}
+		const tempSlug = toSlug(name);
+		webVal =
+			(await askQuestion(`2. URL de la Web [https://www.${tempSlug}.com]: `)) ||
+			`https://www.${tempSlug}.com`;
+		logoVal =
+			(await askQuestion(`3. Identificador de Logo [${tempSlug}.com]: `)) || `${tempSlug}.com`;
+	} else {
+		const tempSlug = toSlug(name);
+		webVal = webVal || `https://www.${tempSlug}.com`;
+		logoVal = logoVal || `${tempSlug}.com`;
+	}
+
+	const slug = toSlug(name);
+	const targetPath = path.join(techsDir, 'gateways', `${slug}.json`);
+
+	console.log('\x1b[36m%s\x1b[0m', `📝 Creando nueva Pasarela de Pago: ${name}...`);
+
+	const templatePath = path.join(templatesDir, 'gateway.json');
+	try {
+		let templateStr = fs.readFileSync(templatePath, 'utf-8');
+		templateStr = templateStr
+			.replace(/\{\{name\}\}/g, name)
+			.replace(/\{\{slug\}\}/g, slug)
+			.replace(/\{\{web\}\}/g, webVal)
+			.replace(/\{\{logo\}\}/g, logoVal)
+			.replace(/\{\{scriptPattern\}\}/g, `${slug}\\\\.js`)
+			.replace(/\{\{htmlPattern\}\}/g, `\\\\b${slug}\\\\b`);
+
+		const template = JSON.parse(templateStr);
+
+		fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+		fs.writeFileSync(targetPath, JSON.stringify(template, null, 2), 'utf-8');
+		console.log('\x1b[32m%s\x1b[0m', `✓ Pasarela de Pago creada con éxito en ${targetPath}`);
+	} catch (err) {
+		console.error('\x1b[31m%s\x1b[0m', '✗ Error al crear Pasarela de Pago:', err.message);
 		process.exit(1);
 	}
 }

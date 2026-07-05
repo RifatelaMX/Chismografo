@@ -1,0 +1,18 @@
+{
+	"name": "{{name}}",
+	"category": "Payment Gateway",
+	"web": "{{web}}",
+	"logo": "{{logo}}",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "{{scriptPattern}}",
+			"description": "Script de integración de {{name}} detectado"
+		},
+		{
+			"type": "html",
+			"pattern": "{{htmlPattern}}",
+			"description": "Clase o marca HTML de {{name}} detectada"
+		}
+	]
+}

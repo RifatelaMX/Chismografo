@@ -1,0 +1,18 @@
+{
+  "name": "Stripe",
+  "category": "Payment Gateway",
+  "web": "https://stripe.com",
+  "logo": "stripe.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "js\\.stripe\\.com/v[23]/?|stripe-js",
+      "description": "Script de integración de Stripe detectado"
+    },
+    {
+      "type": "html",
+      "pattern": "woocommerce-gateways|payment_method_stripe|\\bstripe\\b",
+      "description": "Clase o marca HTML de Stripe detectada"
+    }
+  ]
+}

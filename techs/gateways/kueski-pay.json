@@ -1,0 +1,18 @@
+{
+  "name": "Kueski Pay",
+  "category": "Payment Gateway",
+  "web": "https://kueskipay.com",
+  "logo": "kueskipay.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "kueskipay|kueski-cdn",
+      "description": "Script de integración de Kueski Pay detectado"
+    },
+    {
+      "type": "html",
+      "pattern": "\\bkueski\\b",
+      "description": "Clase o marca HTML de Kueski Pay detectada"
+    }
+  ]
+}

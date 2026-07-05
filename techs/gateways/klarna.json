@@ -1,0 +1,18 @@
+{
+  "name": "Klarna",
+  "category": "Payment Gateway",
+  "web": "https://klarna.com",
+  "logo": "klarna.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "klarna\\.com|klarnacdn\\.net",
+      "description": "Script de integración de Klarna detectado"
+    },
+    {
+      "type": "html",
+      "pattern": "\\bklarna\\b",
+      "description": "Clase o marca HTML de Klarna detectada"
+    }
+  ]
+}

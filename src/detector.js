@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
-import { getAppRules, getCmsRules, getInfraRules } from './techRulesLoader.js';
+import { getAppRules, getCmsRules, getGatewayRules, getInfraRules } from './techRulesLoader.js';
 
 /**
  * Normalizes a input URL string to include protocol
@@ -163,69 +163,12 @@ export function detectPaymentGateways(html, scripts, links) {
 		}
 	}
 
-	// 2. Generic script and link pattern analysis
-	const gatewaySignatures = [
-		{ name: 'Stripe', pattern: /js\.stripe\.com\/v[23]\/?|stripe-js/i },
-		{
-			name: 'PayPal',
-			pattern: /paypal\.com\/sdk\/js|checkout\.js|paypal-objects/i,
-		},
-		{ name: 'Klarna', pattern: /klarna\.com|klarnacdn\.net/i },
-		{ name: 'Conekta', pattern: /conekta\.js|cdn\.conekta\.io/i },
-		{ name: 'Mercado Pago', pattern: /mercadopago\.js|sdk\.mercadopago\.com/i },
-		{ name: 'Openpay', pattern: /openpay\.js|openpay\.mx|openpay\.co/i },
-		{ name: 'Adyen', pattern: /adyen\.com|adyen\.js/i },
-		{ name: 'Braintree', pattern: /braintreegateway\.com|braintree\.js/i },
-		{ name: 'dLocal', pattern: /dlocal\.com|dlocal-js/i },
-		{ name: 'Aplazo', pattern: /aplazo\.mx|aplazo-sdk/i },
-		{ name: 'Kueski Pay', pattern: /kueskipay|kueski-cdn/i },
-	];
-
-	scripts.forEach((s) => {
-		gatewaySignatures.forEach((gw) => {
-			if ((s.src && gw.pattern.test(s.src)) || (s.content && gw.pattern.test(s.content))) {
-				gateways.add(gw.name);
-			}
-		});
-	});
-
-	links.forEach((l) => {
-		if (l.href) {
-			gatewaySignatures.forEach((gw) => {
-				if (gw.pattern.test(l.href)) {
-					gateways.add(gw.name);
-				}
-			});
-		}
-	});
-
-	// 3. Fallback: Parse body class or forms for common payment processors
-	if (html.includes('woocommerce-gateways') || html.includes('payment_method_stripe')) {
-		gateways.add('Stripe');
-	}
-	if (html.includes('payment_method_paypal')) {
-		gateways.add('PayPal');
-	}
-
-	// 4. Scan element attributes, classes, ids, and SVG titles for payment gateway brand names
+	// 2. Dynamic gateway rules matching
+	const gatewayRulesList = getGatewayRules();
 	const $ = cheerio.load(html);
-	const footerKeywords = [
-		{ name: 'Stripe', patterns: [/\bstripe\b/i] },
-		{ name: 'PayPal', patterns: [/\bpaypal\b/i, /\bpay-pal\b/i] },
-		{ name: 'Klarna', patterns: [/\bklarna\b/i] },
-		{ name: 'Conekta', patterns: [/\bconekta\b/i] },
-		{
-			name: 'Mercado Pago',
-			patterns: [/\bmercadopago\b/i, /\bmercado-pago\b/i],
-		},
-		{ name: 'Openpay', patterns: [/\bopenpay\b/i] },
-		{ name: 'Aplazo', patterns: [/\baplazo\b/i] },
-		{ name: 'Kueski Pay', patterns: [/\bkueski\b/i] },
-		{ name: 'Adyen', patterns: [/\badyen\b/i] },
-		{ name: 'Braintree', patterns: [/\bbraintree\b/i] },
-		{ name: 'dLocal', patterns: [/\bdlocal\b/i] },
-	];
 
+	// Pre-extract classes, attributes, etc. for quick lookup
+	const combinedElementsText = [];
 	$('[class], [id], [alt], [src], svg title, svg').each((_i, el) => {
 		const classVal = $(el).attr('class') || '';
 		const idVal = $(el).attr('id') || '';
@@ -233,16 +176,45 @@ export function detectPaymentGateways(html, scripts, links) {
 		const srcVal = $(el).attr('src') || '';
 		const textVal = el.name === 'title' ? $(el).text() : '';
 		const svgClass = el.name === 'svg' ? $(el).attr('class') || '' : '';
+		combinedElementsText.push(`${classVal} ${idVal} ${altVal} ${srcVal} ${textVal} ${svgClass}`);
+	});
 
-		const combinedText = `${classVal} ${idVal} ${altVal} ${srcVal} ${textVal} ${svgClass}`;
+	gatewayRulesList.forEach((gw) => {
+		let isMatched = false;
 
-		footerKeywords.forEach((kw) => {
-			kw.patterns.forEach((p) => {
-				if (p.test(combinedText)) {
-					gateways.add(kw.name);
+		if (Array.isArray(gw.detectionRules)) {
+			for (const rule of gw.detectionRules) {
+				const regex = rule.regex;
+				if (!regex) continue;
+
+				if (rule.type === 'script-src') {
+					const matchedScript = scripts.find(
+						(s) => (s.src && regex.test(s.src)) || (s.content && regex.test(s.content))
+					);
+					const matchedLink = links.find((l) => l.href && regex.test(l.href));
+					if (matchedScript || matchedLink) {
+						isMatched = true;
+						break;
+					}
+				} else if (rule.type === 'html') {
+					// Check overall html string
+					if (regex.test(html)) {
+						isMatched = true;
+						break;
+					}
+					// Check element attributes, classes, etc.
+					const matchedEl = combinedElementsText.find((txt) => regex.test(txt));
+					if (matchedEl) {
+						isMatched = true;
+						break;
+					}
 				}
-			});
-		});
+			}
+		}
+
+		if (isMatched) {
+			gateways.add(gw.name);
+		}
 	});
 
 	return Array.from(gateways);
