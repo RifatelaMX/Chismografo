@@ -2,21 +2,31 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize Lucide Icons
   lucide.createIcons();
 
+  // Declare serverConfig at the top to avoid temporal dead zone issues
+  let serverConfig = {
+    builtwith: false
+  };
+
   // Initialize Embeddable Search Widget preview and code
   const searchWidgetIframe = document.getElementById('search-widget-preview-iframe');
   const searchWidgetCode = document.getElementById('search-widget-embed-code');
   const fullEmbedCode = document.getElementById('full-embed-code');
-  const host = window.location.origin;
 
-  if (searchWidgetIframe && searchWidgetCode) {
-    const widgetUrl = `${host}/search-widget`;
-    searchWidgetIframe.src = widgetUrl;
-    searchWidgetCode.textContent = `<iframe src="${widgetUrl}" width="100%" height="480" style="border:1px solid rgba(255,255,255,0.1); border-radius:12px; background:#000;"></iframe>`;
+  function updateIframeEmbedCodes() {
+    const host = serverConfig.appUrl || window.location.origin;
+    if (searchWidgetIframe && searchWidgetCode) {
+      const widgetUrl = `${host}/search-widget`;
+      searchWidgetIframe.src = widgetUrl;
+      searchWidgetCode.textContent = `<iframe src="${widgetUrl}" width="100%" height="480" style="border:1px solid rgba(255,255,255,0.1); border-radius:12px; background:#000;"></iframe>`;
+    }
+    if (fullEmbedCode) {
+      const fullEmbedUrl = `${host}/?embed=true`;
+      fullEmbedCode.textContent = `<iframe src="${fullEmbedUrl}" width="100%" height="700" style="border:1px solid rgba(255,255,255,0.1); border-radius:12px; background:#000;"></iframe>`;
+    }
   }
-  if (fullEmbedCode) {
-    const fullEmbedUrl = `${host}/?embed=true`;
-    fullEmbedCode.textContent = `<iframe src="${fullEmbedUrl}" width="100%" height="700" style="border:1px solid rgba(255,255,255,0.1); border-radius:12px; background:#000;"></iframe>`;
-  }
+
+  // Pre-initialize with current origin
+  updateIframeEmbedCodes();
 
   // Parse query parameters for embed mode (removes header/footer/docs but keeps main styling)
   const urlParams = new URLSearchParams(window.location.search);
@@ -100,10 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const bwSubTabButtons = document.querySelectorAll('.sub-tab-btn');
   const bwSubPanes = document.querySelectorAll('.bw-sub-pane');
 
-  let serverConfig = {
-    builtwith: false
-  };
-
   // Fetch server configuration info
   async function fetchServerConfig() {
     try {
@@ -115,6 +121,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (serverConfig.builtwith) {
         if (bwApiKeyBannerInput) bwApiKeyBannerInput.placeholder = "Configurado en el servidor (.env)";
       }
+
+      // Update iframe embed codes with production APP_URL if configured
+      updateIframeEmbedCodes();
     } catch (err) {
       console.error('Error fetching server config:', err);
     }
@@ -657,7 +666,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const widgetIframe = document.getElementById('widget-preview-iframe');
     const widgetCode = document.getElementById('widget-embed-code');
     if (widgetIframe && widgetCode) {
-      const host = window.location.origin;
+      const host = serverConfig.appUrl || window.location.origin;
       const widgetUrl = `${host}/widget?url=${encodeURIComponent(data.resolvedUrl)}`;
       widgetIframe.src = widgetUrl;
       widgetCode.textContent = `<iframe src="${widgetUrl}" width="320" height="120" style="border:none; border-radius:8px;"></iframe>`;

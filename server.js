@@ -27,6 +27,10 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
   : ['http://localhost:3000', 'http://127.0.0.1:3000'];
 
+if (process.env.APP_URL && !allowedOrigins.includes(process.env.APP_URL.trim())) {
+  allowedOrigins.push(process.env.APP_URL.trim());
+}
+
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
@@ -230,7 +234,8 @@ async function getScreenshot(domain, device = 'desktop', extraParams = {}) {
  */
 app.get('/api/config', (req, res) => {
   res.json({
-    logoDevToken: process.env.LOGODEV_PUBLISHABLE_KEY || ''
+    logoDevToken: process.env.LOGODEV_PUBLISHABLE_KEY || '',
+    appUrl: process.env.APP_URL || ''
   });
 });
 
