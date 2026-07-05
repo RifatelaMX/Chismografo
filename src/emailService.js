@@ -243,29 +243,17 @@ export function buildReportEmail(data, recipientName = '') {
 
           <!-- Header -->
           <tr>
-            <td style="padding: 36px 40px 28px;">
-              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+            <td style="padding: 40px 40px 24px;" align="center">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
                 <tr>
-                  <td>
-                    <!-- Logo mark -->
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
-                      <tr>
-                        <td style="padding-right: 12px; vertical-align: middle;">
-                          <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #25d366, #adff00); 
-                                      border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-                            <img src="${appUrl}/favicon.ico" width="24" height="24" alt="⚡" 
-                                 style="display: block;" onerror="this.style.display='none'">
-                          </div>
-                        </td>
-                        <td style="vertical-align: middle;">
-                          <span style="font-size: 18px; font-weight: 800; color: #ffffff; letter-spacing: -0.02em; font-family: 'Inter', sans-serif;">Rífatela</span>
-                          <span style="font-size: 18px; font-weight: 800; color: #adff00; font-family: 'Inter', sans-serif;"> Detector</span>
-                        </td>
-                      </tr>
-                    </table>
+                  <td align="center">
+                    <img src="${appUrl}/brand/logo/Negativo.svg" width="160" height="auto" alt="Chismógrafo" 
+                         style="display: block; border: 0; margin-bottom: 8px;">
                   </td>
-                  <td align="right" style="vertical-align: middle;">
-                    <span style="font-size: 11px; color: #666666; font-weight: 500; font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.05em;">Auditoría Tecnológica</span>
+                </tr>
+                <tr>
+                  <td align="center">
+                    <span style="font-size: 15px; font-weight: 800; color: #adff00; font-family: 'Inter', sans-serif; letter-spacing: 0.25em; text-transform: uppercase;">Chismógrafo</span>
                   </td>
                 </tr>
               </table>
@@ -402,12 +390,12 @@ export function buildReportEmail(data, recipientName = '') {
                 <tr>
                   <td>
                     <p style="margin: 0; font-size: 11px; color: #666666; line-height: 1.5; font-family: 'Inter', sans-serif;">
-                      Este reporte fue generado automáticamente por <strong style="color: #a3a3a3;">Rífatela Detector</strong>.<br>
+                      Este reporte fue generado automáticamente por <strong style="color: #a3a3a3;">Chismógrafo</strong>.<br>
                       Si no solicitaste este correo, puedes ignorarlo de forma segura.
                     </p>
                   </td>
                   <td align="right" style="vertical-align: middle;">
-                    <p style="margin: 0; font-size: 11px; color: #adff00; font-weight: 800; font-family: 'Inter', sans-serif;">⚡ rifatela.com</p>
+                    <p style="margin: 0; font-size: 11px; color: #adff00; font-weight: 800; font-family: 'Inter', sans-serif;">⚡ chismografo.com</p>
                   </td>
                 </tr>
               </table>
@@ -423,8 +411,8 @@ export function buildReportEmail(data, recipientName = '') {
 
         <!-- Legal note below card -->
         <p style="margin: 24px 0 0; font-size: 11px; color: #666666; text-align: center; font-family: 'Inter', sans-serif;">
-          © ${new Date().getFullYear()} Rífatela · 
-          <a href="${appUrl}" style="color: #a3a3a3; text-decoration: none;">rifatela.com</a>
+          © ${new Date().getFullYear()} Chismógrafo · 
+          <a href="${appUrl}" style="color: #a3a3a3; text-decoration: none;">chismografo.com</a>
         </p>
 
       </td>
@@ -450,7 +438,7 @@ ${infrastructure.map((i) => `  - ${i.name}${i.category ? ` (${i.category})` : ''
 Ver auditoría completa: ${appUrl}/?url=${encodeURIComponent(resolvedUrl)}
 
 ---
-Este reporte fue generado por Rífatela Detector · rifatela.com
+Este reporte fue generado por Chismógrafo · chismografo.com
 `;
 
 	return { html, text };
@@ -468,7 +456,7 @@ export async function sendReportEmail(toEmail, toName, scanData) {
 	const domain = (scanData.resolvedUrl || '').replace(/^https?:\/\//, '').split('/')[0];
 
 	const isEthereal = transporter.options.host === 'smtp.ethereal.email';
-	const fromName = process.env.SMTP_FROM_NAME || 'Rífatela Detector';
+	const fromName = process.env.SMTP_FROM_NAME || 'Chismógrafo';
 	const fromEmail = isEthereal
 		? transporter.options.auth.user
 		: process.env.SMTP_FROM || process.env.SMTP_USER;
@@ -478,7 +466,7 @@ export async function sendReportEmail(toEmail, toName, scanData) {
 	const info = await transporter.sendMail({
 		from: `"${fromName}" <${fromEmail}>`,
 		to: toName ? `"${toName}" <${toEmail}>` : toEmail,
-		subject: `⚡ Reporte de Auditoría: ${domain} — Rífatela Detector`,
+		subject: `⚡ Reporte de Auditoría: ${domain} — Chismógrafo`,
 		text,
 		html,
 	});
