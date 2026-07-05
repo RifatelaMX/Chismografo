@@ -373,7 +373,9 @@ else if (command === 'validate-index') {
 		if (!Array.isArray(data.infra)) errors.push('El campo "infra" debe ser un arreglo.');
 
 		if (errors.length > 0) {
-			errors.forEach((err) => { console.error('\x1b[31m%s\x1b[0m', `  - ${err}`); });
+			errors.forEach((err) => {
+				console.error('\x1b[31m%s\x1b[0m', `  - ${err}`);
+			});
 			process.exit(1);
 		}
 
@@ -419,7 +421,9 @@ else if (command === 'check-tech') {
 
 		if (errors.length > 0) {
 			console.error('\x1b[31m%s\x1b[0m', '✗ Errores de validación en la herramienta:');
-			errors.forEach((err) => { console.error(`  - ${err}`); });
+			errors.forEach((err) => {
+				console.error(`  - ${err}`);
+			});
 			process.exit(1);
 		}
 

@@ -135,10 +135,39 @@
               <img id="screenshot-mobile-img" src="" alt="Mobile Preview" style="width: 100%; height: calc(100% - 6px); object-fit: cover;">
             </div>
           </div>
-          <!-- Email Report Button (only visible when emailEnabled is true) -->
-          <div id="email-report-btn-wrapper" style="display: none; margin-top: 1rem; justify-content: flex-end;">
+          <!-- Result Actions Container -->
+          <div class="result-actions-container" style="display: flex; gap: 0.75rem; margin-top: 1.25rem; justify-content: flex-end; align-items: center; flex-wrap: wrap; width: 100%;">
+            <!-- Download JSON Button -->
+            <button type="button" id="download-json-btn"
+              style="display: inline-flex; align-items: center; gap: 8px; background: rgba(0, 242, 254, 0.08); 
+                     border: 1px solid rgba(0, 242, 254, 0.35); color: #00f2fe; font-size: 13px; font-weight: 600; 
+                     padding: 9px 18px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
+                     letter-spacing: 0.01em;"
+              onmouseover="this.style.background='rgba(0, 242, 254, 0.18)'; this.style.borderColor='rgba(0, 242, 254, 0.6)'"
+              onfocus="this.style.background='rgba(0, 242, 254, 0.18)'; this.style.borderColor='rgba(0, 242, 254, 0.6)'"
+              onmouseout="this.style.background='rgba(0, 242, 254, 0.08)'; this.style.borderColor='rgba(0, 242, 254, 0.35)'"
+              onblur="this.style.background='rgba(0, 242, 254, 0.08)'; this.style.borderColor='rgba(0, 242, 254, 0.35)'">
+              <i data-lucide="download" style="width:15px;height:15px;"></i>
+              Descargar JSON
+            </button>
+
+            <!-- Download CSV Button -->
+            <button type="button" id="download-csv-btn"
+              style="display: inline-flex; align-items: center; gap: 8px; background: rgba(173, 255, 0, 0.08); 
+                     border: 1px solid rgba(173, 255, 0, 0.35); color: var(--primary); font-size: 13px; font-weight: 600; 
+                     padding: 9px 18px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
+                     letter-spacing: 0.01em;"
+              onmouseover="this.style.background='rgba(173, 255, 0, 0.18)'; this.style.borderColor='rgba(173, 255, 0, 0.6)'"
+              onfocus="this.style.background='rgba(173, 255, 0, 0.18)'; this.style.borderColor='rgba(173, 255, 0, 0.6)'"
+              onmouseout="this.style.background='rgba(173, 255, 0, 0.08)'; this.style.borderColor='rgba(173, 255, 0, 0.35)'"
+              onblur="this.style.background='rgba(173, 255, 0, 0.08)'; this.style.borderColor='rgba(173, 255, 0, 0.35)'">
+              <i data-lucide="file-spreadsheet" style="width:15px;height:15px;"></i>
+              Descargar CSV
+            </button>
+
+            <!-- Email Report Button (only visible when emailEnabled is true) -->
             <button type="button" id="open-email-report-btn"
-              style="display: inline-flex; align-items: center; gap: 8px; background: rgba(138,43,226,0.12); 
+              style="display: none; align-items: center; gap: 8px; background: rgba(138,43,226,0.12); 
                      border: 1px solid rgba(138,43,226,0.35); color: #c084fc; font-size: 13px; font-weight: 600; 
                      padding: 9px 18px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
                      letter-spacing: 0.01em;"
@@ -147,7 +176,7 @@
               onmouseout="this.style.background='rgba(138,43,226,0.12)'; this.style.borderColor='rgba(138,43,226,0.35)'"
               onblur="this.style.background='rgba(138,43,226,0.12)'; this.style.borderColor='rgba(138,43,226,0.35)'">
               <i data-lucide="mail" style="width:15px;height:15px;"></i>
-              Enviar reporte por correo
+              Enviar por correo
             </button>
           </div>
         </div>

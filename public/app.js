@@ -123,6 +123,12 @@ document.addEventListener('DOMContentLoaded', () => {
 					bwApiKeyBannerInput.placeholder = 'Configurado en el servidor (.env)';
 			}
 
+			// Show email report button if SMTP is configured on the server
+			const openEmailBtn = document.getElementById('open-email-report-btn');
+			if (openEmailBtn && serverConfig.emailEnabled) {
+				openEmailBtn.style.display = 'inline-flex';
+			}
+
 			// Update iframe embed codes with production APP_URL if configured
 			updateIframeEmbedCodes();
 		} catch (err) {
@@ -417,8 +423,12 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
+	// Track the latest scan data for email and download reports
+	let lastScanData = null;
+
 	// Render scan results in dashboard
 	function renderResults(data) {
+		lastScanData = data;
 		resultsState.classList.remove('hidden');
 		resultsState.scrollIntoView({ behavior: 'smooth' });
 
@@ -1245,6 +1255,207 @@ document.addEventListener('DOMContentLoaded', () => {
 		// Alphabetical order if priorities match
 		return catA.localeCompare(catB);
 	}
+
+	// ─── Download Report Functionality ─────────────────────────────────────────
+	const downloadJsonBtn = document.getElementById('download-json-btn');
+	const downloadCsvBtn = document.getElementById('download-csv-btn');
+
+	function downloadFile(content, fileName, contentType) {
+		const a = document.createElement('a');
+		const file = new Blob([content], { type: contentType });
+		a.href = URL.createObjectURL(file);
+		a.download = fileName;
+		a.click();
+		URL.revokeObjectURL(a.href);
+	}
+
+	if (downloadJsonBtn) {
+		downloadJsonBtn.addEventListener('click', () => {
+			if (!lastScanData) {
+				alert('No hay datos de auditoría disponibles para descargar. Realiza un escaneo primero.');
+				return;
+			}
+			const jsonStr = JSON.stringify(lastScanData, null, 2);
+			const domain = (lastScanData.resolvedUrl || 'reporte')
+				.replace(/^https?:\/\//, '')
+				.split('/')[0];
+			downloadFile(jsonStr, `reporte-${domain}.json`, 'application/json');
+		});
+	}
+
+	if (downloadCsvBtn) {
+		downloadCsvBtn.addEventListener('click', () => {
+			if (!lastScanData) {
+				alert('No hay datos de auditoría disponibles para descargar. Realiza un escaneo primero.');
+				return;
+			}
+
+			const data = lastScanData;
+			const domain = (data.resolvedUrl || 'reporte').replace(/^https?:\/\//, '').split('/')[0];
+
+			// Helper to escape CSV fields
+			const esc = (val) => {
+				if (val === null || val === undefined) return '""';
+				const str = String(val).replace(/"/g, '""');
+				return `"${str}"`;
+			};
+
+			const csvRows = [];
+			csvRows.push(`${esc('Propiedad')},${esc('Valor')}`);
+			csvRows.push(`${esc('URL Detectada')},${esc(data.url)}`);
+			csvRows.push(`${esc('URL Resuelta')},${esc(data.resolvedUrl)}`);
+			csvRows.push(`${esc('Plataforma CMS')},${esc(data.technology)}`);
+			csvRows.push(`${esc('Confianza de CMS')},${esc(`${Math.round(data.confidence * 100)}%`)}`);
+			csvRows.push(`${esc('Tema de la Tienda')},${esc(data.theme || 'N/A')}`);
+			csvRows.push(`${esc('Productos Detectados')},${esc(data.productCount || 0)}`);
+
+			// Location
+			if (data.location) {
+				csvRows.push(`${esc('IP del Servidor')},${esc(data.location.ip || '')}`);
+				csvRows.push(`${esc('País')},${esc(data.location.country || '')}`);
+				csvRows.push(`${esc('Ciudad')},${esc(data.location.city || '')}`);
+			}
+
+			// Plugins
+			if (Array.isArray(data.plugins)) {
+				const pluginsStr = data.plugins.map((p) => `${p.name} (${p.category || ''})`).join('; ');
+				csvRows.push(`${esc('Plugins/Apps Detectados')},${esc(pluginsStr)}`);
+			}
+
+			// Infrastructure
+			if (Array.isArray(data.infrastructure)) {
+				const infraStr = data.infrastructure
+					.map((i) => `${i.name} (${i.category || ''})`)
+					.join('; ');
+				csvRows.push(`${esc('Infraestructura')},${esc(infraStr)}`);
+			}
+
+			// Payment Gateways
+			if (Array.isArray(data.paymentGateways)) {
+				csvRows.push(`${esc('Pasarelas de Pago')},${esc(data.paymentGateways.join('; '))}`);
+			}
+
+			// PageSpeed
+			if (data.pagespeed?.lighthouseResult) {
+				const cats = data.pagespeed.lighthouseResult.categories || {};
+				csvRows.push(
+					`${esc('Lighthouse Rendimiento')},${esc(Math.round((cats.performance?.score || 0) * 100))}`
+				);
+				csvRows.push(
+					`${esc('Lighthouse Accesibilidad')},${esc(Math.round((cats.accessibility?.score || 0) * 100))}`
+				);
+				csvRows.push(`${esc('Lighthouse SEO')},${esc(Math.round((cats.seo?.score || 0) * 100))}`);
+			}
+
+			const csvContent = csvRows.join('\n');
+			downloadFile(csvContent, `reporte-${domain}.csv`, 'text/csv;charset=utf-8;');
+		});
+	}
+
+	// ─── Email Report Modal Logic ────────────────────────────────────────────
+	const openEmailReportBtn = document.getElementById('open-email-report-btn');
+	const closeEmailModalBtn = document.getElementById('close-email-modal-btn');
+	const emailReportModal = document.getElementById('email-report-modal');
+	const sendReportBtn = document.getElementById('send-report-btn');
+	const reportEmailInput = document.getElementById('report-email-input');
+	const reportNameInput = document.getElementById('report-name-input');
+	const emailReportStatus = document.getElementById('email-report-status');
+
+	function openEmailModal() {
+		if (emailReportModal) {
+			emailReportModal.style.display = 'flex';
+			if (reportEmailInput) reportEmailInput.value = '';
+			if (reportNameInput) reportNameInput.value = '';
+			if (emailReportStatus) emailReportStatus.style.display = 'none';
+			if (reportEmailInput) reportEmailInput.focus();
+		}
+	}
+
+	function closeEmailModal() {
+		if (emailReportModal) emailReportModal.style.display = 'none';
+	}
+
+	if (openEmailReportBtn) openEmailReportBtn.addEventListener('click', openEmailModal);
+	if (closeEmailModalBtn) closeEmailModalBtn.addEventListener('click', closeEmailModal);
+
+	// Close on backdrop click
+	if (emailReportModal) {
+		emailReportModal.addEventListener('click', (e) => {
+			if (e.target === emailReportModal) closeEmailModal();
+		});
+	}
+
+	// Close on Escape key
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape' && emailReportModal && emailReportModal.style.display === 'flex') {
+			closeEmailModal();
+		}
+	});
+
+	if (sendReportBtn) {
+		sendReportBtn.addEventListener('click', async () => {
+			const email = reportEmailInput?.value?.trim();
+			const name = reportNameInput?.value?.trim() || '';
+
+			if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+				showEmailStatus('error', 'Por favor ingresa un correo electrónico válido.');
+				return;
+			}
+			if (!lastScanData) {
+				showEmailStatus(
+					'error',
+					'No hay datos de auditoría disponibles. Realiza un escaneo primero.'
+				);
+				return;
+			}
+
+			sendReportBtn.disabled = true;
+			sendReportBtn.innerHTML =
+				'<i data-lucide="loader-2" style="width:15px;height:15px;animation:spin 1s linear infinite;"></i> Enviando...';
+			lucide.createIcons();
+
+			try {
+				const res = await fetch('/api/report', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ email, name, data: lastScanData }),
+				});
+				const result = await res.json();
+				if (result.success) {
+					showEmailStatus(
+						'success',
+						`✓ Reporte enviado a <strong>${email}</strong>. Revisa tu bandeja de entrada.`
+					);
+					setTimeout(closeEmailModal, 3500);
+				} else {
+					showEmailStatus('error', result.error || 'Error desconocido al enviar el correo.');
+				}
+			} catch (_err) {
+				showEmailStatus('error', 'Error de red. Verifica tu conexión e inténtalo de nuevo.');
+			} finally {
+				sendReportBtn.disabled = false;
+				sendReportBtn.innerHTML =
+					'<i data-lucide="send" style="width:15px;height:15px;"></i> Enviar reporte';
+				lucide.createIcons();
+			}
+		});
+	}
+
+	function showEmailStatus(type, message) {
+		if (!emailReportStatus) return;
+		const isSuccess = type === 'success';
+		emailReportStatus.style.display = 'block';
+		emailReportStatus.style.background = isSuccess ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)';
+		emailReportStatus.style.border = `1px solid ${isSuccess ? 'rgba(16,185,129,0.25)' : 'rgba(239,68,68,0.25)'}`;
+		emailReportStatus.style.color = isSuccess ? '#34d399' : '#f87171';
+		emailReportStatus.innerHTML = message;
+	}
+
+	// Add loader spin animation
+	const spinStyle = document.createElement('style');
+	spinStyle.textContent =
+		'@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+	document.head.appendChild(spinStyle);
 
 	// Auto-fill query parameter URL and perform scan on load if present
 	const queryUrl = urlParams.get('url');
