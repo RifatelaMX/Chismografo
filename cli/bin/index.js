@@ -233,7 +233,7 @@ const command = args[0];
 
 // Help text
 const helpText = `
-\x1b[1m\x1b[32m⚡ RÍFATELA DETECTOR - CLI ENGINE\x1b[0m
+\x1b[1m\x1b[32m⚡ CHISMÓGRAFO - CLI ENGINE\x1b[0m
 
 \x1b[1mComandos Disponibles:\x1b[0m
   \x1b[1m\x1b[36mdev\x1b[0m                                     Arranca el entorno de desarrollo web en caliente.

@@ -1,7 +1,7 @@
 {
-	"name": "rifatela-detector",
+	"name": "chismografo",
 	"version": "1.0.0",
-	"description": "Rifatela Detector es una aplicación para obtener la pila tecnologíca de un sitio web.",
+	"description": "Chismógrafo es una aplicación para obtener la pila tecnológica de un sitio web.",
 	"type": "module",
 	"main": "server.js",
 	"bin": {
