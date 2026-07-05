@@ -9,8 +9,8 @@
   },
   "scripts": {
     "start": "node server.js",
-    "dev": "node detector dev",
-    "cli": "node detector"
+    "dev": "detector dev",
+    "cli": "detector"
   },
   "keywords": [
     "scraper",
