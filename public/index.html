@@ -118,69 +118,70 @@
               <div id="scan-date-container" style="display: none; margin-top: 0.35rem;">
                 <span style="font-size: 0.85rem; color: var(--text-muted);">Fecha del Reporte: <strong id="scan-date-val" style="font-weight: 500; color: var(--text-secondary);"></strong></span>
               </div>
+
+              <!-- Result Actions Container -->
+              <div class="result-actions-container" style="display: flex; gap: 0.75rem; margin-top: 1rem; justify-content: flex-start; align-items: center; flex-wrap: wrap; width: 100%;">
+                <!-- Download JSON Button -->
+                <button type="button" id="download-json-btn"
+                  style="display: inline-flex; align-items: center; gap: 8px; background: rgba(0, 242, 254, 0.08); 
+                         border: 1px solid rgba(0, 242, 254, 0.35); color: #00f2fe; font-size: 13px; font-weight: 600; 
+                         padding: 9px 18px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
+                         letter-spacing: 0.01em;"
+                  onmouseover="this.style.background='rgba(0, 242, 254, 0.18)'; this.style.borderColor='rgba(0, 242, 254, 0.6)'"
+                  onfocus="this.style.background='rgba(0, 242, 254, 0.18)'; this.style.borderColor='rgba(0, 242, 254, 0.6)'"
+                  onmouseout="this.style.background='rgba(0, 242, 254, 0.08)'; this.style.borderColor='rgba(0, 242, 254, 0.35)'"
+                  onblur="this.style.background='rgba(0, 242, 254, 0.08)'; this.style.borderColor='rgba(0, 242, 254, 0.35)'">
+                  <i data-lucide="download" style="width:15px;height:15px;"></i>
+                  Descargar JSON
+                </button>
+
+                <!-- Download CSV Button -->
+                <button type="button" id="download-csv-btn"
+                  style="display: inline-flex; align-items: center; gap: 8px; background: rgba(173, 255, 0, 0.08); 
+                         border: 1px solid rgba(173, 255, 0, 0.35); color: var(--primary); font-size: 13px; font-weight: 600; 
+                         padding: 9px 18px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
+                         letter-spacing: 0.01em;"
+                  onmouseover="this.style.background='rgba(173, 255, 0, 0.18)'; this.style.borderColor='rgba(173, 255, 0, 0.6)'"
+                  onfocus="this.style.background='rgba(173, 255, 0, 0.18)'; this.style.borderColor='rgba(173, 255, 0, 0.6)'"
+                  onmouseout="this.style.background='rgba(173, 255, 0, 0.08)'; this.style.borderColor='rgba(173, 255, 0, 0.35)'"
+                  onblur="this.style.background='rgba(173, 255, 0, 0.08)'; this.style.borderColor='rgba(173, 255, 0, 0.35)'">
+                  <i data-lucide="file-spreadsheet" style="width:15px;height:15px;"></i>
+                  Descargar CSV
+                </button>
+
+                <!-- Email Report Button (only visible when emailEnabled is true) -->
+                <button type="button" id="open-email-report-btn"
+                  style="display: none; align-items: center; gap: 8px; background: rgba(138,43,226,0.12); 
+                         border: 1px solid rgba(138,43,226,0.35); color: #c084fc; font-size: 13px; font-weight: 600; 
+                         padding: 9px 18px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
+                         letter-spacing: 0.01em;"
+                  onmouseover="this.style.background='rgba(138,43,226,0.22)'; this.style.borderColor='rgba(138,43,226,0.6)'"
+                  onfocus="this.style.background='rgba(138,43,226,0.22)'; this.style.borderColor='rgba(138,43,226,0.6)'"
+                  onmouseout="this.style.background='rgba(138,43,226,0.12)'; this.style.borderColor='rgba(138,43,226,0.35)'"
+                  onblur="this.style.background='rgba(138,43,226,0.12)'; this.style.borderColor='rgba(138,43,226,0.35)'">
+                  <i data-lucide="mail" style="width:15px;height:15px;"></i>
+                  Enviar por correo
+                </button>
+              </div>
             </div>
           </div>
 
           <!-- Previews Container -->
-          <div class="header-previews-container" id="header-previews-container" style="display: none; align-items: center; gap: 1rem; max-height: 110px;">
-            <div class="desktop-mockup-mini" style="position: relative; width: 140px; height: 90px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15); overflow: hidden; background: #000;">
-              <div class="mockup-header-mini" style="height: 6px; background: rgba(255,255,255,0.08); display: flex; gap: 2px; align-items: center; padding: 0 4px;">
-                <span style="width: 2px; height: 2px; border-radius: 50%; background: #ff5f56; display: inline-block;"></span>
-                <span style="width: 2px; height: 2px; border-radius: 50%; background: #ffbd2e; display: inline-block;"></span>
-                <span style="width: 2px; height: 2px; border-radius: 50%; background: #27c93f; display: inline-block;"></span>
+          <div class="header-previews-container" id="header-previews-container" style="display: none; align-items: center; gap: 1.25rem;">
+            <div class="desktop-mockup-mini" style="position: relative; width: 220px; height: 140px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); overflow: hidden; background: #000; flex-shrink: 0;">
+              <div class="mockup-header-mini" style="height: 8px; background: rgba(255,255,255,0.08); display: flex; gap: 3px; align-items: center; padding: 0 6px;">
+                <span style="width: 3px; height: 3px; border-radius: 50%; background: #ff5f56; display: inline-block;"></span>
+                <span style="width: 3px; height: 3px; border-radius: 50%; background: #ffbd2e; display: inline-block;"></span>
+                <span style="width: 3px; height: 3px; border-radius: 50%; background: #27c93f; display: inline-block;"></span>
               </div>
-              <img id="screenshot-desktop-img" src="" alt="Desktop Preview" style="width: 100%; height: calc(100% - 6px); object-fit: cover;">
+              <img id="screenshot-desktop-img" src="" alt="Desktop Preview" style="width: 100%; height: calc(100% - 8px); object-fit: cover;">
             </div>
-            <div class="mobile-mockup-mini" style="position: relative; width: 50px; height: 90px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); overflow: hidden; background: #000;">
-              <div class="mockup-header-mini" style="height: 6px; background: rgba(255,255,255,0.08); display: flex; justify-content: center; align-items: center;">
-                <span style="width: 8px; height: 2px; border-radius: 1px; background: rgba(255,255,255,0.3); display: inline-block;"></span>
+            <div class="mobile-mockup-mini" style="position: relative; width: 80px; height: 140px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); overflow: hidden; background: #000; flex-shrink: 0;">
+              <div class="mockup-header-mini" style="height: 8px; background: rgba(255,255,255,0.08); display: flex; justify-content: center; align-items: center;">
+                <span style="width: 12px; height: 3px; border-radius: 1.5px; background: rgba(255,255,255,0.3); display: inline-block;"></span>
               </div>
-              <img id="screenshot-mobile-img" src="" alt="Mobile Preview" style="width: 100%; height: calc(100% - 6px); object-fit: cover;">
+              <img id="screenshot-mobile-img" src="" alt="Mobile Preview" style="width: 100%; height: calc(100% - 8px); object-fit: cover;">
             </div>
-          </div>
-          <!-- Result Actions Container -->
-          <div class="result-actions-container" style="display: flex; gap: 0.75rem; margin-top: 1.25rem; justify-content: flex-end; align-items: center; flex-wrap: wrap; width: 100%;">
-            <!-- Download JSON Button -->
-            <button type="button" id="download-json-btn"
-              style="display: inline-flex; align-items: center; gap: 8px; background: rgba(0, 242, 254, 0.08); 
-                     border: 1px solid rgba(0, 242, 254, 0.35); color: #00f2fe; font-size: 13px; font-weight: 600; 
-                     padding: 9px 18px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
-                     letter-spacing: 0.01em;"
-              onmouseover="this.style.background='rgba(0, 242, 254, 0.18)'; this.style.borderColor='rgba(0, 242, 254, 0.6)'"
-              onfocus="this.style.background='rgba(0, 242, 254, 0.18)'; this.style.borderColor='rgba(0, 242, 254, 0.6)'"
-              onmouseout="this.style.background='rgba(0, 242, 254, 0.08)'; this.style.borderColor='rgba(0, 242, 254, 0.35)'"
-              onblur="this.style.background='rgba(0, 242, 254, 0.08)'; this.style.borderColor='rgba(0, 242, 254, 0.35)'">
-              <i data-lucide="download" style="width:15px;height:15px;"></i>
-              Descargar JSON
-            </button>
-
-            <!-- Download CSV Button -->
-            <button type="button" id="download-csv-btn"
-              style="display: inline-flex; align-items: center; gap: 8px; background: rgba(173, 255, 0, 0.08); 
-                     border: 1px solid rgba(173, 255, 0, 0.35); color: var(--primary); font-size: 13px; font-weight: 600; 
-                     padding: 9px 18px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
-                     letter-spacing: 0.01em;"
-              onmouseover="this.style.background='rgba(173, 255, 0, 0.18)'; this.style.borderColor='rgba(173, 255, 0, 0.6)'"
-              onfocus="this.style.background='rgba(173, 255, 0, 0.18)'; this.style.borderColor='rgba(173, 255, 0, 0.6)'"
-              onmouseout="this.style.background='rgba(173, 255, 0, 0.08)'; this.style.borderColor='rgba(173, 255, 0, 0.35)'"
-              onblur="this.style.background='rgba(173, 255, 0, 0.08)'; this.style.borderColor='rgba(173, 255, 0, 0.35)'">
-              <i data-lucide="file-spreadsheet" style="width:15px;height:15px;"></i>
-              Descargar CSV
-            </button>
-
-            <!-- Email Report Button (only visible when emailEnabled is true) -->
-            <button type="button" id="open-email-report-btn"
-              style="display: none; align-items: center; gap: 8px; background: rgba(138,43,226,0.12); 
-                     border: 1px solid rgba(138,43,226,0.35); color: #c084fc; font-size: 13px; font-weight: 600; 
-                     padding: 9px 18px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
-                     letter-spacing: 0.01em;"
-              onmouseover="this.style.background='rgba(138,43,226,0.22)'; this.style.borderColor='rgba(138,43,226,0.6)'"
-              onfocus="this.style.background='rgba(138,43,226,0.22)'; this.style.borderColor='rgba(138,43,226,0.6)'"
-              onmouseout="this.style.background='rgba(138,43,226,0.12)'; this.style.borderColor='rgba(138,43,226,0.35)'"
-              onblur="this.style.background='rgba(138,43,226,0.12)'; this.style.borderColor='rgba(138,43,226,0.35)'">
-              <i data-lucide="mail" style="width:15px;height:15px;"></i>
-              Enviar por correo
-            </button>
           </div>
         </div>
 
