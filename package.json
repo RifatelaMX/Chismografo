@@ -1,13 +1,16 @@
 {
-  "name": "ecommerce-technology-detector",
+  "name": "rifatela-detector",
   "version": "1.0.0",
-  "description": "Scraper and REST API to detect e-commerce technologies like Shopify, Magento, WooCommerce, PrestaShop, and VTEX.",
+  "description": "Rifatela Detector es una aplicación ",
   "type": "module",
   "main": "server.js",
+  "bin": {
+    "detector": "./cli/bin/index.js"
+  },
   "scripts": {
     "start": "node server.js",
-    "dev": "node cli.js dev",
-    "cli": "node cli.js"
+    "dev": "node detector dev",
+    "cli": "node detector"
   },
   "keywords": [
     "scraper",
@@ -20,7 +23,7 @@
     "vtex",
     "api"
   ],
-  "author": "",
+  "author": "Rífatela",
   "license": "AGPL-3.0-only",
   "dependencies": {
     "axios": "^1.7.9",
