@@ -14,10 +14,10 @@ async function createTransporter() {
 	const port = Number.parseInt(process.env.SMTP_PORT || '587', 10);
 	const secure = process.env.SMTP_SECURE === 'true'; // true = TLS/465, false = STARTTLS/587
 
-	if (!host || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-		// Fallback for development: Ethereal test account
+	if (process.env.DEV === 'true' || !host || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+		// Fallback/Force for development: Ethereal test account
 		console.log(
-			'[Email] No SMTP configuration found in .env. Creating an Ethereal test account...'
+			'[Email] Running in DEV mode or SMTP config missing. Creating an Ethereal test account...'
 		);
 		const testAccount = await nodemailer.createTestAccount();
 		console.log(`[Email] Ethereal test account created: ${testAccount.user}`);

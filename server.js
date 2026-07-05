@@ -259,7 +259,8 @@ app.get('/api/config', (_req, res) => {
 		appUrl: process.env.APP_URL || '',
 		emailEnabled:
 			!!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) ||
-			process.env.DEV === 'true',
+			process.env.DEV === 'true' ||
+			process.env.DEV === true,
 	});
 });
 
@@ -278,7 +279,7 @@ app.post('/api/report', async (req, res) => {
 	}
 
 	const hasSmtp = !!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
-	const isDev = process.env.DEV === 'true';
+	const isDev = process.env.DEV === 'true' || process.env.DEV === true;
 
 	if (!hasSmtp && !isDev) {
 		return res
