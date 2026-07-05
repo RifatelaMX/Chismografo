@@ -451,6 +451,24 @@ document.addEventListener('DOMContentLoaded', () => {
 			resolvedUrlLink.textContent = data.resolvedUrl;
 		}
 
+		// Scan Date
+		const scanDateContainer = document.getElementById('scan-date-container');
+		const scanDateVal = document.getElementById('scan-date-val');
+		if (scanDateContainer && scanDateVal && data.scanDate) {
+			const formattedDate = new Date(data.scanDate).toLocaleString('es-MX', {
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric',
+				hour: '2-digit',
+				minute: '2-digit',
+				second: '2-digit',
+			});
+			scanDateVal.textContent = formattedDate;
+			scanDateContainer.style.display = 'block';
+		} else if (scanDateContainer) {
+			scanDateContainer.style.display = 'none';
+		}
+
 		// Render Server Location Map & Latency
 		const mapCard = document.getElementById('map-card');
 		if (mapCard) {
@@ -1308,6 +1326,18 @@ document.addEventListener('DOMContentLoaded', () => {
 			csvRows.push(`${esc('Confianza de CMS')},${esc(`${Math.round(data.confidence * 100)}%`)}`);
 			csvRows.push(`${esc('Tema de la Tienda')},${esc(data.theme || 'N/A')}`);
 			csvRows.push(`${esc('Productos Detectados')},${esc(data.productCount || 0)}`);
+
+			if (data.scanDate) {
+				const formattedDate = new Date(data.scanDate).toLocaleString('es-MX', {
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric',
+					hour: '2-digit',
+					minute: '2-digit',
+					second: '2-digit',
+				});
+				csvRows.push(`${esc('Fecha de Reporte')},${esc(formattedDate)}`);
+			}
 
 			// Location
 			if (data.location) {

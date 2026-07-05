@@ -898,12 +898,14 @@ export async function detectTechnology(url) {
 			resolvedUrl: responseUrl,
 			success: true,
 			productCount,
+			scanDate: new Date().toISOString(),
 			...analysis,
 		};
 	} catch (error) {
 		return {
 			url: normalized,
 			success: false,
+			scanDate: new Date().toISOString(),
 			error: error.message,
 		};
 	}
