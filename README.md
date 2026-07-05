@@ -28,10 +28,24 @@ Asegúrate de contar con [Node.js](https://nodejs.org/) (versión 18 o superior)
     ```bash
     npm install
     ```
-3.  (Opcional) Crea un archivo `.env` en la raíz del proyecto para configurar las variables del servidor:
+3.  (Opcional) Crea un archivo `.env` en la raíz del proyecto para configurar las variables del servidor, CORS/CSP, y el servicio de correo SMTP:
     ```env
     PORT=3000
     ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+    APP_URL=http://localhost:3000
+
+    # Configuración de Servidor de Correo SMTP
+    SMTP_HOST=smtp.mailgun.org
+    SMTP_PORT=587
+    SMTP_SECURE=false
+    SMTP_USER=usuario@tu-dominio.com
+    SMTP_PASS=tu-contrasena-smtp
+    SMTP_FROM=noreply@tu-dominio.com
+    SMTP_FROM_NAME="Rífatela Detector"
+
+    # API Keys de Integración (Opcionales)
+    LOGODEV_PUBLISHABLE_KEY=pk_...
+    SCREENSHOTMACHINE_KEY=...
     ```
 
 ---
@@ -51,31 +65,48 @@ Corre la suite de pruebas unitarias locales que evalúa el motor de expresiones 
 npm test
 ```
 
+### Formateo y Linteo de Código (Biome)
+El proyecto utiliza [Biome](https://biomejs.dev/) para garantizar la consistencia estética y de calidad del código:
+```bash
+# Analizar y verificar el código (Linter)
+npm run lint
+
+# Formatear archivos del proyecto (Formatter)
+npm run format
+
+# Analizar, formatear y aplicar auto-fixes seguros
+npm run check
+```
+
 ---
 
-## Guía de Uso del CLI (`check-tech`)
+## Guía de Uso del CLI (`detector`)
 
-El archivo ejecutable `cli.js` provee comandos para expandir el motor de firmas o evaluar dominios directamente desde tu terminal.
+La herramienta CLI del motor está registrada globalmente como `detector`. Puedes vincularla localmente con:
+```bash
+npm link
+```
+Una vez vinculada, puedes usar `detector` (o correrla vía `npx detector` desde el directorio):
 
 ### 1. Pruebas Rápidas de Dominio
 Realiza un escaneo de CMS, aplicaciones, pasarelas de pago y geolocalización desde consola:
 ```bash
-node cli.js test-domain shopify.com
+detector test-domain shopify.com
 ```
 
 ### 2. Filtrado de Propiedades Individuales (`--attr`)
 Obtén únicamente el valor crudo en formato de texto o JSON de alguna propiedad específica de la auditoría (ideal para integraciones en Bash):
 ```bash
-node cli.js test-domain shopify.com --attr cms
+detector test-domain shopify.com --attr cms
 ```
 *Atributos compatibles:* `cms`, `theme`, `productCount`, `plugins`, `infrastructure`, `paymentGateways`, `location`.
 
 ### 3. Registro Interactivo de Firmas
 Si ejecutas los comandos de creación sin argumentos, la terminal iniciará un asistente interactivo con selectores visuales:
 ```bash
-node cli.js add-cms
-node cli.js add-app
-node cli.js add-infra
+detector add-cms
+detector add-app
+detector add-infra
 ```
 *   **Selector de Categorías:** Navega con las flechas del teclado `[↑/↓]`. La opción actual cambiará de color en tiempo real.
 *   **Selector de CMS Compatibles:** Alterna y selecciona motores con la barra espaciadora `[Space]`.
@@ -145,6 +176,31 @@ Todos los endpoints REST admiten validación de orígenes CORS y retornan respue
         "tbt": "180 ms",
         "cls": "0.03"
       }
+    }
+    ```
+
+### 5. Enviar Reporte de Auditoría por Correo (POST)
+*   **Endpoint:** `/api/report`
+*   **Método:** `POST`
+*   **Body (JSON):**
+    ```json
+    {
+      "email": "usuario@correo.com",
+      "name": "Juan Pérez",
+      "data": {
+        "resolvedUrl": "https://mi-tienda.com",
+        "technology": "Shopify",
+        "confidence": 1.0,
+        "plugins": [],
+        "infrastructure": []
+      }
+    }
+    ```
+*   **Respuesta Exitosa (200 OK):**
+    ```json
+    {
+      "success": true,
+      "messageId": "<20260705-example-msg-id@yourdomain.com>"
     }
     ```
 
