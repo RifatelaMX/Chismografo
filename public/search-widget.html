@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>El Chismógrafo</title>
-  <!-- Google Fonts: Inter -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <title>El Chismógrafo 📓</title>
+  <!-- Google Fonts: Handwritten + Y2K -->
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Comic+Neue:ital,wght@0,400;0,700;1,400&family=Patrick+Hand&family=VT323&display=swap" rel="stylesheet">
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <!-- Leaflet Map library -->
@@ -14,74 +14,116 @@
   
   <style>
     :root {
-      --bg-primary: #000000;
-      --surface: #121212;
-      --border: rgba(255, 255, 255, 0.08);
-      --border-hover: rgba(255, 255, 255, 0.18);
-      --text-primary: #ffffff;
-      --text-secondary: #a3a3a3;
-      --text-muted: #666666;
+      /* Notebook paper colors */
+      --paper: #fdf6e3;
+      --paper-lines: #b8d4e3;
+      --paper-margin: #e8828a;
       
-      --primary: #adff00;             /* Lime */
-      --primary-hover: #9ce600;
-      --primary-glow: rgba(173, 255, 0, 0.15);
-      --secondary: #25d366;           /* WhatsApp Green */
+      --gel-pink: #ff69b4;
+      --gel-purple: #9b59b6;
+      --gel-blue: #3498db;
+      --gel-green: #2ecc71;
+      --gel-orange: #f39c12;
+      --gel-red: #e74c3c;
       
-      --success: #25d366;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-
-      --font-sans: 'Inter', sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-      --radius: 8px;
+      --sticker-yellow: #fff176;
+      --sticker-pink: #f8bbd0;
+      --sticker-blue: #bbdefb;
+      
+      --ink-dark: #2c1810;
+      --ink-medium: #5a4a3f;
+      --ink-light: #8b7d6b;
+      
+      --font-handwritten: 'Caveat', 'Patrick Hand', cursive;
+      --font-body: 'Comic Neue', 'Comic Sans MS', cursive, sans-serif;
+      --font-mono: 'VT323', monospace;
+      
+      --radius: 12px;
     }
 
     body {
       margin: 0;
-      padding: 1rem;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      font-family: var(--font-sans);
+      padding: 0.5rem;
+      background-color: #e8dcc8;
+      /* Subtle wood desk/paper background */
+      background-image:
+        radial-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+      background-size: 16px 16px;
+      color: var(--ink-dark);
+      font-family: var(--font-body);
       font-size: 0.88rem;
       line-height: 1.4;
       overflow-x: hidden;
     }
 
     .widget-container {
-      border: 1px solid var(--border);
+      border: 2px solid var(--paper-lines);
       border-radius: var(--radius);
-      background: var(--surface);
+      background: var(--paper);
+      background-image:
+        /* Notebook horizontal lines */
+        repeating-linear-gradient(
+          transparent,
+          transparent 27px,
+          var(--paper-lines) 27px,
+          var(--paper-lines) 28px
+        ),
+        /* Margin line */
+        linear-gradient(
+          90deg,
+          transparent 39px,
+          var(--paper-margin) 39px,
+          var(--paper-margin) 41px,
+          transparent 41px
+        );
+      background-size: 100% 28px, 100% 100%;
       padding: 1.25rem;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      min-height: 430px;
+      gap: 0.85rem;
+      min-height: 440px;
       box-sizing: border-box;
+      position: relative;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+    }
+
+    /* Small decorative tape */
+    .widget-container::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 30%;
+      width: 50px;
+      height: 14px;
+      background: rgba(255, 241, 118, 0.7);
+      transform: rotate(2deg);
+      border-radius: 2px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+      z-index: 5;
     }
 
     .widget-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 0.75rem;
+      border-bottom: 2px dashed var(--gel-pink);
+      padding-bottom: 0.5rem;
+      margin-left: 0.5rem;
     }
 
     .widget-title {
-      font-size: 0.95rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #ffffff 40%, var(--primary) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-family: var(--font-handwritten);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--gel-purple);
     }
 
     .widget-tagline {
-      font-size: 0.62rem;
-      text-transform: uppercase;
+      font-family: var(--font-body);
+      font-size: 0.72rem;
       font-weight: 700;
-      color: var(--text-muted);
-      letter-spacing: 0.05em;
+      color: var(--gel-pink);
+      font-style: italic;
     }
 
     /* SEARCH VIEW */
@@ -91,35 +133,40 @@
       gap: 0.85rem;
       justify-content: center;
       flex-grow: 1;
+      margin-left: 0.5rem;
     }
 
     .search-title {
-      font-size: 1.15rem;
+      font-family: var(--font-handwritten);
+      font-size: 1.8rem;
       font-weight: 700;
-      letter-spacing: -0.02em;
       text-align: center;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.15rem;
+      color: var(--gel-blue);
     }
 
     .search-desc {
-      font-size: 0.78rem;
-      color: var(--text-secondary);
+      font-size: 0.85rem;
+      color: var(--ink-medium);
       text-align: center;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
+      font-style: italic;
     }
 
     .input-group {
       display: flex;
-      background: var(--bg-primary);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
+      background: white;
+      border: 3px solid var(--gel-blue);
+      border-radius: 14px;
       padding: 0.25rem 0.25rem 0.25rem 0.75rem;
       align-items: center;
+      box-shadow: 2px 2px 0 rgba(52, 152, 219, 0.15);
+      transition: all 0.2s;
     }
 
     .input-group:focus-within {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-glow);
+      border-color: var(--gel-pink);
+      box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.15), 2px 2px 0 rgba(255, 105, 180, 0.15);
     }
 
     .input-group input {
@@ -129,33 +176,36 @@
       background: transparent;
       border: none;
       outline: none;
-      color: var(--text-primary);
-      font-family: var(--font-sans);
-      font-size: 0.88rem;
+      color: var(--ink-dark);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
     }
 
     .input-group input::placeholder {
-      color: var(--text-muted);
+      color: var(--ink-light);
+      font-style: italic;
     }
 
     .btn-search {
-      background: var(--primary);
-      color: #000000;
-      border: none;
-      border-radius: 6px;
-      padding: 0.5rem 1rem;
+      background: linear-gradient(135deg, var(--gel-pink) 0%, var(--gel-purple) 100%);
+      color: white;
+      border: 2px solid var(--gel-purple);
+      border-radius: 10px;
+      padding: 0.45rem 1rem;
+      font-family: var(--font-handwritten);
       font-weight: 700;
-      font-size: 0.82rem;
+      font-size: 1.1rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 0.35rem;
-      transition: background 0.2s;
-      flex-shrink: 0;
+      box-shadow: 1px 2px 0 #7b2d8e;
+      text-shadow: 0 1px 1px rgba(0,0,0,0.15);
     }
 
     .btn-search:hover {
-      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 1px 3px 0 #7b2d8e;
     }
 
     /* SCANNING VIEW */
@@ -166,87 +216,84 @@
       justify-content: center;
       gap: 1rem;
       flex-grow: 1;
+      background: var(--sticker-pink);
+      border: 2px dashed var(--gel-pink);
+      border-radius: var(--radius);
+      padding: 1.5rem;
     }
 
     .scanner-ring {
+      position: relative;
       width: 44px;
       height: 44px;
-      border: 2px solid rgba(255, 255, 255, 0.02);
-      border-top: 2px solid var(--primary);
-      border-bottom: 2px solid var(--secondary);
+      border: 3px solid rgba(155, 89, 182, 0.15);
+      border-top: 3px solid var(--gel-pink);
+      border-bottom: 3px solid var(--gel-purple);
       border-radius: 50%;
-      animation: spin 1.2s linear infinite;
+      animation: spin 1s linear infinite;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
     .scanner-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--primary);
+      width: 8px;
+      height: 8px;
+      background: var(--gel-pink);
       border-radius: 50%;
-      box-shadow: 0 0 6px 0 var(--primary);
+      box-shadow: 0 0 6px var(--gel-pink);
     }
 
     .scanner-status {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
+      font-family: var(--font-handwritten);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink-dark);
       text-align: center;
     }
 
     .progress-bar-container {
       width: 100%;
-      max-width: 260px;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.03);
-      border-radius: 2px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 3px;
       overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
     }
 
     .progress-bar {
       height: 100%;
-      width: 15%;
-      background: linear-gradient(to right, var(--primary), var(--secondary));
-      border-radius: 2px;
-      transition: width 0.3s ease;
+      width: 10%;
+      background: linear-gradient(to right, var(--gel-pink), var(--gel-purple));
+      transition: width 0.25s ease;
     }
 
     /* RESULTS VIEW */
     .results-view {
       display: none;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.85rem;
       flex-grow: 1;
-      max-height: 420px;
-      overflow-y: auto;
-      padding-right: 0.25rem;
-    }
-
-    .results-view::-webkit-scrollbar {
-      width: 4px;
-    }
-    .results-view::-webkit-scrollbar-thumb {
-      background: var(--border);
-      border-radius: 2px;
+      margin-left: 0.5rem;
     }
 
     .results-header-card {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      padding: 0.85rem;
+      padding: 0.75rem;
       border-radius: var(--radius);
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border);
+      background: white;
+      border: 2px solid var(--paper-lines);
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.05);
     }
 
     .tech-logo-container {
       width: 38px;
       height: 38px;
       border-radius: 6px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border);
+      background: white;
+      border: 2px solid var(--paper-lines);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -254,12 +301,17 @@
       padding: 4px;
       box-sizing: border-box;
       flex-shrink: 0;
+      transform: rotate(-1deg);
     }
 
     .tech-logo-container img {
       width: 100%;
       height: 100%;
       object-fit: contain;
+    }
+
+    .tech-logo-container i {
+      color: var(--gel-purple);
     }
 
     .tech-meta-info {
@@ -270,27 +322,26 @@
     }
 
     .tech-meta-name {
-      font-size: 0.95rem;
-      font-weight: 800;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink-dark);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .confidence-badge {
-      font-size: 0.65rem;
-      color: var(--primary);
-      background: rgba(173, 255, 0, 0.08);
-      border: 1px solid rgba(173, 255, 0, 0.2);
+      font-family: var(--font-body);
+      font-size: 0.68rem;
+      color: var(--gel-pink);
+      background: var(--sticker-pink);
+      border: 1px solid var(--gel-pink);
       padding: 0.08rem 0.4rem;
-      border-radius: 4px;
+      border-radius: 10px;
       align-self: flex-start;
       margin-top: 0.15rem;
-      font-weight: 600;
-    }
-
-    .reset-btn-wrapper {
-      flex-shrink: 0;
+      font-weight: 700;
     }
 
     /* Gauges block */
@@ -304,17 +355,18 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 0.5rem;
-      border-radius: 6px;
-      background: rgba(255,255,255,0.01);
-      border: 1px solid var(--border);
-      gap: 0.25rem;
+      padding: 0.45rem;
+      border-radius: 8px;
+      background: white;
+      border: 2px solid var(--paper-lines);
+      gap: 0.15rem;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.04);
     }
 
     .gauge-wrapper {
       position: relative;
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -326,41 +378,50 @@
       height: 100%;
     }
 
+    /* SVG gauge background circle override */
+    .gauge-card circle[stroke*="rgba(255,255,255,0.03)"],
+    .gauge-card circle[stroke*="0.03"] {
+      stroke: rgba(0, 0, 0, 0.05) !important;
+    }
+
     .gauge-value {
       position: absolute;
+      font-family: var(--font-body);
       font-size: 0.85rem;
-      font-weight: 800;
+      font-weight: 700;
+      color: var(--ink-dark);
     }
 
     .gauge-label {
-      font-size: 0.6rem;
-      text-transform: uppercase;
-      font-weight: 600;
-      color: var(--text-secondary);
+      font-family: var(--font-handwritten);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--gel-purple);
     }
 
     /* Map box */
     .map-box {
-      height: 120px;
+      height: 110px;
       border-radius: var(--radius);
-      border: 1px solid var(--border);
-      background: #000;
+      border: 2px solid var(--ink-dark);
+      background: #e5ece0;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
     }
 
     /* Technologies list */
     .tech-list-box {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.45rem;
     }
 
     .tech-list-title {
-      font-size: 0.75rem;
+      font-family: var(--font-handwritten);
+      font-size: 1.15rem;
       font-weight: 700;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      border-left: 2px solid var(--primary);
-      padding-left: 0.4rem;
+      color: var(--gel-purple);
+      border-bottom: 2px dotted var(--gel-pink);
+      padding-bottom: 0.15rem;
     }
 
     .tech-badges-container {
@@ -370,14 +431,22 @@
     }
 
     .tech-badge-item {
-      font-size: 0.72rem;
-      padding: 0.3rem 0.6rem;
-      border-radius: 4px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.55rem;
+      border-radius: 8px;
+      background: white;
+      border: 2px solid var(--paper-lines);
       display: flex;
       align-items: center;
       gap: 0.35rem;
+      box-shadow: 1px 1px 0 rgba(0,0,0,0.05);
+    }
+
+    .tech-badge-item:hover {
+      background: var(--sticker-yellow);
+      border-color: var(--gel-orange);
+      transform: rotate(-0.5deg);
     }
 
     .tech-badge-item img {
@@ -391,31 +460,37 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.65rem;
-      border-top: 1px solid var(--border);
-      padding-top: 0.65rem;
+      font-size: 0.72rem;
+      border-top: 2px dashed var(--gel-purple);
+      padding-top: 0.5rem;
+      margin-left: 0.5rem;
     }
 
     .attribution-link {
-      color: var(--text-muted);
+      font-family: var(--font-handwritten);
+      font-size: 1.1rem;
+      color: var(--gel-purple);
       text-decoration: none;
       transition: color 0.2s;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .attribution-link:hover {
-      color: var(--primary);
+      color: var(--gel-pink);
     }
 
     .reset-link {
-      color: var(--primary);
+      font-family: var(--font-body);
+      color: var(--gel-blue);
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
+      border-bottom: 2px dashed var(--gel-blue);
     }
 
     .reset-link:hover {
-      text-decoration: underline;
+      color: var(--gel-pink);
+      border-bottom-color: var(--gel-pink);
     }
 
     .hidden {
@@ -432,21 +507,21 @@
     
     <!-- Widget Header -->
     <div class="widget-header">
-      <span class="widget-title">El Chismógrafo</span>
-      <span class="widget-tagline">¿Qué usa mi competencia?</span>
+      <span class="widget-title">El Chismógrafo 📓</span>
+      <span class="widget-tagline">¿De quién quieres saber hoy? 🤫</span>
     </div>
 
     <!-- 1. SEARCH VIEW -->
     <div id="search-view" class="search-view">
-      <h3 class="search-title">Analizar una Tienda</h3>
-      <p class="search-desc">Ingresa el dominio de cualquier sitio web para auditar su tecnología y rendimiento.</p>
+      <h3 class="search-title">🤫 ¿A quién espiamos?</h3>
+      <p class="search-desc">Pega la URL de cualquier tienda y te sacamos el chisme de su tech y velocidad 🕵️</p>
       
       <form id="search-form" onsubmit="event.preventDefault(); startAnalysis();">
         <div class="input-group">
-          <input type="text" id="target-url" placeholder="ejemplo.com" required autocomplete="off">
+          <input type="text" id="target-url" placeholder="https://tiendita-de-mi-compa.com" required autocomplete="off">
           <button type="submit" class="btn-search">
             <i data-lucide="search" style="width: 14px; height: 14px;"></i>
-            <span>Auditar</span>
+            <span>¡Espiar! 🔍</span>
           </button>
         </div>
       </form>
@@ -457,7 +532,7 @@
       <div class="scanner-ring">
         <div class="scanner-dot"></div>
       </div>
-      <div id="scanning-status" class="scanner-status">Iniciando conexión...</div>
+      <div id="scanning-status" class="scanner-status">Nos estamos metiendo a husmear... 🕵️</div>
       <div class="progress-bar-container">
         <div id="progress-bar" class="progress-bar"></div>
       </div>
@@ -473,7 +548,7 @@
         </div>
         <div class="tech-meta-info">
           <span class="tech-meta-name" id="res-tech-name">Desconocido</span>
-          <span class="confidence-badge" id="res-confidence">0% Confianza</span>
+          <span class="confidence-badge" id="res-confidence">0% Segurísimo ✨</span>
         </div>
       </div>
 
@@ -483,19 +558,19 @@
         <div class="gauge-card">
           <div class="gauge-wrapper">
             <svg width="48" height="48" viewBox="0 0 80 80" aria-hidden="true">
-              <circle cx="40" cy="40" r="34" stroke="rgba(255,255,255,0.03)" stroke-width="6" fill="none"></circle>
-              <circle id="gauge-perf-circle" cx="40" cy="40" r="34" stroke="var(--primary)" stroke-width="6" fill="none" stroke-dasharray="214" stroke-dashoffset="214" stroke-linecap="round" style="transition: stroke-dashoffset 0.8s ease;"></circle>
+              <circle cx="40" cy="40" r="34" stroke="rgba(0,0,0,0.05)" stroke-width="6" fill="none"></circle>
+              <circle id="gauge-perf-circle" cx="40" cy="40" r="34" stroke="var(--gel-pink)" stroke-width="6" fill="none" stroke-dasharray="214" stroke-dashoffset="214" stroke-linecap="round" style="transition: stroke-dashoffset 0.8s ease;"></circle>
             </svg>
             <span id="gauge-perf-val" class="gauge-value">0</span>
           </div>
-          <span class="gauge-label">Rend.</span>
+          <span class="gauge-label">Velocidad</span>
         </div>
         <!-- Accessibility -->
         <div class="gauge-card">
           <div class="gauge-wrapper">
             <svg width="48" height="48" viewBox="0 0 80 80" aria-hidden="true">
-              <circle cx="40" cy="40" r="34" stroke="rgba(255,255,255,0.03)" stroke-width="6" fill="none"></circle>
-              <circle id="gauge-acc-circle" cx="40" cy="40" r="34" stroke="var(--primary)" stroke-width="6" fill="none" stroke-dasharray="214" stroke-dashoffset="214" stroke-linecap="round" style="transition: stroke-dashoffset 0.8s ease;"></circle>
+              <circle cx="40" cy="40" r="34" stroke="rgba(0,0,0,0.05)" stroke-width="6" fill="none"></circle>
+              <circle id="gauge-acc-circle" cx="40" cy="40" r="34" stroke="var(--gel-pink)" stroke-width="6" fill="none" stroke-dasharray="214" stroke-dashoffset="214" stroke-linecap="round" style="transition: stroke-dashoffset 0.8s ease;"></circle>
             </svg>
             <span id="gauge-acc-val" class="gauge-value">0</span>
           </div>
@@ -505,8 +580,8 @@
         <div class="gauge-card">
           <div class="gauge-wrapper">
             <svg width="48" height="48" viewBox="0 0 80 80" aria-hidden="true">
-              <circle cx="40" cy="40" r="34" stroke="rgba(255,255,255,0.03)" stroke-width="6" fill="none"></circle>
-              <circle id="gauge-seo-circle" cx="40" cy="40" r="34" stroke="var(--primary)" stroke-width="6" fill="none" stroke-dasharray="214" stroke-dashoffset="214" stroke-linecap="round" style="transition: stroke-dashoffset 0.8s ease;"></circle>
+              <circle cx="40" cy="40" r="34" stroke="rgba(0,0,0,0.05)" stroke-width="6" fill="none"></circle>
+              <circle id="gauge-seo-circle" cx="40" cy="40" r="34" stroke="var(--gel-pink)" stroke-width="6" fill="none" stroke-dasharray="214" stroke-dashoffset="214" stroke-linecap="round" style="transition: stroke-dashoffset 0.8s ease;"></circle>
             </svg>
             <span id="gauge-seo-val" class="gauge-value">0</span>
           </div>
@@ -519,7 +594,7 @@
 
       <!-- Tech stack list -->
       <div class="tech-list-box">
-        <span class="tech-list-title">Tecnologías Detectadas</span>
+        <span class="tech-list-title">🔌 Apps que le cachamos</span>
         <div class="tech-badges-container" id="res-tech-badges">
           <!-- Populated dynamically -->
         </div>
@@ -529,8 +604,8 @@
 
     <!-- Widget Footer -->
     <div class="widget-footer">
-      <a href="/" target="_blank" class="attribution-link">Ver el Chismógrafo Completo &nearr;</a>
-      <span id="reset-link" class="reset-link hidden" onclick="resetWidget()">Analizar Otro</span>
+      <a href="/" target="_blank" class="attribution-link">📓 Ver todo el Chismógrafo &nearr;</a>
+      <span id="reset-link" class="reset-link hidden" onclick="resetWidget()">🔄 Otro chisme</span>
     </div>
 
   </div>
@@ -571,7 +646,7 @@
       const statusText = document.getElementById('scanning-status');
 
       progressBar.style.width = '10%';
-      statusText.textContent = 'Analizando firmas e-commerce...';
+      statusText.textContent = 'Nos estamos metiendo a husmear... 🕵️';
 
       // Animate progress simulation
       let progress = 10;
@@ -579,8 +654,8 @@
         if (progress < 85) {
           progress += 15;
           progressBar.style.width = progress + '%';
-          if (progress === 40) statusText.textContent = 'Auditando el árbol DOM...';
-          if (progress === 70) statusText.textContent = 'Verificando scripts e infraestructura...';
+          if (progress === 40) statusText.textContent = 'Leyendo su código fuente secreto... 📜';
+          if (progress === 70) statusText.textContent = 'Extrayendo scripts y pistas del DOM... 🔍';
         }
       }, 250);
 
@@ -595,7 +670,7 @@
         
         clearInterval(interval);
         progressBar.style.width = '100%';
-        statusText.textContent = 'Análisis completo. Cargando auditoría de velocidad...';
+        statusText.textContent = '¡Ya tenemos el chisme! Cargando test de velocidad... 🐢/⚡';
 
         if (data.success) {
           renderWidgetResults(data);
@@ -604,7 +679,7 @@
           // Trigger async PageSpeed fetch
           fetchWidgetPageSpeed(urlVal);
         } else {
-          alert('Error: ' + (data.error || 'No se pudo escanear el sitio.'));
+          alert('¡Se nos pelaron!: ' + (data.error || 'No pudimos entrar a espiar...'));
           showView('search');
         }
       } catch (err) {
@@ -622,7 +697,7 @@
 
       if (data.detected) {
         nameEl.textContent = data.technology;
-        confEl.textContent = Math.round(data.confidence * 100) + '% Confianza';
+        confEl.textContent = Math.round(data.confidence * 100) + '% Segurísimo ✨';
 
         const cmsDomains = {
           Shopify: 'shopify.com',
@@ -639,7 +714,7 @@
         }
       } else {
         nameEl.textContent = 'No Detectada';
-        confEl.textContent = '0% Confianza';
+        confEl.textContent = '0% Segurísimo ✨';
         logoContainer.innerHTML = `<i data-lucide="help-circle" style="width: 18px; height: 18px;"></i>`;
       }
 
@@ -668,7 +743,7 @@
           badgesContainer.appendChild(badge);
         });
       } else {
-        badgesContainer.innerHTML = '<span style="font-size:0.75rem; color:var(--text-muted);">Ninguna tecnología secundaria detectada.</span>';
+        badgesContainer.innerHTML = '<span style="font-size:0.75rem; color:var(--ink-light); font-style:italic;">Ninguna tecnología secundaria detectada.</span>';
       }
 
       // Render Map
@@ -684,7 +759,7 @@
               scrollWheelZoom: false,
               attributionControl: false
             });
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(leafletMap);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png').addTo(leafletMap);
           }
           leafletMap.setView(coords, 3);
           
@@ -730,11 +805,11 @@
               circle.style.strokeDashoffset = offset;
 
               if (score >= 90) {
-                circle.setAttribute('stroke', '#25d366');
+                circle.setAttribute('stroke', '#2ecc71'); // gel green
               } else if (score >= 50) {
-                circle.setAttribute('stroke', '#f59e0b');
+                circle.setAttribute('stroke', '#f39c12'); // gel orange
               } else {
-                circle.setAttribute('stroke', '#ef4444');
+                circle.setAttribute('stroke', '#e74c3c'); // gel red
               }
             }
           };

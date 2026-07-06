@@ -131,6 +131,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			// Update iframe embed codes with production APP_URL if configured
 			updateIframeEmbedCodes();
+
+			// Update cURL and API documentation examples with APP_URL if configured
+			if (serverConfig.appUrl) {
+				const ids = [
+					'curl-post-detect',
+					'curl-get-detect',
+					'curl-get-infra',
+					'curl-post-pagespeed',
+					'curl-post-report',
+					'curl-get-widget',
+					'curl-get-search-widget'
+				];
+				ids.forEach(id => {
+					const el = document.getElementById(id);
+					if (el) {
+						el.textContent = el.textContent.replaceAll('http://localhost:3000', serverConfig.appUrl.replace(/\/$/, ''));
+					}
+				});
+			}
+
+			// Render independent versions in the footer
+			if (serverConfig.versions) {
+				const vDisplay = document.getElementById('app-versions-display');
+				if (vDisplay) {
+					vDisplay.textContent = `CLI: v${serverConfig.versions.cli} | Interfaz: v${serverConfig.versions.ui} | API: v${serverConfig.versions.api}`;
+				}
+			}
 		} catch (err) {
 			console.error('Error fetching server config:', err);
 		}
@@ -255,10 +282,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		// Mock progress visualization sequence (1.5s total time for smooth UI)
 		const steps = [
-			{ text: 'Conectando con el servidor de destino...', progress: 15 },
-			{ text: 'Descargando y analizando código fuente HTML...', progress: 45 },
-			{ text: 'Extrayendo etiquetas meta y scripts del DOM...', progress: 70 },
-			{ text: 'Ejecutando motor de firmas e-commerce...', progress: 90 },
+			{ text: 'Nos estamos metiendo a husmear... 🕵️', progress: 15 },
+			{ text: 'Leyendo su código fuente secreto... 📜', progress: 45 },
+			{ text: 'Extrayendo scripts y pistas del DOM... 🔍', progress: 70 },
+			{ text: 'Armando el expediente chismoso... 📝', progress: 90 },
 		];
 
 		let currentStep = 0;
@@ -288,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			// Clear the mock interval and fill progress to 100
 			clearInterval(interval);
 			scannerProgressBar.style.width = '100%';
-			scannerStep.textContent = 'Análisis completo.';
+			scannerStep.textContent = '¡Ya tenemos el chisme! 🎉';
 
 			// Small delay for transition feel
 			setTimeout(() => {
@@ -299,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					renderResults(data);
 					fetchPageSpeed(targetUrl);
 				} else {
-					showError(data.error || 'Error desconocido al escanear la página.');
+					showError(data.error || 'Algo salió mal al espiar la página... 😵');
 				}
 			}, 300);
 		} catch (_err) {
@@ -307,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			scanningState.classList.add('hidden');
 			submitBtn.disabled = false;
 			showError(
-				'Ocurrió un error en la comunicación con la API. Asegúrate de que el servidor está corriendo.'
+				'No pudimos conectar con el servidor... ¿Anda prendido? Checa y vuelve a intentar 🔌'
 			);
 		}
 	}
@@ -575,7 +602,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 
 			if (confidenceTextBadge) {
-				confidenceTextBadge.textContent = `${Math.round(data.confidence * 100)}% Confianza`;
+				confidenceTextBadge.textContent = `${Math.round(data.confidence * 100)}% Segurísimo ✨`;
 				confidenceTextBadge.style.display = 'inline-block';
 			}
 
@@ -878,9 +905,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				catContainer.style.marginBottom = '2rem';
 
 				catContainer.innerHTML = `
-          <h4 style="border-left: 3px solid var(--accent-primary); padding-left: 0.75rem; margin-bottom: 1.25rem; color: white; font-weight: 600; font-size: 1.1rem; display: flex; align-items: center; justify-content: space-between;">
+          <h4>
             <span>${cat}</span>
-            <span style="font-size:0.8rem; background:rgba(255,255,255,0.06); padding:0.1rem 0.5rem; border-radius:10px; font-weight:normal; opacity:0.8;">${groups[cat].length}</span>
+            <span style="font-size:0.8rem; background:rgba(0,0,0,0.05); padding:0.1rem 0.5rem; border-radius:10px; font-weight:normal; opacity:0.8;">${groups[cat].length}</span>
           </h4>
           <div class="plugins-grid"></div>
         `;
@@ -897,23 +924,23 @@ document.addEventListener('DOMContentLoaded', () => {
 					const iconHtml = iconUrl
 						? `<img src="${iconUrl}" class="tech-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />`
 						: '';
-					const letterIconStyle = iconUrl ? 'style="display: none;"' : '';
+					const displayStyle = iconUrl ? 'display: none;' : 'display: flex;';
 
 					let infoHtml = '';
 					if (tech.firstSeen) {
-						infoHtml = `<span style="font-size:0.62rem; color:var(--text-dark); opacity:0.8;">Visto: ${tech.firstSeen}</span>`;
+						infoHtml = `<span style="font-size:0.62rem; color:var(--ink-medium); opacity:0.8;">Visto: ${tech.firstSeen}</span>`;
 					}
 
 					card.innerHTML = `
             <div class="plugin-header" style="display: flex; align-items: center; gap: 0.65rem; margin: 0; width: 100%;">
               <div class="tech-icon-container-mini" style="position: relative; width: 28px; height: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
                 ${iconHtml}
-                <div class="tech-icon-mini" ${letterIconStyle} style="margin: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 4px; background: rgba(255, 255, 255, 0.05); font-weight: bold; border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-dark); font-size: 0.75rem;">${initial}</div>
+                <div class="tech-icon-mini" style="${displayStyle}">${initial}</div>
               </div>
               <div class="plugin-title-info" style="display: flex; flex-direction: column; flex-grow: 1; min-width: 0;">
                 <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; width: 100%;">
-                  <h4 style="margin: 0; font-size: 0.88rem; font-weight: 600; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(tech.name)}</h4>
-                  <span class="plugin-category" style="font-size: 0.68rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px;">${escapeHtml(tech.category)}</span>
+                  <h4 style="margin: 0; font-size: 0.88rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(tech.name)}</h4>
+                  <span class="plugin-category" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px;">${escapeHtml(tech.category)}</span>
                 </div>
                 <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 0.15rem; font-size: 0.62rem;">
                   ${infoHtml}
@@ -987,13 +1014,13 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 
 				card.innerHTML = `
-          <div style="width: 36px; height: 36px; border-radius: 6px; overflow: hidden; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; padding: 4px; flex-shrink: 0;">
+          <div style="width: 36px; height: 36px; border-radius: 6px; overflow: hidden; background: rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; padding: 4px; flex-shrink: 0; border: 1px solid var(--paper-lines);">
             ${logoHtml}
-            <i data-lucide="credit-card" style="${domain ? 'display:none;' : ''} width: 20px; height: 20px; color: var(--text-dark);"></i>
+            <i data-lucide="credit-card" style="${domain ? 'display:none;' : ''} width: 20px; height: 20px; color: var(--gel-purple);"></i>
           </div>
           <div style="display: flex; flex-direction: column; min-width: 0;">
-            <h4 style="margin: 0; color: white; font-weight: 600; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(gw)}</h4>
-            <span style="font-size: 0.72rem; color: var(--text-dark);">Pasarela de Pago</span>
+            <h4 style="margin: 0; color: var(--ink-dark); font-weight: 700; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(gw)}</h4>
+            <span style="font-size: 0.72rem; color: var(--ink-medium); font-style: italic;">Pasarela de Pago</span>
           </div>
         `;
 				if (paymentGatewaysGrid) paymentGatewaysGrid.appendChild(card);

@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chismógrafo | E-Commerce Technology Detector</title>
+  <title>Chismógrafo 📓 | ¡El cuaderno de los chismes tech!</title>
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Detecta al instante la tecnología e-commerce utilizada por cualquier sitio web. Especializado en Shopify, Magento, WooCommerce, PrestaShop y VTEX.">
-  <meta name="keywords" content="Shopify, Magento, WooCommerce, PrestaShop, VTEX, Scraper, Detect, E-commerce, API">
+  <meta name="description" content="¿Quieres saber qué tecnología usa la competencia? El Chismógrafo te lo cuenta todo: plataforma, apps, pagos y más. ¡Sin que se enteren!">
+  <meta name="keywords" content="Chismógrafo, detector ecommerce, Shopify, Magento, WooCommerce, PrestaShop, VTEX, espiar tecnología, chisme tech">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,400&family=Patrick+Hand&family=VT323&display=swap" rel="stylesheet">
   
   <!-- Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -32,13 +32,13 @@
       <div class="logo-wrapper">
         <img src="/brand/logo/Negativo.svg" alt="Chismógrafo Logo" width="140" style="margin-right: 0.75rem; filter: drop-shadow(0 0 10px rgba(173, 255, 0, 0.35)); display: block;">
         <div>
-          <h1>Chismógrafo</h1>
-          <p class="tagline">E-Commerce Technology Detector</p>
+          <h1>Chismógrafo 📓</h1>
+          <p class="tagline">✏️ el cuaderno donde apuntamos todos los chismes tech</p>
         </div>
       </div>
       <div class="header-links">
         <a href="#api-doc" class="btn-secondary small-btn">
-          <i data-lucide="code-2"></i> Documentación API
+          <i data-lucide="code-2"></i> 🤓 Pa' los nerds
         </a>
       </div>
     </header>
@@ -47,15 +47,15 @@
     <main class="app-main">
       <!-- Search Input Section -->
       <section class="card glass-panel search-section">
-        <h2>Escribe la URL del sitio e-commerce</h2>
-        <p class="section-desc">Analizaremos las cabeceras HTTP, etiquetas meta, scripts cargados y clases del DOM para detectar la plataforma.</p>
+        <h2>🤫 ¿A quién le vamos a sacar el chisme?</h2>
+        <p class="section-desc">Pega la URL de la tienda y el Chismógrafo se mete a espiar qué tech usan... ¡shhh, que no se enteren! 🕵️</p>
         
         <form id="detect-form" class="search-form">
           <div class="input-wrapper">
             <i data-lucide="globe" class="input-icon"></i>
-            <input type="text" id="target-url" placeholder="ejemplo.com o https://tienda.com" required autocomplete="off">
+            <input type="text" id="target-url" placeholder="https://tienda-de-mi-compa.com" required autocomplete="off">
             <button type="submit" id="submit-btn" class="btn-primary">
-              <span>Analizar Sitio</span>
+              <span>¡Sácale el chisme! 🔍</span>
               <i data-lucide="arrow-right"></i>
             </button>
           </div>
@@ -71,8 +71,8 @@
             <div class="scanner-dot"></div>
           </div>
           <div class="scanner-status">
-            <h3>Analizando sitio web...</h3>
-            <p id="scanner-step">Enviando petición de scraping HTTP...</p>
+            <h3>Espiando a tu competencia... 🤫</h3>
+            <p id="scanner-step">Nos estamos metiendo a husmear...</p>
             <div class="progress-bar-container">
               <div id="scanner-progress-bar" class="progress-bar"></div>
             </div>
@@ -92,17 +92,17 @@
             <div class="result-text-summary">
               <h2 style="display: flex; align-items: center; gap: 0.75rem; margin: 0; color: white;">
                 <span id="detected-tech-name">Shopify</span>
-                <span id="confidence-text-badge" style="font-size: 0.8rem; font-weight: 600; padding: 0.15rem 0.6rem; border-radius: 12px; background: rgba(173, 255, 0, 0.08); color: var(--primary); border: 1px solid rgba(173, 255, 0, 0.2);">100% Confianza</span>
+                <span id="confidence-text-badge" style="font-size: 0.8rem; font-weight: 600; padding: 0.15rem 0.6rem; border-radius: 12px; background: rgba(173, 255, 0, 0.08); color: var(--primary); border: 1px solid rgba(173, 255, 0, 0.2);">100% Segurísimo ✨</span>
               </h2>
               <div id="detected-theme-container" style="display: none; margin-top: 0.25rem;">
-                <span style="font-size: 0.95rem; color: var(--text-secondary);">Tema / Plantilla: <strong id="detected-theme-name" style="font-weight: 600; color: var(--secondary);">Stretch</strong></span>
+                <span style="font-size: 0.95rem; color: var(--text-secondary);">🎨 Tema que usa: <strong id="detected-theme-name" style="font-weight: 600; color: var(--secondary);">Stretch</strong></span>
               </div>
               <div id="product-count-container" style="display: none; margin-top: 0.25rem;">
-                <span style="font-size: 0.95rem; color: var(--text-secondary);">Productos Detectados: <strong id="product-count-val" style="font-weight: 600; color: var(--primary);">0</strong></span>
+                <span style="font-size: 0.95rem; color: var(--text-secondary);">📦 Productos que vende: <strong id="product-count-val" style="font-weight: 600; color: var(--primary);">0</strong></span>
               </div>
               <p class="resolved-url-text" style="margin-top: 0.5rem; margin-bottom: 0;">URL: <a href="https://tienda.com" id="resolved-url-link" target="_blank" rel="noopener noreferrer">https://tienda.com</a></p>
               <div id="scan-date-container" style="display: none; margin-top: 0.35rem;">
-                <span style="font-size: 0.85rem; color: var(--text-muted);">Fecha del Reporte: <strong id="scan-date-val" style="font-weight: 500; color: var(--text-secondary);"></strong></span>
+                <span style="font-size: 0.85rem; color: var(--text-muted);">📅 Fecha del chisme: <strong id="scan-date-val" style="font-weight: 500; color: var(--text-secondary);"></strong></span>
               </div>
 
               <!-- Result Actions Container -->
@@ -118,7 +118,7 @@
                   onmouseout="this.style.background='rgba(0, 242, 254, 0.08)'; this.style.borderColor='rgba(0, 242, 254, 0.35)'"
                   onblur="this.style.background='rgba(0, 242, 254, 0.08)'; this.style.borderColor='rgba(0, 242, 254, 0.35)'">
                   <i data-lucide="download" style="width:15px;height:15px;"></i>
-                  Descargar JSON
+                  Bajar JSON 📋
                 </button>
 
                 <!-- Download CSV Button -->
@@ -132,7 +132,7 @@
                   onmouseout="this.style.background='rgba(173, 255, 0, 0.08)'; this.style.borderColor='rgba(173, 255, 0, 0.35)'"
                   onblur="this.style.background='rgba(173, 255, 0, 0.08)'; this.style.borderColor='rgba(173, 255, 0, 0.35)'">
                   <i data-lucide="file-spreadsheet" style="width:15px;height:15px;"></i>
-                  Descargar CSV
+                  Bajar CSV 📊
                 </button>
 
                 <!-- Email Report Button (only visible when emailEnabled is true) -->
@@ -146,7 +146,7 @@
                   onmouseout="this.style.background='rgba(138,43,226,0.12)'; this.style.borderColor='rgba(138,43,226,0.35)'"
                   onblur="this.style.background='rgba(138,43,226,0.12)'; this.style.borderColor='rgba(138,43,226,0.35)'">
                   <i data-lucide="mail" style="width:15px;height:15px;"></i>
-                  Enviar por correo
+                  Mandar x correo ✉️
                 </button>
               </div>
             </div>
@@ -194,9 +194,9 @@
                           justify-content: center; margin-bottom: 16px;">
                 <i data-lucide="mail" style="width:20px;height:20px;color:#c084fc;"></i>
               </div>
-              <h3 style="margin: 0 0 6px; color: #f1f5f9; font-size: 18px; font-weight: 700;">Enviar Reporte por Correo</h3>
+              <h3 style="margin: 0 0 6px; color: #f1f5f9; font-size: 18px; font-weight: 700;">📬 Manda el chisme por correo</h3>
               <p style="margin: 0; color: #64748b; font-size: 13px; line-height: 1.5;">
-                Recibirás un reporte completo con la detección, apps, infraestructura y métricas de rendimiento.
+                Te llega el expediente completo con todo lo que le cachamos: apps, infra, velocidad y más.
               </p>
             </div>
 
@@ -239,7 +239,7 @@
                 onmouseout="this.style.opacity='1'"
                 onblur="this.style.opacity='1'">
                 <i data-lucide="send" style="width:15px;height:15px;"></i>
-                Enviar reporte
+                ¡Mándalo! ✈️
               </button>
             </div>
           </div>
@@ -254,24 +254,24 @@
             <div class="card glass-panel map-card" id="map-card" style="margin-bottom: 2rem; display: none;">
               <div class="card-header">
                 <i data-lucide="map-pin"></i>
-                <h3>Ubicación y Latencia de Respuesta del Servidor</h3>
+                <h3>📍 ¿Desde dónde opera?</h3>
               </div>
-              <p class="section-desc">Ubicación del servidor de hosting y estimación de latencia de red hacia México.</p>
+              <p class="section-desc">Le rastreamos la ubicación del server y checamos qué tan rápido responde desde México 🇲🇽</p>
               
               <div class="map-section-wrapper" style="display: flex; flex-direction: column; gap: 1rem;">
                 <div id="server-map" style="height: 350px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.2);"></div>
                 <div class="latency-info-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
                   <div class="latency-card" style="padding: 1rem; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; gap: 0.25rem;">
-                    <span style="font-size: 0.72rem; color: var(--text-dark); text-transform: uppercase;">Latencia Estimada a México</span>
+                    <span style="font-size: 0.72rem; color: var(--text-dark); text-transform: uppercase;">⏱️ Latencia a México</span>
                     <span id="mexico-latency-val" style="font-size: 1.5rem; font-weight: 700; color: var(--accent-turquoise);">0 ms</span>
                   </div>
                   <div class="latency-card" style="padding: 1rem; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; gap: 0.25rem;">
-                    <span style="font-size: 0.72rem; color: var(--text-dark); text-transform: uppercase;">Dirección IP del Servidor</span>
+                    <span style="font-size: 0.72rem; color: var(--text-dark); text-transform: uppercase;">🌐 IP del Server</span>
                     <span id="server-ip-val" style="font-size: 1.2rem; font-weight: 600; color: white;">0.0.0.0</span>
                   </div>
                   <div class="latency-card" style="padding: 1rem; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; gap: 0.25rem;">
-                    <span style="font-size: 0.72rem; color: var(--text-dark); text-transform: uppercase;">Ubicación Física</span>
-                    <span id="server-location-val" style="font-size: 1.2rem; font-weight: 600; color: white;">Desconocida</span>
+                    <span style="font-size: 0.72rem; color: var(--text-dark); text-transform: uppercase;">🗺️ ¿Dónde está?</span>
+                    <span id="server-location-val" style="font-size: 1.2rem; font-weight: 600; color: white;">Ni idea 🤷</span>
                   </div>
                 </div>
               </div>
@@ -281,16 +281,16 @@
             <div class="card glass-panel pagespeed-card" id="pagespeed-card" style="margin-bottom: 2rem; display: none;">
               <div class="card-header">
                 <i data-lucide="zap"></i>
-                <h3>Rendimiento del Sitio (Google PageSpeed)</h3>
+                <h3>⚡ ¿Qué tan rápido va?</h3>
               </div>
-              <p class="section-desc">Auditoría en tiempo real de velocidad y métricas clave de la experiencia de usuario (Core Web Vitals) en dispositivos móviles.</p>
+              <p class="section-desc">Le corrimos un speed test con Google PageSpeed pa' ver si su tienda vuela o anda de tortuga 🐢</p>
               
               <!-- Loader state inside the card -->
               <div id="pagespeed-loader" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; gap: 1rem;">
                 <div class="scanner-ring" style="width: 40px; height: 40px;">
                   <div class="scanner-dot" style="width: 6px; height: 6px;"></div>
                 </div>
-                <span style="font-size: 0.88rem; color: var(--text-secondary);">Ejecutando auditoría Lighthouse en dispositivos móviles...</span>
+                <span style="font-size: 0.88rem; color: var(--text-secondary);">Corriendo el speed test... un momentito ⏳</span>
               </div>
 
               <!-- Content state inside the card (hidden by default) -->
@@ -310,7 +310,7 @@
                       </div>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 0.25rem; min-width: 0;">
-                      <h4 style="margin: 0; color: white; font-size: 0.95rem; font-weight: 700;">Rendimiento</h4>
+                      <h4 style="margin: 0; color: white; font-size: 0.95rem; font-weight: 700;">🏎️ Velocidad</h4>
                       <span id="pagespeed-level-badge" style="display: inline-block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; padding: 0.1rem 0.4rem; border-radius: 4px; align-self: flex-start;">Regular</span>
                     </div>
                   </div>
@@ -327,7 +327,7 @@
                       </div>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 0.25rem; min-width: 0;">
-                      <h4 style="margin: 0; color: white; font-size: 0.95rem; font-weight: 700;">Accesibilidad</h4>
+                      <h4 style="margin: 0; color: white; font-size: 0.95rem; font-weight: 700;">♿ Accesibilidad</h4>
                       <span id="pagespeed-acc-badge" style="display: inline-block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; padding: 0.1rem 0.4rem; border-radius: 4px; align-self: flex-start;">Regular</span>
                     </div>
                   </div>
@@ -344,7 +344,7 @@
                       </div>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 0.25rem; min-width: 0;">
-                      <h4 style="margin: 0; color: white; font-size: 0.95rem; font-weight: 700;">SEO</h4>
+                      <h4 style="margin: 0; color: white; font-size: 0.95rem; font-weight: 700;">🔍 SEO</h4>
                       <span id="pagespeed-seo-badge" style="display: inline-block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; padding: 0.1rem 0.4rem; border-radius: 4px; align-self: flex-start;">Regular</span>
                     </div>
                   </div>
@@ -385,9 +385,9 @@
             <div class="card glass-panel" id="payment-gateways-card" style="margin-bottom: 2rem; display: none;">
               <div class="card-header">
                 <i data-lucide="credit-card"></i>
-                <h3>Pasarelas de Pago Detectadas</h3>
+                <h3>💳 ¿Cómo le pagan?</h3>
               </div>
-              <p class="section-desc">Procesadores de pago y pasarelas activas en el sitio para transacciones y BNPL.</p>
+              <p class="section-desc">Le encontramos estas pasarelas de pago... ¡ya sabemos cómo cobra! 💰</p>
               <div class="tech-grid" id="payment-gateways-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem; margin-top: 1.25rem;">
                 <!-- Dynamically populated -->
               </div>
@@ -397,9 +397,9 @@
             <div class="card glass-panel">
               <div class="card-header">
                 <i data-lucide="package-open"></i>
-                <h3>Tecnologías y Aplicaciones Detectadas</h3>
+                <h3>🔌 Apps que le cachamos</h3>
               </div>
-              <p class="section-desc">Pila tecnológica consolidada de la tienda, agrupada por categorías comerciales.</p>
+              <p class="section-desc">Todas las apps y plugins que usa esta tienda, ¡las fichamos todas! 📝</p>
               <div class="tech-grid" id="unified-tech-grid">
                 <!-- Dynamically populated -->
               </div>
@@ -409,26 +409,26 @@
             <div class="card glass-panel" id="embed-widget-card" style="margin-bottom: 2rem;">
               <div class="card-header">
                 <i data-lucide="layout-template"></i>
-                <h3>Incrustar Insignia de Verificación</h3>
+                <h3>🏷️ Pega la calcomanía en tu web</h3>
               </div>
-              <p class="section-desc">Muestra la plataforma detectada de este sitio directamente en tu propia web con esta insignia responsiva.</p>
+              <p class="section-desc">¿Quieres presumir qué plataforma usa este sitio? Copia este sticker y pégalo en tu web 🌟</p>
               
               <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: flex-start;">
                 <!-- Live Preview -->
                 <div style="flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 0.5rem;">
-                  <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;">Vista Previa de la Insignia</span>
+                  <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;">👀 Así se ve la calco</span>
                   <div style="padding: 1rem; border-radius: 8px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; min-height: 140px;">
                     <iframe id="widget-preview-iframe" title="Vista previa de la insignia del sitio web" src="" width="320" height="120" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); background: #000;"></iframe>
                   </div>
                 </div>
                 <!-- Copy Code Area -->
                 <div style="flex: 1.2; min-width: 300px; display: flex; flex-direction: column; gap: 0.5rem;">
-                  <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;">Código de Inserción (iframe)</span>
+                  <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;">📋 Copia este código</span>
                   <div class="code-wrapper">
                     <pre><code class="language-html" id="widget-embed-code">&lt;iframe src="" width="320" height="120" style="border:none; border-radius:8px;"&gt;&lt;/iframe&gt;</code></pre>
                     <button type="button" class="copy-code-btn" data-target="widget-embed-code"><i data-lucide="copy"></i></button>
                   </div>
-                  <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">Copia y pega este código HTML en cualquier parte de tu sitio web para mostrar el badge en tiempo real.</p>
+                  <p style="margin: 0; font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">Copia y pega este código en tu web y listo, ¡se muestra solito! ✨</p>
                 </div>
               </div>
             </div>
@@ -437,14 +437,14 @@
             <div class="card glass-panel" id="embed-search-widget-card" style="margin-bottom: 2rem;">
               <div class="card-header">
                 <i data-lucide="search-code"></i>
-                <h3>Incrustar Buscador de Auditorías</h3>
+                <h3>🔎 Mete el buscador de chismes</h3>
               </div>
-              <p class="section-desc">Permite a los visitantes de tu web buscar y auditar cualquier sitio de e-commerce incrustando este buscador funcional interactivo.</p>
+              <p class="section-desc">Deja que los visitantes de tu web espíen a cualquier tienda con este buscador bien chido 💅</p>
               
               <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: flex-start;">
                 <!-- Live Preview -->
                 <div style="flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 0.5rem;">
-                  <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;">Vista Previa del Buscador</span>
+                  <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;">👀 Así se ve</span>
                   <div style="padding: 1rem; border-radius: 8px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; min-height: 480px;">
                     <iframe id="search-widget-preview-iframe" title="Vista previa del buscador de auditorías" src="" width="100%" height="450" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); background: #000; width: 100%;"></iframe>
                   </div>
@@ -453,22 +453,22 @@
                 <div style="flex: 1.2; min-width: 300px; display: flex; flex-direction: column; gap: 1rem;">
                   <!-- Option A: Compact Widget -->
                   <div>
-                    <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 0.35rem;">Opción A: Buscador Compacto (Widget)</span>
+                    <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 0.35rem;">✨ Opción A: Mini buscador</span>
                     <div class="code-wrapper">
                       <pre><code class="language-html" id="search-widget-embed-code">&lt;iframe src="" width="100%" height="480" style="border:1px solid rgba(255,255,255,0.1); border-radius:12px; background:#000;"&gt;&lt;/iframe&gt;</code></pre>
                       <button type="button" class="copy-code-btn" data-target="search-widget-embed-code"><i data-lucide="copy"></i></button>
                     </div>
-                    <p style="margin-top: 0.25rem; font-size: 0.7rem; color: var(--text-muted);">Muestra un buscador e informes de rendimiento/tecnología ultralivianos.</p>
+                    <p style="margin-top: 0.25rem; font-size: 0.7rem; color: var(--text-muted);">Un buscador compacto y livianito, ¡perfecto para incrustar! 🪶</p>
                   </div>
 
                   <!-- Option B: Full Web Dashboard Embed -->
                   <div>
-                    <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 0.35rem;">Opción B: Buscador Completo (Diseño Web Principal)</span>
+                    <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 0.35rem;">🌟 Opción B: Dashboard completo</span>
                     <div class="code-wrapper">
                       <pre><code class="language-html" id="full-embed-code">&lt;iframe src="" width="100%" height="700" style="border:1px solid rgba(255,255,255,0.1); border-radius:12px; background:#000;"&gt;&lt;/iframe&gt;</code></pre>
                       <button type="button" class="copy-code-btn" data-target="full-embed-code"><i data-lucide="copy"></i></button>
                     </div>
-                    <p style="margin-top: 0.25rem; font-size: 0.7rem; color: var(--text-muted);">Incrusta la interfaz completa del dashboard (gráficos, capturas, mapas detallados) con el parámetro <code>?embed=true</code>.</p>
+                    <p style="margin-top: 0.25rem; font-size: 0.7rem; color: var(--text-muted);">El dashboard completo con mapas, gráficas y capturas. Usa <code>?embed=true</code> pa' que se vea sin header 😎</p>
                   </div>
                 </div>
               </div>
@@ -484,9 +484,9 @@
           <i data-lucide="alert-triangle"></i>
         </div>
         <div class="error-details">
-          <h3>Error en el Scraping</h3>
-          <p id="error-message">No se pudo acceder al servidor de destino. Verifica que la URL sea correcta y que el sitio esté en línea.</p>
-          <button type="button" id="retry-btn" class="btn-secondary">Reintentar</button>
+          <h3>💀 ¡Se nos pelaron!</h3>
+          <p id="error-message">No pudimos entrar a espiar... Checa que la URL esté bien escrita y que el sitio ande jalando.</p>
+          <button type="button" id="retry-btn" class="btn-secondary">🔄 Otra vez</button>
         </div>
       </section>
 
@@ -494,46 +494,165 @@
       <section id="api-doc" class="card glass-panel api-doc-section">
         <div class="card-header">
           <i data-lucide="code-2"></i>
-          <h2>Consumo mediante REST API</h2>
+          <h2>🤓 Pa' los nerds: la API</h2>
         </div>
-        <p class="section-desc">Integra Chismógrafo en tus propios sistemas usando endpoints REST simples que devuelven JSON detallado.</p>
+        <p class="section-desc">¿Eres dev? Conecta el Chismógrafo a tus proyectos con estos endpoints REST que devuelven JSON bien detallado 💻</p>
         
         <div class="api-endpoints">
-          <!-- POST Endpoint -->
-          <div class="endpoint-block">
+          
+          <!-- CLI Documentation Sub-section -->
+          <div style="border-bottom: 2px dashed var(--gel-pink); padding-bottom: 1.5rem; margin-bottom: 1.5rem;">
+            <h4 style="font-family: var(--font-handwritten); font-size: 1.5rem; color: var(--gel-purple); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+              <i data-lucide="terminal" style="width: 20px; height: 20px;"></i>
+              <span>💻 La Consola (CLI Chismógrafo)</span>
+            </h4>
+            <p style="font-size: 0.88rem; color: var(--ink-medium); margin-bottom: 1rem; font-style: italic;">
+              ¿Te gusta la terminal? Vincula el CLI para sacarle el chisme a cualquier web directo desde tu consola bash:
+            </p>
+            
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <div>
+                <h5 style="font-size: 0.8rem; font-weight: 700; color: var(--ink-light); text-transform: uppercase; margin-bottom: 0.35rem;">1. Instalar y Vincular</h5>
+                <div class="code-wrapper">
+                  <pre><code class="language-bash" id="cli-link-example"># Vincular comando globalmente en tu equipo
+npm link
+
+# ¡Y listo! Ya puedes usar "chismografo"</code></pre>
+                  <button type="button" class="copy-code-btn" data-target="cli-link-example"><i data-lucide="copy"></i></button>
+                </div>
+              </div>
+
+              <div>
+                <h5 style="font-size: 0.8rem; font-weight: 700; color: var(--ink-light); text-transform: uppercase; margin-bottom: 0.35rem;">2. Sacar chisme rápido</h5>
+                <div class="code-wrapper">
+                  <pre><code class="language-bash" id="cli-scan-example">chismografo test-domain shopify.com</code></pre>
+                  <button type="button" class="copy-code-btn" data-target="cli-scan-example"><i data-lucide="copy"></i></button>
+                </div>
+              </div>
+
+              <div>
+                <h5 style="font-size: 0.8rem; font-weight: 700; color: var(--ink-light); text-transform: uppercase; margin-bottom: 0.35rem;">3. Filtrar un chisme específico</h5>
+                <div class="code-wrapper">
+                  <pre><code class="language-bash" id="cli-attr-example">chismografo test-domain shopify.com --attr cms</code></pre>
+                  <button type="button" class="copy-code-btn" data-target="cli-attr-example"><i data-lucide="copy"></i></button>
+                </div>
+              </div>
+
+              <div>
+                <h5 style="font-size: 0.8rem; font-weight: 700; color: var(--ink-light); text-transform: uppercase; margin-bottom: 0.35rem;">4. Creadores interactivos</h5>
+                <div class="code-wrapper">
+                  <pre><code class="language-bash" id="cli-interactive-example"># Lanza asistentes interactivos en terminal
+chismografo add-cms
+chismografo add-app
+chismografo add-infra</code></pre>
+                  <button type="button" class="copy-code-btn" data-target="cli-interactive-example"><i data-lucide="copy"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- REST API Sub-section -->
+          <h4 style="font-family: var(--font-handwritten); font-size: 1.5rem; color: var(--gel-blue); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i data-lucide="globe" style="width: 20px; height: 20px;"></i>
+            <span>🌐 Endpoints de la API REST</span>
+          </h4>
+
+          <!-- POST /api/detect -->
+          <div class="endpoint-block" style="margin-bottom:1rem;">
             <div class="endpoint-header">
               <span class="method post">POST</span>
               <span class="path">/api/detect</span>
             </div>
-            <p>Envía un JSON con el parámetro <code>url</code> en el cuerpo de la petición. Recomendado para entornos de producción.</p>
-            
-            <h5>Ejemplo de Petición (cURL)</h5>
+            <p>Escanear sitio completo (Cuerpo JSON). Nos trae CMS, apps, pasarelas de pago, IP y mapas. 🌍</p>
             <div class="code-wrapper">
-              <pre><code class="language-bash" id="curl-post-example">curl -X POST -H "Content-Type: application/json" \
-  -d '{"url": "https://tienda-ejemplo.com"}' \
-  http://localhost:3000/api/detect</code></pre>
-              <button type="button" class="copy-code-btn" data-target="curl-post-example"><i data-lucide="copy"></i></button>
+              <pre><code class="language-bash" id="curl-post-detect">curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com"}' http://localhost:3000/api/detect</code></pre>
+              <button type="button" class="copy-code-btn" data-target="curl-post-detect"><i data-lucide="copy"></i></button>
             </div>
           </div>
 
-          <!-- GET Endpoint -->
-          <div class="endpoint-block">
+          <!-- GET /api/detect -->
+          <div class="endpoint-block" style="margin-bottom:1rem;">
             <div class="endpoint-header">
               <span class="method get">GET</span>
               <span class="path">/api/detect</span>
             </div>
-            <p>Envía la URL como un parámetro de consulta (query param) <code>?url=...</code>. Ideal para pruebas rápidas y navegadores.</p>
-            
-            <h5>Ejemplo de Petición (cURL)</h5>
+            <p>Escanear sitio completo (Query param). Ideal para pruebas rápidas en navegador. 🚀</p>
             <div class="code-wrapper">
-              <pre><code class="language-bash" id="curl-get-example">curl "http://localhost:3000/api/detect?url=https://tienda-ejemplo.com"</code></pre>
-              <button type="button" class="copy-code-btn" data-target="curl-get-example"><i data-lucide="copy"></i></button>
+              <pre><code class="language-bash" id="curl-get-detect">curl "http://localhost:3000/api/detect?url=shopify.com"</code></pre>
+              <button type="button" class="copy-code-btn" data-target="curl-get-detect"><i data-lucide="copy"></i></button>
+            </div>
+          </div>
+
+          <!-- GET /api/infra -->
+          <div class="endpoint-block" style="margin-bottom:1rem;">
+            <div class="endpoint-header">
+              <span class="method get">GET</span>
+              <span class="path">/api/infra</span>
+            </div>
+            <p>Escanear solo la infraestructura de red (CDNs, Proxies, Servidores Web). 🏗️</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash" id="curl-get-infra">curl "http://localhost:3000/api/infra?url=shopify.com"</code></pre>
+              <button type="button" class="copy-code-btn" data-target="curl-get-infra"><i data-lucide="copy"></i></button>
+            </div>
+          </div>
+
+          <!-- POST /api/pagespeed -->
+          <div class="endpoint-block" style="margin-bottom:1rem;">
+            <div class="endpoint-header">
+              <span class="method post">POST</span>
+              <span class="path">/api/pagespeed</span>
+            </div>
+            <p>Lanzar speed test de Google PageSpeed (Lighthouse móvil) y Core Web Vitals. ⚡</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash" id="curl-post-pagespeed">curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com"}' http://localhost:3000/api/pagespeed</code></pre>
+              <button type="button" class="copy-code-btn" data-target="curl-post-pagespeed"><i data-lucide="copy"></i></button>
+            </div>
+          </div>
+
+          <!-- POST /api/report -->
+          <div class="endpoint-block" style="margin-bottom:1rem;">
+            <div class="endpoint-header">
+              <span class="method post">POST</span>
+              <span class="path">/api/report</span>
+            </div>
+            <p>Mandar reporte de auditoría completo en formato HTML por correo electrónico. 📬</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash" id="curl-post-report">curl -X POST -H "Content-Type: application/json" \
+  -d '{"email": "amigo@tienda.com", "name": "Compa", "data": {"resolvedUrl": "shopify.com", "technology": "Shopify", "confidence": 1}}' \
+  http://localhost:3000/api/report</code></pre>
+              <button type="button" class="copy-code-btn" data-target="curl-post-report"><i data-lucide="copy"></i></button>
+            </div>
+          </div>
+
+          <!-- GET /widget -->
+          <div class="endpoint-block" style="margin-bottom:1rem;">
+            <div class="endpoint-header">
+              <span class="method get">GET</span>
+              <span class="path">/widget</span>
+            </div>
+            <p>Obtener calcomanía (sticker post-it amarillo) responsiva en HTML con el CMS detectado. 🏷️</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash" id="curl-get-widget">curl "http://localhost:3000/widget?url=shopify.com"</code></pre>
+              <button type="button" class="copy-code-btn" data-target="curl-get-widget"><i data-lucide="copy"></i></button>
+            </div>
+          </div>
+
+          <!-- GET /search-widget -->
+          <div class="endpoint-block" style="margin-bottom:1rem;">
+            <div class="endpoint-header">
+              <span class="method get">GET</span>
+              <span class="path">/search-widget</span>
+            </div>
+            <p>Obtener la página HTML responsiva del buscador de chismes compacto. 🔎</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash" id="curl-get-search-widget">curl "http://localhost:3000/search-widget"</code></pre>
+              <button type="button" class="copy-code-btn" data-target="curl-get-search-widget"><i data-lucide="copy"></i></button>
             </div>
           </div>
 
           <!-- Response Example -->
           <div class="endpoint-block">
-            <h5>Ejemplo de Respuesta (JSON)</h5>
+            <h5>Lo que te regresa (Ejemplo JSON /api/detect) ⬇️</h5>
             <div class="code-wrapper">
               <pre><code class="language-json" id="json-response-example">{
   "url": "https://tienda-ejemplo.com",
@@ -561,14 +680,68 @@
               <button type="button" class="copy-code-btn" data-target="json-response-example"><i data-lucide="copy"></i></button>
             </div>
           </div>
+
+          <!-- Detection Rules & Templates Sub-section -->
+          <div style="border-top: 2px dashed var(--gel-pink); padding-top: 1.5rem; margin-top: 1.5rem;">
+            <h4 style="font-family: var(--font-handwritten); font-size: 1.5rem; color: var(--gel-pink); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+              <i data-lucide="book-open" style="width: 20px; height: 20px;"></i>
+              <span>📖 Catálogo, Reglas y Plantillas</span>
+            </h4>
+            <p style="font-size: 0.88rem; color: var(--ink-medium); margin-bottom: 1rem; font-style: italic;">
+              El Chismógrafo corre bajo firmas JSON dinámicas alojadas en <code>techs/</code>. Puedes crearlas usando plantillas e indexarlas:
+            </p>
+
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <!-- Templates info -->
+              <div>
+                <h5 style="font-size: 0.8rem; font-weight: 700; color: var(--ink-light); text-transform: uppercase; margin-bottom: 0.35rem;">1. Plantillas de Firmas</h5>
+                <p style="font-size: 0.85rem; color: var(--ink-medium); margin-bottom: 0.5rem;">
+                  Contamos con formatos base en <code>templates/</code> (<code>cms.json</code>, <code>app.json</code>, <code>infra.json</code>, <code>gateway.json</code>) que son autocompletados al usar los asistentes CLI como <code>chismografo add-app</code>.
+                </p>
+              </div>
+
+              <!-- Rules info -->
+              <div>
+                <h5 style="font-size: 0.8rem; font-weight: 700; color: var(--ink-light); text-transform: uppercase; margin-bottom: 0.35rem;">2. Tipos de Reglas (<code>detectionRules</code>)</h5>
+                <p style="font-size: 0.85rem; color: var(--ink-medium); margin-bottom: 0.5rem;">
+                  Las reglas evalúan cabeceras HTTP o el DOM HTML usando Regex. Admite los tipos: <code>meta</code> (etiquetas meta), <code>script-src</code> (coincidencia de scripts), <code>script-content</code> (JS inline), <code>link-href</code> (etiquetas de link), <code>html-class</code> (clases de nodo), <code>html-attribute</code> (atributos HTML específicos), y <code>header</code> (cabeceras HTTP).
+                </p>
+                
+                <h5 style="font-size: 0.8rem; font-weight: 700; color: var(--ink-light); text-transform: uppercase; margin-top: 0.5rem; margin-bottom: 0.35rem;">Ejemplo de Firma JSON Personalizada</h5>
+                <div class="code-wrapper">
+                  <pre><code class="language-json" id="rule-json-example">{
+  "name": "Adyen",
+  "category": "Payment Gateway",
+  "web": "https://adyen.com",
+  "logo": "adyen.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "adyen\\.com|adyen\\.js",
+      "description": "Script de integración de Adyen detectado"
+    },
+    {
+      "type": "html-class",
+      "pattern": "adyen-checkout",
+      "description": "Clase de checkout de Adyen detectada"
+    }
+  ]
+}</code></pre>
+                  <button type="button" class="copy-code-btn" data-target="rule-json-example"><i data-lucide="copy"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
     </main>
 
     <!-- Footer -->
     <footer class="app-footer">
-      <p>&copy; 2026 Chismógrafo. Todos los derechos reservados.</p>
-      <p class="footer-meta">Construido con Node.js, Express, Axios &amp; Cheerio.</p>
+      <p>📓 Chismógrafo © 2026 — ¡El que todo lo sabe! ✨</p>
+      <p class="footer-meta">hecho con 💜 usando Node.js, Express, Axios & Cheerio</p>
+      <p id="app-versions-display" style="font-size: 0.72rem; opacity: 0.8; margin-top: 0.25rem; font-family: var(--font-body); font-weight: 700;"></p>
     </footer>
   </div>
 

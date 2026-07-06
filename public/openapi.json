@@ -1,20 +1,20 @@
 {
 	"openapi": "3.0.3",
 	"info": {
-		"title": "E-Commerce Technology Detector API",
-		"description": "API REST y widgets incrustables para detectar plataformas de e-commerce, pasarelas de pago, aplicaciones de Shopify, geolocalización de servidores y auditorías móviles de PageSpeed (Lighthouse).",
+		"title": "Chismógrafo API REST 📓",
+		"description": "API REST y widgets incrustables del Chismógrafo para husmear plataformas de e-commerce, pasarelas de pago, aplicaciones de Shopify, geolocalización de servidores y velocidad de carga móvil en cualquier sitio web... ¡Todo sin que se enteren! 🤫",
 		"version": "1.0.0"
 	},
 	"servers": [
 		{
 			"url": "http://localhost:3000",
-			"description": "Servidor local de desarrollo"
+			"description": "Servidor local de desarrollo del Chismógrafo"
 		}
 	],
 	"paths": {
 		"/api/detect": {
 			"post": {
-				"summary": "Analizar tecnologías e-commerce (POST)",
+				"summary": "Sacarle el chisme a un sitio (POST) 🕵️",
 				"description": "Envía una URL en el cuerpo de la petición para analizar su estructura DOM y detectar firmas de e-commerce, geolocalización de servidor y capturas de pantalla.",
 				"requestBody": {
 					"required": true,
@@ -28,7 +28,7 @@
 				},
 				"responses": {
 					"200": {
-						"description": "Análisis tecnológico completado exitosamente",
+						"description": "Expediente chismoso completado exitosamente",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -70,7 +70,7 @@
 				}
 			},
 			"get": {
-				"summary": "Analizar tecnologías e-commerce (GET)",
+				"summary": "Sacarle el chisme a un sitio (GET) 🕵️",
 				"description": "Envía una URL como parámetro de consulta (query) para analizar firmas de e-commerce y geolocalizar el servidor.",
 				"parameters": [
 					{
@@ -87,7 +87,7 @@
 				],
 				"responses": {
 					"200": {
-						"description": "Análisis tecnológico completado exitosamente",
+						"description": "Expediente chismoso completado exitosamente",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -107,7 +107,7 @@
 		},
 		"/api/infra": {
 			"get": {
-				"summary": "Obtener pila de infraestructura",
+				"summary": "Obtener pila de infraestructura 🏗️",
 				"description": "Retorna exclusivamente los componentes de infraestructura (CDN, Proxy, Servidor Web) detectados para la URL objetivo.",
 				"parameters": [
 					{
@@ -123,7 +123,7 @@
 				],
 				"responses": {
 					"200": {
-						"description": "Infraestructura analizada",
+						"description": "Infraestructura analizada y listada",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -137,8 +137,8 @@
 		},
 		"/api/pagespeed": {
 			"post": {
-				"summary": "Auditoría PageSpeed Insights",
-				"description": "Realiza una consulta a la API de Google PageSpeed en las categorías de rendimiento, accesibilidad y SEO sobre entorno móvil.",
+				"summary": "Speed test de velocidad Google PageSpeed ⚡",
+				"description": "Realiza una consulta a la API de Google PageSpeed en las categorías de rendimiento, accesibilidad y SEO sobre entorno móvil para ver si vuela o anda de tortuga.",
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -165,8 +165,8 @@
 		},
 		"/widget": {
 			"get": {
-				"summary": "Insignia de verificación e-commerce",
-				"description": "Servicio que genera un badge HTML responsivo diseñado en tema oscuro de alto contraste que resume el CMS detectado del sitio solicitado.",
+				"summary": "Calcomanía/Sticker de verificación e-commerce 🏷️",
+				"description": "Servicio que genera un badge HTML responsivo diseñado en forma de sticker amarillo/post-it que resume el CMS detectado del sitio solicitado.",
 				"parameters": [
 					{
 						"name": "url",
@@ -180,7 +180,7 @@
 				],
 				"responses": {
 					"200": {
-						"description": "Documento HTML con la insignia de verificación e-commerce",
+						"description": "Documento HTML con el sticker de verificación e-commerce",
 						"content": {
 							"text/html": {
 								"schema": {
@@ -194,8 +194,8 @@
 		},
 		"/search-widget": {
 			"get": {
-				"summary": "Buscador de auditorías compacto",
-				"description": "Página HTML responsiva autocontenida que integra el formulario de búsqueda, barra de carga y panel de resultados simplificado (CMS, Lighthouse y Leaflet).",
+				"summary": "Buscador de chismes compacto (Widget) 🔎",
+				"description": "Página HTML responsiva autocontenida que integra el formulario de búsqueda, barra de carga y panel de resultados simplificado (CMS, Lighthouse y Leaflet) diseñado estilo cuaderno Y2K.",
 				"responses": {
 					"200": {
 						"description": "Documento HTML del buscador incrustable",

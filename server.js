@@ -254,6 +254,14 @@ async function getScreenshot(domain, device = 'desktop', extraParams = {}) {
  * @api {get} /api/config Get server-side API configuration status
  */
 app.get('/api/config', (_req, res) => {
+	let versions = { cli: '1.0.0', ui: '1.0.0', api: '1.0.0' };
+	const versionPath = path.join(__dirname, 'version.json');
+	if (fs.existsSync(versionPath)) {
+		try {
+			versions = JSON.parse(fs.readFileSync(versionPath, 'utf-8'));
+		} catch (_e) {}
+	}
+
 	res.json({
 		logoDevToken: process.env.LOGODEV_PUBLISHABLE_KEY || '',
 		appUrl: process.env.APP_URL || '',
@@ -261,6 +269,7 @@ app.get('/api/config', (_req, res) => {
 			!!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) ||
 			process.env.DEV === 'true' ||
 			process.env.DEV === true,
+		versions,
 	});
 });
 
@@ -727,31 +736,34 @@ app.get('/widget', validateUrlParam, async (req, res) => {
     <head>
       <meta charset="utf-8">
       <title>Widget - ${domain}</title>
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
       <style>
         body {
           margin: 0;
-          padding: 0;
-          font-family: 'Inter', sans-serif;
-          background: #000000;
-          color: #ffffff;
+          padding: 6px;
+          font-family: 'Comic Neue', 'Comic Sans MS', cursive, sans-serif;
+          background: transparent;
+          color: #2c1810;
           display: flex;
           align-items: center;
           justify-content: center;
           height: 100vh;
           overflow: hidden;
+          box-sizing: border-box;
         }
         .widget-card {
           width: 100%;
           height: 100%;
           box-sizing: border-box;
-          padding: 0.85rem;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 8px;
-          background: #121212;
+          padding: 0.75rem;
+          border: 2px dashed #f39c12;
+          border-radius: 12px;
+          background: #fff176;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
+          box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.1);
+          transform: rotate(-1deg);
         }
         .header {
           display: flex;
@@ -760,34 +772,34 @@ app.get('/widget', validateUrlParam, async (req, res) => {
         }
         .domain {
           font-size: 0.75rem;
-          color: #a3a3a3;
-          font-weight: 600;
+          color: #5a4a3f;
+          font-weight: 700;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
         }
         .badge {
           font-size: 0.58rem;
-          font-weight: 800;
+          font-weight: 700;
           text-transform: uppercase;
           padding: 0.15rem 0.4rem;
-          border-radius: 4px;
-          background: rgba(37, 211, 102, 0.1);
-          color: #25d366;
-          border: 1px solid rgba(37, 211, 102, 0.2);
+          border-radius: 10px;
+          background: #f8bbd0;
+          color: #ff69b4;
+          border: 1px solid #ff69b4;
         }
         .body {
           display: flex;
           align-items: center;
           gap: 0.65rem;
-          margin: 0.35rem 0;
+          margin: 0.2rem 0;
         }
         .logo-container {
           width: 32px;
           height: 32px;
           border-radius: 6px;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: white;
+          border: 2px solid #b8d4e3;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -795,6 +807,7 @@ app.get('/widget', validateUrlParam, async (req, res) => {
           padding: 3px;
           box-sizing: border-box;
           flex-shrink: 0;
+          transform: rotate(2deg);
         }
         .logo-img {
           width: 100%;
@@ -808,38 +821,39 @@ app.get('/widget', validateUrlParam, async (req, res) => {
         }
         .tech-name {
           font-size: 0.95rem;
-          font-weight: 800;
-          color: #ffffff;
+          font-weight: 700;
+          color: #2c1810;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
         }
         .label {
           font-size: 0.6rem;
-          color: #666666;
+          color: #8b7d6b;
           text-transform: uppercase;
-          font-weight: 600;
+          font-weight: 700;
+          font-style: italic;
         }
         .footer {
           display: flex;
           justify-content: space-between;
           align-items: center;
           font-size: 0.65rem;
-          border-top: 1px solid rgba(255, 255, 255, 0.04);
-          padding-top: 0.4rem;
+          border-top: 2px dashed #9b59b6;
+          padding-top: 0.35rem;
         }
         .powered {
-          color: #666666;
+          color: #9b59b6;
           text-decoration: none;
-          transition: color 0.2s;
+          font-weight: 700;
         }
         .powered:hover {
-          color: #adff00;
+          color: #ff69b4;
         }
         .details-link {
-          color: #adff00;
+          color: #3498db;
           text-decoration: none;
-          font-weight: 600;
+          font-weight: 700;
         }
         .details-link:hover {
           text-decoration: underline;
@@ -855,7 +869,7 @@ app.get('/widget', validateUrlParam, async (req, res) => {
         <div class="body">
           <div class="logo-container">
             ${cmsLogoDev ? `<img src="${cmsLogoDev}" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />` : ''}
-            <svg style="display: ${cmsLogoDev ? 'none' : 'block'}; width: 16px; height: 16px; color: #a3a3a3;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            <svg style="display: ${cmsLogoDev ? 'none' : 'block'}; width: 16px; height: 16px; color: #9b59b6;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
           </div>
           <div class="tech-info">
             <span class="label">Plataforma</span>
@@ -863,8 +877,8 @@ app.get('/widget', validateUrlParam, async (req, res) => {
           </div>
         </div>
         <div class="footer">
-          <a href="${req.protocol}://${req.get('host')}" target="_blank" class="powered">Powered by Detector</a>
-          <a href="${req.protocol}://${req.get('host')}/?url=${encodeURIComponent(req.normalizedUrl)}" target="_blank" class="details-link">Ver Detalles &rarr;</a>
+          <a href="${(process.env.APP_URL || `${req.protocol}://${req.get('host')}`).replace(/\/$/, '')}" target="_blank" class="powered">Chismógrafo 📓</a>
+          <a href="${(process.env.APP_URL || `${req.protocol}://${req.get('host')}`).replace(/\/$/, '')}/?url=${encodeURIComponent(req.normalizedUrl)}" target="_blank" class="details-link">Ver Chisme &rarr;</a>
         </div>
       </div>
     </body>

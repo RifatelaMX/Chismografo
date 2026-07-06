@@ -2,25 +2,30 @@
 	"name": "chismografo",
 	"version": "1.0.0",
 	"description": "Chismógrafo es una aplicación para obtener la pila tecnológica de un sitio web.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/cesarayar/chismografo"
+	},
 	"type": "module",
 	"main": "server.js",
 	"bin": {
-		"detector": "./cli/bin/index.js"
+		"chismografo": "./cli/bin/index.js"
 	},
 	"scripts": {
 		"start": "node server.js",
-		"dev": "detector dev",
+		"dev": "chismografo dev",
 		"maildev": "maildev",
-		"cli": "detector",
+		"cli": "chismografo",
 		"build": "node ./cli/bin/index.js build-index",
 		"lint": "biome lint .",
 		"format": "biome format --write .",
-		"check": "biome check --write ."
+		"check": "biome check --write .",
+		"release": "semantic-release"
 	},
 	"keywords": [
 		"scraper",
 		"ecommerce",
-		"detector",
+		"chismografo",
 		"shopify",
 		"magento",
 		"woocommerce",
@@ -43,6 +48,11 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.5.2",
-		"maildev": "^2.2.1"
+		"@semantic-release/changelog": "^6.0.3",
+		"@semantic-release/exec": "^7.1.0",
+		"@semantic-release/git": "^10.0.1",
+		"@semantic-release/github": "^12.0.9",
+		"maildev": "^2.2.1",
+		"semantic-release": "^25.0.5"
 	}
 }

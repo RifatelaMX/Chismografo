@@ -234,41 +234,50 @@ const command = args[0];
 
 // Help text
 const helpText = `
-\x1b[1m\x1b[32m⚡ CHISMÓGRAFO - CLI ENGINE\x1b[0m
+\x1b[1m\x1b[35m╔══════════════════════════════════════════════════════════════╗\x1b[0m
+\x1b[1m\x1b[35m║\x1b[0m  \x1b[1m\x1b[32m🤫 CHISMÓGRAFO\x1b[0m \x1b[90mv1.0\x1b[0m                                         \x1b[1m\x1b[35m║\x1b[0m
+\x1b[1m\x1b[35m║\x1b[0m  \x1b[3m\x1b[33m¡El que todo lo sabe de tu competencia!\x1b[0m \x1b[33m⚡\x1b[0m                  \x1b[1m\x1b[35m║\x1b[0m
+\x1b[1m\x1b[35m╚══════════════════════════════════════════════════════════════╝\x1b[0m
 
-\x1b[1mComandos Disponibles:\x1b[0m
-  \x1b[1m\x1b[36mdev\x1b[0m                                     Arranca el entorno de desarrollo web en caliente.
+\x1b[1m\x1b[33m📣 Comandos para sacar el chisme:\x1b[0m
+  \x1b[1m\x1b[36mdev\x1b[0m                                     Despierta el Chismógrafo Web para cotillear a gusto.
   
-  \x1b[1m\x1b[36mtest-domain\x1b[0m \x1b[33m<url>\x1b[0m                         Analiza y audita tecnologías en un sitio web real.
-    \x1b[90m--attr <propiedad>                    Imprime únicamente el valor de la propiedad especificada.
-                                          Atributos: cms, theme, plugins, infrastructure, location.\x1b[0m
+  \x1b[1m\x1b[36mtest-domain\x1b[0m \x1b[33m<url>\x1b[0m                         Saca el expediente chismoso completo de un sitio web.
+    \x1b[90m--attr <propiedad>                    Filtra solo el chisme que te interesa.
+                                           Valores: cms, theme, plugins, infrastructure, location.\x1b[0m
 
-  \x1b[1m\x1b[36mbuild-index\x1b[0m                               Compila, optimiza y minifica las firmas en index.json.
-    \x1b[90m--category <categoria>                Filtra las herramientas por categoría.
-    \x1b[90m--cms <cms>                           Filtra las aplicaciones compatibles con este CMS.\x1b[0m
+\x1b[1m\x1b[33m🗂  Comandos para armar el catálogo de chismes:\x1b[0m
+  \x1b[1m\x1b[36mbuild-index\x1b[0m                               Empaqueta todo el catálogo de chismes en index.json.
+    \x1b[90m--category <categoria>                Filtra por categoría de chisme.
+    \x1b[90m--cms <cms>                           Filtra las apps compatibles con este CMS.\x1b[0m
 
-  \x1b[1m\x1b[36mvalidate-index\x1b[0m                            Valida la integridad de techs/index.json.
-  \x1b[1m\x1b[36mcheck-tech\x1b[0m \x1b[33m<ruta_archivo>\x1b[0m                 Valida la estructura de firma JSON de una herramienta.
+  \x1b[1m\x1b[36mvalidate-index\x1b[0m                            Revisa que index.json no tenga chismes rotos o inventados.
+  \x1b[1m\x1b[36mcheck-tech\x1b[0m \x1b[33m<ruta_archivo>\x1b[0m                 Audita que una firma JSON esté bien armada.
 
-  \x1b[1m\x1b[36madd-cms\x1b[0m \x1b[33m<nombre> [opciones]\x1b[0m              Registra un nuevo CMS interactivo/plantilla.
-    \x1b[90m--web <url>                           URL del sitio web oficial del CMS.
-    \x1b[90m--logo <logo>                         Logo identificador del CMS (ej. shopify.com).\x1b[0m
+\x1b[1m\x1b[33m📝 Comandos para registrar nuevos chismes:\x1b[0m
+  \x1b[1m\x1b[36madd-cms\x1b[0m \x1b[33m<nombre> [opciones]\x1b[0m              Registra un nuevo CMS en el expediente.
+    \x1b[90m--web <url>                           URL del sitio web del CMS.
+    \x1b[90m--logo <logo>                         Logo identificador (ej. shopify.com).\x1b[0m
 
-  \x1b[1m\x1b[36madd-app\x1b[0m \x1b[33m<nombre> [opciones]\x1b[0m              Registra una nueva aplicación/plugin de e-commerce.
-    \x1b[90m--category <categoria>                Categoría de la aplicación (Por defecto: Otros).
-    \x1b[90m--cms <cms>                           Nombres de CMS compatibles separados por comas.
-    \x1b[90m--links <links>                       Enlaces correspondientes de tiendas en crudo.
-    \x1b[90m--web <url>                           URL del sitio oficial de la app.
-    \x1b[90m--logo <logo>                         Logo de la aplicación (ej. loox.app).\x1b[0m
+  \x1b[1m\x1b[36madd-app\x1b[0m \x1b[33m<nombre> [opciones]\x1b[0m              Agrega una nueva app/plugin al radar del Chismógrafo.
+    \x1b[90m--category <categoria>                Categoría de la app (Por defecto: Otros).
+    \x1b[90m--cms <cms>                           CMS compatibles (separados por comas).
+    \x1b[90m--links <links>                       Links de la tienda de apps.
+    \x1b[90m--web <url>                           URL oficial de la app.
+    \x1b[90m--logo <logo>                         Logo de la app (ej. loox.app).\x1b[0m
 
-  \x1b[1m\x1b[36madd-infra\x1b[0m \x1b[33m<nombre> [opciones]\x1b[0m            Registra un nuevo elemento de infraestructura.
+  \x1b[1m\x1b[36madd-infra\x1b[0m \x1b[33m<nombre> [opciones]\x1b[0m            Ficha un nuevo elemento de infraestructura.
     \x1b[90m--category <categoria>                Categoría del elemento (Por defecto: CDN / Proxy).
-    \x1b[90m--web <url>                           URL oficial del sitio web.
+    \x1b[90m--web <url>                           URL oficial del proveedor.
     \x1b[90m--logo <logo>                         Logo de la infraestructura.\x1b[0m
 
-  \x1b[1m\x1b[36madd-gateway\x1b[0m \x1b[33m<nombre> [opciones]\x1b[0m          Registra una nueva Pasarela de Pago.
-    \x1b[90m--web <url>                           URL de la web oficial de la pasarela.
+  \x1b[1m\x1b[36madd-gateway\x1b[0m \x1b[33m<nombre> [opciones]\x1b[0m          Registra una nueva pasarela de pago en el archivo.
+    \x1b[90m--web <url>                           URL del sitio de la pasarela.
     \x1b[90m--logo <logo>                         Logo de la pasarela (ej. stripe.com).\x1b[0m
+
+  \x1b[1m\x1b[36mversion, --version, -v\x1b[0m                 Muestra la versión actual del Chismógrafo.
+
+\x1b[90m  Uso: chismografo <comando> [argumentos] [opciones]\x1b[0m
 `;
 
 function getOption(flag) {
@@ -286,9 +295,38 @@ function toSlug(name) {
 		.replace(/(^-|-$)/g, '');
 }
 
+// 0. Command: version / --version / -v / -V
+if (command === 'version' || command === '--version' || command === '-v' || command === '-V' || args.includes('--version') || args.includes('-v')) {
+	let versions = { cli: '1.0.0', ui: '1.0.0', api: '1.0.0' };
+	const versionPath = path.join(__dirname, '../../version.json');
+	if (fs.existsSync(versionPath)) {
+		try {
+			versions = JSON.parse(fs.readFileSync(versionPath, 'utf-8'));
+		} catch (_e) {}
+	}
+
+	const hasCli = args.includes('--cli') || args.includes('-c');
+	const hasUi = args.includes('--ui') || args.includes('-u');
+	const hasApi = args.includes('--api') || args.includes('-a');
+
+	if (hasCli) {
+		console.log(versions.cli);
+	} else if (hasUi) {
+		console.log(versions.ui);
+	} else if (hasApi) {
+		console.log(versions.api);
+	} else {
+		console.log('\x1b[1m\x1b[32m🤫 Chismógrafo\x1b[0m');
+		console.log(`  \x1b[36mCLI:\x1b[0m v${versions.cli}`);
+		console.log(`  \x1b[36mInterfaz (UI):\x1b[0m v${versions.ui}`);
+		console.log(`  \x1b[36mAPI REST:\x1b[0m v${versions.api}`);
+	}
+	process.exit(0);
+}
+
 // 1. Command: dev
 if (command === 'dev') {
-	console.log('\x1b[36m%s\x1b[0m', '🚀 Arrancando entorno de desarrollo watch...');
+	console.log('\x1b[36m%s\x1b[0m', '🤫 Psst... El Chismógrafo Web se está despertando (modo watch)...');
 	const child = spawn('node', ['--watch', 'server.js'], {
 		stdio: 'inherit',
 		env: { ...process.env, DEV: 'true', NODE_ENV: 'development' },
@@ -303,7 +341,10 @@ else if (command === 'build-index') {
 	const categoryFilter = getOption('--category');
 	const cmsFilter = getOption('--cms');
 
-	console.log('\x1b[36m%s\x1b[0m', '📦 Generando archivo index.json indexado y comprimido...');
+	console.log(
+		'\x1b[36m%s\x1b[0m',
+		'🤫 El Chismógrafo está recopilando y empaquetando todos los expedientes en index.json...'
+	);
 
 	try {
 		const loadFolder = (folderName) => {
@@ -327,7 +368,7 @@ else if (command === 'build-index') {
 
 		// Apply CMS filter (filters apps compatible with the CMS)
 		if (cmsFilter) {
-			console.log(`- Filtrando aplicaciones compatibles con el CMS: ${cmsFilter}`);
+			console.log(`  🔎 Filtrando chismes de apps compatibles con: ${cmsFilter}`);
 			const cmsLower = cmsFilter.toLowerCase();
 			apps = apps.filter(
 				(app) =>
@@ -338,7 +379,7 @@ else if (command === 'build-index') {
 
 		// Apply Category filter
 		if (categoryFilter) {
-			console.log(`- Filtrando herramientas por categoría: ${categoryFilter}`);
+			console.log(`  🔎 Filtrando expedientes por categoría: ${categoryFilter}`);
 			const catLower = categoryFilter.toLowerCase();
 			apps = apps.filter((app) => app.category?.toLowerCase().includes(catLower));
 			infra = infra.filter((inf) => inf.category?.toLowerCase().includes(catLower));
@@ -350,23 +391,26 @@ else if (command === 'build-index') {
 		// Compress/Minify output (no spaces/newlines in JSON.stringify)
 		fs.writeFileSync(indexPath, JSON.stringify(indexData), 'utf-8');
 
-		console.log('\x1b[32m%s\x1b[0m', `✓ index.json creado y comprimido con éxito en ${indexPath}`);
 		console.log(
-			`  Resumen: ${cms.length} CMS, ${apps.length} Apps, ${infra.length} Infraestructura, ${gateways.length} Pasarelas de Pago.`
+			'\x1b[32m%s\x1b[0m',
+			`✓ ¡Expediente listo! El Chismógrafo compiló index.json en ${indexPath}`
+		);
+		console.log(
+			`  📊 Resumen del cotilleo: ${cms.length} CMS, ${apps.length} Apps, ${infra.length} Infraestructuras y ${gateways.length} Pasarelas fichadas.`
 		);
 	} catch (err) {
-		console.error('\x1b[31m%s\x1b[0m', '✗ Error al crear index.json:', err.message);
+		console.error('\x1b[31m%s\x1b[0m', '✗ ¡Chisme fallido! Error al compilar index.json:', err.message);
 		process.exit(1);
 	}
 }
 
 // 3. Command: validate-index
 else if (command === 'validate-index') {
-	console.log('\x1b[36m%s\x1b[0m', '🔍 Validando estructura de techs/index.json...');
+	console.log('\x1b[36m%s\x1b[0m', '🔍 El Chismógrafo está verificando que index.json no tenga chismes inventados ni rotos...');
 	if (!fs.existsSync(indexPath)) {
 		console.error(
 			'\x1b[31m%s\x1b[0m',
-			'✗ El archivo techs/index.json no existe. Corre "build-index" primero.'
+			'✗ ¡No hay expediente! El catálogo techs/index.json no existe. Corre "chismografo build-index" primero.'
 		);
 		process.exit(1);
 	}
@@ -386,9 +430,9 @@ else if (command === 'validate-index') {
 			process.exit(1);
 		}
 
-		console.log('\x1b[32m%s\x1b[0m', '✓ techs/index.json es estructuralmente VÁLIDO.');
+		console.log('\x1b[32m%s\x1b[0m', '✓ ¡Expediente limpio! El Chismógrafo confirma que index.json no tiene chismes rotos.');
 	} catch (err) {
-		console.error('\x1b[31m%s\x1b[0m', '✗ Error al validar index.json:', err.message);
+		console.error('\x1b[31m%s\x1b[0m', '✗ ¡Chisme corrupto! Error al validar index.json:', err.message);
 		process.exit(1);
 	}
 }
@@ -402,7 +446,7 @@ else if (command === 'check-tech') {
 	}
 
 	const absolutePath = path.resolve(filepath);
-	console.log('\x1b[36m%s\x1b[0m', `🔍 Validando herramienta en ${absolutePath}...`);
+	console.log('\x1b[36m%s\x1b[0m', `🔍 El Chismógrafo está auditando la firma en ${absolutePath}...`);
 
 	if (!fs.existsSync(absolutePath)) {
 		console.error('\x1b[31m%s\x1b[0m', '✗ El archivo no existe.');
@@ -427,14 +471,14 @@ else if (command === 'check-tech') {
 		}
 
 		if (errors.length > 0) {
-			console.error('\x1b[31m%s\x1b[0m', '✗ Errores de validación en la herramienta:');
+			console.error('\x1b[31m%s\x1b[0m', '✗ Errores de validación en la firma:');
 			errors.forEach((err) => {
 				console.error(`  - ${err}`);
 			});
 			process.exit(1);
 		}
 
-		console.log('\x1b[32m%s\x1b[0m', '✓ La herramienta es estructuralmente VÁLIDA.');
+		console.log('\x1b[32m%s\x1b[0m', '✓ ¡Firma verificada! El Chismógrafo confirma que la estructura es correcta.');
 	} catch (err) {
 		console.error('\x1b[31m%s\x1b[0m', '✗ Error al analizar el archivo JSON:', err.message);
 		process.exit(1);
@@ -451,7 +495,7 @@ else if (command === 'add-app') {
 	let linksInput = getOption('--links');
 
 	if (!name) {
-		console.log('\x1b[36m%s\x1b[0m', '🎮 Iniciando modo interactivo para crear nueva App...');
+		console.log('\x1b[36m%s\x1b[0m', '🎮 El Chismógrafo abre el creador interactivo de expedientes para Apps...');
 		name = await askQuestion('1. Nombre de la aplicación: ');
 		if (!name) {
 			console.error('\x1b[31m%s\x1b[0m', '✗ El nombre es obligatorio.');
@@ -491,7 +535,7 @@ else if (command === 'add-app') {
 	const linksList = linksInput ? linksInput.split(',').map((l) => l.trim()) : [];
 	const targetPath = path.join(techsDir, 'apps', `${slug}.json`);
 
-	console.log('\x1b[36m%s\x1b[0m', `📝 Creando nueva App: ${name}...`);
+	console.log('\x1b[36m%s\x1b[0m', `📝 El Chismógrafo está fichando la App: ${name}...`);
 
 	const compatibleCMS = cmsList;
 	const appStores = cmsList.map((cmsName, idx) => {
@@ -516,9 +560,9 @@ else if (command === 'add-app') {
 
 		fs.mkdirSync(path.dirname(targetPath), { recursive: true });
 		fs.writeFileSync(targetPath, JSON.stringify(template, null, 2), 'utf-8');
-		console.log('\x1b[32m%s\x1b[0m', `✓ App creada con éxito en ${targetPath}`);
+		console.log('\x1b[32m%s\x1b[0m', `✓ ¡Fichada! El Chismógrafo guardó el expediente de la App en ${targetPath}`);
 	} catch (err) {
-		console.error('\x1b[31m%s\x1b[0m', '✗ Error al crear la app:', err.message);
+		console.error('\x1b[31m%s\x1b[0m', '✗ ¡Chisme fallido! Error al fichar la app:', err.message);
 		process.exit(1);
 	}
 }
@@ -531,7 +575,7 @@ else if (command === 'add-infra') {
 	let logoVal = getOption('--logo');
 
 	if (!name) {
-		console.log('\x1b[36m%s\x1b[0m', '🎮 Iniciando modo interactivo para crear Infraestructura...');
+		console.log('\x1b[36m%s\x1b[0m', '🎮 El Chismógrafo abre el creador interactivo de expedientes para Infraestructura...');
 		name = await askQuestion('1. Nombre de la infraestructura: ');
 		if (!name) {
 			console.error('\x1b[31m%s\x1b[0m', '✗ El nombre es obligatorio.');
@@ -554,7 +598,7 @@ else if (command === 'add-infra') {
 	const slug = toSlug(name);
 	const targetPath = path.join(techsDir, 'infra', `${slug}.json`);
 
-	console.log('\x1b[36m%s\x1b[0m', `📝 Creando nueva Infraestructura: ${name}...`);
+	console.log('\x1b[36m%s\x1b[0m', `📝 El Chismógrafo está fichando la Infraestructura: ${name}...`);
 
 	const templatePath = path.join(templatesDir, 'infra.json');
 	try {
@@ -570,9 +614,9 @@ else if (command === 'add-infra') {
 
 		fs.mkdirSync(path.dirname(targetPath), { recursive: true });
 		fs.writeFileSync(targetPath, JSON.stringify(template, null, 2), 'utf-8');
-		console.log('\x1b[32m%s\x1b[0m', `✓ Infraestructura creada con éxito en ${targetPath}`);
+		console.log('\x1b[32m%s\x1b[0m', `✓ ¡Fichada! El Chismógrafo guardó el expediente de Infraestructura en ${targetPath}`);
 	} catch (err) {
-		console.error('\x1b[31m%s\x1b[0m', '✗ Error al crear infraestructura:', err.message);
+		console.error('\x1b[31m%s\x1b[0m', '✗ ¡Chisme fallido! Error al fichar infraestructura:', err.message);
 		process.exit(1);
 	}
 }
@@ -584,7 +628,7 @@ else if (command === 'add-cms') {
 	let logoVal = getOption('--logo');
 
 	if (!name) {
-		console.log('\x1b[36m%s\x1b[0m', '🎮 Iniciando modo interactivo para crear nuevo CMS...');
+		console.log('\x1b[36m%s\x1b[0m', '🎮 El Chismógrafo abre el creador interactivo de expedientes para CMS...');
 		name = await askQuestion('1. Nombre del CMS: ');
 		if (!name) {
 			console.error('\x1b[31m%s\x1b[0m', '✗ El nombre es obligatorio.');
@@ -605,7 +649,7 @@ else if (command === 'add-cms') {
 	const slug = toSlug(name);
 	const targetPath = path.join(techsDir, 'cms', `${slug}.json`);
 
-	console.log('\x1b[36m%s\x1b[0m', `📝 Creando nuevo CMS: ${name}...`);
+	console.log('\x1b[36m%s\x1b[0m', `📝 El Chismógrafo está fichando el CMS: ${name}...`);
 
 	const templatePath = path.join(templatesDir, 'cms.json');
 	try {
@@ -620,9 +664,9 @@ else if (command === 'add-cms') {
 
 		fs.mkdirSync(path.dirname(targetPath), { recursive: true });
 		fs.writeFileSync(targetPath, JSON.stringify(template, null, 2), 'utf-8');
-		console.log('\x1b[32m%s\x1b[0m', `✓ CMS creado con éxito en ${targetPath}`);
+		console.log('\x1b[32m%s\x1b[0m', `✓ ¡Fichado! El Chismógrafo guardó el expediente del CMS en ${targetPath}`);
 	} catch (err) {
-		console.error('\x1b[31m%s\x1b[0m', '✗ Error al crear CMS:', err.message);
+		console.error('\x1b[31m%s\x1b[0m', '✗ ¡Chisme fallido! Error al fichar CMS:', err.message);
 		process.exit(1);
 	}
 }
@@ -636,7 +680,7 @@ else if (command === 'add-gateway') {
 	if (!name) {
 		console.log(
 			'\x1b[36m%s\x1b[0m',
-			'🎮 Iniciando modo interactivo para crear Pasarela de Pago...'
+			'🎮 El Chismógrafo abre el creador interactivo de expedientes para Pasarela de Pago...'
 		);
 		name = await askQuestion('1. Nombre de la pasarela: ');
 		if (!name) {
@@ -658,7 +702,7 @@ else if (command === 'add-gateway') {
 	const slug = toSlug(name);
 	const targetPath = path.join(techsDir, 'gateways', `${slug}.json`);
 
-	console.log('\x1b[36m%s\x1b[0m', `📝 Creando nueva Pasarela de Pago: ${name}...`);
+	console.log('\x1b[36m%s\x1b[0m', `📝 El Chismógrafo está fichando la Pasarela de Pago: ${name}...`);
 
 	const templatePath = path.join(templatesDir, 'gateway.json');
 	try {
@@ -675,9 +719,9 @@ else if (command === 'add-gateway') {
 
 		fs.mkdirSync(path.dirname(targetPath), { recursive: true });
 		fs.writeFileSync(targetPath, JSON.stringify(template, null, 2), 'utf-8');
-		console.log('\x1b[32m%s\x1b[0m', `✓ Pasarela de Pago creada con éxito en ${targetPath}`);
+		console.log('\x1b[32m%s\x1b[0m', `✓ ¡Fichada! El Chismógrafo guardó el expediente de la Pasarela de Pago en ${targetPath}`);
 	} catch (err) {
-		console.error('\x1b[31m%s\x1b[0m', '✗ Error al crear Pasarela de Pago:', err.message);
+		console.error('\x1b[31m%s\x1b[0m', '✗ ¡Chisme fallido! Error al fichar Pasarela de Pago:', err.message);
 		process.exit(1);
 	}
 }
@@ -686,10 +730,10 @@ else if (command === 'add-gateway') {
 else if (command === 'test-domain') {
 	let url = args[1];
 	if (!url) {
-		console.log('\x1b[36m%s\x1b[0m', '🎮 Iniciando prueba de dominio interactiva...');
-		url = await askQuestion('Ingresa la URL o Dominio a probar: ');
+		console.log('\x1b[36m%s\x1b[0m', '🎮 El Chismógrafo inicia investigación interactiva de dominio...');
+		url = await askQuestion('🤫 ¿A quién le quieres sacar el chisme? (URL o Dominio): ');
 		if (!url) {
-			console.error('\x1b[31m%s\x1b[0m', '✗ La URL/Dominio es obligatorio.');
+			console.error('\x1b[31m%s\x1b[0m', '✗ ¡Sin chisme! Necesitas dar una URL o Dominio para investigar.');
 			process.exit(1);
 		}
 	}
@@ -699,12 +743,12 @@ else if (command === 'test-domain') {
 		url = `https://${url}`;
 	}
 
-	console.log('\x1b[36m%s\x1b[0m', `🔍 Analizando dominio: ${url}...`);
+	console.log('\x1b[36m%s\x1b[0m', `🤫 El Chismógrafo está investigando: ${url}...`);
 
 	try {
 		const result = await detectTechnology(url);
 		if (!result.success) {
-			console.error('\x1b[31m%s\x1b[0m', `✗ Error al analizar el sitio: ${result.error}`);
+			console.error('\x1b[31m%s\x1b[0m', `✗ ¡Investigación fallida! El Chismógrafo no pudo analizar el sitio: ${result.error}`);
 			process.exit(1);
 		}
 
@@ -734,65 +778,66 @@ else if (command === 'test-domain') {
 			process.exit(0);
 		}
 
-		console.log('\n\x1b[32m%s\x1b[0m', '==================================================');
-		console.log('\x1b[32m\x1b[1m%s\x1b[0m', `🎯 RESULTADOS DEL ANÁLISIS DE: ${url}`);
-		console.log('\x1b[32m%s\x1b[0m', '==================================================\n');
+		console.log('\n\x1b[35m%s\x1b[0m', '╔══════════════════════════════════════════════════╗');
+		console.log('\x1b[35m\x1b[1m%s\x1b[0m', `║ 🤫 EXPEDIENTE CHISMOSO DE: ${url}`);
+		console.log('\x1b[35m%s\x1b[0m', '╚══════════════════════════════════════════════════╝\n');
 
 		// 1. CMS
 		if (result.detected && result.technology) {
 			const themeText = result.theme ? ` (Tema: ${result.theme})` : '';
 			console.log('\x1b[36m\x1b[1m%s\x1b[0m', '📦 Plataforma E-Commerce (CMS):');
 			console.log(
-				`   - ${result.technology} (Confianza: ${(result.confidence * 100).toFixed(2)}%)${themeText}\n`
+				`   💡 Usa ${result.technology} (Certeza del chisme: ${(result.confidence * 100).toFixed(2)}%)${themeText}\n`
 			);
 		} else {
 			console.log('\x1b[36m\x1b[1m%s\x1b[0m', '📦 Plataforma E-Commerce (CMS):');
-			console.log('   - No se detectó ninguna plataforma compatible.\n');
+			console.log('   🤷 No se le encontró plataforma conocida... ¡qué misterio!\n');
 		}
 
 		// 2. Apps
-		console.log('\x1b[36m\x1b[1m%s\x1b[0m', '🔌 Aplicaciones y Plugins Detectados:');
+		console.log('\x1b[36m\x1b[1m%s\x1b[0m', '🔌 Apps y Plugins que le cachamos:');
 		if (result.plugins && result.plugins.length > 0) {
 			result.plugins.forEach((app) => {
 				console.log(
-					`   - [${app.category || 'Plugin'}] ${app.name} (Desarrollador: ${app.developer || 'N/A'})`
+					`   🔎 [${app.category || 'Plugin'}] ${app.name} (por: ${app.developer || 'Desconocido'})`
 				);
 			});
 			console.log('');
 		} else {
-			console.log('   - Ninguna aplicación detectada.\n');
+			console.log('   🤷 No le encontramos apps... ¡anda bien discreto!\n');
 		}
 
 		// 3. Infrastructure
-		console.log('\x1b[36m\x1b[1m%s\x1b[0m', '🌐 Capa de Infraestructura:');
+		console.log('\x1b[36m\x1b[1m%s\x1b[0m', '🌐 Infraestructura que le pillamos:');
 		if (result.infrastructure && result.infrastructure.length > 0) {
 			result.infrastructure.forEach((infra) => {
-				console.log(`   - [${infra.category}] ${infra.name}`);
+				console.log(`   🔎 [${infra.category}] ${infra.name}`);
 			});
 			console.log('');
 		} else {
-			console.log('   - Ninguna tecnología de infraestructura detectada.\n');
+			console.log('   🤷 No se le cachó infraestructura conocida.\n');
 		}
 
 		// 4. Payment Gateways
-		console.log('\x1b[36m\x1b[1m%s\x1b[0m', '💳 Procesadores de Pago (Gateways):');
+		console.log('\x1b[36m\x1b[1m%s\x1b[0m', '💳 Pasarelas de Pago que le descubrimos:');
 		if (result.paymentGateways && result.paymentGateways.length > 0) {
-			console.log(`   - ${result.paymentGateways.join(', ')}\n`);
+			console.log(`   🔎 ${result.paymentGateways.join(', ')}\n`);
 		} else {
-			console.log('   - No se detectaron procesadores visibles en portada.\n');
+			console.log('   🤷 No se le vieron pasarelas de pago en portada.\n');
 		}
 
 		// 5. Payment Methods
-		console.log('\x1b[36m\x1b[1m%s\x1b[0m', '💵 Métodos de Pago Disponibles:');
+		console.log('\x1b[36m\x1b[1m%s\x1b[0m', '💵 Métodos de Pago que se le notan:');
 		if (result.paymentGateways && result.paymentGateways.length > 0) {
-			console.log(`   - ${result.paymentGateways.join(', ')}\n`);
+			console.log(`   🔎 ${result.paymentGateways.join(', ')}\n`);
 		} else {
-			console.log('   - No se infirieron métodos de pago.\n');
+			console.log('   🤷 No se le infirieron métodos de pago... ¡bien guardadito!\n');
 		}
 
-		console.log('\x1b[32m%s\x1b[0m', '==================================================\n');
+		console.log('\x1b[35m%s\x1b[0m', '══════════════════════════════════════════════════\n');
+		console.log('\x1b[90m%s\x1b[0m', '  🤫 Chisme cortesía del Chismógrafo.\n');
 	} catch (err) {
-		console.error('\x1b[31m%s\x1b[0m', '✗ Error inesperado al ejecutar el análisis:', err.message);
+		console.error('\x1b[31m%s\x1b[0m', '✗ ¡Ups! El Chismógrafo tropezó durante la investigación:', err.message);
 		process.exit(1);
 	}
 }
