@@ -1,4 +1,8 @@
-# E-Commerce Technology Detector & Auditor Engine
+# 📓 Chismógrafo: E-Commerce Technology Detector & Auditor Engine
+
+[![Node.js Version](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg?style=for-the-badge)](https://www.gnu.org/licenses/agpl-3.0)
+[![Code Style: Biome](https://img.shields.io/badge/code_style-biome-FFaa00?style=for-the-badge&logo=biome)](https://biomejs.dev/)
 
 Un motor avanzado y dashboard de auditoría en tiempo real para identificar la infraestructura tecnológica, pasarelas de pago, aplicaciones de e-commerce y el rendimiento (Lighthouse) de cualquier sitio web comercial.
 
@@ -6,7 +10,22 @@ Desarrollado bajo los lineamientos estéticos del sistema de diseño **Sleek** (
 
 ---
 
-## Características Principales
+## 📑 Tabla de Contenidos
+
+- [Características Principales](#-características-principales)
+- [Arquitectura del Sistema](#-arquitectura-del-sistema)
+- [Requisitos e Instalación](#-requisitos-e-instalación)
+- [Instrucciones de Ejecución](#-instrucciones-de-ejecución)
+- [Guía de Uso del CLI](#-guía-de-uso-del-cli-chismografo)
+- [Documentación de la API REST](#-documentación-de-la-api-rest-)
+- [Integraciones y Modos Embed](#-integraciones-y-modos-embed-iFrames-)
+- [Catálogo de Firmas y Reglas](#-catálogo-de-firmas-y-reglas-de-detección-)
+- [Seguridad y Restricciones](#-seguridad-y-restricciones)
+- [Licencia](#-licencia)
+
+---
+
+## ✨ Características Principales
 
 *   **Identificación de CMS y E-Commerce:** Detección de confianza ponderada de Shopify (con Dawn/Dawn-schema themes), Magento, WooCommerce, PrestaShop y VTEX mediante scraping adaptativo del DOM.
 *   **Auditoría de PageSpeed Insights:** Consulta asíncrona paralela de rendimiento, accesibilidad y optimización SEO en dispositivos móviles mediante Lighthouse, con soporte a degradación elegante (*simulación*) en caso de límites de cuota (HTTP 429).
@@ -19,7 +38,39 @@ Desarrollado bajo los lineamientos estéticos del sistema de diseño **Sleek** (
 
 ---
 
-## Requisitos Previos e Instalación
+## 🏗️ Arquitectura del Sistema
+
+A continuación se detalla el flujo de trabajo interno del motor de detección y auditoría mediante un diagrama de arquitectura:
+
+```mermaid
+graph TD
+    Client[Cliente / Navegador] -->|HTTP POST /api/detect| API(Servidor Express.js)
+    
+    subgraph Motor de Detección Core
+        API -->|Fetch HTML| HTTP[Cliente HTTP / Axios]
+        HTTP -->|HTML DOM| DOM[Parseo con Cheerio]
+        DOM -->|Evalúa Reglas| RegexEngine[Motor de Regex y Reglas JSON]
+    end
+    
+    subgraph Servicios Externos
+        API -->|Fetch IP| DNS[Resolución DNS & Geolocalización]
+        API -->|Consulta Async| PageSpeed[Google PageSpeed API]
+    end
+    
+    RegexEngine -->|Match de Firmas| Results1[CMS, Infraestructura, Apps]
+    DNS --> Results2[Ubicación y Servidor]
+    PageSpeed --> Results3[Métricas Lighthouse]
+    
+    Results1 --> Aggregator{Agregador de Datos}
+    Results2 --> Aggregator
+    Results3 --> Aggregator
+    
+    Aggregator -->|Respuesta JSON Unificada| Client
+```
+
+---
+
+## 🚀 Requisitos e Instalación
 
 Asegúrate de contar con [Node.js](https://nodejs.org/) (versión 18 o superior) en tu sistema.
 
@@ -50,7 +101,7 @@ Asegúrate de contar con [Node.js](https://nodejs.org/) (versión 18 o superior)
 
 ---
 
-## Instrucciones de Ejecución
+## 💻 Instrucciones de Ejecución
 
 ### Servidor de Producción / Desarrollo (Dashboard Web)
 Inicia el servidor express en el puerto configurado:
@@ -80,7 +131,7 @@ npm run check
 
 ---
 
-## Guía de Uso del CLI (`chismografo`)
+## 🛠️ Guía de Uso del CLI (`chismografo`)
 
 La herramienta CLI del Chismógrafo está registrada como `chismografo`. Puedes vincularla localmente con:
 ```bash
@@ -113,7 +164,7 @@ chismografo add-infra
 
 ---
 
-## Documentación de la API REST 🤓
+## 🌐 Documentación de la API REST 🤓
 
 La especificación completa del chisme en formato OpenAPI 3.0 está disponible en [public/openapi.json](file:///Users/cesarayar/Documents/Desarrollo/Scrapper/public/openapi.json) o expuesta en el servidor en la ruta `/openapi.json`.
 
@@ -206,7 +257,7 @@ Todos los endpoints REST admiten validación de orígenes CORS y retornan respue
 
 ---
 
-## Integraciones y Modos Embed (iFrames) 🏷️
+## 🏷️ Integraciones y Modos Embed (iFrames) 
 
 ### 1. Calcomanía Estática de Verificación (Sticker)
 Muestra un badge responsivo en forma de post-it amarillo con el CMS detectado:
@@ -227,15 +278,15 @@ Carga el buscador y reporte original del dashboard sin cabecera ni documentació
 ```
 *Autoinicio de escaneo:* Puedes pasar el parámetro `url` en la consulta para iniciar el chisme automáticamente al cargar: `http://localhost:3000/?embed=true&url=https://mi-tienda.com`
 
-## Catálogo de Firmas y Reglas de Detección 📜
+---
+
+## 📜 Catálogo de Firmas y Reglas de Detección 
 
 El Chismógrafo utiliza un motor modular basado en firmas JSON para identificar qué tecnologías se ejecutan en un sitio web. Las firmas se clasifican en cuatro carpetas dentro del directorio `techs/`:
 *   `techs/cms/`: Gestores de contenido (Shopify, Magento, WooCommerce, etc.).
 *   `techs/apps/`: Aplicaciones de terceros, plugins y scripts instalados.
 *   `techs/infra/`: Servidores web, CDN, Proxies e infraestructura general.
 *   `techs/gateways/`: Pasarelas y proveedores de procesamiento de pagos.
-
----
 
 ### 1. Reglas de Detección (`detectionRules`)
 Cada firma JSON define una lista de reglas (`detectionRules`) que especifican qué buscar en las cabeceras HTTP o en el HTML de la página web. Cada regla admite los siguientes parámetros:
@@ -246,46 +297,16 @@ Cada firma JSON define una lista de reglas (`detectionRules`) que especifican qu
 *   `weight` (Opcional, por defecto `0.5`): Multiplicador de confianza (`0.0` a `1.0`) para calcular la probabilidad total de acierto de la tecnología.
 
 #### Tipos de Reglas Soportadas:
-1.  **`meta`**: Analiza etiquetas HTML `<meta>` en la cabecera.
-    *   *Propiedades requeridas:* `key` (nombre o propiedad de la metaetiqueta).
-    *   *Ejemplo:*
-        ```json
-        { "type": "meta", "key": "generator", "pattern": "shopify", "weight": 1.0 }
-        ```
-2.  **`script-src`**: Inspecciona el atributo `src` de los scripts de la página.
-    *   *Ejemplo:*
-        ```json
-        { "type": "script-src", "pattern": "paypalobjects\\.com/api/checkout\\.js" }
-        ```
-3.  **`script-content`**: Analiza el contenido interno de las etiquetas `<script>` inline de JavaScript.
-    *   *Ejemplo:*
-        ```json
-        { "type": "script-content", "pattern": "window\\.ShopifyAnalytics" }
-        ```
-4.  **`link-href`**: Inspecciona el atributo `href` en las etiquetas `<link>` (estilos, preconnect, etc.).
-    *   *Ejemplo:*
-        ```json
-        { "type": "link-href", "pattern": "cdn\\.shopify\\.com" }
-        ```
-5.  **`html-class`**: Analiza las clases presentes en los elementos del DOM.
-    *   *Ejemplo:*
-        ```json
-        { "type": "html-class", "pattern": "theme-editor-active" }
-        ```
-6.  **`html-attribute`**: Evalúa atributos específicos en cualquier elemento HTML.
-    *   *Propiedades requeridas:* `attribute` (nombre del atributo a inspeccionar).
-    *   *Ejemplo:*
-        ```json
-        { "type": "html-attribute", "attribute": "data-store-id", "pattern": "^\\d+$" }
-        ```
-7.  **`header`**: Compara cabeceras de respuesta HTTP (ej. cookies, servidores, etc.).
-    *   *Propiedades requeridas:* `key` (nombre de la cabecera).
-    *   *Ejemplo:*
-        ```json
-        { "type": "header", "key": "x-powered-by", "pattern": "Express" }
-        ```
 
----
+| Tipo | Descripción | Ejemplo |
+|---|---|---|
+| **`meta`** | Analiza etiquetas HTML `<meta>` en la cabecera. Requiere `key`. | `{ "type": "meta", "key": "generator", "pattern": "shopify" }` |
+| **`script-src`** | Inspecciona el atributo `src` de los scripts de la página. | `{ "type": "script-src", "pattern": "paypalobjects\\.com" }` |
+| **`script-content`**| Analiza el contenido de las etiquetas `<script>` inline. | `{ "type": "script-content", "pattern": "window\\.Shopify" }` |
+| **`link-href`** | Inspecciona el atributo `href` en las etiquetas `<link>`. | `{ "type": "link-href", "pattern": "cdn\\.shopify\\.com" }` |
+| **`html-class`** | Analiza las clases presentes en los elementos del DOM. | `{ "type": "html-class", "pattern": "theme-editor-active" }` |
+| **`html-attribute`**| Evalúa atributos específicos. Requiere `attribute`. | `{ "type": "html-attribute", "attribute": "data-store-id", "pattern": "^\\d+$" }` |
+| **`header`** | Compara cabeceras de respuesta HTTP. Requiere `key`. | `{ "type": "header", "key": "x-powered-by", "pattern": "Express" }` |
 
 ### 2. Uso de Plantillas (`templates/`)
 El Chismógrafo incluye plantillas pre-formateadas dentro del directorio `templates/` para facilitar la creación uniforme de firmas:
@@ -304,11 +325,12 @@ Una vez creada la nueva firma, ejecuta `chismografo build-index` para fusionar y
 
 ---
 
-## Seguridad y Restricciones
+## 🔒 Seguridad y Restricciones
 *   **Seguridad iFrame:** El middleware del servidor restringe el embebido mediante la directiva `Content-Security-Policy: frame-ancestors 'self' <allowed_origins>`. Asegúrate de registrar tus dominios de producción en la variable de entorno `ALLOWED_ORIGINS` para habilitar el widget en tu web externa.
 
 ---
 
-## Licencia
+## 📄 Licencia
 
-Este proyecto está bajo la licencia **GNU Affero General Public License v3.0 (AGPL-3.0)**. Consulta el archivo [LICENSE](file:///Users/cesarayar/Documents/Desarrollo/Scrapper/LICENSE) para obtener más información.
+Este proyecto está bajo la licencia **GNU Affero General Public License v3.0 (AGPL-3.0)**. Consulta el archivo [LICENSE](file:///Users/cesarayar/Documents/rifatela/Scrapper/LICENSE) para obtener más información.
+
