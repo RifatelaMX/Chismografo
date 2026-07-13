@@ -4,7 +4,7 @@
 	"description": "Chismógrafo es una aplicación para obtener la pila tecnológica de un sitio web.",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/cesar-ayar/Chismografo"
+		"url": "https://github.com/RifatelaMX/Chismografo.git"
 	},
 	"type": "module",
 	"main": "server.js",
