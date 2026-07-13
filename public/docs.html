@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentación de Desarrollo | Chismógrafo 📓</title>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,400&family=Patrick+Hand&family=VT323&display=swap" rel="stylesheet">
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .code-wrapper {
+      background: #1e1e1e;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    .code-wrapper pre {
+      margin: 0;
+      color: #d4d4d4;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+    }
+    .endpoint-block {
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid var(--paper-lines);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+    .endpoint-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .method {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      color: white;
+    }
+    .method.post { background: var(--gel-purple); }
+    .method.get { background: var(--gel-blue); }
+    .path {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--ink-dark);
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Decorative Glows -->
+  <div class="glow-sphere glow-1"></div>
+  <div class="glow-sphere glow-2"></div>
+  <div class="glow-sphere glow-3"></div>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-wrapper">
+        <img src="/brand/logo/Negativo.svg" alt="Chismógrafo Logo" width="140" style="margin-right: 0.75rem; filter: drop-shadow(0 0 10px rgba(173, 255, 0, 0.35)); display: block;">
+        <div>
+          <h1>Docs de Desarrollo 💻</h1>
+          <p class="tagline">Guía para los nerds y hackers del Chismógrafo</p>
+        </div>
+      </div>
+      <div class="header-links">
+        <a href="/" class="btn-secondary small-btn">
+          <i data-lucide="home"></i> Volver al Inicio
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="app-main">
+      <section class="card glass-panel search-section">
+        <h2>🛠️ Arquitectura y Setup</h2>
+        <p class="section-desc">Instrucciones para correr el Chismógrafo en tu máquina.</p>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="font-family: var(--font-handwritten); font-size: 1.5rem; color: var(--gel-purple); margin-bottom: 0.5rem;">Requisitos</h4>
+          <ul style="margin-left: 1.5rem; font-family: var(--font-body); color: var(--ink-dark);">
+            <li>Node.js (v18+)</li>
+            <li>npm o yarn</li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 style="font-family: var(--font-handwritten); font-size: 1.5rem; color: var(--gel-blue); margin-bottom: 0.5rem;">Instalación</h4>
+          <div class="code-wrapper">
+            <pre><code class="language-bash">git clone &lt;repo&gt;
+cd Scrapper
+npm install
+npm run dev</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="card glass-panel api-doc-section">
+        <div class="card-header">
+          <i data-lucide="terminal"></i>
+          <h2>💻 CLI Chismógrafo</h2>
+        </div>
+        <p class="section-desc">Cómo usar la consola para sacar chismes.</p>
+        
+        <div class="code-wrapper">
+          <pre><code class="language-bash"># Vincular comando localmente
+npm link
+
+# Escanear dominio
+chismografo test-domain shopify.com
+
+# Escanear con atributo específico
+chismografo test-domain shopify.com --attr cms
+
+# Asistente interactivo
+chismografo add-cms
+chismografo add-app
+chismografo add-infra</code></pre>
+        </div>
+      </section>
+
+      <section class="card glass-panel api-doc-section">
+        <div class="card-header">
+          <i data-lucide="globe"></i>
+          <h2>🌐 API REST</h2>
+        </div>
+        <p class="section-desc">Endpoints para conectar con el motor de escaneo.</p>
+        
+        <div class="endpoint-block" style="margin-bottom:1rem;">
+            <div class="endpoint-header">
+              <span class="method post">POST</span>
+              <span class="path">/api/detect</span>
+            </div>
+            <p>Escanear sitio completo (Cuerpo JSON).</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash">curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com"}' http://localhost:3000/api/detect</code></pre>
+            </div>
+        </div>
+
+        <div class="endpoint-block" style="margin-bottom:1rem;">
+            <div class="endpoint-header">
+              <span class="method get">GET</span>
+              <span class="path">/api/detect</span>
+            </div>
+            <p>Escanear sitio completo (Query param).</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash">curl "http://localhost:3000/api/detect?url=shopify.com"</code></pre>
+            </div>
+        </div>
+        
+        <div class="endpoint-block" style="margin-bottom:1rem;">
+            <div class="endpoint-header">
+              <span class="method post">POST</span>
+              <span class="path">/api/pagespeed</span>
+            </div>
+            <p>Lanzar speed test de Google PageSpeed.</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash">curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com"}' http://localhost:3000/api/pagespeed</code></pre>
+            </div>
+        </div>
+
+      </section>
+    </main>
+  </div>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
