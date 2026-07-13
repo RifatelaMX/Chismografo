@@ -47,8 +47,12 @@ export function buildIndex() {
 	const gateways = loadFolderJson('gateways');
 
 	const indexData = { cms, apps, infra, gateways };
-	fs.writeFileSync(indexPath, JSON.stringify(indexData, null, 2), 'utf-8');
-	console.log(`[TechRulesLoader] Unified index.json generated successfully at ${indexPath}`);
+	try {
+		fs.writeFileSync(indexPath, JSON.stringify(indexData, null, 2), 'utf-8');
+		console.log(`[TechRulesLoader] Unified index.json generated successfully at ${indexPath}`);
+	} catch (err) {
+		console.warn(`[TechRulesLoader] Skipping write of index.json (read-only FS): ${err.message}`);
+	}
 	return indexData;
 }
 
