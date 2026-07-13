@@ -74,13 +74,13 @@ export function buildReportEmail(data, recipientName = '') {
 
 	// Platform badge color
 	const platformColors = {
-		Shopify: '#adff00',
-		Magento: '#adff00',
-		WooCommerce: '#adff00',
-		PrestaShop: '#adff00',
-		VTEX: '#adff00',
+		Shopify: '#9b59b6',
+		Magento: '#ff7eb9',
+		WooCommerce: '#00a8ff',
+		PrestaShop: '#e67e22',
+		VTEX: '#2ecc71',
 	};
-	const platformColor = platformColors[technology] || '#adff00';
+	const platformColor = platformColors[technology] || '#9b59b6';
 
 	// CMS confidence bar width
 	const barWidth = Math.max(confidencePct, 5);
@@ -92,18 +92,18 @@ export function buildReportEmail(data, recipientName = '') {
 					.map(
 						(p) => `
         <tr>
-          <td style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04);">
-            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+          <td style="padding: 10px 0; border-bottom: 1px dashed #b8d4e3;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
               <tr>
-                <td style="padding-right: 10px;">
+                <td style="padding-right: 12px; width: 24px;">
                   <img src="https://img.logo.dev/${p.logo || domain}?token=${process.env.LOGODEV_PUBLISHABLE_KEY || ''}&size=24" 
                        width="20" height="20" alt="${p.name}" 
-                       style="border-radius: 4px; vertical-align: middle; display: block;"
+                       style="border-radius: 4px; vertical-align: middle; display: block; border: 1px solid #2b2523;"
                        onerror="this.style.display='none'">
                 </td>
                 <td>
-                  <span style="color: #ffffff; font-size: 13px; font-weight: 500; font-family: 'Inter', sans-serif;">${p.name}</span>
-                  <span style="color: #666666; font-size: 11px; margin-left: 8px; font-family: 'Inter', sans-serif;">${p.category || ''}</span>
+                  <span style="color: #2b2523; font-size: 13px; font-weight: bold; font-family: 'Comic Sans MS', 'Comic Neue', sans-serif;">${p.name}</span>
+                  <span style="color: #5c5654; font-size: 11px; margin-left: 8px; font-family: Arial, sans-serif; font-style: italic;">(${p.category || 'Otros chismes'})</span>
                 </td>
               </tr>
             </table>
@@ -111,7 +111,7 @@ export function buildReportEmail(data, recipientName = '') {
         </tr>`
 					)
 					.join('')
-			: '<tr><td style="color: #666666; font-size: 13px; padding: 8px 0; font-family: \'Inter\', sans-serif;">No se detectaron apps o plugins.</td></tr>';
+			: '<tr><td style="color: #5c5654; font-size: 13px; padding: 12px 0; font-family: \'Comic Sans MS\', sans-serif; font-style: italic;">🤷 No le hallamos apps o plugins instalados.</td></tr>';
 
 	// Infrastructure list HTML
 	const infraHtml =
@@ -119,16 +119,16 @@ export function buildReportEmail(data, recipientName = '') {
 			? infrastructure
 					.map(
 						(i) => `
-        <span style="display: inline-block; background: rgba(173,255,0,0.08); border: 1px solid rgba(173,255,0,0.25); 
-                     color: #adff00; font-size: 11px; font-weight: 600; padding: 3px 10px; font-family: 'Inter', sans-serif;
-                     border-radius: 20px; margin: 3px 4px 3px 0;">${i.name}</span>`
+        <span style="display: inline-block; background: #e8f4fc; border: 1px dashed #00a8ff; 
+                     color: #2b2523; font-size: 11px; font-weight: bold; padding: 4px 10px; font-family: 'Comic Sans MS', sans-serif;
+                     border-radius: 12px; margin: 3px 4px 3px 0;">${i.name}</span>`
 					)
 					.join('')
-			: '<span style="color: #666666; font-size: 13px; font-family: \'Inter\', sans-serif;">No detectada</span>';
+			: '<span style="color: #5c5654; font-size: 13px; font-family: \'Comic Sans MS\', sans-serif; font-style: italic;">🤷 No se le vio infraestructura conocida.</span>';
 
 	// Location info
 	const locationHtml = location?.country
-		? `<span style="color: #a3a3a3; font-size: 12px; font-family: 'Inter', sans-serif;">📍 ${location.country}${location.city ? ` · ${location.city}` : ''}</span>`
+		? `<span style="color: #5c5654; font-size: 13px; font-family: 'Comic Sans MS', sans-serif; font-weight: bold;">📍 Opera desde: ${location.country}${location.city ? ` (${location.city})` : ''}</span>`
 		: '';
 
 	// PageSpeed section (optional)
@@ -138,29 +138,31 @@ export function buildReportEmail(data, recipientName = '') {
 				const perf = Math.round((cats.performance?.score || 0) * 100);
 				const acc = Math.round((cats.accessibility?.score || 0) * 100);
 				const seo = Math.round((cats.seo?.score || 0) * 100);
-				const scoreColor = (s) => (s >= 90 ? '#25d366' : s >= 50 ? '#f59e0b' : '#ef4444');
+				const scoreColor = (s) => (s >= 90 ? '#2ecc71' : s >= 50 ? '#f39c12' : '#ff7eb9');
 				return `
+      <!-- Sticky tape -->
+      <div style="background: rgba(244,238,216,0.85); border-left: 1px dashed rgba(43,37,35,0.15); border-right: 1px dashed rgba(43,37,35,0.15); height: 14px; width: 80px; margin: 20px auto -8px; z-index: 10; position: relative;"></div>
       <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" 
-             style="margin-top: 24px; background: rgba(255,255,255,0.02); border: 1px solid #262626; 
-                    border-radius: 12px; overflow: hidden;">
+             style="background: #ffffff; border: 2px solid #2b2523; 
+                    border-radius: 12px; box-shadow: 4px 4px 0px rgba(43,37,35,0.15); margin-bottom: 20px;">
         <tr>
           <td style="padding: 20px 24px;">
-            <p style="margin: 0 0 16px; color: #a3a3a3; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Inter', sans-serif;">
-              ⚡ PageSpeed Insights
+            <p style="margin: 0 0 16px; color: #ff7eb9; font-size: 13px; font-weight: 700; text-transform: uppercase; font-family: 'Comic Sans MS', sans-serif;">
+              ⚡ ¿Qué tan rápido va? (PageSpeed)
             </p>
             <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
               <tr>
                 <td align="center" width="33%" style="padding: 8px;">
-                  <div style="font-size: 28px; font-weight: 800; color: ${scoreColor(perf)}; font-family: 'Inter', sans-serif;">${perf}</div>
-                  <div style="font-size: 11px; color: #a3a3a3; margin-top: 4px; font-family: 'Inter', sans-serif;">Rendimiento</div>
+                  <div style="font-size: 28px; font-weight: 900; color: ${scoreColor(perf)}; font-family: 'Comic Sans MS', sans-serif;">${perf}</div>
+                  <div style="font-size: 11px; color: #5c5654; margin-top: 4px; font-family: Arial, sans-serif; font-weight: bold;">Velocidad</div>
                 </td>
-                <td align="center" width="33%" style="padding: 8px; border-left: 1px solid #262626; border-right: 1px solid #262626;">
-                  <div style="font-size: 28px; font-weight: 800; color: ${scoreColor(acc)}; font-family: 'Inter', sans-serif;">${acc}</div>
-                  <div style="font-size: 11px; color: #a3a3a3; margin-top: 4px; font-family: 'Inter', sans-serif;">Accesibilidad</div>
+                <td align="center" width="33%" style="padding: 8px; border-left: 2px dashed #b8d4e3; border-right: 2px dashed #b8d4e3;">
+                  <div style="font-size: 28px; font-weight: 900; color: ${scoreColor(acc)}; font-family: 'Comic Sans MS', sans-serif;">${acc}</div>
+                  <div style="font-size: 11px; color: #5c5654; margin-top: 4px; font-family: Arial, sans-serif; font-weight: bold;">Accesibilidad</div>
                 </td>
                 <td align="center" width="33%" style="padding: 8px;">
-                  <div style="font-size: 28px; font-weight: 800; color: ${scoreColor(seo)}; font-family: 'Inter', sans-serif;">${seo}</div>
-                  <div style="font-size: 11px; color: #a3a3a3; margin-top: 4px; font-family: 'Inter', sans-serif;">SEO</div>
+                  <div style="font-size: 28px; font-weight: 900; color: ${scoreColor(seo)}; font-family: 'Comic Sans MS', sans-serif;">${seo}</div>
+                  <div style="font-size: 11px; color: #5c5654; margin-top: 4px; font-family: Arial, sans-serif; font-weight: bold;">SEO</div>
                 </td>
               </tr>
             </table>
@@ -174,24 +176,26 @@ export function buildReportEmail(data, recipientName = '') {
 	const screenshotsHtml =
 		data.screenshots?.desktop && data.screenshots?.mobile
 			? `
+      <!-- Sticky tape -->
+      <div style="background: rgba(244,238,216,0.85); border-left: 1px dashed rgba(43,37,35,0.15); border-right: 1px dashed rgba(43,37,35,0.15); height: 14px; width: 80px; margin: 20px auto -8px; z-index: 10; position: relative;"></div>
       <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" 
-             style="margin-top: 24px; background: rgba(255,255,255,0.02); border: 1px solid #262626; 
-                    border-radius: 12px; overflow: hidden; margin-bottom: 20px;">
+             style="background: #ffffff; border: 2px solid #2b2523; 
+                    border-radius: 12px; box-shadow: 4px 4px 0px rgba(43,37,35,0.15); margin-bottom: 20px;">
         <tr>
           <td style="padding: 20px 24px;">
-            <p style="margin: 0 0 16px; color: #a3a3a3; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Inter', sans-serif;">
-              📸 Capturas de Pantalla
+            <p style="margin: 0 0 16px; color: #00a8ff; font-size: 13px; font-weight: 700; text-transform: uppercase; font-family: 'Comic Sans MS', sans-serif;">
+              📸 Fotos espía (Capturas)
             </p>
             <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
               <tr>
                 <!-- Desktop Preview -->
                 <td style="padding: 4px; vertical-align: top;" width="70%">
-                  <div style="background: #000000; border: 1px solid #262626; border-radius: 6px; overflow: hidden;">
+                  <div style="background: #ffffff; border: 2px solid #2b2523; border-radius: 6px; overflow: hidden;">
                     <!-- Browser header mini -->
-                    <div style="height: 10px; background: rgba(255,255,255,0.06); padding: 0 8px; display: flex; align-items: center;">
-                      <span style="width: 4px; height: 4px; border-radius: 50%; background: #ff5f56; display: inline-block; margin-right: 3px;"></span>
-                      <span style="width: 4px; height: 4px; border-radius: 50%; background: #ffbd2e; display: inline-block; margin-right: 3px;"></span>
-                      <span style="width: 4px; height: 4px; border-radius: 50%; background: #27c93f; display: inline-block;"></span>
+                    <div style="height: 14px; background: #eef2f5; border-bottom: 2px solid #2b2523; padding: 0 8px; display: flex; align-items: center;">
+                      <span style="width: 5px; height: 5px; border-radius: 50%; background: #ff7eb9; display: inline-block; margin-right: 3px; border: 1px solid #2b2523;"></span>
+                      <span style="width: 5px; height: 5px; border-radius: 50%; background: #fdf6e3; display: inline-block; margin-right: 3px; border: 1px solid #2b2523;"></span>
+                      <span style="width: 5px; height: 5px; border-radius: 50%; background: #00a8ff; display: inline-block; border: 1px solid #2b2523;"></span>
                     </div>
                     <img src="${appUrl}${data.screenshots.desktop}" alt="Desktop Preview" 
                          style="width: 100%; height: auto; display: block; object-fit: cover;" width="350">
@@ -199,10 +203,10 @@ export function buildReportEmail(data, recipientName = '') {
                 </td>
                 <!-- Mobile Preview -->
                 <td style="padding: 4px; vertical-align: top;" width="30%">
-                  <div style="background: #000000; border: 1px solid #262626; border-radius: 8px; overflow: hidden; max-width: 120px; margin-left: auto;">
-                    <!-- Phone camera/speaker notch mini -->
-                    <div style="height: 10px; background: rgba(255,255,255,0.06); text-align: center; line-height: 10px;">
-                      <span style="width: 16px; height: 3px; border-radius: 1.5px; background: rgba(255,255,255,0.3); display: inline-block; vertical-align: middle;"></span>
+                  <div style="background: #ffffff; border: 2px solid #2b2523; border-radius: 8px; overflow: hidden; max-width: 120px; margin-left: auto;">
+                    <!-- Phone camera notch mini -->
+                    <div style="height: 14px; background: #eef2f5; border-bottom: 2px solid #2b2523; text-align: center;">
+                      <span style="width: 16px; height: 3px; border-radius: 1.5px; background: #2b2523; display: inline-block; margin-top: 5px;"></span>
                     </div>
                     <img src="${appUrl}${data.screenshots.mobile}" alt="Mobile Preview" 
                          style="width: 100%; height: auto; display: block; object-fit: cover;" width="110">
@@ -222,180 +226,177 @@ export function buildReportEmail(data, recipientName = '') {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reporte de Auditoría — ${domain}</title>
+  <title>Expediente Chismoso — ${domain}</title>
 </head>
-<body style="margin: 0; padding: 0; background-color: #000000; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+<body style="margin: 0; padding: 0; background-color: #edf2f7; font-family: 'Comic Sans MS', 'Comic Neue', sans-serif;">
 
   <!-- Outer wrapper -->
-  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #000000;">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #edf2f7;">
     <tr>
       <td align="center" style="padding: 40px 16px;">
 
         <!-- Email container -->
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" 
-               style="max-width: 600px; width: 100%; background: #121212; border: 1px solid #262626; 
-                      border-radius: 20px; overflow: hidden;">
+               style="max-width: 600px; width: 100%; background: #fcfaf2; border: 3px solid #2b2523; 
+                      border-radius: 16px; box-shadow: 8px 8px 0px rgba(43,37,35,0.15); overflow: hidden;">
 
-          <!-- Header gradient bar -->
+          <!-- Header gradient bar (gel pens style) -->
           <tr>
-            <td style="background: linear-gradient(90deg, #25d366 0%, #adff00 100%); height: 4px; font-size: 0; line-height: 0;">&nbsp;</td>
+            <td style="background: #9b59b6; height: 6px; font-size: 0; line-height: 0;">&nbsp;</td>
           </tr>
 
-          <!-- Header -->
+          <!-- Main Content Area with Pink Margin simulation -->
           <tr>
-            <td style="padding: 40px 40px 24px;" align="center">
-              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
+            <td style="padding: 40px 30px 24px; border-left: 4px double #ff7eb9;">
+              
+              <!-- Header with logo sticker -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin-bottom: 24px;">
                 <tr>
                   <td align="center">
-                    <img src="${appUrl}/brand/logo/Negativo.svg" width="160" height="auto" alt="Chismógrafo" 
-                         style="display: block; border: 0; margin-bottom: 8px;">
+                    <div style="background-color: #2b2523; padding: 14px 24px; border-radius: 12px; border: 2px solid #2b2523; display: inline-block; box-shadow: 3px 3px 0px rgba(43,37,35,0.25);">
+                      <img src="${appUrl}/brand/logo/Negativo.svg" width="150" alt="Chismógrafo" style="display: block; border: 0;">
+                    </div>
                   </td>
                 </tr>
                 <tr>
-                  <td align="center">
-                    <span style="font-size: 15px; font-weight: 800; color: #adff00; font-family: 'Inter', sans-serif; letter-spacing: 0.25em; text-transform: uppercase;">Chismógrafo</span>
+                  <td align="center" style="padding-top: 10px;">
+                    <span style="font-family: Georgia, serif; font-size: 14px; color: #ff7eb9; font-style: italic; font-weight: bold;">✏️ el cuaderno donde apuntamos todos los chismes tech</span>
                   </td>
                 </tr>
               </table>
-            </td>
-          </tr>
 
-          <!-- Hero section -->
-          <tr>
-            <td style="padding: 0 40px 32px;">
-              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"
-                     style="background: linear-gradient(135deg, rgba(37,211,102,0.12) 0%, rgba(173,255,0,0.06) 100%); 
-                            border: 1px solid rgba(173,255,0,0.25); border-radius: 16px; overflow: hidden;">
+              <!-- Greeting and Intro -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 24px;">
                 <tr>
-                  <td style="padding: 28px 28px 24px;">
-                    <p style="margin: 0 0 12px; color: #ffffff; font-size: 14px; font-weight: 500; font-family: 'Inter', sans-serif;">
-                      ${greeting},
+                  <td>
+                    <h3 style="margin: 0 0 10px; color: #2b2523; font-size: 18px; font-family: 'Comic Sans MS', sans-serif;">
+                      ¡Psst! ${greeting} 🤫
+                    </h3>
+                    <p style="margin: 0; color: #5c5654; font-size: 14px; line-height: 1.6; font-family: 'Comic Sans MS', sans-serif;">
+                      Nos metimos a husmear a los servidores de <strong>${domain}</strong> y le sacamos todo el chisme tecnológico. ¡Aquí tienes el expediente calientito!
                     </p>
-                    <p style="margin: 0 0 6px; color: #a3a3a3; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Inter', sans-serif;">
-                      Reporte de Auditoría
-                    </p>
-                    <h1 style="margin: 0 0 8px; color: #ffffff; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; word-break: break-all; font-family: 'Inter', sans-serif;">
-                      ${domain}
-                    </h1>
-                    ${locationHtml}
-                    <p style="margin: 12px 0 0; color: #666666; font-size: 12px; font-family: 'Inter', sans-serif;">Generado el ${scanDate}</p>
                   </td>
                 </tr>
-                <!-- Divider -->
+              </table>
+
+              <!-- Main Hero Box (Post-It style) -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"
+                     style="background: #fdf6e3; border: 2px dashed #9b59b6; border-radius: 16px; margin-bottom: 24px; box-shadow: 4px 4px 0px rgba(43,37,35,0.1);">
                 <tr>
-                  <td style="padding: 0 28px;"><div style="height: 1px; background: rgba(255,255,255,0.07);"></div></td>
-                </tr>
-                <!-- CMS Detection -->
-                <tr>
-                  <td style="padding: 20px 28px 24px;">
+                  <td style="padding: 24px;">
+                    <p style="margin: 0 0 8px; color: #9b59b6; font-size: 11px; font-weight: bold; text-transform: uppercase; font-family: 'Comic Sans MS', sans-serif;">
+                      📌 Plataforma principal detectada
+                    </p>
                     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
                       <tr>
-                        <td>
-                          <p style="margin: 0 0 10px; color: #a3a3a3; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Inter', sans-serif;">
-                            Plataforma detectada
-                          </p>
+                        <td style="vertical-align: middle;">
                           <table role="presentation" cellpadding="0" cellspacing="0" border="0">
                             <tr>
                               <td style="padding-right: 12px; vertical-align: middle;">
                                 <img src="https://img.logo.dev/${technology.toLowerCase()}.com?token=${process.env.LOGODEV_PUBLISHABLE_KEY || ''}&size=40"
                                      width="36" height="36" alt="${technology}"
-                                     style="border-radius: 8px; display: block;"
+                                     style="border-radius: 8px; display: block; border: 1.5px solid #2b2523;"
                                      onerror="this.style.display='none'">
                               </td>
                               <td style="vertical-align: middle;">
-                                <div style="font-size: 22px; font-weight: 800; color: ${platformColor}; font-family: 'Inter', sans-serif;">${technology}</div>
-                                ${theme ? `<div style="font-size: 12px; color: #a3a3a3; margin-top: 2px; font-family: 'Inter', sans-serif;">Tema: ${theme}</div>` : ''}
+                                <div style="font-size: 24px; font-weight: 900; color: #2b2523; font-family: 'Comic Sans MS', sans-serif;">${technology}</div>
+                                ${theme ? `<div style="font-size: 12px; color: #5c5654; margin-top: 2px; font-family: 'Comic Sans MS', sans-serif; font-style: italic;">Tema: ${theme}</div>` : ''}
                               </td>
                             </tr>
                           </table>
                         </td>
-                        <td align="right" style="vertical-align: bottom;">
-                          <!-- Confidence -->
+                        <td align="right" style="vertical-align: middle;">
+                          <!-- Confidence Meter -->
                           <div style="text-align: right;">
-                            <span style="font-size: 32px; font-weight: 900; color: #ffffff; font-family: 'Inter', sans-serif;">${confidencePct}<span style="font-size: 18px; color: #a3a3a3;">%</span></span>
-                            <div style="margin-top: 6px; width: 120px; height: 6px; background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; margin-left: auto;">
-                              <div style="height: 100%; width: ${barWidth}%; background: linear-gradient(90deg, #25d366, #adff00); border-radius: 999px;"></div>
+                            <span style="font-size: 30px; font-weight: 900; color: #2b2523; font-family: 'Comic Sans MS', sans-serif;">${confidencePct}%</span>
+                            <div style="margin-top: 4px; width: 100px; height: 8px; background: #eef2f5; border: 1.5px solid #2b2523; border-radius: 99px; overflow: hidden; margin-left: auto;">
+                              <div style="height: 100%; width: ${barWidth}%; background-color: #ff7eb9;"></div>
                             </div>
-                            <p style="margin: 4px 0 0; font-size: 10px; color: #666666; text-transform: uppercase; letter-spacing: 0.06em; font-family: 'Inter', sans-serif;">Confianza</p>
+                            <p style="margin: 2px 0 0; font-size: 9px; color: #5c5654; text-transform: uppercase; font-family: Arial, sans-serif; font-weight: bold;">De Confianza</p>
                           </div>
                         </td>
                       </tr>
                     </table>
+                    <div style="margin-top: 15px; padding-top: 12px; border-top: 1px dashed rgba(43,37,35,0.15);">
+                      ${locationHtml}
+                    </div>
                   </td>
                 </tr>
               </table>
-            </td>
-          </tr>
 
-          <!-- Body sections -->
-          <tr>
-            <td style="padding: 0 40px 32px;">
-
-              <!-- Plugins / Apps -->
+              <!-- Plugins Note -->
+              <!-- Sticky tape -->
+              <div style="background: rgba(244,238,216,0.85); border-left: 1px dashed rgba(43,37,35,0.15); border-right: 1px dashed rgba(43,37,35,0.15); height: 14px; width: 80px; margin: 0 auto -8px; z-index: 10; position: relative;"></div>
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"
-                     style="background: rgba(255,255,255,0.02); border: 1px solid #262626; 
-                            border-radius: 12px; overflow: hidden; margin-bottom: 20px;">
+                     style="background: #ffffff; border: 2px solid #2b2523; 
+                            border-radius: 12px; box-shadow: 4px 4px 0px rgba(43,37,35,0.15); margin-bottom: 24px;">
                 <tr>
-                  <td style="padding: 20px 24px 4px;">
-                    <p style="margin: 0 0 16px; color: #a3a3a3; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Inter', sans-serif;">
-                      🧩 Apps y Plugins detectados (${plugins.length})
+                  <td style="padding: 20px 24px;">
+                    <p style="margin: 0 0 12px; color: #9b59b6; font-size: 13px; font-weight: bold; text-transform: uppercase; font-family: 'Comic Sans MS', sans-serif;">
+                      🔌 Apps que le cachamos (${plugins.length})
                     </p>
                     <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
                       ${pluginsHtml}
                     </table>
                   </td>
                 </tr>
-                <tr><td style="padding: 12px 24px 20px;"></td></tr>
               </table>
 
-              <!-- Infrastructure -->
+              <!-- Infrastructure Note -->
+              <!-- Sticky tape -->
+              <div style="background: rgba(244,238,216,0.85); border-left: 1px dashed rgba(43,37,35,0.15); border-right: 1px dashed rgba(43,37,35,0.15); height: 14px; width: 80px; margin: 0 auto -8px; z-index: 10; position: relative;"></div>
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"
-                     style="background: rgba(255,255,255,0.02); border: 1px solid #262626; 
-                            border-radius: 12px; overflow: hidden; margin-bottom: 20px;">
+                     style="background: #ffffff; border: 2px solid #2b2523; 
+                            border-radius: 12px; box-shadow: 4px 4px 0px rgba(43,37,35,0.15); margin-bottom: 24px;">
                 <tr>
                   <td style="padding: 20px 24px;">
-                    <p style="margin: 0 0 12px; color: #a3a3a3; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Inter', sans-serif;">
-                      🛡️ Infraestructura (${infrastructure.length})
+                    <p style="margin: 0 0 12px; color: #ff7eb9; font-size: 13px; font-weight: bold; text-transform: uppercase; font-family: 'Comic Sans MS', sans-serif;">
+                      🛡️ Infraestructura del sitio (${infrastructure.length})
                     </p>
-                    <div>${infraHtml}</div>
+                    <div style="padding-top: 4px;">
+                      ${infraHtml}
+                    </div>
                   </td>
                 </tr>
               </table>
 
-              <!-- PageSpeed (conditional) -->
+              <!-- PageSpeed -->
               ${pagespeedHtml}
 
-              <!-- Screenshots (conditional) -->
+              <!-- Screenshots -->
               ${screenshotsHtml}
 
-            </td>
-          </tr>
+              <!-- CTA Button -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin: 30px 0 20px;">
+                <tr>
+                  <td align="center">
+                    <a href="${appUrl}/?url=${encodeURIComponent(resolvedUrl)}" 
+                       style="display: inline-block; background-color: #ff7eb9; color: #ffffff; text-decoration: none; 
+                              font-weight: 900; font-size: 15px; padding: 14px 32px; border-radius: 50px; 
+                              border: 3px solid #2b2523; box-shadow: 4px 4px 0px #2b2523; font-family: 'Comic Sans MS', sans-serif;
+                              text-shadow: 1px 1px 0px rgba(43,37,35,0.35);">
+                      ¡Ver todo el chisme completo! 🔍
+                    </a>
+                  </td>
+                </tr>
+              </table>
 
-          <!-- CTA Button -->
-          <tr>
-            <td style="padding: 0 40px 36px;" align="center">
-              <a href="${appUrl}/?url=${encodeURIComponent(resolvedUrl)}" 
-                 style="display: inline-block; background: linear-gradient(90deg, #25d366, #adff00); 
-                        color: #000000; text-decoration: none; font-weight: 800; font-size: 14px; 
-                        padding: 14px 32px; border-radius: 12px; letter-spacing: 0.01em; font-family: 'Inter', sans-serif;">
-                Ver auditoría completa →
-              </a>
             </td>
           </tr>
 
           <!-- Footer -->
           <tr>
-            <td style="padding: 24px 40px; border-top: 1px solid #262626;">
+            <td style="padding: 24px 30px; border-top: 2px dashed #b8d4e3; background-color: #fbf6e9; border-left: 4px double #ff7eb9;">
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
                 <tr>
                   <td>
-                    <p style="margin: 0; font-size: 11px; color: #666666; line-height: 1.5; font-family: 'Inter', sans-serif;">
-                      Este reporte fue generado automáticamente por <strong style="color: #a3a3a3;">Chismógrafo</strong>.<br>
-                      Si no solicitaste este correo, puedes ignorarlo de forma segura.
+                    <p style="margin: 0; font-size: 11px; color: #5c5654; line-height: 1.5; font-family: 'Comic Sans MS', sans-serif;">
+                      Este expediente chismoso fue generado por el <strong style="color: #ff7eb9;">Chismógrafo 📓</strong>.<br>
+                      Si te enviaron esto por error, no te estreses, bórralo y ya. ✨
                     </p>
                   </td>
-                  <td align="right" style="vertical-align: middle;">
-                    <p style="margin: 0; font-size: 11px; color: #adff00; font-weight: 800; font-family: 'Inter', sans-serif;">⚡ chismografo.com</p>
+                  <td align="right" style="vertical-align: middle; padding-left: 10px;">
+                    <p style="margin: 0; font-size: 11px; color: #9b59b6; font-weight: 800; font-family: 'Comic Sans MS', sans-serif; white-space: nowrap;">📓 chismografo.com</p>
                   </td>
                 </tr>
               </table>
@@ -404,21 +405,20 @@ export function buildReportEmail(data, recipientName = '') {
 
           <!-- Bottom gradient bar -->
           <tr>
-            <td style="background: linear-gradient(90deg, #adff00 0%, #25d366 100%); height: 3px; font-size: 0; line-height: 0;">&nbsp;</td>
+            <td style="background: #ff7eb9; height: 6px; font-size: 0; line-height: 0;">&nbsp;</td>
           </tr>
 
         </table>
 
-        <!-- Legal note below card -->
-        <p style="margin: 24px 0 0; font-size: 11px; color: #666666; text-align: center; font-family: 'Inter', sans-serif;">
-          © ${new Date().getFullYear()} Chismógrafo · 
-          <a href="${appUrl}" style="color: #a3a3a3; text-decoration: none;">chismografo.com</a>
+        <!-- Copyright note below card -->
+        <p style="margin: 24px 0 0; font-size: 11px; color: #5c5654; text-align: center; font-family: 'Comic Sans MS', sans-serif; font-weight: bold;">
+          © ${new Date().getFullYear()} Chismógrafo 📓 · 
+          <a href="${appUrl}" style="color: #ff7eb9; text-decoration: none;">chismografo.com</a>
         </p>
 
       </td>
     </tr>
   </table>
-
 </body>
 </html>`;
 
@@ -438,7 +438,7 @@ ${infrastructure.map((i) => `  - ${i.name}${i.category ? ` (${i.category})` : ''
 Ver auditoría completa: ${appUrl}/?url=${encodeURIComponent(resolvedUrl)}
 
 ---
-Este reporte fue generado por Chismógrafo · chismografo.com
+Este reporte fue generado por Chismógrafo · rifatela.lol
 `;
 
 	return { html, text };

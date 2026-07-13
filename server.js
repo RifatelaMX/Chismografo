@@ -25,7 +25,7 @@ const publicPath = path.join(__dirname, 'public');
 // Allowed Origins for CORS and iframe embedding (Loaded from env or fallback to localhost)
 const allowedOrigins = process.env.ALLOWED_ORIGINS
 	? process.env.ALLOWED_ORIGINS.split(',').map((o) => o.trim())
-	: ['http://localhost:3000', 'http://127.0.0.1:3000'];
+	: ['http://localhost:3000', 'http://127.0.0.1:3000', 'https://chismografo.rifatela.lol'];
 
 if (process.env.APP_URL && !allowedOrigins.includes(process.env.APP_URL.trim())) {
 	allowedOrigins.push(process.env.APP_URL.trim());
