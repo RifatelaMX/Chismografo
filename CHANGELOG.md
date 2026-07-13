@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/cesar-ayar/Chismografo/compare/v1.0.1...v1.1.0) (2026-07-13)
+
+
+### Features
+
+* update tech icon resolution to prioritize direct logo URLs and support custom logo dev formatting ([9d74ec9](https://github.com/cesar-ayar/Chismografo/commit/9d74ec97f9be94aefa85624bec59fe6829567c1b))
+
 ## [1.0.1](https://github.com/cesar-ayar/Chismografo/compare/v1.0.0...v1.0.1) (2026-07-13)
 
 
