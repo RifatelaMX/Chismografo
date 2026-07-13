@@ -1052,21 +1052,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// Helper to extract domain and build Logo.dev / Google Favicon logo URL
 	function getTechIconUrl(tech) {
+		if (tech.logo && tech.logo.startsWith('http')) {
+			return tech.logo;
+		}
+
 		if (tech.shopifyAppIcon) {
 			return tech.shopifyAppIcon;
 		}
 		let domain = '';
 
-		// Extract domain from link
-		if (tech.link) {
-			try {
-				domain = new URL(tech.link).hostname.replace(/^www\./i, '');
-			} catch (_e) {}
-		}
-		if (!domain && tech.website) {
-			try {
-				domain = new URL(tech.website).hostname.replace(/^www\./i, '');
-			} catch (_e) {}
+		if (tech.logo) {
+			domain = tech.logo;
+		} else {
+			// Extract domain from link
+			if (tech.link) {
+				try {
+					domain = new URL(tech.link).hostname.replace(/^www\./i, '');
+				} catch (_e) {}
+			}
+			if (!domain && tech.website) {
+				try {
+					domain = new URL(tech.website).hostname.replace(/^www\./i, '');
+				} catch (_e) {}
+			}
 		}
 
 		const token = serverConfig.logoDevToken;

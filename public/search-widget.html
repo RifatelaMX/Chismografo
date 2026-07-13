@@ -724,7 +724,17 @@
 
       const items = [];
       if (data.plugins) {
-        data.plugins.forEach(p => { items.push({ name: p.name, logo: p.shopifyAppIcon }); });
+        data.plugins.forEach(p => { 
+          let pluginLogo = p.shopifyAppIcon || '';
+          if (p.logo) {
+            if (p.logo.startsWith('http')) {
+              pluginLogo = p.logo;
+            } else {
+              pluginLogo = `https://img.logo.dev/${p.logo}?token=pk_MgKPAkEuRMOiYecOkx67wQ&size=64`;
+            }
+          }
+          items.push({ name: p.name, logo: pluginLogo }); 
+        });
       }
       if (data.infrastructure) {
         data.infrastructure.forEach(inf => { items.push({ name: inf.name }); });
