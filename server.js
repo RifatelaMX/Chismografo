@@ -203,9 +203,10 @@ async function getScreenshot(domain, device = 'desktop', extraParams = {}) {
 		return `/screenshots/${filename}`;
 	}
 
-	// 2. Otherwise, check if API key exists
+	// 2. Otherwise, check if API key exists and screenshots are enabled
 	const customerKey = process.env.SCREENSHOTMACHINE_KEY;
-	if (!customerKey) {
+	const screenshotsEnabled = process.env.ENABLE_SCREENSHOTS !== 'false';
+	if (!customerKey || !screenshotsEnabled) {
 		// If no API key, copy the mock image!
 		const mockFile = device === 'desktop' ? 'desktop-mock.png' : 'mobile-mock.png';
 		const mockPath = path.join(publicPath, 'mocks', mockFile);
