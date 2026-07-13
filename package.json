@@ -1,6 +1,6 @@
 {
 	"name": "chismografo",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Chismógrafo es una aplicación para obtener la pila tecnológica de un sitio web.",
 	"repository": {
 		"type": "git",

@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/cesar-ayar/Chismografo/compare/v1.0.0...v1.0.1) (2026-07-13)
+
+
+### Bug Fixes
+
+* handle read-only filesystem errors when writing unified index.json ([952f6ca](https://github.com/cesar-ayar/Chismografo/commit/952f6cabd3cd968996f6acba325ffbbdb5d6f3c9))
+
 # 1.0.0 (2026-07-13)
 
 
