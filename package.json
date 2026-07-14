@@ -36,6 +36,7 @@
 	"author": "Rífatela",
 	"license": "AGPL-3.0-only",
 	"dependencies": {
+		"@vercel/analytics": "^2.0.1",
 		"axios": "^1.7.9",
 		"cheerio": "^1.0.0",
 		"cors": "^2.8.5",
