@@ -4,7 +4,7 @@
    ========================================================================== */
 
 /* Google Fonts — Handwritten + Y2K vibes */
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,400&family=Patrick+Hand&family=VT323&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,400&family=Patrick+Hand&family=VT323&display=swap");
 
 :root {
 	/* Notebook Paper Colors */
@@ -36,9 +36,9 @@
 	--ink-faint: #b8a99a;
 
 	/* Typography */
-	--font-handwritten: 'Caveat', 'Patrick Hand', cursive;
-	--font-body: 'Comic Neue', 'Comic Sans MS', cursive, sans-serif;
-	--font-mono: 'VT323', monospace;
+	--font-handwritten: "Caveat", "Patrick Hand", cursive;
+	--font-body: "Comic Neue", "Comic Sans MS", cursive, sans-serif;
+	--font-mono: "VT323", monospace;
 
 	/* Spacing */
 	--line-height-notebook: 2rem;
@@ -105,7 +105,7 @@ body {
    The entire page area looks like a spiral-bound notebook
    ========================================================================== */
 .container::before {
-	content: '';
+	content: "";
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -115,7 +115,7 @@ body {
 	background-color: var(--paper);
 	/* Ruled notebook lines */
 	background-image:
-		/* Horizontal ruled lines */
+/* Horizontal ruled lines */
 		repeating-linear-gradient(
 			transparent,
 			transparent 31px,
@@ -130,13 +130,15 @@ body {
 			var(--paper-margin) 81px,
 			transparent 81px
 		);
-	background-size: 100% 32px, 100% 100%;
+	background-size:
+		100% 32px,
+		100% 100%;
 	background-attachment: local;
 }
 
 /* Spiral binding holes along the left side */
 .container::after {
-	content: '';
+	content: "";
 	position: fixed;
 	top: 0;
 	left: 26px;
@@ -188,7 +190,7 @@ body {
 
 /* Decorative tape on header */
 .app-header::before {
-	content: '';
+	content: "";
 	position: absolute;
 	top: -10px;
 	right: 30px;
@@ -197,7 +199,7 @@ body {
 	background: rgba(255, 241, 118, 0.7);
 	transform: rotate(-3deg);
 	border-radius: 2px;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 	z-index: 1;
 }
 
@@ -214,7 +216,7 @@ body {
 	border-radius: 12px;
 	padding: 4px;
 	background: var(--ink-dark);
-	box-shadow: 2px 3px 0 rgba(0,0,0,0.15);
+	box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.15);
 	transform: rotate(-2deg);
 }
 
@@ -222,7 +224,12 @@ body {
 	font-family: var(--font-handwritten);
 	font-size: 2.5rem;
 	font-weight: 700;
-	background: linear-gradient(135deg, var(--gel-pink) 0%, var(--gel-purple) 50%, var(--gel-blue) 100%);
+	background: linear-gradient(
+		135deg,
+		var(--gel-pink) 0%,
+		var(--gel-purple) 50%,
+		var(--gel-blue) 100%
+	);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
@@ -277,7 +284,7 @@ body {
 
 /* Tape decoration on cards */
 .card::before {
-	content: '';
+	content: "";
 	position: absolute;
 	top: -8px;
 	left: 20%;
@@ -286,7 +293,7 @@ body {
 	background: rgba(255, 241, 118, 0.65);
 	transform: rotate(2deg);
 	border-radius: 2px;
-	box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 	z-index: 2;
 }
 
@@ -339,7 +346,7 @@ body {
 	box-shadow:
 		0 3px 0 #7b2d8e,
 		0 5px 8px rgba(0, 0, 0, 0.15);
-	text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	letter-spacing: 0;
 }
 
@@ -371,13 +378,13 @@ body {
 	align-items: center;
 	gap: 0.4rem;
 	transition: var(--transition);
-	box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+	box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .btn-secondary:hover {
 	background: #ffee58;
 	transform: rotate(-1deg) scale(1.02);
-	box-shadow: 3px 3px 0 rgba(0,0,0,0.12);
+	box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.12);
 }
 
 .small-btn {
@@ -489,8 +496,15 @@ body {
 }
 
 @keyframes pulse-dot {
-	0%, 100% { transform: scale(1); opacity: 1; }
-	50% { transform: scale(1.4); opacity: 0.6; }
+	0%,
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+	50% {
+		transform: scale(1.4);
+		opacity: 0.6;
+	}
 }
 
 .scanner-status h3 {
@@ -514,7 +528,7 @@ body {
 	background: rgba(255, 255, 255, 0.5);
 	border-radius: 4px;
 	overflow: hidden;
-	border: 1px solid rgba(0,0,0,0.08);
+	border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .progress-bar {
@@ -549,8 +563,7 @@ body {
 	border-radius: var(--radius-md);
 	border: 2px solid var(--gel-purple) !important;
 	margin-bottom: 1.75rem;
-	box-shadow:
-		3px 4px 0 rgba(155, 89, 182, 0.2) !important;
+	box-shadow: 3px 4px 0 rgba(155, 89, 182, 0.2) !important;
 	/* Override inline styles from HTML */
 	color: var(--ink-dark) !important;
 }
@@ -604,7 +617,7 @@ body {
 	align-items: center;
 	justify-content: center;
 	overflow: hidden;
-	box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+	box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
 	transform: rotate(-2deg);
 }
 
@@ -649,7 +662,7 @@ body {
 .mobile-mockup-mini {
 	border: 3px solid var(--ink-dark) !important;
 	background: white !important;
-	box-shadow: 3px 3px 0 rgba(0,0,0,0.15) !important;
+	box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.15) !important;
 	transform: rotate(1deg);
 }
 
@@ -697,14 +710,14 @@ body {
 	align-items: center;
 	gap: 0.75rem;
 	transition: var(--transition);
-	box-shadow: 2px 2px 0 rgba(0,0,0,0.06);
+	box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 .plugin-card:hover {
 	background: var(--sticker-yellow);
 	border-color: var(--gel-orange);
 	transform: rotate(-0.5deg) translateY(-2px);
-	box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+	box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .tech-icon-container-mini {
@@ -760,7 +773,7 @@ body {
 	border: 2px solid var(--paper-lines) !important;
 	border-radius: 10px !important;
 	transition: var(--transition) !important;
-	box-shadow: 2px 2px 0 rgba(0,0,0,0.06) !important;
+	box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.06) !important;
 }
 
 .gateway-item-card:hover {
@@ -778,7 +791,7 @@ body {
 	border-radius: var(--radius-sm);
 	border: 3px solid var(--ink-dark) !important;
 	background: #dce5d4 !important;
-	box-shadow: 3px 3px 0 rgba(0,0,0,0.15);
+	box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.15);
 }
 
 .latency-card {
@@ -823,7 +836,7 @@ body {
 
 /* Score gauge background circles */
 .pagespeed-card circle[stroke="rgba(255,255,255,0.03)"] {
-	stroke: rgba(0,0,0,0.06) !important;
+	stroke: rgba(0, 0, 0, 0.06) !important;
 }
 
 /* Gauge container cards */
@@ -856,7 +869,7 @@ body {
 	align-items: center;
 	justify-content: center;
 	color: var(--gel-red);
-	box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+	box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .error-details h3 {
@@ -960,7 +973,7 @@ body {
 	background: #2d2b3d;
 	border: 2px solid #4a4660;
 	overflow: hidden;
-	box-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+	box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
 }
 
 .code-wrapper pre {
@@ -983,7 +996,7 @@ body {
 	top: 0.5rem;
 	right: 0.5rem;
 	background: rgba(255, 255, 255, 0.08);
-	border: 1px solid rgba(255,255,255,0.15);
+	border: 1px solid rgba(255, 255, 255, 0.15);
 	color: #c8b6ff;
 	width: 28px;
 	height: 28px;
@@ -1027,7 +1040,7 @@ body {
 .leaflet-custom-tooltip {
 	background: white !important;
 	border: 2px solid var(--paper-lines) !important;
-	box-shadow: 2px 2px 0 rgba(0,0,0,0.1) !important;
+	box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1) !important;
 	color: var(--ink-dark) !important;
 	font-family: var(--font-body) !important;
 }
@@ -1041,14 +1054,26 @@ body {
 
 /* Sticker wiggle on hover */
 @keyframes wiggle {
-	0%, 100% { transform: rotate(-1deg); }
-	50% { transform: rotate(1deg); }
+	0%,
+	100% {
+		transform: rotate(-1deg);
+	}
+	50% {
+		transform: rotate(1deg);
+	}
 }
 
 /* Star sparkle */
 @keyframes sparkle {
-	0%, 100% { opacity: 1; transform: scale(1); }
-	50% { opacity: 0.5; transform: scale(1.2); }
+	0%,
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 0.5;
+		transform: scale(1.2);
+	}
 }
 
 /* ==========================================================================
@@ -1102,7 +1127,7 @@ body {
 	border-radius: 16px !important;
 	font-family: var(--font-body) !important;
 	font-weight: 700 !important;
-	box-shadow: 2px 2px 0 rgba(0,0,0,0.06) !important;
+	box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.06) !important;
 	transition: var(--transition) !important;
 }
 

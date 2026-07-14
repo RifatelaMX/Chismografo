@@ -1,18 +1,18 @@
 {
-  "name": "Adyen",
-  "category": "Payment Gateway",
-  "web": "https://adyen.com",
-  "logo": "adyen.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "adyen\\.com|adyen\\.js",
-      "description": "Script de integración de Adyen detectado"
-    },
-    {
-      "type": "html",
-      "pattern": "\\badyen\\b",
-      "description": "Clase o marca HTML de Adyen detectada"
-    }
-  ]
+	"name": "Adyen",
+	"category": "Payment Gateway",
+	"web": "https://adyen.com",
+	"logo": "adyen.com",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "adyen\\.com|adyen\\.js",
+			"description": "Script de integración de Adyen detectado"
+		},
+		{
+			"type": "html",
+			"pattern": "\\badyen\\b",
+			"description": "Clase o marca HTML de Adyen detectada"
+		}
+	]
 }

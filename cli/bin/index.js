@@ -296,7 +296,14 @@ function toSlug(name) {
 }
 
 // 0. Command: version / --version / -v / -V
-if (command === 'version' || command === '--version' || command === '-v' || command === '-V' || args.includes('--version') || args.includes('-v')) {
+if (
+	command === 'version' ||
+	command === '--version' ||
+	command === '-v' ||
+	command === '-V' ||
+	args.includes('--version') ||
+	args.includes('-v')
+) {
 	let versions = { cli: '1.0.0', ui: '1.0.0', api: '1.0.0' };
 	const versionPath = path.join(__dirname, '../../version.json');
 	if (fs.existsSync(versionPath)) {
@@ -326,7 +333,10 @@ if (command === 'version' || command === '--version' || command === '-v' || comm
 
 // 1. Command: dev
 if (command === 'dev') {
-	console.log('\x1b[36m%s\x1b[0m', '🤫 Psst... El Chismógrafo Web se está despertando (modo watch)...');
+	console.log(
+		'\x1b[36m%s\x1b[0m',
+		'🤫 Psst... El Chismógrafo Web se está despertando (modo watch)...'
+	);
 	const child = spawn('node', ['--watch', 'server.js'], {
 		stdio: 'inherit',
 		env: { ...process.env, DEV: 'true', NODE_ENV: 'development' },
@@ -399,14 +409,21 @@ else if (command === 'build-index') {
 			`  📊 Resumen del cotilleo: ${cms.length} CMS, ${apps.length} Apps, ${infra.length} Infraestructuras y ${gateways.length} Pasarelas fichadas.`
 		);
 	} catch (err) {
-		console.error('\x1b[31m%s\x1b[0m', '✗ ¡Chisme fallido! Error al compilar index.json:', err.message);
+		console.error(
+			'\x1b[31m%s\x1b[0m',
+			'✗ ¡Chisme fallido! Error al compilar index.json:',
+			err.message
+		);
 		process.exit(1);
 	}
 }
 
 // 3. Command: validate-index
 else if (command === 'validate-index') {
-	console.log('\x1b[36m%s\x1b[0m', '🔍 El Chismógrafo está verificando que index.json no tenga chismes inventados ni rotos...');
+	console.log(
+		'\x1b[36m%s\x1b[0m',
+		'🔍 El Chismógrafo está verificando que index.json no tenga chismes inventados ni rotos...'
+	);
 	if (!fs.existsSync(indexPath)) {
 		console.error(
 			'\x1b[31m%s\x1b[0m',
@@ -430,9 +447,16 @@ else if (command === 'validate-index') {
 			process.exit(1);
 		}
 
-		console.log('\x1b[32m%s\x1b[0m', '✓ ¡Expediente limpio! El Chismógrafo confirma que index.json no tiene chismes rotos.');
+		console.log(
+			'\x1b[32m%s\x1b[0m',
+			'✓ ¡Expediente limpio! El Chismógrafo confirma que index.json no tiene chismes rotos.'
+		);
 	} catch (err) {
-		console.error('\x1b[31m%s\x1b[0m', '✗ ¡Chisme corrupto! Error al validar index.json:', err.message);
+		console.error(
+			'\x1b[31m%s\x1b[0m',
+			'✗ ¡Chisme corrupto! Error al validar index.json:',
+			err.message
+		);
 		process.exit(1);
 	}
 }
@@ -446,7 +470,10 @@ else if (command === 'check-tech') {
 	}
 
 	const absolutePath = path.resolve(filepath);
-	console.log('\x1b[36m%s\x1b[0m', `🔍 El Chismógrafo está auditando la firma en ${absolutePath}...`);
+	console.log(
+		'\x1b[36m%s\x1b[0m',
+		`🔍 El Chismógrafo está auditando la firma en ${absolutePath}...`
+	);
 
 	if (!fs.existsSync(absolutePath)) {
 		console.error('\x1b[31m%s\x1b[0m', '✗ El archivo no existe.');
@@ -478,7 +505,10 @@ else if (command === 'check-tech') {
 			process.exit(1);
 		}
 
-		console.log('\x1b[32m%s\x1b[0m', '✓ ¡Firma verificada! El Chismógrafo confirma que la estructura es correcta.');
+		console.log(
+			'\x1b[32m%s\x1b[0m',
+			'✓ ¡Firma verificada! El Chismógrafo confirma que la estructura es correcta.'
+		);
 	} catch (err) {
 		console.error('\x1b[31m%s\x1b[0m', '✗ Error al analizar el archivo JSON:', err.message);
 		process.exit(1);
@@ -495,7 +525,10 @@ else if (command === 'add-app') {
 	let linksInput = getOption('--links');
 
 	if (!name) {
-		console.log('\x1b[36m%s\x1b[0m', '🎮 El Chismógrafo abre el creador interactivo de expedientes para Apps...');
+		console.log(
+			'\x1b[36m%s\x1b[0m',
+			'🎮 El Chismógrafo abre el creador interactivo de expedientes para Apps...'
+		);
 		name = await askQuestion('1. Nombre de la aplicación: ');
 		if (!name) {
 			console.error('\x1b[31m%s\x1b[0m', '✗ El nombre es obligatorio.');
@@ -560,7 +593,10 @@ else if (command === 'add-app') {
 
 		fs.mkdirSync(path.dirname(targetPath), { recursive: true });
 		fs.writeFileSync(targetPath, JSON.stringify(template, null, 2), 'utf-8');
-		console.log('\x1b[32m%s\x1b[0m', `✓ ¡Fichada! El Chismógrafo guardó el expediente de la App en ${targetPath}`);
+		console.log(
+			'\x1b[32m%s\x1b[0m',
+			`✓ ¡Fichada! El Chismógrafo guardó el expediente de la App en ${targetPath}`
+		);
 	} catch (err) {
 		console.error('\x1b[31m%s\x1b[0m', '✗ ¡Chisme fallido! Error al fichar la app:', err.message);
 		process.exit(1);
@@ -575,7 +611,10 @@ else if (command === 'add-infra') {
 	let logoVal = getOption('--logo');
 
 	if (!name) {
-		console.log('\x1b[36m%s\x1b[0m', '🎮 El Chismógrafo abre el creador interactivo de expedientes para Infraestructura...');
+		console.log(
+			'\x1b[36m%s\x1b[0m',
+			'🎮 El Chismógrafo abre el creador interactivo de expedientes para Infraestructura...'
+		);
 		name = await askQuestion('1. Nombre de la infraestructura: ');
 		if (!name) {
 			console.error('\x1b[31m%s\x1b[0m', '✗ El nombre es obligatorio.');
@@ -598,7 +637,10 @@ else if (command === 'add-infra') {
 	const slug = toSlug(name);
 	const targetPath = path.join(techsDir, 'infra', `${slug}.json`);
 
-	console.log('\x1b[36m%s\x1b[0m', `📝 El Chismógrafo está fichando la Infraestructura: ${name}...`);
+	console.log(
+		'\x1b[36m%s\x1b[0m',
+		`📝 El Chismógrafo está fichando la Infraestructura: ${name}...`
+	);
 
 	const templatePath = path.join(templatesDir, 'infra.json');
 	try {
@@ -614,9 +656,16 @@ else if (command === 'add-infra') {
 
 		fs.mkdirSync(path.dirname(targetPath), { recursive: true });
 		fs.writeFileSync(targetPath, JSON.stringify(template, null, 2), 'utf-8');
-		console.log('\x1b[32m%s\x1b[0m', `✓ ¡Fichada! El Chismógrafo guardó el expediente de Infraestructura en ${targetPath}`);
+		console.log(
+			'\x1b[32m%s\x1b[0m',
+			`✓ ¡Fichada! El Chismógrafo guardó el expediente de Infraestructura en ${targetPath}`
+		);
 	} catch (err) {
-		console.error('\x1b[31m%s\x1b[0m', '✗ ¡Chisme fallido! Error al fichar infraestructura:', err.message);
+		console.error(
+			'\x1b[31m%s\x1b[0m',
+			'✗ ¡Chisme fallido! Error al fichar infraestructura:',
+			err.message
+		);
 		process.exit(1);
 	}
 }
@@ -628,7 +677,10 @@ else if (command === 'add-cms') {
 	let logoVal = getOption('--logo');
 
 	if (!name) {
-		console.log('\x1b[36m%s\x1b[0m', '🎮 El Chismógrafo abre el creador interactivo de expedientes para CMS...');
+		console.log(
+			'\x1b[36m%s\x1b[0m',
+			'🎮 El Chismógrafo abre el creador interactivo de expedientes para CMS...'
+		);
 		name = await askQuestion('1. Nombre del CMS: ');
 		if (!name) {
 			console.error('\x1b[31m%s\x1b[0m', '✗ El nombre es obligatorio.');
@@ -664,7 +716,10 @@ else if (command === 'add-cms') {
 
 		fs.mkdirSync(path.dirname(targetPath), { recursive: true });
 		fs.writeFileSync(targetPath, JSON.stringify(template, null, 2), 'utf-8');
-		console.log('\x1b[32m%s\x1b[0m', `✓ ¡Fichado! El Chismógrafo guardó el expediente del CMS en ${targetPath}`);
+		console.log(
+			'\x1b[32m%s\x1b[0m',
+			`✓ ¡Fichado! El Chismógrafo guardó el expediente del CMS en ${targetPath}`
+		);
 	} catch (err) {
 		console.error('\x1b[31m%s\x1b[0m', '✗ ¡Chisme fallido! Error al fichar CMS:', err.message);
 		process.exit(1);
@@ -702,7 +757,10 @@ else if (command === 'add-gateway') {
 	const slug = toSlug(name);
 	const targetPath = path.join(techsDir, 'gateways', `${slug}.json`);
 
-	console.log('\x1b[36m%s\x1b[0m', `📝 El Chismógrafo está fichando la Pasarela de Pago: ${name}...`);
+	console.log(
+		'\x1b[36m%s\x1b[0m',
+		`📝 El Chismógrafo está fichando la Pasarela de Pago: ${name}...`
+	);
 
 	const templatePath = path.join(templatesDir, 'gateway.json');
 	try {
@@ -719,9 +777,16 @@ else if (command === 'add-gateway') {
 
 		fs.mkdirSync(path.dirname(targetPath), { recursive: true });
 		fs.writeFileSync(targetPath, JSON.stringify(template, null, 2), 'utf-8');
-		console.log('\x1b[32m%s\x1b[0m', `✓ ¡Fichada! El Chismógrafo guardó el expediente de la Pasarela de Pago en ${targetPath}`);
+		console.log(
+			'\x1b[32m%s\x1b[0m',
+			`✓ ¡Fichada! El Chismógrafo guardó el expediente de la Pasarela de Pago en ${targetPath}`
+		);
 	} catch (err) {
-		console.error('\x1b[31m%s\x1b[0m', '✗ ¡Chisme fallido! Error al fichar Pasarela de Pago:', err.message);
+		console.error(
+			'\x1b[31m%s\x1b[0m',
+			'✗ ¡Chisme fallido! Error al fichar Pasarela de Pago:',
+			err.message
+		);
 		process.exit(1);
 	}
 }
@@ -730,10 +795,16 @@ else if (command === 'add-gateway') {
 else if (command === 'test-domain') {
 	let url = args[1];
 	if (!url) {
-		console.log('\x1b[36m%s\x1b[0m', '🎮 El Chismógrafo inicia investigación interactiva de dominio...');
+		console.log(
+			'\x1b[36m%s\x1b[0m',
+			'🎮 El Chismógrafo inicia investigación interactiva de dominio...'
+		);
 		url = await askQuestion('🤫 ¿A quién le quieres sacar el chisme? (URL o Dominio): ');
 		if (!url) {
-			console.error('\x1b[31m%s\x1b[0m', '✗ ¡Sin chisme! Necesitas dar una URL o Dominio para investigar.');
+			console.error(
+				'\x1b[31m%s\x1b[0m',
+				'✗ ¡Sin chisme! Necesitas dar una URL o Dominio para investigar.'
+			);
 			process.exit(1);
 		}
 	}
@@ -748,7 +819,10 @@ else if (command === 'test-domain') {
 	try {
 		const result = await detectTechnology(url);
 		if (!result.success) {
-			console.error('\x1b[31m%s\x1b[0m', `✗ ¡Investigación fallida! El Chismógrafo no pudo analizar el sitio: ${result.error}`);
+			console.error(
+				'\x1b[31m%s\x1b[0m',
+				`✗ ¡Investigación fallida! El Chismógrafo no pudo analizar el sitio: ${result.error}`
+			);
 			process.exit(1);
 		}
 
@@ -837,7 +911,11 @@ else if (command === 'test-domain') {
 		console.log('\x1b[35m%s\x1b[0m', '══════════════════════════════════════════════════\n');
 		console.log('\x1b[90m%s\x1b[0m', '  🤫 Chisme cortesía del Chismógrafo.\n');
 	} catch (err) {
-		console.error('\x1b[31m%s\x1b[0m', '✗ ¡Ups! El Chismógrafo tropezó durante la investigación:', err.message);
+		console.error(
+			'\x1b[31m%s\x1b[0m',
+			'✗ ¡Ups! El Chismógrafo tropezó durante la investigación:',
+			err.message
+		);
 		process.exit(1);
 	}
 }

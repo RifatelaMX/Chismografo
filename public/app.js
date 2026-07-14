@@ -141,12 +141,15 @@ document.addEventListener('DOMContentLoaded', () => {
 					'curl-post-pagespeed',
 					'curl-post-report',
 					'curl-get-widget',
-					'curl-get-search-widget'
+					'curl-get-search-widget',
 				];
-				ids.forEach(id => {
+				ids.forEach((id) => {
 					const el = document.getElementById(id);
 					if (el) {
-						el.textContent = el.textContent.replaceAll('http://localhost:3000', serverConfig.appUrl.replace(/\/$/, ''));
+						el.textContent = el.textContent.replaceAll(
+							'http://localhost:3000',
+							serverConfig.appUrl.replace(/\/$/, '')
+						);
 					}
 				});
 			}

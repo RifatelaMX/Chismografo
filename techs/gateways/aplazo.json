@@ -1,18 +1,18 @@
 {
-  "name": "Aplazo",
-  "category": "Payment Gateway",
-  "web": "https://aplazo.mx",
-  "logo": "aplazo.mx",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "aplazo\\.mx|aplazo-sdk",
-      "description": "Script de integración de Aplazo detectado"
-    },
-    {
-      "type": "html",
-      "pattern": "\\baplazo\\b",
-      "description": "Clase o marca HTML de Aplazo detectada"
-    }
-  ]
+	"name": "Aplazo",
+	"category": "Payment Gateway",
+	"web": "https://aplazo.mx",
+	"logo": "aplazo.mx",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "aplazo\\.mx|aplazo-sdk",
+			"description": "Script de integración de Aplazo detectado"
+		},
+		{
+			"type": "html",
+			"pattern": "\\baplazo\\b",
+			"description": "Clase o marca HTML de Aplazo detectada"
+		}
+	]
 }

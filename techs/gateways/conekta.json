@@ -1,18 +1,18 @@
 {
-  "name": "Conekta",
-  "category": "Payment Gateway",
-  "web": "https://conekta.com",
-  "logo": "conekta.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "conekta\\.js|cdn\\.conekta\\.io",
-      "description": "Script de integración de Conekta detectado"
-    },
-    {
-      "type": "html",
-      "pattern": "\\bconekta\\b",
-      "description": "Clase o marca HTML de Conekta detectada"
-    }
-  ]
+	"name": "Conekta",
+	"category": "Payment Gateway",
+	"web": "https://conekta.com",
+	"logo": "conekta.com",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "conekta\\.js|cdn\\.conekta\\.io",
+			"description": "Script de integración de Conekta detectado"
+		},
+		{
+			"type": "html",
+			"pattern": "\\bconekta\\b",
+			"description": "Clase o marca HTML de Conekta detectada"
+		}
+	]
 }
