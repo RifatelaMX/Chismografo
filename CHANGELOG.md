@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/RifatelaMX/Chismografo/compare/v1.1.0...v1.2.0) (2026-08-23)
+
+
+### Features
+
+* implement agent skills infrastructure and subagent framework for automated maintenance ([7b6a354](https://github.com/RifatelaMX/Chismografo/commit/7b6a3543bc759d7b8c9c7a3c220b5898022d3830))
+
 # [1.1.0](https://github.com/cesar-ayar/Chismografo/compare/v1.0.1...v1.1.0) (2026-07-13)
 
 
