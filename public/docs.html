@@ -3,14 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Documentación de Desarrollo | Chismógrafo 📓</title>
+  <title>Documentación de Desarrollo & Rule Studio | Chismógrafo 📓</title>
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Creador interactivo de reglas de detección (detectionRules) y guía de desarrollo para nerds y hackers del Chismógrafo.">
+  <meta name="keywords" content="Chismógrafo, detectionRules, detector ecommerce, reglas de detección, regex ecommerce, Shopify, WooCommerce">
+  
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,400&family=Patrick+Hand&family=VT323&display=swap" rel="stylesheet">
+  
   <!-- Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="stylesheet" href="style.css">
+  
   <style>
     .code-wrapper {
       background: #1e1e1e;
@@ -23,7 +29,9 @@
       margin: 0;
       color: #d4d4d4;
       font-family: var(--font-mono);
-      font-size: 1rem;
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+      word-break: break-all;
     }
     .endpoint-block {
       background: rgba(255, 255, 255, 0.5);
@@ -52,6 +60,12 @@
       font-size: 1.1rem;
       color: var(--ink-dark);
     }
+    .tab-content-section {
+      display: none;
+    }
+    .tab-content-section.active {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -66,8 +80,8 @@
       <div class="logo-wrapper">
         <img src="/brand/logo/Negativo.svg" alt="Chismógrafo Logo" width="140" style="margin-right: 0.75rem; filter: drop-shadow(0 0 10px rgba(173, 255, 0, 0.35)); display: block;">
         <div>
-          <h1>Docs de Desarrollo 💻</h1>
-          <p class="tagline">Guía para los nerds y hackers del Chismógrafo</p>
+          <h1>Docs de Desarrollo & Rule Studio 💻</h1>
+          <p class="tagline">Guía y laboratorio para los nerds y hackers del Chismógrafo 🤓</p>
         </div>
       </div>
       <div class="header-links">
@@ -77,40 +91,230 @@
       </div>
     </header>
 
+    <!-- Navigation Tabs -->
+    <nav class="nerds-nav-tabs">
+      <button class="nerds-tab-btn active" data-tab="tab-studio">
+        <i data-lucide="flask-conical"></i> 🧪 Studio de Reglas
+      </button>
+      <button class="nerds-tab-btn" data-tab="tab-architecture">
+        <i data-lucide="cpu"></i> 🛠️ Arquitectura & Setup
+      </button>
+      <button class="nerds-tab-btn" data-tab="tab-cli">
+        <i data-lucide="terminal"></i> 💻 CLI
+      </button>
+      <button class="nerds-tab-btn" data-tab="tab-api">
+        <i data-lucide="globe"></i> 🌐 API REST
+      </button>
+      <button class="nerds-tab-btn" data-tab="tab-widget">
+        <i data-lucide="search-code"></i> 🔎 Buscador Embed
+      </button>
+    </nav>
+
     <!-- Main Workspace -->
     <main class="app-main">
-      <section class="card glass-panel search-section">
-        <h2>🛠️ Arquitectura y Setup</h2>
-        <p class="section-desc">Instrucciones para correr el Chismógrafo en tu máquina.</p>
+
+      <!-- =================================================================== -->
+      <!-- TAB 1: STUDIO DE REGLAS DE DETECCIÓN -->
+      <!-- =================================================================== -->
+      <section id="tab-studio" class="tab-content-section active">
         
-        <div style="margin-bottom: 1.5rem;">
-          <h4 style="font-family: var(--font-handwritten); font-size: 1.5rem; color: var(--gel-purple); margin-bottom: 0.5rem;">Requisitos</h4>
-          <ul style="margin-left: 1.5rem; font-family: var(--font-body); color: var(--ink-dark);">
-            <li>Node.js (v18+)</li>
-            <li>npm o yarn</li>
-          </ul>
+        <!-- Welcome Banner & Presets -->
+        <div class="card glass-panel" style="margin-bottom: 1.5rem;">
+          <div class="studio-section-header">
+            <div>
+              <h2 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                <span>🧪 Creador y Probador de Reglas de Detección</span>
+              </h2>
+              <p class="section-desc" style="margin-bottom: 0;">
+                Diseña, prueba en vivo y genera firmas JSON con reglas (<code>detectionRules</code>) para detectar cualquier tecnología en la web.
+              </p>
+            </div>
+            
+            <div class="presets-container">
+              <span style="font-size: 0.8rem; font-weight: 700; color: var(--ink-medium);">Plantillas rápidas:</span>
+              <button class="preset-chip" onclick="loadPreset('shopify')">🛍️ Shopify</button>
+              <button class="preset-chip" onclick="loadPreset('woocommerce')">🛒 WooCommerce</button>
+              <button class="preset-chip" onclick="loadPreset('paypal')">💳 PayPal</button>
+              <button class="preset-chip" onclick="loadPreset('express')">🚀 Express Header</button>
+            </div>
+          </div>
+
+          <!-- Metadata Form -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem; background: rgba(255,255,255,0.4); padding: 1rem; border-radius: 8px; border: 1px solid var(--paper-lines);">
+            <div class="form-group-sm">
+              <label><i data-lucide="box"></i> Nombre Tecnología</label>
+              <input type="text" id="tech-name-input" value="Shopify" placeholder="Ej: Shopify" oninput="updateStateFromForm()">
+            </div>
+            <div class="form-group-sm">
+              <label><i data-lucide="folder"></i> Categoría</label>
+              <select id="tech-category-input" onchange="updateStateFromForm()">
+                <option value="cms">CMS / Plataforma</option>
+                <option value="apps">App / Plugin</option>
+                <option value="gateways">Pasarela de Pago</option>
+                <option value="infra">Infraestructura / CDN</option>
+              </select>
+            </div>
+            <div class="form-group-sm">
+              <label><i data-lucide="link"></i> Sitio Web</label>
+              <input type="text" id="tech-web-input" value="https://www.shopify.com" placeholder="https://..." oninput="updateStateFromForm()">
+            </div>
+            <div class="form-group-sm">
+              <label><i data-lucide="image"></i> Dominio Logo</label>
+              <input type="text" id="tech-logo-input" value="shopify.com" placeholder="shopify.com" oninput="updateStateFromForm()">
+            </div>
+          </div>
         </div>
-        
-        <div>
-          <h4 style="font-family: var(--font-handwritten); font-size: 1.5rem; color: var(--gel-blue); margin-bottom: 0.5rem;">Instalación</h4>
+
+        <!-- Rules List Studio -->
+        <div class="card glass-panel" style="margin-bottom: 1.5rem;">
+          <div class="studio-section-header">
+            <div>
+              <h3>📋 Reglas de Coincidencia (<code>detectionRules</code>)</h3>
+              <p class="section-desc">Define qué patrones Regex buscar en meta tags, scripts, cabeceras o DOM.</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn-secondary small-btn" onclick="addRule()">
+                <i data-lucide="plus"></i> ➕ Agregar Regla
+              </button>
+            </div>
+          </div>
+
+          <div id="rules-list-container" class="rule-studio-wrapper">
+            <!-- Dynamic Rule Cards Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Live Tester & Simulator -->
+        <div class="card glass-panel" style="margin-bottom: 1.5rem;">
+          <div class="card-header" style="margin-bottom: 1rem;">
+            <i data-lucide="play-circle"></i>
+            <h2>🕵️ Probador / Simulador en Vivo</h2>
+          </div>
+          <p class="section-desc">Evalúa las reglas actuales contra una URL real o ingresa código HTML/Headers manualmente.</p>
+
+          <!-- Mode Selector Buttons -->
+          <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+            <button id="btn-mode-url" class="preset-chip active" style="background: var(--ink-dark); color: white;" onclick="switchTestMode('url')">
+              🌐 URL Real (Fetch Backend)
+            </button>
+            <button id="btn-mode-manual" class="preset-chip" onclick="switchTestMode('manual')">
+              📄 HTML / Headers Manuales
+            </button>
+          </div>
+
+          <!-- URL Test Form -->
+          <div id="test-mode-url-container" style="display: block;">
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <input type="text" id="test-url-input" class="code-input" style="flex: 1; min-width: 260px; padding: 0.65rem 1rem; border-radius: 8px; border: 1px solid var(--paper-lines); outline: none;" value="https://shopify.com" placeholder="https://ejemplo-tienda.com">
+              <button id="run-url-test-btn" class="btn-primary" onclick="runLiveTest()">
+                <span>🚀 Probar Reglas en Vivo</span>
+                <i data-lucide="sparkles"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Manual HTML/Headers Test Form -->
+          <div id="test-mode-manual-container" style="display: none; flex-direction: column; gap: 1rem;">
+            <div class="form-group-sm">
+              <label>Fragmento HTML de Prueba:</label>
+              <textarea id="test-html-input" rows="4" class="code-input" style="width: 100%; padding: 0.65rem; border-radius: 8px; border: 1px solid var(--paper-lines); background: var(--paper-dark); font-size: 0.85rem;" placeholder='<html><head><meta name="generator" content="Shopify"><script src="https://cdn.shopify.com/s/test.js"></script></head><body></body></html>'></textarea>
+            </div>
+            <div class="form-group-sm">
+              <label>Cabeceras HTTP (JSON):</label>
+              <textarea id="test-headers-input" rows="2" class="code-input" style="width: 100%; padding: 0.65rem; border-radius: 8px; border: 1px solid var(--paper-lines); background: var(--paper-dark); font-size: 0.85rem;" placeholder='{"x-powered-by": "Express", "server": "cloudflare"}'></textarea>
+            </div>
+            <button class="btn-primary" style="align-self: flex-start;" onclick="runManualTest()">
+              <span>⚡ Evaluar Localmente</span>
+              <i data-lucide="play"></i>
+            </button>
+          </div>
+
+          <!-- Results Section Output -->
+          <div id="test-output-area" style="display: none; margin-top: 1.5rem;">
+            <div id="test-score-banner" class="eval-summary-card">
+              <div>
+                <span style="font-size: 0.8rem; text-transform: uppercase; color: var(--paper-lines); letter-spacing: 1px;">Resultado de Detección</span>
+                <h3 id="test-score-status" style="font-size: 1.4rem; font-family: var(--font-handwritten); color: white; margin-top: 0.2rem;">Shopify Detectado</h3>
+              </div>
+              <div class="eval-score-ring">
+                <span style="font-size: 0.85rem; color: #d4d4d4;">Confianza Acumulada:</span>
+                <span id="test-score-percentage" class="confidence-big-badge">100%</span>
+              </div>
+            </div>
+
+            <div id="test-rules-breakdown" class="rule-eval-list">
+              <!-- Evaluation items injected here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- JSON Output & Export -->
+        <div class="card glass-panel">
+          <div class="studio-section-header">
+            <div>
+              <h3>💾 Firma JSON Resultante</h3>
+              <p class="section-desc">Copia esta firma para agregarla a <code>techs/cms/</code>, <code>techs/apps/</code>, <code>techs/gateways/</code> o <code>techs/infra/</code>.</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <button class="preset-chip" onclick="copyJSONPreview()">
+                <i data-lucide="copy"></i> 📋 Copiar JSON
+              </button>
+              <button class="preset-chip" onclick="downloadJSONFile()">
+                <i data-lucide="download"></i> 💾 Descargar .json
+              </button>
+              <button class="preset-chip" onclick="openImportModal()">
+                <i data-lucide="upload"></i> 📂 Importar JSON
+              </button>
+            </div>
+          </div>
+
           <div class="code-wrapper">
-            <pre><code class="language-bash">git clone https://github.com/RifatelaMX/Chismografo.git
-cd Scrapper
-npm install
-npm run dev</code></pre>
+            <pre><code id="json-output-code" class="language-json">{}</code></pre>
           </div>
         </div>
       </section>
 
-      <section class="card glass-panel api-doc-section">
-        <div class="card-header">
-          <i data-lucide="terminal"></i>
-          <h2>💻 CLI Chismógrafo</h2>
-        </div>
-        <p class="section-desc">Cómo usar la consola para sacar chismes.</p>
-        
-        <div class="code-wrapper">
-          <pre><code class="language-bash"># Vincular comando localmente
+      <!-- =================================================================== -->
+      <!-- TAB 2: ARQUITECTURA Y SETUP -->
+      <!-- =================================================================== -->
+      <section id="tab-architecture" class="tab-content-section">
+        <section class="card glass-panel search-section">
+          <h2>🛠️ Arquitectura y Setup</h2>
+          <p class="section-desc">Instrucciones para correr el Chismógrafo en tu máquina.</p>
+          
+          <div style="margin-bottom: 1.5rem;">
+            <h4 style="font-family: var(--font-handwritten); font-size: 1.5rem; color: var(--gel-purple); margin-bottom: 0.5rem;">Requisitos</h4>
+            <ul style="margin-left: 1.5rem; font-family: var(--font-body); color: var(--ink-dark);">
+              <li>Node.js (v18+)</li>
+              <li>npm o yarn</li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 style="font-family: var(--font-handwritten); font-size: 1.5rem; color: var(--gel-blue); margin-bottom: 0.5rem;">Instalación</h4>
+            <div class="code-wrapper">
+              <pre><code class="language-bash">git clone https://github.com/RifatelaMX/Chismografo.git
+cd Scrapper
+npm install
+npm run dev</code></pre>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- =================================================================== -->
+      <!-- TAB 3: CLI -->
+      <!-- =================================================================== -->
+      <section id="tab-cli" class="tab-content-section">
+        <section class="card glass-panel api-doc-section">
+          <div class="card-header">
+            <i data-lucide="terminal"></i>
+            <h2>💻 CLI Chismógrafo</h2>
+          </div>
+          <p class="section-desc">Cómo usar la consola para sacar chismes.</p>
+          
+          <div class="code-wrapper">
+            <pre><code class="language-bash"># Vincular comando localmente
 npm link
 
 # Escanear dominio
@@ -123,91 +327,629 @@ chismografo test-domain shopify.com --attr cms
 chismografo add-cms
 chismografo add-app
 chismografo add-infra</code></pre>
-        </div>
+          </div>
+        </section>
       </section>
 
-      <section class="card glass-panel api-doc-section">
-        <div class="card-header">
-          <i data-lucide="globe"></i>
-          <h2>🌐 API REST</h2>
-        </div>
-        <p class="section-desc">Endpoints para conectar con el motor de escaneo.</p>
-        
-        <div class="endpoint-block" style="margin-bottom:1rem;">
-            <div class="endpoint-header">
-              <span class="method post">POST</span>
-              <span class="path">/api/detect</span>
-            </div>
-            <p>Escanear sitio completo (Cuerpo JSON).</p>
-            <div class="code-wrapper">
-              <pre><code class="language-bash">curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com"}' http://localhost:3000/api/detect</code></pre>
-            </div>
-        </div>
+      <!-- =================================================================== -->
+      <!-- TAB 4: API REST -->
+      <!-- =================================================================== -->
+      <section id="tab-api" class="tab-content-section">
+        <section class="card glass-panel api-doc-section">
+          <div class="card-header">
+            <i data-lucide="globe"></i>
+            <h2>🌐 API REST</h2>
+          </div>
+          <p class="section-desc">Endpoints para conectar con el motor de escaneo.</p>
 
-        <div class="endpoint-block" style="margin-bottom:1rem;">
-            <div class="endpoint-header">
-              <span class="method get">GET</span>
-              <span class="path">/api/detect</span>
-            </div>
-            <p>Escanear sitio completo (Query param).</p>
-            <div class="code-wrapper">
-              <pre><code class="language-bash">curl "http://localhost:3000/api/detect?url=shopify.com"</code></pre>
-            </div>
-        </div>
-        
-        <div class="endpoint-block" style="margin-bottom:1rem;">
-            <div class="endpoint-header">
-              <span class="method post">POST</span>
-              <span class="path">/api/pagespeed</span>
-            </div>
-            <p>Lanzar speed test de Google PageSpeed.</p>
-            <div class="code-wrapper">
-              <pre><code class="language-bash">curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com"}' http://localhost:3000/api/pagespeed</code></pre>
-            </div>
-        </div>
+          <div class="endpoint-block" style="margin-bottom:1rem;">
+              <div class="endpoint-header">
+                <span class="method post">POST</span>
+                <span class="path">/api/rules/test</span>
+              </div>
+              <p>Probar lote de reglas dinámicas (<code>detectionRules</code>) contra URL o HTML.</p>
+              <div class="code-wrapper">
+                <pre><code class="language-bash">curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com", "detectionRules": [{"type": "meta", "key": "generator", "pattern": "shopify"}]}' http://localhost:3000/api/rules/test</code></pre>
+              </div>
+          </div>
 
+          <div class="endpoint-block" style="margin-bottom:1rem;">
+              <div class="endpoint-header">
+                <span class="method post">POST</span>
+                <span class="path">/api/detect</span>
+              </div>
+              <p>Escanear sitio completo (Cuerpo JSON).</p>
+              <div class="code-wrapper">
+                <pre><code class="language-bash">curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com"}' http://localhost:3000/api/detect</code></pre>
+              </div>
+          </div>
+
+          <div class="endpoint-block" style="margin-bottom:1rem;">
+              <div class="endpoint-header">
+                <span class="method get">GET</span>
+                <span class="path">/api/detect</span>
+              </div>
+              <p>Escanear sitio completo (Query param).</p>
+              <div class="code-wrapper">
+                <pre><code class="language-bash">curl "http://localhost:3000/api/detect?url=shopify.com"</code></pre>
+              </div>
+          </div>
+          
+          <div class="endpoint-block" style="margin-bottom:1rem;">
+              <div class="endpoint-header">
+                <span class="method post">POST</span>
+                <span class="path">/api/pagespeed</span>
+              </div>
+              <p>Lanzar speed test de Google PageSpeed.</p>
+              <div class="code-wrapper">
+                <pre><code class="language-bash">curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com"}' http://localhost:3000/api/pagespeed</code></pre>
+              </div>
+          </div>
+        </section>
       </section>
-      <section class="card glass-panel api-doc-section">
-        <div class="card-header">
-          <i data-lucide="search-code"></i>
-          <h2>🔎 Mete el buscador de chismes</h2>
-        </div>
-        <p class="section-desc">Deja que los visitantes de tu web espíen a cualquier tienda con este buscador bien chido 💅</p>
-        
-        <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: flex-start; margin-top: 1.5rem;">
-          <!-- Live Preview -->
-          <div style="flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 0.5rem;">
-            <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;">👀 Así se ve</span>
-            <div style="padding: 1rem; border-radius: 8px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; min-height: 480px;">
-              <iframe id="search-widget-preview-iframe" title="Vista previa del buscador de auditorías" src="/search-widget.html" width="100%" height="450" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); background: #000; width: 100%;"></iframe>
+
+      <!-- =================================================================== -->
+      <!-- TAB 5: BUSCADOR EMBED -->
+      <!-- =================================================================== -->
+      <section id="tab-widget" class="tab-content-section">
+        <section class="card glass-panel api-doc-section">
+          <div class="card-header">
+            <i data-lucide="search-code"></i>
+            <h2>🔎 Mete el buscador de chismes</h2>
+          </div>
+          <p class="section-desc">Deja que los visitantes de tu web espíen a cualquier tienda con este buscador bien chido 💅</p>
+          
+          <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: flex-start; margin-top: 1.5rem;">
+            <!-- Live Preview -->
+            <div style="flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 0.5rem;">
+              <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;">👀 Así se ve</span>
+              <div style="padding: 1rem; border-radius: 8px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); display: flex; justify-content: center; align-items: center; min-height: 480px;">
+                <iframe id="search-widget-preview-iframe" title="Vista previa del buscador de auditorías" src="/search-widget.html" width="100%" height="450" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); background: #000; width: 100%;"></iframe>
+              </div>
+            </div>
+            <!-- Copy Code Area -->
+            <div style="flex: 1.2; min-width: 300px; display: flex; flex-direction: column; gap: 1rem;">
+              <!-- Option A: Compact Widget -->
+              <div>
+                <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 0.35rem;">✨ Opción A: Mini buscador</span>
+                <div class="code-wrapper">
+                  <pre><code class="language-html" id="search-widget-embed-code">&lt;iframe src="https://chismografo.rifatela.lol/search-widget.html" width="100%" height="480" style="border:1px solid rgba(255,255,255,0.1); border-radius:12px; background:#000;"&gt;&lt;/iframe&gt;</code></pre>
+                </div>
+                <p style="margin-top: 0.25rem; font-size: 0.7rem; color: var(--text-muted);">Un buscador compacto y livianito, ¡perfecto para incrustar! 🪶</p>
+              </div>
+
+              <!-- Option B: Full Web Dashboard Embed -->
+              <div>
+                <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 0.35rem;">🌟 Opción B: Dashboard completo</span>
+                <div class="code-wrapper">
+                  <pre><code class="language-html" id="full-embed-code">&lt;iframe src="https://chismografo.rifatela.lol/?embed=true" width="100%" height="700" style="border:1px solid rgba(255,255,255,0.1); border-radius:12px; background:#000;"&gt;&lt;/iframe&gt;</code></pre>
+                </div>
+                <p style="margin-top: 0.25rem; font-size: 0.7rem; color: var(--text-muted);">El dashboard completo con mapas, gráficas y capturas. Usa <code>?embed=true</code> pa' que se vea sin header 😎</p>
+              </div>
             </div>
           </div>
-          <!-- Copy Code Area -->
-          <div style="flex: 1.2; min-width: 300px; display: flex; flex-direction: column; gap: 1rem;">
-            <!-- Option A: Compact Widget -->
-            <div>
-              <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 0.35rem;">✨ Opción A: Mini buscador</span>
-              <div class="code-wrapper">
-                <pre><code class="language-html" id="search-widget-embed-code">&lt;iframe src="https://chismografo.rifatela.lol/search-widget.html" width="100%" height="480" style="border:1px solid rgba(255,255,255,0.1); border-radius:12px; background:#000;"&gt;&lt;/iframe&gt;</code></pre>
-              </div>
-              <p style="margin-top: 0.25rem; font-size: 0.7rem; color: var(--text-muted);">Un buscador compacto y livianito, ¡perfecto para incrustar! 🪶</p>
-            </div>
-
-            <!-- Option B: Full Web Dashboard Embed -->
-            <div>
-              <span style="font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 0.35rem;">🌟 Opción B: Dashboard completo</span>
-              <div class="code-wrapper">
-                <pre><code class="language-html" id="full-embed-code">&lt;iframe src="https://chismografo.rifatela.lol/?embed=true" width="100%" height="700" style="border:1px solid rgba(255,255,255,0.1); border-radius:12px; background:#000;"&gt;&lt;/iframe&gt;</code></pre>
-              </div>
-              <p style="margin-top: 0.25rem; font-size: 0.7rem; color: var(--text-muted);">El dashboard completo con mapas, gráficas y capturas. Usa <code>?embed=true</code> pa' que se vea sin header 😎</p>
-            </div>
-          </div>
-        </div>
+        </section>
       </section>
+
     </main>
   </div>
+
+  <!-- Modal for JSON Import -->
+  <div id="import-modal" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 1rem;">
+    <div style="background: white; border-radius: 12px; width: 100%; max-width: 600px; padding: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3); position: relative;">
+      <h3 style="margin-bottom: 0.5rem; font-family: var(--font-handwritten); font-size: 1.8rem; color: var(--gel-purple);">📂 Importar Firma JSON</h3>
+      <p style="font-size: 0.9rem; color: var(--ink-medium); margin-bottom: 1rem;">Pega la firma JSON completa de la tecnología para cargar sus reglas en la herramienta.</p>
+      
+      <textarea id="import-json-textarea" rows="10" class="code-input" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--paper-lines); background: var(--paper-dark); font-size: 0.85rem;" placeholder='{\n  "name": "Shopify",\n  "web": "https://www.shopify.com",\n  "logo": "shopify.com",\n  "detectionRules": [\n    {\n      "type": "meta",\n      "key": "generator",\n      "pattern": "shopify",\n      "description": "Meta generator",\n      "weight": 1.0\n    }\n  ]\n}'></textarea>
+      
+      <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1rem;">
+        <button class="preset-chip" onclick="closeImportModal()">Cancelar</button>
+        <button class="btn-primary" onclick="confirmImportJSON()">
+          <span>Cargar Reglas</span>
+          <i data-lucide="check"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STUDIO INTERACTIVE SCRIPT -->
   <script>
-    lucide.createIcons();
+    // State management
+    const state = {
+      name: "Shopify",
+      category: "cms",
+      web: "https://www.shopify.com",
+      logo: "shopify.com",
+      rules: [
+        {
+          id: "shopify-meta-generator",
+          type: "meta",
+          key: "generator",
+          pattern: "shopify",
+          description: "Meta generator contains \"Shopify\"",
+          weight: 1.0
+        },
+        {
+          id: "shopify-cdn-script",
+          type: "script-src",
+          key: "",
+          attribute: "",
+          pattern: "cdn\\.shopify\\.com",
+          description: "Scripts loaded from Shopify CDN",
+          weight: 0.9
+        },
+        {
+          id: "shopify-js-object",
+          type: "script-content",
+          key: "",
+          attribute: "",
+          pattern: "window\\.Shopify\\b|Shopify\\.theme\\b",
+          description: "Shopify JS object in inline script",
+          weight: 0.95
+        }
+      ]
+    };
+
+    // Presets catalog
+    const PRESETS = {
+      shopify: {
+        name: "Shopify",
+        category: "cms",
+        web: "https://www.shopify.com",
+        logo: "shopify.com",
+        rules: [
+          { type: "meta", key: "generator", pattern: "shopify", description: "Meta generator tag Shopify", weight: 1.0 },
+          { type: "script-src", pattern: "cdn\\.shopify\\.com", description: "Scripts desde CDN Shopify", weight: 0.9 },
+          { type: "link-href", pattern: "cdn\\.shopify\\.com", description: "Estilos CSS desde CDN Shopify", weight: 0.9 },
+          { type: "script-content", pattern: "window\\.Shopify\\b|Shopify\\.theme\\b", description: "Objeto JS Shopify global", weight: 0.95 }
+        ]
+      },
+      woocommerce: {
+        name: "WooCommerce",
+        category: "cms",
+        web: "https://woocommerce.com",
+        logo: "woocommerce.com",
+        rules: [
+          { type: "script-src", pattern: "woocommerce(?:\\.min)?\\.js", description: "Script principal de WooCommerce", weight: 0.9 },
+          { type: "link-href", pattern: "woocommerce-inline-css|woocommerce-layout", description: "CSS de WooCommerce", weight: 0.8 },
+          { type: "html-class", pattern: "woocommerce|woocommerce-page|woocommerce-cart", description: "Clase CSS en el body o HTML", weight: 0.7 }
+        ]
+      },
+      paypal: {
+        name: "PayPal Gateway",
+        category: "gateways",
+        web: "https://www.paypal.com",
+        logo: "paypal.com",
+        rules: [
+          { type: "script-src", pattern: "paypalobjects\\.com|sdk/js\\?client-id=", description: "SDK JavaScript de PayPal", weight: 0.95 },
+          { type: "html-attribute", attribute: "action", pattern: "paypal\\.com/cgi-bin/webscr", description: "Formulario que envía pagos a PayPal", weight: 0.9 }
+        ]
+      },
+      express: {
+        name: "Express.js",
+        category: "infra",
+        web: "https://expressjs.com",
+        logo: "expressjs.com",
+        rules: [
+          { type: "header", key: "x-powered-by", pattern: "^Express$", description: "Cabecera X-Powered-By Express", weight: 1.0 }
+        ]
+      }
+    };
+
+    // Initialize UI
+    document.addEventListener("DOMContentLoaded", () => {
+      setupTabNavigation();
+      renderStudio();
+      lucide.createIcons();
+    });
+
+    // Tab switcher logic
+    function setupTabNavigation() {
+      const tabBtns = document.querySelectorAll(".nerds-tab-btn");
+      tabBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          tabBtns.forEach(b => b.classList.remove("active"));
+          document.querySelectorAll(".tab-content-section").forEach(sec => sec.classList.remove("active"));
+          
+          btn.classList.add("active");
+          const targetTabId = btn.getAttribute("data-tab");
+          document.getElementById(targetTabId).classList.add("active");
+          lucide.createIcons();
+        });
+      });
+    }
+
+    // Render studio UI from state
+    function renderStudio() {
+      document.getElementById("tech-name-input").value = state.name;
+      document.getElementById("tech-category-input").value = state.category;
+      document.getElementById("tech-web-input").value = state.web;
+      document.getElementById("tech-logo-input").value = state.logo;
+
+      const container = document.getElementById("rules-list-container");
+      container.innerHTML = "";
+
+      state.rules.forEach((rule, idx) => {
+        const card = createRuleCardElement(rule, idx);
+        container.appendChild(card);
+      });
+
+      updateJSONPreview();
+      lucide.createIcons();
+    }
+
+    function createRuleCardElement(rule, idx) {
+      const card = document.createElement("div");
+      card.className = "rule-card";
+      
+      const requiresKey = rule.type === "meta" || rule.type === "header";
+      const requiresAttr = rule.type === "html-attribute";
+
+      let regexErrorMsg = "";
+      try {
+        if (rule.pattern) new RegExp(rule.pattern);
+      } catch (err) {
+        regexErrorMsg = `⚠️ Error Regex: ${err.message}`;
+      }
+
+      card.innerHTML = `
+        <div class="rule-card-header">
+          <div class="rule-card-title">
+            <span class="rule-number-badge">${idx + 1}</span>
+            <span class="rule-type-badge">${rule.type}</span>
+            ${regexErrorMsg ? `<span style="font-size:0.75rem; color:var(--gel-red); font-weight:bold;">${regexErrorMsg}</span>` : ""}
+          </div>
+          <div class="rule-actions">
+            <button class="icon-btn" title="Mover arriba" onclick="moveRule(${idx}, -1)" ${idx === 0 ? "disabled" : ""}>
+              <i data-lucide="arrow-up" style="width:16px;height:16px;"></i>
+            </button>
+            <button class="icon-btn" title="Mover abajo" onclick="moveRule(${idx}, 1)" ${idx === state.rules.length - 1 ? "disabled" : ""}>
+              <i data-lucide="arrow-down" style="width:16px;height:16px;"></i>
+            </button>
+            <button class="icon-btn" title="Duplicar regla" onclick="duplicateRule(${idx})">
+              <i data-lucide="copy" style="width:16px;height:16px;"></i>
+            </button>
+            <button class="icon-btn danger" title="Eliminar regla" onclick="removeRule(${idx})">
+              <i data-lucide="trash-2" style="width:16px;height:16px;"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="rule-inputs-grid">
+          <div class="form-group-sm">
+            <label>Tipo de Regla (type)</label>
+            <select onchange="updateRuleField(${idx}, 'type', this.value)">
+              <option value="meta" ${rule.type === "meta" ? "selected" : ""}>meta (etiqueta HTML)</option>
+              <option value="script-src" ${rule.type === "script-src" ? "selected" : ""}>script-src (URL de script)</option>
+              <option value="script-content" ${rule.type === "script-content" ? "selected" : ""}>script-content (código inline)</option>
+              <option value="link-href" ${rule.type === "link-href" ? "selected" : ""}>link-href (CSS / link)</option>
+              <option value="html-class" ${rule.type === "html-class" ? "selected" : ""}>html-class (clases DOM)</option>
+              <option value="html-attribute" ${rule.type === "html-attribute" ? "selected" : ""}>html-attribute (atributo DOM)</option>
+              <option value="header" ${rule.type === "header" ? "selected" : ""}>header (cabecera HTTP)</option>
+            </select>
+          </div>
+
+          ${requiresKey ? `
+            <div class="form-group-sm">
+              <label>Clave (key) <span style="color:var(--gel-red)">*</span></label>
+              <input type="text" class="code-input" value="${escapeHtml(rule.key || "")}" placeholder="${rule.type === 'meta' ? 'generator' : 'x-powered-by'}" oninput="updateRuleField(${idx}, 'key', this.value)">
+            </div>
+          ` : ""}
+
+          ${requiresAttr ? `
+            <div class="form-group-sm">
+              <label>Atributo (attribute) <span style="color:var(--gel-red)">*</span></label>
+              <input type="text" class="code-input" value="${escapeHtml(rule.attribute || "")}" placeholder="data-store-id" oninput="updateRuleField(${idx}, 'attribute', this.value)">
+            </div>
+          ` : ""}
+
+          <div class="form-group-sm" style="grid-column: span 2;">
+            <label>Patrón Regex (pattern) <span style="color:var(--gel-red)">*</span></label>
+            <input type="text" class="code-input" value="${escapeHtml(rule.pattern || "")}" placeholder="cdn\\.shopify\\.com" oninput="updateRuleField(${idx}, 'pattern', this.value)">
+            
+            <div class="regex-chips-row">
+              <span style="font-size:0.7rem; color:var(--ink-medium); align-self:center;">Atajos:</span>
+              <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '\\\\.com')">\\.com</button>
+              <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '\\\\b')">\\b</button>
+              <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '^\\\\d+$')">^\\d+$</button>
+              <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '/cart/add')">/cart/add</button>
+            </div>
+          </div>
+
+          <div class="form-group-sm">
+            <label>Peso / Confianza (weight: ${rule.weight ?? 0.5})</label>
+            <div class="weight-control">
+              <input type="range" min="0.1" max="1.0" step="0.05" value="${rule.weight ?? 0.5}" oninput="updateRuleField(${idx}, 'weight', parseFloat(this.value))">
+              <span class="weight-val-badge">${(rule.weight ?? 0.5).toFixed(2)}</span>
+            </div>
+          </div>
+
+          <div class="form-group-sm" style="grid-column: span 2;">
+            <label>Descripción / Comentario (description)</label>
+            <input type="text" value="${escapeHtml(rule.description || "")}" placeholder="Explica qué detecta esta regla..." oninput="updateRuleField(${idx}, 'description', this.value)">
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/"/g, '&quot;');
+    }
+
+    function updateStateFromForm() {
+      state.name = document.getElementById("tech-name-input").value;
+      state.category = document.getElementById("tech-category-input").value;
+      state.web = document.getElementById("tech-web-input").value;
+      state.logo = document.getElementById("tech-logo-input").value;
+      updateJSONPreview();
+    }
+
+    function updateRuleField(idx, field, value) {
+      state.rules[idx][field] = value;
+      // If type changed, re-render to update key/attribute requirement fields
+      if (field === "type") {
+        if (value !== "meta" && value !== "header") delete state.rules[idx].key;
+        if (value !== "html-attribute") delete state.rules[idx].attribute;
+        renderStudio();
+      } else {
+        updateJSONPreview();
+      }
+    }
+
+    function insertRegexSnippet(idx, snippet) {
+      const current = state.rules[idx].pattern || "";
+      state.rules[idx].pattern = current + snippet;
+      renderStudio();
+    }
+
+    function addRule() {
+      state.rules.push({
+        type: "script-src",
+        pattern: "ejemplo\\.com",
+        description: "Nueva regla de detección",
+        weight: 0.5
+      });
+      renderStudio();
+    }
+
+    function duplicateRule(idx) {
+      const cloned = JSON.parse(JSON.stringify(state.rules[idx]));
+      state.rules.splice(idx + 1, 0, cloned);
+      renderStudio();
+    }
+
+    function removeRule(idx) {
+      if (state.rules.length <= 1) {
+        alert("Debe haber al menos 1 regla en la firma.");
+        return;
+      }
+      state.rules.splice(idx, 1);
+      renderStudio();
+    }
+
+    function moveRule(idx, dir) {
+      const target = idx + dir;
+      if (target < 0 || target >= state.rules.length) return;
+      const temp = state.rules[idx];
+      state.rules[idx] = state.rules[target];
+      state.rules[target] = temp;
+      renderStudio();
+    }
+
+    function loadPreset(key) {
+      if (PRESETS[key]) {
+        const p = PRESETS[key];
+        state.name = p.name;
+        state.category = p.category;
+        state.web = p.web;
+        state.logo = p.logo;
+        state.rules = JSON.parse(JSON.stringify(p.rules));
+        renderStudio();
+      }
+    }
+
+    function updateJSONPreview() {
+      const cleanRules = state.rules.map(r => {
+        const item = { type: r.type };
+        if (r.type === "meta" || r.type === "header") item.key = r.key || "";
+        if (r.type === "html-attribute") item.attribute = r.attribute || "";
+        item.pattern = r.pattern || "";
+        if (r.description) item.description = r.description;
+        item.weight = typeof r.weight === "number" ? r.weight : parseFloat(r.weight) || 0.5;
+        return item;
+      });
+
+      const fullSignature = {
+        name: state.name || "Sin Nombre",
+        web: state.web || "",
+        logo: state.logo || "",
+        detectionRules: cleanRules
+      };
+
+      document.getElementById("json-output-code").textContent = JSON.stringify(fullSignature, null, 2);
+    }
+
+    function copyJSONPreview() {
+      const code = document.getElementById("json-output-code").textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        alert("¡JSON copiado al portapapeles! 📋");
+      });
+    }
+
+    function downloadJSONFile() {
+      const code = document.getElementById("json-output-code").textContent;
+      const filename = (state.name || "reglas").toLowerCase().replace(/[^a-z0-9]/g, "-") + ".json";
+      const blob = new Blob([code], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function openImportModal() {
+      document.getElementById("import-modal").classList.remove("hidden");
+    }
+    function closeImportModal() {
+      document.getElementById("import-modal").classList.add("hidden");
+    }
+    function confirmImportJSON() {
+      try {
+        const val = document.getElementById("import-json-textarea").value;
+        const parsed = JSON.parse(val);
+        if (parsed.name) state.name = parsed.name;
+        if (parsed.web) state.web = parsed.web;
+        if (parsed.logo) state.logo = parsed.logo;
+        if (Array.isArray(parsed.detectionRules) && parsed.detectionRules.length > 0) {
+          state.rules = parsed.detectionRules;
+        }
+        renderStudio();
+        closeImportModal();
+      } catch (err) {
+        alert(`JSON no válido: ${err.message}`);
+      }
+    }
+
+    // Switch between Test Modes
+    function switchTestMode(mode) {
+      const btnUrl = document.getElementById("btn-mode-url");
+      const btnManual = document.getElementById("btn-mode-manual");
+      const containerUrl = document.getElementById("test-mode-url-container");
+      const containerManual = document.getElementById("test-mode-manual-container");
+
+      if (mode === "url") {
+        btnUrl.style.background = "var(--ink-dark)";
+        btnUrl.style.color = "white";
+        btnManual.style.background = "#ffffff";
+        btnManual.style.color = "var(--ink-dark)";
+        containerUrl.style.display = "block";
+        containerManual.style.display = "none";
+      } else {
+        btnManual.style.background = "var(--ink-dark)";
+        btnManual.style.color = "white";
+        btnUrl.style.background = "#ffffff";
+        btnUrl.style.color = "var(--ink-dark)";
+        containerManual.style.display = "flex";
+        containerUrl.style.display = "none";
+      }
+    }
+
+    // Run Live URL test against backend API
+    async function runLiveTest() {
+      const url = document.getElementById("test-url-input").value.trim();
+      if (!url) {
+        alert("Por favor ingresa una URL para probar.");
+        return;
+      }
+
+      const btn = document.getElementById("run-url-test-btn");
+      btn.disabled = true;
+      btn.innerHTML = `<span>Escaneando... ⏳</span>`;
+
+      try {
+        const response = await fetch("/api/rules/test", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            url: url,
+            detectionRules: state.rules
+          })
+        });
+
+        const data = await response.json();
+        if (!data.success) {
+          throw new Error(data.error || "Error al evaluar las reglas.");
+        }
+
+        renderTestResults(data.testResult, data.url);
+      } catch (err) {
+        alert(`Error en prueba: ${err.message}`);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<span>🚀 Probar Reglas en Vivo</span><i data-lucide="sparkles"></i>`;
+        lucide.createIcons();
+      }
+    }
+
+    // Run manual HTML/Headers test against backend API
+    async function runManualTest() {
+      const html = document.getElementById("test-html-input").value;
+      const headersStr = document.getElementById("test-headers-input").value;
+      let headers = {};
+
+      if (headersStr.trim()) {
+        try {
+          headers = JSON.parse(headersStr);
+        } catch (e) {
+          alert("El campo Cabeceras HTTP debe ser un objeto JSON válido.");
+          return;
+        }
+      }
+
+      try {
+        const response = await fetch("/api/rules/test", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            html: html,
+            headers: headers,
+            detectionRules: state.rules
+          })
+        });
+
+        const data = await response.json();
+        if (!data.success) {
+          throw new Error(data.error || "Error al evaluar las reglas.");
+        }
+
+        renderTestResults(data.testResult, "Prueba Manual HTML/Headers");
+      } catch (err) {
+        alert(`Error en prueba: ${err.message}`);
+      }
+    }
+
+    // Render results in output area
+    function renderTestResults(res, source) {
+      const outputArea = document.getElementById("test-output-area");
+      const statusTitle = document.getElementById("test-score-status");
+      const scoreBadge = document.getElementById("test-score-percentage");
+      const listContainer = document.getElementById("test-rules-breakdown");
+
+      outputArea.style.display = "block";
+      
+      const isDetected = res.matchedCount > 0;
+      statusTitle.textContent = isDetected 
+        ? `✨ ${state.name} Detectado (${res.matchedCount}/${res.totalRules} reglas)` 
+        : `❌ ${state.name} NO Detectado (0 coincidencia)`;
+
+      scoreBadge.textContent = `${res.confidencePercentage}%`;
+
+      listContainer.innerHTML = "";
+
+      res.rules.forEach(r => {
+        const item = document.createElement("div");
+        item.className = `rule-eval-item ${r.isMatch ? "matched" : "unmatched"}`;
+        
+        item.innerHTML = `
+          <div class="eval-status-header">
+            <span class="eval-status-tag ${r.isMatch ? "success" : "failed"}">
+              ${r.isMatch ? "✓ COINCIDE" : "✗ NO COINCIDE"} — ${r.rule.type} (${r.weight})
+            </span>
+            <span style="font-size:0.75rem; color:var(--ink-medium); font-family:var(--font-mono);">
+              Pattern: <code>${escapeHtml(r.rule.pattern)}</code>
+            </span>
+          </div>
+          ${r.rule.description ? `<p style="font-size:0.85rem; color:var(--ink-dark);">${escapeHtml(r.rule.description)}</p>` : ""}
+          ${r.matchContext ? `<div class="match-snippet-box"><code>${escapeHtml(r.matchContext)}</code></div>` : ""}
+          ${r.regexError ? `<div style="color:var(--gel-red); font-size:0.8rem;">⚠️ Error Regex: ${escapeHtml(r.regexError)}</div>` : ""}
+        `;
+        listContainer.appendChild(item);
+      });
+
+      outputArea.scrollIntoView({ behavior: "smooth" });
+    }
   </script>
 </body>
 </html>

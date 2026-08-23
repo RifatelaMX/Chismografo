@@ -8,7 +8,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import morgan from 'morgan';
 import screenshotmachine from 'screenshotmachine';
-import { detectTechnology, normalizeUrl } from './src/detector.js';
+import { detectTechnology, evaluateCustomRules, fetchPage, normalizeUrl } from './src/detector.js';
 import { sendReportEmail } from './src/emailService.js';
 import { getDomainLocation } from './src/location.js';
 
@@ -389,6 +389,56 @@ app.get('/api/detect', validateUrlParam, async (req, res) => {
 		res.json(result);
 	} else {
 		res.status(422).json(result);
+	}
+});
+
+/**
+ * @api {post} /api/rules/test Test custom detectionRules against a URL or HTML/Headers
+ */
+app.post('/api/rules/test', async (req, res) => {
+	try {
+		const { url, html, headers, detectionRules } = req.body || {};
+		const rules = Array.isArray(detectionRules) ? detectionRules : [];
+
+		if (rules.length === 0) {
+			return res.status(400).json({
+				success: false,
+				error: 'Se requiere una lista "detectionRules" con al menos 1 regla.',
+			});
+		}
+
+		let targetHtml = html || '';
+		let targetHeaders = headers || {};
+		let fetchedUrl = null;
+
+		if (url) {
+			try {
+				const normalized = normalizeUrl(url);
+				fetchedUrl = normalized;
+				const fetched = await fetchPage(normalized);
+				targetHtml = fetched.html;
+				targetHeaders = fetched.headers;
+			} catch (fetchErr) {
+				return res.status(422).json({
+					success: false,
+					error: `Error al obtener la página de la URL: ${fetchErr.message}`,
+				});
+			}
+		}
+
+		const testResult = evaluateCustomRules(targetHtml, targetHeaders, rules);
+
+		res.json({
+			success: true,
+			url: fetchedUrl,
+			testResult,
+			scannedAt: new Date().toISOString(),
+		});
+	} catch (err) {
+		res.status(500).json({
+			success: false,
+			error: err.message,
+		});
 	}
 });
 

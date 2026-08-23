@@ -882,3 +882,189 @@ export async function detectTechnology(url) {
 		};
 	}
 }
+
+/**
+ * Evaluates an arbitrary array of detection rules against HTML and headers
+ * @param {string} html Raw HTML page content
+ * @param {object} headers Response HTTP headers object
+ * @param {Array<object>} rules List of detectionRules
+ * @returns {object} Evaluation breakdown with matched/unmatched rules & score
+ */
+export function evaluateCustomRules(html = '', headers = {}, rules = []) {
+	const $ = cheerio.load(html || '');
+
+	const lowerHeaders = {};
+	if (headers && typeof headers === 'object') {
+		for (const [key, val] of Object.entries(headers)) {
+			lowerHeaders[key.toLowerCase()] = String(val);
+		}
+	}
+
+	const metaTags = [];
+	$('meta').each((_i, el) => {
+		const name = $(el).attr('name') || $(el).attr('property') || $(el).attr('http-equiv');
+		const content = $(el).attr('content');
+		if (name && content) {
+			metaTags.push({ name: name.toLowerCase(), content });
+		}
+	});
+
+	const scripts = [];
+	$('script').each((_i, el) => {
+		const src = $(el).attr('src');
+		const content = $(el).text();
+		scripts.push({ src, content });
+	});
+
+	const links = [];
+	$('link').each((_i, el) => {
+		const href = $(el).attr('href');
+		const rel = $(el).attr('rel');
+		if (href) {
+			links.push({ href, rel });
+		}
+	});
+
+	const classes = new Set();
+	$('[class]').each((_i, el) => {
+		const className = $(el).attr('class');
+		if (className) {
+			className.split(/\s+/).forEach((c) => {
+				if (c) classes.add(c);
+			});
+		}
+	});
+
+	const ruleResults = [];
+	const matchedWeights = [];
+
+	if (Array.isArray(rules)) {
+		for (let i = 0; i < rules.length; i++) {
+			const rule = rules[i];
+			let isMatch = false;
+			let matchContext = null;
+			let regexError = null;
+			let regex = null;
+
+			try {
+				if (rule.pattern) {
+					regex = new RegExp(rule.pattern, 'i');
+				}
+			} catch (err) {
+				regexError = err.message;
+			}
+
+			if (regex && !regexError) {
+				const ruleType = rule.type;
+				const weight = typeof rule.weight === 'number' ? rule.weight : parseFloat(rule.weight) || 0.5;
+
+				switch (ruleType) {
+					case 'header': {
+						if (rule.key) {
+							const headerVal = lowerHeaders[rule.key.toLowerCase()];
+							if (headerVal && regex.test(headerVal)) {
+								isMatch = true;
+								matchContext = `${rule.key}: ${headerVal}`;
+							}
+						}
+						break;
+					}
+
+					case 'meta': {
+						if (rule.key) {
+							const matchingMeta = metaTags.find((m) => m.name === rule.key.toLowerCase());
+							if (matchingMeta && regex.test(matchingMeta.content)) {
+								isMatch = true;
+								matchContext = `<meta name="${matchingMeta.name}" content="${matchingMeta.content}">`;
+							}
+						}
+						break;
+					}
+
+					case 'script-src': {
+						const matchingScript = scripts.find((s) => s.src && regex.test(s.src));
+						if (matchingScript) {
+							isMatch = true;
+							matchContext = `<script src="${matchingScript.src}">`;
+						}
+						break;
+					}
+
+					case 'script-content': {
+						const matchingScript = scripts.find((s) => s.content && regex.test(s.content));
+						if (matchingScript) {
+							isMatch = true;
+							const idx = matchingScript.content.search(regex);
+							const start = Math.max(0, idx - 40);
+							const end = Math.min(matchingScript.content.length, idx + 60);
+							matchContext = `... ${matchingScript.content.substring(start, end).replace(/\s+/g, ' ').trim()} ...`;
+						}
+						break;
+					}
+
+					case 'link-href': {
+						const matchingLink = links.find((l) => l.href && regex.test(l.href));
+						if (matchingLink) {
+							isMatch = true;
+							matchContext = `<link href="${matchingLink.href}">`;
+						}
+						break;
+					}
+
+					case 'html-class': {
+						for (const c of classes) {
+							if (regex.test(c)) {
+								isMatch = true;
+								matchContext = `class="${c}"`;
+								break;
+							}
+						}
+						break;
+					}
+
+					case 'html-attribute': {
+						if (rule.attribute) {
+							$(`[${rule.attribute}]`).each((_i, el) => {
+								const val = $(el).attr(rule.attribute);
+								if (val && regex.test(val)) {
+									isMatch = true;
+									matchContext = `<${el.name} ${rule.attribute}="${val}">`;
+									return false;
+								}
+							});
+						}
+						break;
+					}
+				}
+
+				if (isMatch) {
+					matchedWeights.push(weight);
+				}
+			}
+
+			ruleResults.push({
+				index: i,
+				rule,
+				isMatch,
+				matchContext,
+				regexError,
+				weight: typeof rule.weight === 'number' ? rule.weight : parseFloat(rule.weight) || 0.5,
+			});
+		}
+	}
+
+	let complementProduct = 1.0;
+	for (const w of matchedWeights) {
+		complementProduct *= 1.0 - w;
+	}
+	const confidence = matchedWeights.length > 0 ? parseFloat((1.0 - complementProduct).toFixed(4)) : 0;
+
+	return {
+		rules: ruleResults,
+		matchedCount: matchedWeights.length,
+		totalRules: rules.length,
+		confidence,
+		confidencePercentage: Math.round(confidence * 100),
+	};
+}
+
