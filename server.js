@@ -189,6 +189,67 @@ if (!fs.existsSync(screenshotsDir)) {
 	fs.mkdirSync(screenshotsDir, { recursive: true });
 }
 
+/**
+ * Captures screenshot for mobile or desktop/responsive version without requiring an API key.
+ * Uses free providers (Microlink API & WordPress mshots) with device emulation.
+ *
+ * @param {string} domain - Target domain (e.g. 'shopify.com')
+ * @param {'desktop'|'mobile'|'responsive'} device - Target device viewport
+ * @returns {Promise<Buffer|null>}
+ */
+async function fetchFreeScreenshot(domain, device = 'desktop') {
+	const isMobile = device === 'mobile';
+	const targetUrl = `https://${domain}`;
+	const width = isMobile ? 375 : 1366;
+	const height = isMobile ? 812 : 768;
+
+	// 1. Try Microlink API (Real headless browser rendering with JS and mobile device emulation)
+	try {
+		const microlinkUrl = `https://api.microlink.io?url=${encodeURIComponent(
+			targetUrl
+		)}&screenshot=true&meta=false&embed=screenshot.url&viewport.width=${width}&viewport.height=${height}&viewport.isMobile=${isMobile}&viewport.deviceScaleFactor=${
+			isMobile ? 2 : 1
+		}`;
+
+		const res = await axios.get(microlinkUrl, {
+			responseType: 'arraybuffer',
+			timeout: 12000,
+			headers: {
+				'User-Agent':
+					'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+			},
+		});
+
+		if (res.data && res.data.length > 1000) {
+			return res.data;
+		}
+	} catch (e) {
+		console.log(
+			`[Free Screenshot] Microlink attempt failed for ${domain} (${device}): ${e.message}`
+		);
+	}
+
+	// 2. Fallback to WordPress mshots service
+	try {
+		const mshotsUrl = `https://s0.wp.com/mshots/v1/${encodeURIComponent(
+			targetUrl
+		)}?w=${width}&h=${height}`;
+
+		const res = await axios.get(mshotsUrl, {
+			responseType: 'arraybuffer',
+			timeout: 10000,
+		});
+
+		if (res.data && res.data.length > 1000) {
+			return res.data;
+		}
+	} catch (e) {
+		console.log(`[Free Screenshot] mshots attempt failed for ${domain} (${device}): ${e.message}`);
+	}
+
+	return null;
+}
+
 async function getScreenshot(domain, device = 'desktop', extraParams = {}) {
 	const cleanDomain = domain
 		.replace(/^https?:\/\//i, '')
@@ -203,50 +264,64 @@ async function getScreenshot(domain, device = 'desktop', extraParams = {}) {
 		return `/screenshots/${filename}`;
 	}
 
-	// 2. Otherwise, check if API key exists and screenshots are enabled
-	const customerKey = process.env.SCREENSHOTMACHINE_KEY;
 	const screenshotsEnabled = process.env.ENABLE_SCREENSHOTS !== 'false';
-	if (!customerKey || !screenshotsEnabled) {
-		// If no API key, copy the mock image!
-		const mockFile = device === 'desktop' ? 'desktop-mock.png' : 'mobile-mock.png';
-		const mockPath = path.join(publicPath, 'mocks', mockFile);
-		if (fs.existsSync(mockPath)) {
-			fs.copyFileSync(mockPath, filePath);
-			return `/screenshots/${filename}`;
-		}
+	if (!screenshotsEnabled) {
 		return '';
 	}
 
-	// 3. Request from Screenshot Machine
-	const options = {
-		url: `https://${cleanDomain}`,
-		dimension: device === 'desktop' ? '1366x768' : '375x812',
-		device: device,
-		format: 'png',
-		cacheLimit: '7',
-		...extraParams,
-	};
+	const customerKey = process.env.SCREENSHOTMACHINE_KEY;
 
+	// 2. If Screenshot Machine API key exists, try Screenshot Machine
+	if (customerKey) {
+		const options = {
+			url: `https://${cleanDomain}`,
+			dimension: device === 'desktop' ? '1366x768' : '375x812',
+			device: device,
+			format: 'png',
+			cacheLimit: '7',
+			...extraParams,
+		};
+
+		try {
+			const apiUrl = screenshotmachine.generateScreenshotApiUrl(customerKey, '', options);
+			const response = await axios.get(apiUrl, {
+				responseType: 'arraybuffer',
+				timeout: 15000,
+			});
+			if (response.data && response.data.length > 500) {
+				fs.writeFileSync(filePath, response.data);
+				return `/screenshots/${filename}`;
+			}
+		} catch (err) {
+			console.error(
+				`[Screenshot Machine] Failed to fetch screenshot for ${cleanDomain} (${device}):`,
+				err.message
+			);
+		}
+	}
+
+	// 3. Fallback / Alternative Free Screenshot Provider (cuando no existe customerKey o falla)
 	try {
-		const apiUrl = screenshotmachine.generateScreenshotApiUrl(customerKey, '', options);
-		const response = await axios.get(apiUrl, {
-			responseType: 'arraybuffer',
-			timeout: 15000,
-		});
-		fs.writeFileSync(filePath, response.data);
-		return `/screenshots/${filename}`;
-	} catch (err) {
-		console.error(
-			`[Screenshot Machine] Failed to fetch screenshot for ${cleanDomain} (${device}):`,
-			err.message
-		);
-		// Fallback to mock on failure
-		const mockFile = device === 'desktop' ? 'desktop-mock.png' : 'mobile-mock.png';
-		const mockPath = path.join(publicPath, 'mocks', mockFile);
-		if (fs.existsSync(mockPath)) {
-			fs.copyFileSync(mockPath, filePath);
+		const freeScreenshot = await fetchFreeScreenshot(cleanDomain, device);
+		if (freeScreenshot) {
+			fs.writeFileSync(filePath, freeScreenshot);
 			return `/screenshots/${filename}`;
 		}
+	} catch (err) {
+		console.warn(
+			`[Free Screenshot] Failed to capture live screenshot for ${cleanDomain} (${device}):`,
+			err.message
+		);
+	}
+
+	// 4. Final Fallback to mock image on failure
+	const mockFile = device === 'desktop' ? 'desktop-mock.png' : 'mobile-mock.png';
+	const mockPath = path.join(publicPath, 'mocks', mockFile);
+	if (fs.existsSync(mockPath)) {
+		try {
+			fs.copyFileSync(mockPath, filePath);
+			return `/screenshots/${filename}`;
+		} catch (_e) {}
 	}
 	return '';
 }
