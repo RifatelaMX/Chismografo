@@ -17,6 +17,7 @@
 		"maildev": "maildev",
 		"cli": "chismografo",
 		"build": "node ./cli/bin/index.js build-index",
+		"test": "node test-detector.js",
 		"lint": "biome lint .",
 		"format": "biome format --write .",
 		"check": "biome check --write .",

@@ -16,6 +16,7 @@ Desarrollado bajo los lineamientos estéticos del sistema de diseño **Sleek** (
 - [Arquitectura del Sistema](#-arquitectura-del-sistema)
 - [Requisitos e Instalación](#-requisitos-e-instalación)
 - [Instrucciones de Ejecución](#-instrucciones-de-ejecución)
+- [Despliegue en Vercel](#-despliegue-en-vercel)
 - [Guía de Uso del CLI](#-guía-de-uso-del-cli-chismografo)
 - [Documentación de la API REST](#-documentación-de-la-api-rest-)
 - [Integraciones y Modos Embed](#-integraciones-y-modos-embed-iFrames-)
@@ -128,6 +129,26 @@ npm run format
 # Analizar, formatear y aplicar auto-fixes seguros
 npm run check
 ```
+
+---
+
+## ☁️ Despliegue en Vercel
+
+El proyecto incluye soporte nativo y configuración lista para desplegar en [Vercel](https://vercel.com/):
+
+1. **Despliegue directo con Vercel CLI:**
+   ```bash
+   npx vercel
+   # Para producción:
+   npx vercel --prod
+   ```
+
+2. **Variables de entorno en Vercel:**
+   Asegúrate de configurar en el dashboard de Vercel (o en tu proyecto) las siguientes variables según tus necesidades:
+   - `ALLOWED_ORIGINS`: Dominios permitidos separados por coma (ej. `https://tu-app.vercel.app,https://chismografo.rifatela.lol`) o `*`.
+   - `APP_URL`: URL base de la aplicación (ej. `https://tu-app.vercel.app`).
+   - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`: Para el servicio de envío de reportes por correo.
+   - `LOGODEV_PUBLISHABLE_KEY`, `SCREENSHOTMACHINE_KEY`: Llaves de API de integraciones opcionales.
 
 ---
 

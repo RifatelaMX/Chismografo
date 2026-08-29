@@ -949,11 +949,15 @@ app.get('*', (_req, res) => {
 });
 
 // Start Server
-app.listen(PORT, () => {
-	console.log(`=================================================`);
-	console.log(`🚀 E-Commerce Detector API Server is running`);
-	console.log(`👉 Local: http://localhost:${PORT}`);
-	console.log(`👉 API POST: http://localhost:${PORT}/api/detect`);
-	console.log(`👉 API GET: http://localhost:${PORT}/api/detect?url=shopify.com`);
-	console.log(`=================================================`);
-});
+if (!process.env.VERCEL) {
+	app.listen(PORT, () => {
+		console.log('=================================================');
+		console.log('🚀 E-Commerce Detector API Server is running');
+		console.log(`👉 Local: http://localhost:${PORT}`);
+		console.log(`👉 API POST: http://localhost:${PORT}/api/detect`);
+		console.log(`👉 API GET: http://localhost:${PORT}/api/detect?url=shopify.com`);
+		console.log('=================================================');
+	});
+}
+
+export default app;
