@@ -956,7 +956,8 @@ export function evaluateCustomRules(html = '', headers = {}, rules = []) {
 
 			if (regex && !regexError) {
 				const ruleType = rule.type;
-				const weight = typeof rule.weight === 'number' ? rule.weight : parseFloat(rule.weight) || 0.5;
+				const weight =
+					typeof rule.weight === 'number' ? rule.weight : parseFloat(rule.weight) || 0.5;
 
 				switch (ruleType) {
 					case 'header': {
@@ -1057,7 +1058,8 @@ export function evaluateCustomRules(html = '', headers = {}, rules = []) {
 	for (const w of matchedWeights) {
 		complementProduct *= 1.0 - w;
 	}
-	const confidence = matchedWeights.length > 0 ? parseFloat((1.0 - complementProduct).toFixed(4)) : 0;
+	const confidence =
+		matchedWeights.length > 0 ? parseFloat((1.0 - complementProduct).toFixed(4)) : 0;
 
 	return {
 		rules: ruleResults,
@@ -1067,4 +1069,3 @@ export function evaluateCustomRules(html = '', headers = {}, rules = []) {
 		confidencePercentage: Math.round(confidence * 100),
 	};
 }
-

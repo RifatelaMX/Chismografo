@@ -1,8 +1,4 @@
-/**
- * Email Service — Rífatela Detector
- * Sends branded scan report emails via SMTP using Nodemailer.
- */
-
+import axios from 'axios';
 import nodemailer from 'nodemailer';
 
 /**
@@ -14,11 +10,9 @@ async function createTransporter() {
 	const port = Number.parseInt(process.env.SMTP_PORT || '587', 10);
 	const secure = process.env.SMTP_SECURE === 'true'; // true = TLS/465, false = STARTTLS/587
 
-	if (process.env.DEV === 'true' || !host || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-		// Fallback/Force for development: Ethereal test account
-		console.log(
-			'[Email] Running in DEV mode or SMTP config missing. Creating an Ethereal test account...'
-		);
+	if (!host || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+		// Fallback for development/testing when SMTP credentials are not provided
+		console.log('[Email] SMTP configuration missing. Creating an Ethereal test account...');
 		const testAccount = await nodemailer.createTestAccount();
 		console.log(`[Email] Ethereal test account created: ${testAccount.user}`);
 		return nodemailer.createTransport({
@@ -41,6 +35,52 @@ async function createTransporter() {
 			pass: process.env.SMTP_PASS,
 		},
 	});
+}
+
+/**
+ * Sends a transactional email using the Brevo (Sendinblue) REST API v3.
+ */
+async function sendViaBrevo({ toEmail, toName, subject, html, text }) {
+	const apiKey = process.env.BREVO_API_KEY;
+	const fromName = process.env.BREVO_FROM_NAME || process.env.SMTP_FROM_NAME || 'Chismógrafo';
+	const fromEmail =
+		process.env.BREVO_FROM_EMAIL ||
+		process.env.SMTP_FROM ||
+		process.env.SMTP_USER ||
+		'contacto@rifatela.lol';
+
+	const recipient = { email: toEmail };
+	if (toName) {
+		recipient.name = toName;
+	}
+
+	const response = await axios.post(
+		'https://api.brevo.com/v3/smtp/email',
+		{
+			sender: {
+				name: fromName,
+				email: fromEmail,
+			},
+			to: [recipient],
+			subject,
+			htmlContent: html,
+			textContent: text,
+		},
+		{
+			headers: {
+				accept: 'application/json',
+				'api-key': apiKey,
+				'content-type': 'application/json',
+			},
+			timeout: 10000,
+		}
+	);
+
+	return {
+		messageId: response.data?.messageId || '',
+		accepted: [toEmail],
+		previewUrl: '',
+	};
 }
 
 /**
@@ -451,9 +491,18 @@ Este reporte fue generado por Chismógrafo · rifatela.lol
  * @param {object} scanData  - Full detection result from /api/detect
  */
 export async function sendReportEmail(toEmail, toName, scanData) {
-	const transporter = await createTransporter();
-
 	const domain = (scanData.resolvedUrl || '').replace(/^https?:\/\//, '').split('/')[0];
+	const { html, text } = buildReportEmail(scanData, toName);
+	const subject = `⚡ Reporte de Auditoría: ${domain} — Chismógrafo`;
+
+	// 1. Send via Brevo API if API key is provided
+	if (process.env.BREVO_API_KEY) {
+		console.log(`[Email] Sending report via Brevo API to ${toEmail}...`);
+		return await sendViaBrevo({ toEmail, toName, subject, html, text });
+	}
+
+	// 2. Fallback to SMTP / Ethereal transporter
+	const transporter = await createTransporter();
 
 	const isEthereal = transporter.options.host === 'smtp.ethereal.email';
 	const fromName = process.env.SMTP_FROM_NAME || 'Chismógrafo';
@@ -461,12 +510,10 @@ export async function sendReportEmail(toEmail, toName, scanData) {
 		? transporter.options.auth.user
 		: process.env.SMTP_FROM || process.env.SMTP_USER;
 
-	const { html, text } = buildReportEmail(scanData, toName);
-
 	const info = await transporter.sendMail({
 		from: `"${fromName}" <${fromEmail}>`,
 		to: toName ? `"${toName}" <${toEmail}>` : toEmail,
-		subject: `⚡ Reporte de Auditoría: ${domain} — Chismógrafo`,
+		subject,
 		text,
 		html,
 	});

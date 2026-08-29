@@ -15,7 +15,7 @@ import { getDomainLocation } from './src/location.js';
 // Configuration
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 // Resolve static path
 const __filename = fileURLToPath(import.meta.url);
@@ -267,9 +267,10 @@ app.get('/api/config', (_req, res) => {
 		logoDevToken: process.env.LOGODEV_PUBLISHABLE_KEY || '',
 		appUrl: process.env.APP_URL || '',
 		emailEnabled:
-			!!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) ||
-			process.env.DEV === 'true' ||
-			process.env.DEV === true,
+			!!(
+				process.env.BREVO_API_KEY ||
+				(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS)
+			) || process.env.NODE_ENV === 'development',
 		versions,
 	});
 });
@@ -288,10 +289,11 @@ app.post('/api/report', async (req, res) => {
 		return res.status(400).json({ success: false, error: 'Datos del reporte incompletos.' });
 	}
 
+	const hasBrevo = !!process.env.BREVO_API_KEY;
 	const hasSmtp = !!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
-	const isDev = process.env.DEV === 'true' || process.env.DEV === true;
+	const isDev = process.env.NODE_ENV === 'development';
 
-	if (!hasSmtp && !isDev) {
+	if (!hasBrevo && !hasSmtp && !isDev) {
 		return res
 			.status(503)
 			.json({ success: false, error: 'El servicio de correo no está configurado en el servidor.' });
@@ -309,7 +311,7 @@ app.post('/api/report', async (req, res) => {
 		console.error(`[Email] Failed to send report to ${email}:`, err.message);
 		return res.status(500).json({
 			success: false,
-			error: 'Error al enviar el correo. Verifica la configuración SMTP.',
+			error: 'Error al enviar el correo. Verifica la configuración de Brevo API o SMTP.',
 		});
 	}
 });

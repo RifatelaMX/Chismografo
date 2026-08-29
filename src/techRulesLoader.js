@@ -58,10 +58,7 @@ export function buildIndex() {
 
 // Load and compile all rules
 export function loadAllTechRules() {
-	const isDev =
-		process.env.DEV === 'true' ||
-		process.env.NODE_ENV === 'development' ||
-		process.env.NODE_ENV === 'dev';
+	const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'dev';
 	let indexData;
 
 	if (!isDev && fs.existsSync(indexPath)) {

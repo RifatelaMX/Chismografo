@@ -339,7 +339,7 @@ if (command === 'dev') {
 	);
 	const child = spawn('node', ['--watch', 'server.js'], {
 		stdio: 'inherit',
-		env: { ...process.env, DEV: 'true', NODE_ENV: 'development' },
+		env: { ...process.env, NODE_ENV: 'development' },
 	});
 	child.on('close', (code) => {
 		process.exit(code);

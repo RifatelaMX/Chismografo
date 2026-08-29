@@ -80,13 +80,17 @@ Asegúrate de contar con [Node.js](https://nodejs.org/) (versión 18 o superior)
     ```bash
     npm install
     ```
-3.  (Opcional) Crea un archivo `.env` en la raíz del proyecto para configurar las variables del servidor, CORS/CSP, y el servicio de correo SMTP:
+3.  (Opcional) Crea un archivo `.env` en la raíz del proyecto para configurar las variables del servidor, CORS/CSP, y el servicio de correo (Brevo API / SMTP):
     ```env
-    PORT=3000
     ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
     APP_URL=http://localhost:3000
 
-    # Configuración de Servidor de Correo SMTP
+    # Configuración de Envío de Correos con Brevo API (Recomendado)
+    BREVO_API_KEY=xkeysib-...
+    BREVO_FROM_EMAIL=contacto@rifatela.lol
+    BREVO_FROM_NAME="Chismógrafo"
+
+    # Alternativa: Configuración SMTP tradicional
     SMTP_HOST=smtp.mailgun.org
     SMTP_PORT=587
     SMTP_SECURE=false
@@ -105,7 +109,7 @@ Asegúrate de contar con [Node.js](https://nodejs.org/) (versión 18 o superior)
 ## 💻 Instrucciones de Ejecución
 
 ### Servidor de Producción / Desarrollo (Dashboard Web)
-Inicia el servidor express en el puerto configurado:
+Inicia el servidor express:
 ```bash
 npm run dev
 ```
@@ -147,7 +151,8 @@ El proyecto incluye soporte nativo y configuración lista para desplegar en [Ver
    Asegúrate de configurar en el dashboard de Vercel (o en tu proyecto) las siguientes variables según tus necesidades:
    - `ALLOWED_ORIGINS`: Dominios permitidos separados por coma (ej. `https://tu-app.vercel.app,https://chismografo.rifatela.lol`) o `*`.
    - `APP_URL`: URL base de la aplicación (ej. `https://tu-app.vercel.app`).
-   - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`: Para el servicio de envío de reportes por correo.
+   - `BREVO_API_KEY`, `BREVO_FROM_EMAIL`, `BREVO_FROM_NAME`: Para el servicio de envío de reportes por correo vía Brevo API.
+   - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`: (Opcional) Si se prefiere usar un servidor SMTP tradicional.
    - `LOGODEV_PUBLISHABLE_KEY`, `SCREENSHOTMACHINE_KEY`: Llaves de API de integraciones opcionales.
 
 ---
