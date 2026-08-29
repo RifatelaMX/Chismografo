@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/RifatelaMX/Chismografo/compare/v1.2.0...v1.3.0) (2026-08-29)
+
+
+### Features
+
+* add Vercel deployment support and configuration ([81ead00](https://github.com/RifatelaMX/Chismografo/commit/81ead00154b3e4e1acc04b7ee3b0253414f841e8))
+
 # [1.2.0](https://github.com/RifatelaMX/Chismografo/compare/v1.1.0...v1.2.0) (2026-08-23)
 
 
