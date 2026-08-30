@@ -23,16 +23,16 @@
 				"preset": "conventionalcommits",
 				"presetConfig": {
 					"types": [
-						{ "type": "feat", "section": "✨ Features / Características" },
-						{ "type": "fix", "section": "🐛 Bug Fixes / Correcciones" },
-						{ "type": "perf", "section": "⚡ Performance / Rendimiento" },
-						{ "type": "refactor", "section": "♻️ Code Refactoring / Refactorización" },
-						{ "type": "docs", "section": "📝 Documentation / Documentación" },
-						{ "type": "style", "section": "💄 Styles / Estilos" },
-						{ "type": "test", "section": "✅ Tests / Pruebas" },
-						{ "type": "build", "section": "📦 Build System / Compilación" },
-						{ "type": "ci", "section": "🤖 CI/CD / Integración Continua" },
-						{ "type": "chore", "section": "🔧 Chores & Maintenance / Mantenimiento" }
+						{ "type": "feat", "section": "✨ Nuevas Características" },
+						{ "type": "fix", "section": "🐛 Corrección de Errores" },
+						{ "type": "perf", "section": "⚡ Mejoras de Rendimiento" },
+						{ "type": "refactor", "section": "♻️ Refactorización" },
+						{ "type": "docs", "section": "📝 Documentación" },
+						{ "type": "style", "section": "💄 Estilos" },
+						{ "type": "test", "section": "✅ Pruebas" },
+						{ "type": "build", "section": "📦 Compilación y Empaquetado" },
+						{ "type": "ci", "section": "🤖 Integración Continua (CI/CD)" },
+						{ "type": "chore", "section": "🔧 Tareas de Mantenimiento" }
 					]
 				}
 			}
