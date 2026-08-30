@@ -1,3 +1,18 @@
+## [1.4.0](https://github.com/RifatelaMX/Chismografo/compare/v1.3.0...v1.4.0) (2026-08-30)
+
+### ✨ Nuevas Características
+
+* add Brevo API support for transactional emails and refactor email service configuration ([b6dcd28](https://github.com/RifatelaMX/Chismografo/commit/b6dcd283ba25b1d05457c98c8e3da203d57f52ab))
+* add free screenshot provider fallback using Microlink and mshots APIs ([b26187c](https://github.com/RifatelaMX/Chismografo/commit/b26187c8e36c73a6b4e77beedf3a3a8f043caf48))
+
+### 🐛 Corrección de Errores
+
+* **ci:** align conventionalcommits preset version and translate release notes to Spanish ([16c62eb](https://github.com/RifatelaMX/Chismografo/commit/16c62ebaff499f107ce0d47bb04d4198423f8c15))
+
+### ♻️ Refactorización
+
+* **email:** enhance SMTP and Brevo error handling and add project contribution guidelines ([fffb212](https://github.com/RifatelaMX/Chismografo/commit/fffb21283dbab1a0f19681cbba34168f2408119a))
+
 # [1.3.0](https://github.com/RifatelaMX/Chismografo/compare/v1.2.0...v1.3.0) (2026-08-29)
 
 

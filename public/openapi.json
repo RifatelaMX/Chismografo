@@ -3,7 +3,7 @@
 	"info": {
 		"title": "Chismógrafo API REST 📓",
 		"description": "API REST y widgets incrustables del Chismógrafo para husmear plataformas de e-commerce, pasarelas de pago, aplicaciones de Shopify, geolocalización de servidores y velocidad de carga móvil en cualquier sitio web... ¡Todo sin que se enteren! 🤫",
-		"version": "1.0.0"
+		"version": "1.4.0"
 	},
 	"servers": [
 		{
@@ -215,7 +215,9 @@
 		"schemas": {
 			"DetectRequest": {
 				"type": "object",
-				"required": ["url"],
+				"required": [
+					"url"
+				],
 				"properties": {
 					"url": {
 						"type": "string",
@@ -258,9 +260,15 @@
 						"items": {
 							"type": "object",
 							"properties": {
-								"name": { "type": "string" },
-								"category": { "type": "string" },
-								"evidence": { "type": "string" }
+								"name": {
+									"type": "string"
+								},
+								"category": {
+									"type": "string"
+								},
+								"evidence": {
+									"type": "string"
+								}
 							}
 						}
 					},
@@ -269,8 +277,12 @@
 						"items": {
 							"type": "object",
 							"properties": {
-								"name": { "type": "string" },
-								"category": { "type": "string" }
+								"name": {
+									"type": "string"
+								},
+								"category": {
+									"type": "string"
+								}
 							}
 						}
 					},
@@ -284,14 +296,27 @@
 					"location": {
 						"type": "object",
 						"properties": {
-							"success": { "type": "boolean" },
-							"ip": { "type": "string" },
-							"country": { "type": "string" },
-							"city": { "type": "string" },
+							"success": {
+								"type": "boolean"
+							},
+							"ip": {
+								"type": "string"
+							},
+							"country": {
+								"type": "string"
+							},
+							"city": {
+								"type": "string"
+							},
 							"ll": {
 								"type": "array",
-								"items": { "type": "number" },
-								"example": [19.43, -99.13]
+								"items": {
+									"type": "number"
+								},
+								"example": [
+									19.43,
+									-99.13
+								]
 							}
 						}
 					},
@@ -313,15 +338,23 @@
 			"InfraResponse": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"url": { "type": "string" },
+					"success": {
+						"type": "boolean"
+					},
+					"url": {
+						"type": "string"
+					},
 					"infrastructure": {
 						"type": "array",
 						"items": {
 							"type": "object",
 							"properties": {
-								"name": { "type": "string" },
-								"category": { "type": "string" }
+								"name": {
+									"type": "string"
+								},
+								"category": {
+									"type": "string"
+								}
 							}
 						}
 					}
@@ -330,13 +363,24 @@
 			"PageSpeedResponse": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
+					"success": {
+						"type": "boolean"
+					},
 					"scores": {
 						"type": "object",
 						"properties": {
-							"performance": { "type": "integer", "example": 74 },
-							"accessibility": { "type": "integer", "example": 88 },
-							"seo": { "type": "integer", "example": 95 }
+							"performance": {
+								"type": "integer",
+								"example": 74
+							},
+							"accessibility": {
+								"type": "integer",
+								"example": 88
+							},
+							"seo": {
+								"type": "integer",
+								"example": 95
+							}
 						}
 					},
 					"isDemo": {
@@ -346,12 +390,30 @@
 					"metrics": {
 						"type": "object",
 						"properties": {
-							"fcp": { "type": "string", "example": "1.7 s" },
-							"lcp": { "type": "string", "example": "3.1 s" },
-							"tbt": { "type": "string", "example": "180 ms" },
-							"cls": { "type": "string", "example": "0.03" },
-							"speedIndex": { "type": "string", "example": "2.0 s" },
-							"interactive": { "type": "string", "example": "3.3 s" }
+							"fcp": {
+								"type": "string",
+								"example": "1.7 s"
+							},
+							"lcp": {
+								"type": "string",
+								"example": "3.1 s"
+							},
+							"tbt": {
+								"type": "string",
+								"example": "180 ms"
+							},
+							"cls": {
+								"type": "string",
+								"example": "0.03"
+							},
+							"speedIndex": {
+								"type": "string",
+								"example": "2.0 s"
+							},
+							"interactive": {
+								"type": "string",
+								"example": "3.3 s"
+							}
 						}
 					}
 				}
