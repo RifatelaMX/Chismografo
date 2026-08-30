@@ -99,9 +99,10 @@ Asegúrate de contar con [Node.js](https://nodejs.org/) (versión 18 o superior)
     SMTP_FROM=noreply@tu-dominio.com
     SMTP_FROM_NAME="Rífatela Detector"
 
-    # API Keys de Integración (Opcionales)
-    LOGODEV_PUBLISHABLE_KEY=pk_...
+    # Proveedor y API Keys de Integración (Opcionales)
+    SCREENSHOT_PROVIDER=screenshotmachine # 'local' o 'screenshotmachine'
     SCREENSHOTMACHINE_KEY=...
+    LOGODEV_PUBLISHABLE_KEY=pk_...
     ```
 
 ---
@@ -136,23 +137,37 @@ npm run check
 
 ---
 
-## ☁️ Despliegue en Vercel
+## ☁️ Entorno de Desarrollo y Despliegue en Vercel
 
-El proyecto incluye soporte nativo y configuración lista para desplegar en [Vercel](https://vercel.com/):
+El proyecto incluye soporte nativo y configuración lista para simular y desplegar en [Vercel](https://vercel.com/):
 
-1. **Despliegue directo con Vercel CLI:**
+1. **Entorno de Desarrollo Local con Vercel CLI:**
+   Para emular el entorno de ejecución Serverless idéntico a producción en tu máquina local:
+   ```bash
+   npm run dev:vercel
+   ```
+   *(O directamente con `npx vercel dev`)*. Esto levantará la aplicación en `http://localhost:3000` ejecutando `api/index.js` como una función Serverless.
+
+2. **Sincronización de Variables de Entorno de Vercel:**
+   Si tienes un proyecto vinculado en Vercel, puedes descargar automáticamente las variables de entorno de tu proyecto:
+   ```bash
+   npm run vercel:pull
+   ```
+
+3. **Despliegue directo a Producción:**
    ```bash
    npx vercel
-   # Para producción:
+   # Para producción directa:
    npx vercel --prod
    ```
 
-2. **Variables de entorno en Vercel:**
-   Asegúrate de configurar en el dashboard de Vercel (o en tu proyecto) las siguientes variables según tus necesidades:
+4. **Variables de entorno en Vercel:**
+   Asegúrate de configurar en el dashboard de Vercel (o en tu archivo `.env.local` / `.env.development.local`) las siguientes variables según tus necesidades:
    - `ALLOWED_ORIGINS`: Dominios permitidos separados por coma (ej. `https://tu-app.vercel.app,https://chismografo.rifatela.lol`) o `*`.
    - `APP_URL`: URL base de la aplicación (ej. `https://tu-app.vercel.app`).
    - `BREVO_API_KEY`, `BREVO_FROM_EMAIL`, `BREVO_FROM_NAME`: Para el servicio de envío de reportes por correo vía Brevo API.
    - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`: (Opcional) Si se prefiere usar un servidor SMTP tradicional.
+   - `SCREENSHOT_PROVIDER`: Proveedor de capturas (`local` para capturas automáticas móvil/desktop sin API keys, o `screenshotmachine` para usar el servicio externo).
    - `LOGODEV_PUBLISHABLE_KEY`, `SCREENSHOTMACHINE_KEY`: Llaves de API de integraciones opcionales.
 
 ---

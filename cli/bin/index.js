@@ -5,7 +5,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import readline from 'node:readline';
 import { fileURLToPath } from 'node:url';
-import { detectTechnology } from '../../src/detector.js';
 
 function askQuestion(query) {
 	const rl = readline.createInterface({
@@ -275,7 +274,12 @@ const helpText = `
     \x1b[90m--web <url>                           URL del sitio de la pasarela.
     \x1b[90m--logo <logo>                         Logo de la pasarela (ej. stripe.com).\x1b[0m
 
-  \x1b[1m\x1b[36mversion, --version, -v\x1b[0m                 Muestra la versión actual del Chismógrafo.
+  \x1b[1m\x1b[36mversion, --version, -v\x1b[0m                 Muestra las versiones del Chismógrafo.
+    \x1b[90m--cli, -c                             Muestra solo la versión del CLI.
+    --ui, -u, --front                     Muestra solo la versión de la interfaz (UI).
+    --api, -a, --back                     Muestra solo la versión de la API REST.
+    --json                                Muestra las versiones en formato JSON.
+    --check, --status                     Analiza cambios pendientes por componente según git.\x1b[0m
 
 \x1b[90m  Uso: chismografo <comando> [argumentos] [opciones]\x1b[0m
 `;
@@ -312,11 +316,49 @@ if (
 		} catch (_e) {}
 	}
 
+	const hasJson = args.includes('--json');
+	const isCheck =
+		args.includes('--check') ||
+		args.includes('--status') ||
+		args.includes('check') ||
+		args.includes('status');
 	const hasCli = args.includes('--cli') || args.includes('-c');
-	const hasUi = args.includes('--ui') || args.includes('-u');
-	const hasApi = args.includes('--api') || args.includes('-a');
+	const hasUi = args.includes('--ui') || args.includes('-u') || args.includes('--front');
+	const hasApi = args.includes('--api') || args.includes('-a') || args.includes('--back');
 
-	if (hasCli) {
+	if (isCheck) {
+		const { calculateComponentBumps } = await import('../../scripts/update-versions.js');
+		const result = calculateComponentBumps();
+		if (hasJson) {
+			console.log(JSON.stringify(result, null, 2));
+		} else {
+			console.log('\n🔎 \x1b[1m\x1b[36mEstado de Versiones por Componente\x1b[0m');
+			console.log(`   Referencia base: ${result.fromRef || '(inicio del repo)'}`);
+			console.log(`   Commits analizados: ${result.commitsCount}\n`);
+			for (const [key, label] of Object.entries({
+				cli: 'CLI (Terminal)',
+				ui: 'Frontend (UI)',
+				api: 'Backend (API)',
+			})) {
+				const current = result.currentVersions[key];
+				const next = result.newVersions[key];
+				const bump = result.componentBumps[key];
+				const changed = current !== next;
+				const icon = changed ? '🚀' : '⏸️ ';
+				const statusColor = changed ? '\x1b[32m' : '\x1b[90m';
+				const bumpLabel = changed ? `(${bump.toUpperCase()})` : '(sin cambios)';
+				console.log(
+					` ${icon} \x1b[1m${label}\x1b[0m: v${current} -> ${statusColor}v${next}\x1b[0m ${bumpLabel}`
+				);
+			}
+			console.log('');
+		}
+		process.exit(0);
+	}
+
+	if (hasJson) {
+		console.log(JSON.stringify(versions, null, 2));
+	} else if (hasCli) {
 		console.log(versions.cli);
 	} else if (hasUi) {
 		console.log(versions.ui);
@@ -817,6 +859,7 @@ else if (command === 'test-domain') {
 	console.log('\x1b[36m%s\x1b[0m', `🤫 El Chismógrafo está investigando: ${url}...`);
 
 	try {
+		const { detectTechnology } = await import('../../src/detector.js');
 		const result = await detectTechnology(url);
 		if (!result.success) {
 			console.error(

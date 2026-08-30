@@ -11,19 +11,29 @@ async function createTransporter() {
 	const secure = process.env.SMTP_SECURE === 'true'; // true = TLS/465, false = STARTTLS/587
 
 	if (!host || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-		// Fallback for development/testing when SMTP credentials are not provided
-		console.log('[Email] SMTP configuration missing. Creating an Ethereal test account...');
-		const testAccount = await nodemailer.createTestAccount();
-		console.log(`[Email] Ethereal test account created: ${testAccount.user}`);
-		return nodemailer.createTransport({
-			host: 'smtp.ethereal.email',
-			port: 587,
-			secure: false,
-			auth: {
-				user: testAccount.user,
-				pass: testAccount.pass,
-			},
-		});
+		// Fallback para desarrollo/pruebas cuando no hay credenciales SMTP
+		console.log(
+			'[Correo] ℹ️ Configuración SMTP incompleta o ausente. Creando cuenta de prueba en Ethereal...'
+		);
+		try {
+			const testAccount = await nodemailer.createTestAccount();
+			console.log(`[Correo] ✅ Cuenta de prueba Ethereal creada: ${testAccount.user}`);
+			return nodemailer.createTransport({
+				host: 'smtp.ethereal.email',
+				port: 587,
+				secure: false,
+				auth: {
+					user: testAccount.user,
+					pass: testAccount.pass,
+				},
+			});
+		} catch (err) {
+			console.error(
+				`[Correo] ❌ Error al crear la cuenta de prueba en Ethereal: ${err.message}`,
+				err
+			);
+			throw new Error(`Fallo al inicializar transporte de correo de prueba: ${err.message}`);
+		}
 	}
 
 	return nodemailer.createTransport({
@@ -54,33 +64,48 @@ async function sendViaBrevo({ toEmail, toName, subject, html, text }) {
 		recipient.name = toName;
 	}
 
-	const response = await axios.post(
-		'https://api.brevo.com/v3/smtp/email',
-		{
-			sender: {
-				name: fromName,
-				email: fromEmail,
+	try {
+		console.log(
+			`[Correo Brevo] 📤 Enviando correo a "${toEmail}" desde "${fromName} <${fromEmail}>"...`
+		);
+		const response = await axios.post(
+			'https://api.brevo.com/v3/smtp/email',
+			{
+				sender: {
+					name: fromName,
+					email: fromEmail,
+				},
+				to: [recipient],
+				subject,
+				htmlContent: html,
+				textContent: text,
 			},
-			to: [recipient],
-			subject,
-			htmlContent: html,
-			textContent: text,
-		},
-		{
-			headers: {
-				accept: 'application/json',
-				'api-key': apiKey,
-				'content-type': 'application/json',
-			},
-			timeout: 10000,
-		}
-	);
+			{
+				headers: {
+					accept: 'application/json',
+					'api-key': apiKey,
+					'content-type': 'application/json',
+				},
+				timeout: 10000,
+			}
+		);
 
-	return {
-		messageId: response.data?.messageId || '',
-		accepted: [toEmail],
-		previewUrl: '',
-	};
+		const messageId = response.data?.messageId || '';
+		console.log(`[Correo Brevo] ✅ Correo entregado exitosamente a Brevo API (ID: ${messageId})`);
+
+		return {
+			messageId,
+			accepted: [toEmail],
+			previewUrl: '',
+		};
+	} catch (err) {
+		const errorDetails = err.response?.data?.message || err.response?.data?.code || err.message;
+		console.error(
+			`[Correo Brevo] ❌ Error al enviar correo vía Brevo API a ${toEmail}: ${errorDetails}`,
+			err.response?.data || err
+		);
+		throw new Error(`Error en servicio Brevo API: ${errorDetails}`);
+	}
 }
 
 /**
@@ -172,14 +197,17 @@ export function buildReportEmail(data, recipientName = '') {
 		: '';
 
 	// PageSpeed section (optional)
-	const pagespeedHtml = pagespeed?.lighthouseResult
-		? (() => {
-				const cats = pagespeed.lighthouseResult.categories || {};
-				const perf = Math.round((cats.performance?.score || 0) * 100);
-				const acc = Math.round((cats.accessibility?.score || 0) * 100);
-				const seo = Math.round((cats.seo?.score || 0) * 100);
-				const scoreColor = (s) => (s >= 90 ? '#2ecc71' : s >= 50 ? '#f39c12' : '#ff7eb9');
-				return `
+	const pagespeedHtml =
+		pagespeed?.scores || pagespeed?.lighthouseResult
+			? (() => {
+					const cats = pagespeed.lighthouseResult?.categories || {};
+					const perf =
+						pagespeed.scores?.performance ?? Math.round((cats.performance?.score || 0) * 100);
+					const acc =
+						pagespeed.scores?.accessibility ?? Math.round((cats.accessibility?.score || 0) * 100);
+					const seo = pagespeed.scores?.seo ?? Math.round((cats.seo?.score || 0) * 100);
+					const scoreColor = (s) => (s >= 90 ? '#2ecc71' : s >= 50 ? '#f39c12' : '#ff7eb9');
+					return `
       <!-- Sticky tape -->
       <div style="background: rgba(244,238,216,0.85); border-left: 1px dashed rgba(43,37,35,0.15); border-right: 1px dashed rgba(43,37,35,0.15); height: 14px; width: 80px; margin: 20px auto -8px; z-index: 10; position: relative;"></div>
       <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" 
@@ -209,8 +237,8 @@ export function buildReportEmail(data, recipientName = '') {
           </td>
         </tr>
       </table>`;
-			})()
-		: '';
+				})()
+			: '';
 
 	// Screenshots section (optional)
 	const screenshotsHtml =
@@ -495,13 +523,14 @@ export async function sendReportEmail(toEmail, toName, scanData) {
 	const { html, text } = buildReportEmail(scanData, toName);
 	const subject = `⚡ Reporte de Auditoría: ${domain} — Chismógrafo`;
 
-	// 1. Send via Brevo API if API key is provided
+	// 1. Enviar vía Brevo API si existe la API Key
 	if (process.env.BREVO_API_KEY) {
-		console.log(`[Email] Sending report via Brevo API to ${toEmail}...`);
+		console.log(`[Correo] 🚀 Procesando envío de reporte vía Brevo API para: ${toEmail}`);
 		return await sendViaBrevo({ toEmail, toName, subject, html, text });
 	}
 
-	// 2. Fallback to SMTP / Ethereal transporter
+	// 2. Respaldo mediante transporte SMTP / Ethereal
+	console.log(`[Correo] 🚀 Procesando envío de reporte vía transporte SMTP para: ${toEmail}`);
 	const transporter = await createTransporter();
 
 	const isEthereal = transporter.options.host === 'smtp.ethereal.email';
@@ -510,23 +539,36 @@ export async function sendReportEmail(toEmail, toName, scanData) {
 		? transporter.options.auth.user
 		: process.env.SMTP_FROM || process.env.SMTP_USER;
 
-	const info = await transporter.sendMail({
-		from: `"${fromName}" <${fromEmail}>`,
-		to: toName ? `"${toName}" <${toEmail}>` : toEmail,
-		subject,
-		text,
-		html,
-	});
+	try {
+		console.log(
+			`[Correo SMTP] 📤 Enviando correo a "${toEmail}" desde "${fromName} <${fromEmail}>" (Host: ${transporter.options.host})...`
+		);
+		const info = await transporter.sendMail({
+			from: `"${fromName}" <${fromEmail}>`,
+			to: toName ? `"${toName}" <${toEmail}>` : toEmail,
+			subject,
+			text,
+			html,
+		});
 
-	let previewUrl = '';
-	if (isEthereal) {
-		previewUrl = nodemailer.getTestMessageUrl(info);
-		console.log(`[Email] Ethereal Preview URL: ${previewUrl}`);
+		let previewUrl = '';
+		if (isEthereal) {
+			previewUrl = nodemailer.getTestMessageUrl(info);
+			console.log(`[Correo Ethereal] 🌐 URL de vista previa del correo: ${previewUrl}`);
+		}
+
+		console.log(`[Correo SMTP] ✅ Correo enviado exitosamente (ID: ${info.messageId})`);
+
+		return {
+			messageId: info.messageId,
+			accepted: info.accepted,
+			previewUrl,
+		};
+	} catch (err) {
+		console.error(
+			`[Correo SMTP] ❌ Error al enviar correo vía SMTP a ${toEmail}: ${err.message}`,
+			err
+		);
+		throw new Error(`Error en servicio SMTP: ${err.message}`);
 	}
-
-	return {
-		messageId: info.messageId,
-		accepted: info.accepted,
-		previewUrl,
-	};
 }

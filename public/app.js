@@ -262,6 +262,18 @@ document.addEventListener('DOMContentLoaded', () => {
 		targetUrlInput.focus();
 	});
 
+	// Preload screenshot images helper
+	function preloadImage(url) {
+		if (!url) return Promise.resolve();
+		return new Promise((resolve) => {
+			const img = new Image();
+			img.onload = () => resolve(url);
+			img.onerror = () => resolve(url);
+			img.src = url;
+			setTimeout(() => resolve(url), 4000);
+		});
+	}
+
 	// Perform detection flow
 	async function performDetection(targetUrl) {
 		// Reset PageSpeed card
@@ -277,18 +289,24 @@ document.addEventListener('DOMContentLoaded', () => {
 		errorState.classList.add('hidden');
 		scanningState.classList.remove('hidden');
 
+		// Reset product count
+		const productCountContainer = document.getElementById('product-count-container');
+		const productCountVal = document.getElementById('product-count-val');
+		if (productCountContainer) productCountContainer.style.display = 'none';
+		if (productCountVal) productCountVal.textContent = '0';
+
 		// Disable submit
 		submitBtn.disabled = true;
 
 		// Scroll to scanning loader
 		scanningState.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-		// Mock progress visualization sequence (1.5s total time for smooth UI)
+		// Progress visualization sequence
 		const steps = [
 			{ text: 'Nos estamos metiendo a husmear... 🕵️', progress: 15 },
-			{ text: 'Leyendo su código fuente secreto... 📜', progress: 45 },
-			{ text: 'Extrayendo scripts y pistas del DOM... 🔍', progress: 70 },
-			{ text: 'Armando el expediente chismoso... 📝', progress: 90 },
+			{ text: 'Leyendo código fuente y analizando tecnologías... 📜', progress: 40 },
+			{ text: 'Tomando capturas del sitio y midiendo velocidad... 📸⚡', progress: 70 },
+			{ text: 'Armando el expediente chismoso con métricas completas... 📝', progress: 90 },
 		];
 
 		let currentStep = 0;
@@ -298,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				scannerProgressBar.style.width = `${steps[currentStep].progress}%`;
 				currentStep++;
 			}
-		}, 350);
+		}, 450);
 
 		try {
 			// Trigger actual API request
@@ -315,23 +333,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			const data = await response.json();
 
-			// Clear the mock interval and fill progress to 100
-			clearInterval(interval);
-			scannerProgressBar.style.width = '100%';
-			scannerStep.textContent = '¡Ya tenemos el chisme! 🎉';
+			if (data.success) {
+				// Preload screenshot images before revealing the results
+				const screenshotPromises = [];
+				if (data.screenshots?.desktop) {
+					screenshotPromises.push(preloadImage(data.screenshots.desktop));
+				}
+				if (data.screenshots?.mobile) {
+					screenshotPromises.push(preloadImage(data.screenshots.mobile));
+				}
 
-			// Small delay for transition feel
-			setTimeout(() => {
+				// If pagespeed was not attached directly, fetch in parallel as fallback
+				let pageSpeedPromise = Promise.resolve(data.pagespeed);
+				if (!data.pagespeed) {
+					pageSpeedPromise = fetch('/api/pagespeed', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ url: targetUrl }),
+					})
+						.then((r) => r.json())
+						.catch(() => null);
+				}
+
+				const [_, pageSpeedData] = await Promise.all([
+					Promise.all(screenshotPromises),
+					pageSpeedPromise,
+				]);
+
+				if (pageSpeedData) {
+					data.pagespeed = pageSpeedData;
+				}
+
+				// Clear the mock interval and fill progress to 100%
+				clearInterval(interval);
+				scannerProgressBar.style.width = '100%';
+				scannerStep.textContent = '¡Ya tenemos el chisme completo! 🎉';
+
+				// Smooth transition to results
+				setTimeout(() => {
+					scanningState.classList.add('hidden');
+					submitBtn.disabled = false;
+					renderResults(data);
+				}, 250);
+			} else {
+				clearInterval(interval);
 				scanningState.classList.add('hidden');
 				submitBtn.disabled = false;
-
-				if (data.success) {
-					renderResults(data);
-					fetchPageSpeed(targetUrl);
-				} else {
-					showError(data.error || 'Algo salió mal al espiar la página... 😵');
-				}
-			}, 300);
+				showError(data.error || 'Algo salió mal al espiar la página... 😵');
+			}
 		} catch (_err) {
 			clearInterval(interval);
 			scanningState.classList.add('hidden');
@@ -342,10 +391,116 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
-	// Asynchronously fetch PageSpeed metrics
-	async function fetchPageSpeed(targetUrl) {
+	// Render PageSpeed data inside card
+	function renderPageSpeedData(data) {
+		const pagespeedCard = document.getElementById('pagespeed-card');
 		const pagespeedLoader = document.getElementById('pagespeed-loader');
 		const pagespeedContent = document.getElementById('pagespeed-content');
+
+		if (!pagespeedCard) return;
+		pagespeedCard.style.display = 'block';
+
+		if (data && data.success) {
+			if (pagespeedLoader) pagespeedLoader.style.display = 'none';
+			if (pagespeedContent) pagespeedContent.classList.remove('hidden');
+
+			// Helper to update individual gauge (radius 34, circumference 214)
+			const updateGauge = (scoreValId, scoreCircleId, badgeId, scoreValue) => {
+				const hasScore = scoreValue !== null && scoreValue !== undefined && !isNaN(scoreValue);
+				const score = hasScore ? Number(scoreValue) : null;
+				const scoreValEl = document.getElementById(scoreValId);
+				if (scoreValEl) scoreValEl.textContent = score !== null ? score : '-';
+
+				const scoreCircleEl = document.getElementById(scoreCircleId);
+				if (scoreCircleEl) {
+					const offset = score !== null ? 214 - (214 * score) / 100 : 214;
+					scoreCircleEl.style.strokeDashoffset = offset;
+
+					if (score === null) {
+						scoreCircleEl.setAttribute('stroke', '#4b5563');
+					} else if (score >= 90) {
+						scoreCircleEl.setAttribute('stroke', '#25d366'); // green
+					} else if (score >= 50) {
+						scoreCircleEl.setAttribute('stroke', '#f59e0b'); // orange
+					} else {
+						scoreCircleEl.setAttribute('stroke', '#ef4444'); // red
+					}
+				}
+
+				const badgeEl = document.getElementById(badgeId);
+				if (badgeEl) {
+					const suffix = data.isDemo ? ' (Simulado)' : '';
+					if (score === null) {
+						badgeEl.textContent = `N/D${suffix}`;
+						badgeEl.style.background = 'rgba(156, 163, 175, 0.1)';
+						badgeEl.style.color = '#9ca3af';
+						badgeEl.style.border = '1px solid rgba(156, 163, 175, 0.2)';
+					} else if (score >= 90) {
+						badgeEl.textContent = `Bueno${suffix}`;
+						badgeEl.style.background = 'rgba(37, 211, 102, 0.1)';
+						badgeEl.style.color = '#25d366';
+						badgeEl.style.border = '1px solid rgba(37, 211, 102, 0.2)';
+					} else if (score >= 50) {
+						badgeEl.textContent = `Regular${suffix}`;
+						badgeEl.style.background = 'rgba(245, 158, 11, 0.1)';
+						badgeEl.style.color = '#f59e0b';
+						badgeEl.style.border = '1px solid rgba(245, 158, 11, 0.2)';
+					} else {
+						badgeEl.textContent = `Malo${suffix}`;
+						badgeEl.style.background = 'rgba(239, 68, 68, 0.1)';
+						badgeEl.style.color = '#ef4444';
+						badgeEl.style.border = '1px solid rgba(239, 68, 68, 0.2)';
+					}
+				}
+			};
+
+			// Update the three gauges
+			const scores = data.scores || {};
+			updateGauge(
+				'pagespeed-score-val',
+				'pagespeed-score-circle',
+				'pagespeed-level-badge',
+				scores.performance
+			);
+			updateGauge(
+				'pagespeed-acc-val',
+				'pagespeed-acc-circle',
+				'pagespeed-acc-badge',
+				scores.accessibility
+			);
+			updateGauge('pagespeed-seo-val', 'pagespeed-seo-circle', 'pagespeed-seo-badge', scores.seo);
+
+			// Metrics values
+			if (data.metrics) {
+				if (document.getElementById('ps-metric-fcp'))
+					document.getElementById('ps-metric-fcp').textContent = data.metrics.fcp || 'N/A';
+				if (document.getElementById('ps-metric-lcp'))
+					document.getElementById('ps-metric-lcp').textContent = data.metrics.lcp || 'N/A';
+				if (document.getElementById('ps-metric-tbt'))
+					document.getElementById('ps-metric-tbt').textContent = data.metrics.tbt || 'N/A';
+				if (document.getElementById('ps-metric-cls'))
+					document.getElementById('ps-metric-cls').textContent = data.metrics.cls || 'N/A';
+				if (document.getElementById('ps-metric-speedindex'))
+					document.getElementById('ps-metric-speedindex').textContent =
+						data.metrics.speedIndex || 'N/A';
+				if (document.getElementById('ps-metric-interactive'))
+					document.getElementById('ps-metric-interactive').textContent =
+						data.metrics.interactive || 'N/A';
+			}
+		} else {
+			if (pagespeedLoader) {
+				pagespeedLoader.innerHTML = `
+          <i data-lucide="alert-circle" style="width: 24px; height: 24px; color: var(--danger);"></i>
+          <span style="font-size: 0.82rem; color: var(--danger); text-align: center; margin-top: 0.25rem;">Error PageSpeed: ${data?.error || 'No se pudo completar la auditoría.'}</span>
+        `;
+				lucide.createIcons();
+			}
+		}
+	}
+
+	// Asynchronously fetch PageSpeed metrics as standalone fallback
+	async function fetchPageSpeed(targetUrl) {
+		const pagespeedLoader = document.getElementById('pagespeed-loader');
 
 		try {
 			const res = await fetch('/api/pagespeed', {
@@ -356,91 +511,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				body: JSON.stringify({ url: targetUrl }),
 			});
 			const data = await res.json();
-
-			if (data.success) {
-				if (pagespeedLoader) pagespeedLoader.style.display = 'none';
-				if (pagespeedContent) pagespeedContent.classList.remove('hidden');
-
-				// Helper to update individual gauge (radius 34, circumference 214)
-				const updateGauge = (scoreValId, scoreCircleId, badgeId, scoreValue) => {
-					const score = scoreValue !== null && scoreValue !== undefined ? scoreValue : 0;
-					const scoreValEl = document.getElementById(scoreValId);
-					if (scoreValEl) scoreValEl.textContent = score;
-
-					const scoreCircleEl = document.getElementById(scoreCircleId);
-					if (scoreCircleEl) {
-						const offset = 214 - (214 * score) / 100;
-						scoreCircleEl.style.strokeDashoffset = offset;
-
-						if (score >= 90) {
-							scoreCircleEl.setAttribute('stroke', '#25d366'); // green
-						} else if (score >= 50) {
-							scoreCircleEl.setAttribute('stroke', '#f59e0b'); // orange
-						} else {
-							scoreCircleEl.setAttribute('stroke', '#ef4444'); // red
-						}
-					}
-
-					const badgeEl = document.getElementById(badgeId);
-					if (badgeEl) {
-						const suffix = data.isDemo ? ' (Simulado)' : '';
-						if (score >= 90) {
-							badgeEl.textContent = `Bueno${suffix}`;
-							badgeEl.style.background = 'rgba(37, 211, 102, 0.1)';
-							badgeEl.style.color = '#25d366';
-							badgeEl.style.border = '1px solid rgba(37, 211, 102, 0.2)';
-						} else if (score >= 50) {
-							badgeEl.textContent = `Regular${suffix}`;
-							badgeEl.style.background = 'rgba(245, 158, 11, 0.1)';
-							badgeEl.style.color = '#f59e0b';
-							badgeEl.style.border = '1px solid rgba(245, 158, 11, 0.2)';
-						} else {
-							badgeEl.textContent = `Malo${suffix}`;
-							badgeEl.style.background = 'rgba(239, 68, 68, 0.1)';
-							badgeEl.style.color = '#ef4444';
-							badgeEl.style.border = '1px solid rgba(239, 68, 68, 0.2)';
-						}
-					}
-				};
-
-				// Update the three gauges
-				const scores = data.scores || {};
-				updateGauge(
-					'pagespeed-score-val',
-					'pagespeed-score-circle',
-					'pagespeed-level-badge',
-					scores.performance
-				);
-				updateGauge(
-					'pagespeed-acc-val',
-					'pagespeed-acc-circle',
-					'pagespeed-acc-badge',
-					scores.accessibility
-				);
-				updateGauge('pagespeed-seo-val', 'pagespeed-seo-circle', 'pagespeed-seo-badge', scores.seo);
-
-				// Metrics values
-				if (document.getElementById('ps-metric-fcp'))
-					document.getElementById('ps-metric-fcp').textContent = data.metrics.fcp;
-				if (document.getElementById('ps-metric-lcp'))
-					document.getElementById('ps-metric-lcp').textContent = data.metrics.lcp;
-				if (document.getElementById('ps-metric-tbt'))
-					document.getElementById('ps-metric-tbt').textContent = data.metrics.tbt;
-				if (document.getElementById('ps-metric-cls'))
-					document.getElementById('ps-metric-cls').textContent = data.metrics.cls;
-				if (document.getElementById('ps-metric-speedindex'))
-					document.getElementById('ps-metric-speedindex').textContent = data.metrics.speedIndex;
-				if (document.getElementById('ps-metric-interactive'))
-					document.getElementById('ps-metric-interactive').textContent = data.metrics.interactive;
-			} else {
-				if (pagespeedLoader) {
-					pagespeedLoader.innerHTML = `
-            <i data-lucide="alert-circle" style="width: 24px; height: 24px; color: var(--danger);"></i>
-            <span style="font-size: 0.82rem; color: var(--danger); text-align: center; margin-top: 0.25rem;">Error PageSpeed: ${data.error || 'No se pudo completar la auditoría.'}</span>
-          `;
-					lucide.createIcons();
-				}
+			if (lastScanData) {
+				lastScanData.pagespeed = data;
 			}
+			renderPageSpeedData(data);
 		} catch (err) {
 			console.error('PageSpeed fetch error:', err);
 			if (pagespeedLoader) {
@@ -461,6 +535,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		lastScanData = data;
 		resultsState.classList.remove('hidden');
 		resultsState.scrollIntoView({ behavior: 'smooth' });
+
+		// Render PageSpeed section
+		if (data.pagespeed) {
+			renderPageSpeedData(data.pagespeed);
+		} else {
+			fetchPageSpeed(data.resolvedUrl || targetUrlInput.value.trim());
+		}
 
 		// Render screenshots if available
 		const headerPreviewsContainer = document.getElementById('header-previews-container');
@@ -616,15 +697,6 @@ document.addEventListener('DOMContentLoaded', () => {
 				if (detectedThemeContainer) detectedThemeContainer.style.display = 'none';
 			}
 
-			const productCountContainer = document.getElementById('product-count-container');
-			const productCountVal = document.getElementById('product-count-val');
-			if (data.productCount !== undefined && data.productCount !== null) {
-				if (productCountVal) productCountVal.textContent = data.productCount.toLocaleString();
-				if (productCountContainer) productCountContainer.style.display = 'block';
-			} else {
-				if (productCountContainer) productCountContainer.style.display = 'none';
-			}
-
 			const iconName = techIcons[data.technology] || 'shopping-bag';
 
 			const cmsDomains = {
@@ -667,6 +739,25 @@ document.addEventListener('DOMContentLoaded', () => {
 				techIconContainer.style.background = 'rgba(255, 255, 255, 0.05)';
 				techIconContainer.style.border = '';
 			}
+		}
+
+		// Product count display: show only when valid positive product count is present
+		const productCountContainer = document.getElementById('product-count-container');
+		const productCountVal = document.getElementById('product-count-val');
+		const hasValidProducts =
+			data.detected &&
+			data.productCount !== undefined &&
+			data.productCount !== null &&
+			!isNaN(data.productCount) &&
+			Number(data.productCount) > 0;
+
+		if (hasValidProducts) {
+			if (productCountVal)
+				productCountVal.textContent = Number(data.productCount).toLocaleString('es-MX');
+			if (productCountContainer) productCountContainer.style.display = 'block';
+		} else {
+			if (productCountVal) productCountVal.textContent = '0';
+			if (productCountContainer) productCountContainer.style.display = 'none';
 		}
 
 		// Render Stats

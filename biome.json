@@ -111,7 +111,14 @@
 			}
 		},
 		{
-			"includes": ["test-detector.js", "test-*.js", "src/**/*.js", "server.js", "cli/**/*.js"],
+			"includes": [
+				"test-detector.js",
+				"test-*.js",
+				"src/**/*.js",
+				"server.js",
+				"cli/**/*.js",
+				"scripts/**/*.js"
+			],
 			"linter": {
 				"enabled": true,
 				"rules": {

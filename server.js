@@ -86,20 +86,22 @@ function validateUrlParam(req, res, next) {
 	const url = req.body?.url || req.query?.url;
 
 	if (!url) {
+		console.warn('[Validación] ⚠️ Falta el parámetro "url" en la solicitud');
 		return res.status(400).json({
 			success: false,
 			error:
-				'Parameter "url" is required. Provide it in JSON body (POST) or query parameter (GET).',
+				'El parámetro "url" es obligatorio. Proporciónalo en el cuerpo JSON (POST) o como parámetro de consulta (GET).',
 		});
 	}
 
 	try {
 		req.normalizedUrl = normalizeUrl(url);
 		next();
-	} catch (_err) {
+	} catch (err) {
+		console.error(`[Validación] ❌ Formato de URL inválido "${url}": ${err.message}`);
 		return res.status(400).json({
 			success: false,
-			error: 'Invalid URL format. Please provide a valid web address.',
+			error: 'Formato de URL no válido. Por favor ingresa una dirección web válida.',
 		});
 	}
 }
@@ -203,8 +205,11 @@ async function fetchFreeScreenshot(domain, device = 'desktop') {
 	const width = isMobile ? 375 : 1366;
 	const height = isMobile ? 812 : 768;
 
-	// 1. Try Microlink API (Real headless browser rendering with JS and mobile device emulation)
+	// 1. Intento con Microlink API (Renderizado headless con emulación móvil/desktop)
 	try {
+		console.log(
+			`[Captura Local] 🌐 Intentando capturar versión [${device}] para ${domain} vía Microlink API (${width}x${height})...`
+		);
 		const microlinkUrl = `https://api.microlink.io?url=${encodeURIComponent(
 			targetUrl
 		)}&screenshot=true&meta=false&embed=screenshot.url&viewport.width=${width}&viewport.height=${height}&viewport.isMobile=${isMobile}&viewport.deviceScaleFactor=${
@@ -221,16 +226,22 @@ async function fetchFreeScreenshot(domain, device = 'desktop') {
 		});
 
 		if (res.data && res.data.length > 1000) {
+			console.log(
+				`[Captura Local] ✅ Captura [${device}] obtenida exitosamente vía Microlink para ${domain} (${res.data.length} bytes)`
+			);
 			return res.data;
 		}
 	} catch (e) {
-		console.log(
-			`[Free Screenshot] Microlink attempt failed for ${domain} (${device}): ${e.message}`
+		console.warn(
+			`[Captura Local] ⚠️ Falló Microlink API para ${domain} [${device}]: ${e.message}. Reintentando con WordPress mshots...`
 		);
 	}
 
-	// 2. Fallback to WordPress mshots service
+	// 2. Respaldo secundario con WordPress mshots
 	try {
+		console.log(
+			`[Captura Local] 🌐 Intentando capturar versión [${device}] para ${domain} vía WordPress mshots (${width}x${height})...`
+		);
 		const mshotsUrl = `https://s0.wp.com/mshots/v1/${encodeURIComponent(
 			targetUrl
 		)}?w=${width}&h=${height}`;
@@ -241,10 +252,15 @@ async function fetchFreeScreenshot(domain, device = 'desktop') {
 		});
 
 		if (res.data && res.data.length > 1000) {
+			console.log(
+				`[Captura Local] ✅ Captura [${device}] obtenida exitosamente vía WordPress mshots para ${domain} (${res.data.length} bytes)`
+			);
 			return res.data;
 		}
 	} catch (e) {
-		console.log(`[Free Screenshot] mshots attempt failed for ${domain} (${device}): ${e.message}`);
+		console.error(
+			`[Captura Local] ❌ Falló WordPress mshots para ${domain} [${device}]: ${e.message}`
+		);
 	}
 
 	return null;
@@ -259,20 +275,27 @@ async function getScreenshot(domain, device = 'desktop', extraParams = {}) {
 	const filename = `${device}-${cleanDomain}.png`;
 	const filePath = path.join(screenshotsDir, filename);
 
-	// 1. If file already exists in cache and no custom parameters, return cache path
+	console.log(`[Captura] 📸 Solicitando captura [${device}] para dominio: ${cleanDomain}`);
+
+	// 1. Verificar si la captura ya existe en caché local
 	if (fs.existsSync(filePath) && Object.keys(extraParams).length === 0) {
+		console.log(`[Captura] ⚡ Captura [${device}] recuperada desde la caché: ${filename}`);
 		return `/screenshots/${filename}`;
 	}
 
 	const screenshotsEnabled = process.env.ENABLE_SCREENSHOTS !== 'false';
 	if (!screenshotsEnabled) {
+		console.log(`[Captura] ℹ️ Capturas desactivadas globalmente (ENABLE_SCREENSHOTS=false)`);
 		return '';
 	}
 
+	const provider = (process.env.SCREENSHOT_PROVIDER || 'local').toLowerCase().trim();
 	const customerKey = process.env.SCREENSHOTMACHINE_KEY;
 
-	// 2. If Screenshot Machine API key exists, try Screenshot Machine
-	if (customerKey) {
+	console.log(`[Captura] ⚙️ Proveedor activo: "${provider}" para ${cleanDomain} [${device}]`);
+
+	// Proveedor: screenshotmachine (Usa la API externa si está seleccionada y tiene llave)
+	if (provider === 'screenshotmachine' && customerKey) {
 		const options = {
 			url: `https://${cleanDomain}`,
 			dimension: device === 'desktop' ? '1366x768' : '375x812',
@@ -283,6 +306,9 @@ async function getScreenshot(domain, device = 'desktop', extraParams = {}) {
 		};
 
 		try {
+			console.log(
+				`[Captura Screenshot Machine] 🚀 Enviando solicitud a Screenshot Machine para ${cleanDomain} [${device}]...`
+			);
 			const apiUrl = screenshotmachine.generateScreenshotApiUrl(customerKey, '', options);
 			const response = await axios.get(apiUrl, {
 				responseType: 'arraybuffer',
@@ -290,31 +316,41 @@ async function getScreenshot(domain, device = 'desktop', extraParams = {}) {
 			});
 			if (response.data && response.data.length > 500) {
 				fs.writeFileSync(filePath, response.data);
+				console.log(
+					`[Captura Screenshot Machine] ✅ Captura [${device}] guardada correctamente en ${filename}`
+				);
 				return `/screenshots/${filename}`;
 			}
 		} catch (err) {
 			console.error(
-				`[Screenshot Machine] Failed to fetch screenshot for ${cleanDomain} (${device}):`,
-				err.message
+				`[Captura Screenshot Machine] ❌ Error al obtener captura para ${cleanDomain} [${device}]: ${err.message}. Intentando método local libre...`,
+				err
 			);
 		}
 	}
 
-	// 3. Fallback / Alternative Free Screenshot Provider (cuando no existe customerKey o falla)
+	// Proveedor: local / libre sin requerir API keys (Microlink / mshots)
 	try {
+		console.log(
+			`[Captura] 🔍 Ejecutando captura mediante método local libre para ${cleanDomain} [${device}]...`
+		);
 		const freeScreenshot = await fetchFreeScreenshot(cleanDomain, device);
 		if (freeScreenshot) {
 			fs.writeFileSync(filePath, freeScreenshot);
+			console.log(
+				`[Captura] ✅ Captura [${device}] guardada exitosamente usando método local en ${filename}`
+			);
 			return `/screenshots/${filename}`;
 		}
 	} catch (err) {
-		console.warn(
-			`[Free Screenshot] Failed to capture live screenshot for ${cleanDomain} (${device}):`,
-			err.message
+		console.error(
+			`[Captura] ❌ Error en el método de captura local libre para ${cleanDomain} [${device}]: ${err.message}`,
+			err
 		);
 	}
 
-	// 4. Final Fallback to mock image on failure
+	// Respaldo final a imagen mock en caso de fallo o desconexión
+	console.warn(`[Captura] ⚠️ Usando imagen mock de respaldo para ${cleanDomain} [${device}]`);
 	const mockFile = device === 'desktop' ? 'desktop-mock.png' : 'mobile-mock.png';
 	const mockPath = path.join(publicPath, 'mocks', mockFile);
 	if (fs.existsSync(mockPath)) {
@@ -358,9 +394,13 @@ app.post('/api/report', async (req, res) => {
 	const { email, name = '', data } = req.body;
 
 	if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-		return res.status(400).json({ success: false, error: 'Email inválido o faltante.' });
+		console.warn(`[Correo] ⚠️ Solicitud rechazada: Correo inválido o faltante (${email})`);
+		return res
+			.status(400)
+			.json({ success: false, error: 'Correo electrónico inválido o faltante.' });
 	}
 	if (!data?.resolvedUrl) {
+		console.warn('[Correo] ⚠️ Solicitud rechazada: Datos del reporte incompletos');
 		return res.status(400).json({ success: false, error: 'Datos del reporte incompletos.' });
 	}
 
@@ -369,66 +409,93 @@ app.post('/api/report', async (req, res) => {
 	const isDev = process.env.NODE_ENV === 'development';
 
 	if (!hasBrevo && !hasSmtp && !isDev) {
+		console.error(
+			'[Correo] ❌ El servicio de correo no está configurado (ni Brevo API ni SMTP disponibles)'
+		);
 		return res
 			.status(503)
 			.json({ success: false, error: 'El servicio de correo no está configurado en el servidor.' });
 	}
 
 	try {
+		console.log(`[Correo] 📬 Procesando envío de reporte hacia "${email}"...`);
 		const result = await sendReportEmail(email, name, data);
-		console.log(`[Email] Report sent to ${email} — messageId: ${result.messageId}`);
+		console.log(
+			`[Correo] ✅ Reporte enviado exitosamente a ${email} — ID de mensaje: ${result.messageId}`
+		);
 		return res.json({
 			success: true,
 			messageId: result.messageId,
 			previewUrl: result.previewUrl || '',
 		});
 	} catch (err) {
-		console.error(`[Email] Failed to send report to ${email}:`, err.message);
+		console.error(`[Correo] ❌ Error detallado al enviar reporte a ${email}: ${err.message}`, err);
 		return res.status(500).json({
 			success: false,
-			error: 'Error al enviar el correo. Verifica la configuración de Brevo API o SMTP.',
+			error: `Error al enviar el correo: ${err.message}. Verifica la configuración de Brevo API o SMTP.`,
 		});
 	}
 });
+
+async function performFullDetection(url) {
+	console.log(
+		`[Detección] 🔍 Ejecutando análisis completo (tecnología, capturas, geolocalización y métricas) para: ${url}`
+	);
+
+	const domain = url
+		.replace(/^https?:\/\//i, '')
+		.replace(/^www\./i, '')
+		.split('/')[0]
+		.trim();
+
+	// Ejecutar en paralelo: Detección, Geolocalización, Capturas y PageSpeed
+	const [techResult, locationResult, [desktopImg, mobileImg], pagespeedResult] = await Promise.all([
+		detectTechnology(url),
+		getDomainLocation(url).catch((err) => {
+			console.error(`[Ubicación] Error al resolver geolocalización para ${url}: ${err.message}`);
+			return null;
+		}),
+		Promise.all([
+			getScreenshot(domain, 'desktop').catch(() => ''),
+			getScreenshot(domain, 'mobile').catch(() => ''),
+		]),
+		getPageSpeedMetrics(url).catch((err) => {
+			console.error(
+				`[PageSpeed] Error al procesar métricas en scan completo para ${url}: ${err.message}`
+			);
+			return null;
+		}),
+	]);
+
+	if (techResult.success) {
+		console.log(
+			`[Detección] ✅ Análisis completado para ${url}: Tecnología: ${techResult.technology} (Confianza: ${(techResult.confidence * 100).toFixed(1)}%)`
+		);
+		await resolveShopifyAppLogos(techResult);
+		techResult.location = locationResult;
+		techResult.screenshots = {
+			desktop: desktopImg || '',
+			mobile: mobileImg || '',
+		};
+		techResult.pagespeed = pagespeedResult;
+		console.log(
+			`[Detección] 📦 Resultados consolidados para ${url} -> Capturas: [${desktopImg ? 'Desktop' : 'N/A'}, ${mobileImg ? 'Mobile' : 'N/A'}], PageSpeed: ${pagespeedResult ? 'OK' : 'N/A'}`
+		);
+		return { status: 200, data: techResult };
+	}
+
+	console.error(`[Detección] ❌ No se pudo analizar la URL ${url}:`, techResult.error);
+	return { status: 422, data: techResult };
+}
 
 /**
  * @api {post} /api/detect Detect technology (POST JSON)
  * Body: { "url": "https://example.com", "rapidApiKey": "..." }
  */
 app.post('/api/detect', validateUrlParam, async (req, res) => {
-	console.log(`[API POST] Detecting technology for: ${req.normalizedUrl}`);
-
-	// 1. Run local detection
-	const result = await detectTechnology(req.normalizedUrl);
-
-	if (result.success) {
-		await resolveShopifyAppLogos(result);
-		result.location = await getDomainLocation(req.normalizedUrl);
-
-		// Add screenshots
-		const domain = req.normalizedUrl
-			.replace(/^https?:\/\//i, '')
-			.replace(/^www\./i, '')
-			.split('/')[0]
-			.trim();
-		try {
-			const [desktopImg, mobileImg] = await Promise.all([
-				getScreenshot(domain, 'desktop'),
-				getScreenshot(domain, 'mobile'),
-			]);
-			result.screenshots = {
-				desktop: desktopImg,
-				mobile: mobileImg,
-			};
-		} catch (err) {
-			console.error(`[Screenshots] Resolution error:`, err.message);
-		}
-
-		res.json(result);
-	} else {
-		// We return 200 with success: false for scrape failures, as it is a valid engine result.
-		res.status(422).json(result);
-	}
+	console.log(`[Detección POST] 🔍 Solicitud recibida para: ${req.normalizedUrl}`);
+	const result = await performFullDetection(req.normalizedUrl);
+	res.status(result.status).json(result.data);
 });
 
 /**
@@ -436,37 +503,9 @@ app.post('/api/detect', validateUrlParam, async (req, res) => {
  * Query: ?url=https://example.com&rapidApiKey=...
  */
 app.get('/api/detect', validateUrlParam, async (req, res) => {
-	console.log(`[API GET] Detecting technology for: ${req.normalizedUrl}`);
-
-	const result = await detectTechnology(req.normalizedUrl);
-
-	if (result.success) {
-		await resolveShopifyAppLogos(result);
-		result.location = await getDomainLocation(req.normalizedUrl);
-
-		// Add screenshots
-		const domain = req.normalizedUrl
-			.replace(/^https?:\/\//i, '')
-			.replace(/^www\./i, '')
-			.split('/')[0]
-			.trim();
-		try {
-			const [desktopImg, mobileImg] = await Promise.all([
-				getScreenshot(domain, 'desktop'),
-				getScreenshot(domain, 'mobile'),
-			]);
-			result.screenshots = {
-				desktop: desktopImg,
-				mobile: mobileImg,
-			};
-		} catch (err) {
-			console.error(`[Screenshots] Resolution error:`, err.message);
-		}
-
-		res.json(result);
-	} else {
-		res.status(422).json(result);
-	}
+	console.log(`[Detección GET] 🔍 Solicitud recibida para: ${req.normalizedUrl}`);
+	const result = await performFullDetection(req.normalizedUrl);
+	res.status(result.status).json(result.data);
 });
 
 /**
@@ -602,8 +641,15 @@ const handleScreenshot = async (req, res) => {
 	delete extraParams.url;
 	delete extraParams.device;
 
+	console.log(
+		`[API Captura] 📸 Solicitud directa de captura para: ${req.normalizedUrl} (Dispositivo: ${device})`
+	);
+
 	try {
 		const screenshotUrl = await getScreenshot(domain, device, extraParams);
+		console.log(
+			`[API Captura] ✅ Captura entregada exitosamente para ${domain} [${device}]: ${screenshotUrl}`
+		);
 		res.json({
 			success: true,
 			url: req.normalizedUrl,
@@ -611,7 +657,14 @@ const handleScreenshot = async (req, res) => {
 			screenshot: screenshotUrl,
 		});
 	} catch (err) {
-		res.status(500).json({ success: false, error: err.message });
+		console.error(
+			`[API Captura] ❌ Error al procesar captura para ${domain} [${device}]: ${err.message}`,
+			err
+		);
+		res.status(500).json({
+			success: false,
+			error: `Error al generar la captura: ${err.message}`,
+		});
 	}
 };
 app.get('/api/screenshot', validateUrlParam, handleScreenshot);
@@ -763,31 +816,49 @@ const handleInfra = async (req, res) => {
 };
 app.get('/api/infra', validateUrlParam, handleInfra);
 // 11. PageSpeed Insights Endpoint
+const pageSpeedCache = new Map();
+const PAGESPEED_CACHE_TTL = 60 * 60 * 1000; // 1 hora de caché
+
 async function getPageSpeedMetrics(url) {
+	// 1. Revisar caché en memoria para evitar saturar peticiones
+	const cached = pageSpeedCache.get(url);
+	if (cached && Date.now() - cached.timestamp < PAGESPEED_CACHE_TTL) {
+		console.log(`[PageSpeed] ⚡ Métricas recuperadas desde la caché local para: ${url}`);
+		return cached.data;
+	}
+
 	try {
-		console.log(`[PageSpeed] Requesting performance, accessibility & SEO metrics for: ${url}`);
+		const params = new URLSearchParams();
+		params.append('url', url);
+		params.append('strategy', 'mobile');
+		params.append('category', 'performance');
+		params.append('category', 'accessibility');
+		params.append('category', 'seo');
+
+		const apiKey = process.env.PAGESPEED_API_KEY || process.env.GOOGLE_PAGESPEED_API_KEY;
+		if (apiKey) {
+			params.append('key', apiKey);
+		}
+
 		const res = await axios.get('https://www.googleapis.com/pagespeedonline/v5/runPagespeed', {
-			params: {
-				url: url,
-				category: ['performance', 'accessibility', 'seo'],
-				strategy: 'mobile',
-			},
+			params,
 			timeout: 25000,
 		});
 
 		const lr = res.data?.lighthouseResult;
-		if (!lr)
+		if (!lr) {
 			return {
 				success: false,
 				error: 'Respuesta inválida de Google PageSpeed',
 			};
+		}
 
 		const perfScore = lr.categories?.performance?.score;
 		const accScore = lr.categories?.accessibility?.score;
 		const seoScore = lr.categories?.seo?.score;
 		const audits = lr.audits || {};
 
-		return {
+		const metricsData = {
 			success: true,
 			scores: {
 				performance: perfScore !== undefined ? Math.round(perfScore * 100) : null,
@@ -803,11 +874,27 @@ async function getPageSpeedMetrics(url) {
 				interactive: audits.interactive?.displayValue || 'N/A',
 			},
 		};
+
+		pageSpeedCache.set(url, { data: metricsData, timestamp: Date.now() });
+		console.log(`[PageSpeed] ✅ Métricas de Lighthouse obtenidas con éxito para ${url}`);
+		return metricsData;
 	} catch (err) {
-		console.error('[PageSpeed] Error:', err.message);
-		// Graceful Fallback: Return simulated/mock metrics for high-contrast presentation if API key or IP is rate-limited
-		console.log('[PageSpeed] Returning simulated fallback metrics.');
-		return {
+		if (err.response?.status === 429) {
+			console.warn(
+				`[PageSpeed] ⚠️ Límite de peticiones de Google PageSpeed alcanzado (HTTP 429: Too Many Requests). ` +
+					`Consejo: Agrega PAGESPEED_API_KEY en tu .env para obtener cuota gratuita sin restricciones.`
+			);
+		} else {
+			console.error(
+				`[PageSpeed] ❌ Error al consultar Google PageSpeed para ${url}: ${err.message}`
+			);
+		}
+
+		// Respaldo elegante: Métricas simuladas para no romper la experiencia en UI
+		console.log(
+			'[PageSpeed] ℹ️ Utilizando métricas simuladas de respaldo (fallback) para presentación.'
+		);
+		const fallbackData = {
 			success: true,
 			scores: {
 				performance: 74,
@@ -824,6 +911,13 @@ async function getPageSpeedMetrics(url) {
 				interactive: '3.3 s',
 			},
 		};
+
+		// Guardar en caché temporalmente por 5 minutos para evitar llamadas repetidas con 429
+		pageSpeedCache.set(url, {
+			data: fallbackData,
+			timestamp: Date.now() - (PAGESPEED_CACHE_TTL - 5 * 60 * 1000),
+		});
+		return fallbackData;
 	}
 }
 
@@ -1025,11 +1119,11 @@ app.get('*', (_req, res) => {
 	res.sendFile(path.join(publicPath, 'index.html'));
 });
 
-// Start Server
+// Iniciar Servidor
 if (!process.env.VERCEL) {
 	app.listen(PORT, () => {
 		console.log('=================================================');
-		console.log('🚀 E-Commerce Detector API Server is running');
+		console.log('🚀 Servidor API Chismógrafo en ejecución');
 		console.log(`👉 Local: http://localhost:${PORT}`);
 		console.log(`👉 API POST: http://localhost:${PORT}/api/detect`);
 		console.log(`👉 API GET: http://localhost:${PORT}/api/detect?url=shopify.com`);

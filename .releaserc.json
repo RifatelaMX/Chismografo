@@ -1,8 +1,42 @@
 {
 	"branches": ["main", "master", { "name": "develop", "prerelease": "beta" }],
 	"plugins": [
-		"@semantic-release/commit-analyzer",
-		"@semantic-release/release-notes-generator",
+		[
+			"@semantic-release/commit-analyzer",
+			{
+				"preset": "conventionalcommits",
+				"releaseRules": [
+					{ "breaking": true, "release": "major" },
+					{ "type": "feat", "release": "minor" },
+					{ "type": "fix", "release": "patch" },
+					{ "type": "perf", "release": "patch" },
+					{ "type": "refactor", "release": "patch" },
+					{ "type": "style", "release": "patch" },
+					{ "type": "docs", "release": "patch" },
+					{ "type": "chore", "release": "patch" }
+				]
+			}
+		],
+		[
+			"@semantic-release/release-notes-generator",
+			{
+				"preset": "conventionalcommits",
+				"presetConfig": {
+					"types": [
+						{ "type": "feat", "section": "✨ Features / Características" },
+						{ "type": "fix", "section": "🐛 Bug Fixes / Correcciones" },
+						{ "type": "perf", "section": "⚡ Performance / Rendimiento" },
+						{ "type": "refactor", "section": "♻️ Code Refactoring / Refactorización" },
+						{ "type": "docs", "section": "📝 Documentation / Documentación" },
+						{ "type": "style", "section": "💄 Styles / Estilos" },
+						{ "type": "test", "section": "✅ Tests / Pruebas" },
+						{ "type": "build", "section": "📦 Build System / Compilación" },
+						{ "type": "ci", "section": "🤖 CI/CD / Integración Continua" },
+						{ "type": "chore", "section": "🔧 Chores & Maintenance / Mantenimiento" }
+					]
+				}
+			}
+		],
 		[
 			"@semantic-release/changelog",
 			{
@@ -12,7 +46,7 @@
 		[
 			"@semantic-release/exec",
 			{
-				"prepareCmd": "node scripts/update-versions.js ${nextRelease.version}"
+				"prepareCmd": "node scripts/update-versions.js ${nextRelease.version} ${lastRelease.version}"
 			}
 		],
 		[
@@ -24,7 +58,13 @@
 		[
 			"@semantic-release/git",
 			{
-				"assets": ["package.json", "package-lock.json", "CHANGELOG.md", "version.json"],
+				"assets": [
+					"package.json",
+					"package-lock.json",
+					"CHANGELOG.md",
+					"version.json",
+					"public/openapi.json"
+				],
 				"message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
 			}
 		],

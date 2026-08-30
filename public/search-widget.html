@@ -674,10 +674,12 @@
 
         if (data.success) {
           renderWidgetResults(data);
+          if (data.pagespeed) {
+            renderWidgetPageSpeed(data.pagespeed);
+          } else {
+            fetchWidgetPageSpeed(urlVal);
+          }
           showView('results');
-          
-          // Trigger async PageSpeed fetch
-          fetchWidgetPageSpeed(urlVal);
         } else {
           alert('¡Se nos pelaron!: ' + (data.error || 'No pudimos entrar a espiar...'));
           showView('search');
@@ -788,10 +790,48 @@
       lucide.createIcons();
     }
 
-    // Fetch and render PageSpeed score for widget
+    // Render PageSpeed score for widget
+    function renderWidgetPageSpeed(data) {
+      const gaugesGrid = document.getElementById('res-gauges-grid');
+      if (!gaugesGrid) return;
+
+      if (data && data.success) {
+        gaugesGrid.style.display = 'grid';
+        const scores = data.scores || {};
+
+        // Gauge animator helper
+        const animateWidgetGauge = (circleId, valId, scoreValue) => {
+          const hasScore = scoreValue !== undefined && scoreValue !== null && !isNaN(scoreValue);
+          const score = hasScore ? Number(scoreValue) : null;
+          const valEl = document.getElementById(valId);
+          if (valEl) valEl.textContent = score !== null ? score : '-';
+          const circle = document.getElementById(circleId);
+          if (circle) {
+            const offset = score !== null ? 214 - (214 * score) / 100 : 214;
+            circle.style.strokeDashoffset = offset;
+
+            if (score === null) {
+              circle.setAttribute('stroke', '#4b5563');
+            } else if (score >= 90) {
+              circle.setAttribute('stroke', '#2ecc71'); // gel green
+            } else if (score >= 50) {
+              circle.setAttribute('stroke', '#f39c12'); // gel orange
+            } else {
+              circle.setAttribute('stroke', '#e74c3c'); // gel red
+            }
+          }
+        };
+
+        animateWidgetGauge('gauge-perf-circle', 'gauge-perf-val', scores.performance);
+        animateWidgetGauge('gauge-acc-circle', 'gauge-acc-val', scores.accessibility);
+        animateWidgetGauge('gauge-seo-circle', 'gauge-seo-val', scores.seo);
+      }
+    }
+
+    // Fetch and render PageSpeed score for widget (fallback)
     async function fetchWidgetPageSpeed(targetUrl) {
       const gaugesGrid = document.getElementById('res-gauges-grid');
-      gaugesGrid.style.display = 'none'; // reset
+      if (gaugesGrid) gaugesGrid.style.display = 'none';
 
       try {
         const res = await fetch('/api/pagespeed', {
@@ -800,34 +840,7 @@
           body: JSON.stringify({ url: targetUrl })
         });
         const data = await res.json();
-
-        if (data.success) {
-          gaugesGrid.style.display = 'grid';
-          const scores = data.scores || {};
-
-          // Gauge animator helper
-          const animateWidgetGauge = (circleId, valId, scoreValue) => {
-            const score = scoreValue !== undefined && scoreValue !== null ? scoreValue : 0;
-            document.getElementById(valId).textContent = score;
-            const circle = document.getElementById(circleId);
-            if (circle) {
-              const offset = 214 - (214 * score) / 100;
-              circle.style.strokeDashoffset = offset;
-
-              if (score >= 90) {
-                circle.setAttribute('stroke', '#2ecc71'); // gel green
-              } else if (score >= 50) {
-                circle.setAttribute('stroke', '#f39c12'); // gel orange
-              } else {
-                circle.setAttribute('stroke', '#e74c3c'); // gel red
-              }
-            }
-          };
-
-          animateWidgetGauge('gauge-perf-circle', 'gauge-perf-val', scores.performance);
-          animateWidgetGauge('gauge-acc-circle', 'gauge-acc-val', scores.accessibility);
-          animateWidgetGauge('gauge-seo-circle', 'gauge-seo-val', scores.seo);
-        }
+        renderWidgetPageSpeed(data);
       } catch (err) {
         console.error('PageSpeed load failed inside widget', err);
       }

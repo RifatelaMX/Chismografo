@@ -681,16 +681,19 @@ export function analyze(html, headers) {
  * Scrapes the number of products from a store
  * @param {string} urlStr
  * @param {string} technology
+ * @param {string} [pageHtml]
  * @returns {Promise<number|null>} Product count
  */
-async function scrapeProductCount(urlStr, technology) {
+async function scrapeProductCount(urlStr, technology, pageHtml = '') {
+	if (!technology) return null;
+
 	let baseUrl = urlStr;
 	try {
 		const parsed = new URL(urlStr);
 		baseUrl = `${parsed.protocol}//${parsed.hostname}`;
 	} catch (_e) {}
 
-	// Define browser-like headers to bypass simple bot mitigation on sitemaps/endpoints
+	// Browser-like headers to bypass simple bot mitigation on sitemaps/endpoints
 	const requestHeaders = {
 		'User-Agent':
 			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -698,8 +701,9 @@ async function scrapeProductCount(urlStr, technology) {
 		'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8',
 	};
 
+	// 1. Shopify
 	if (technology === 'Shopify') {
-		// Strategy 1: Fetch main sitemap.xml and sum urls in all product sub-sitemaps
+		// Strategy 1: Fetch main sitemap.xml and sum URLs across product sub-sitemaps
 		try {
 			const sitemapUrl = `${baseUrl}/sitemap.xml`;
 			const res = await axios.get(sitemapUrl, {
@@ -711,19 +715,18 @@ async function scrapeProductCount(urlStr, technology) {
 				const productSitemaps = [];
 
 				$('sitemap loc').each((_i, el) => {
-					const loc = $(el).text();
-					if (loc.includes('sitemap_products_')) {
+					const loc = $(el).text().trim();
+					if (loc.includes('sitemap_products_') || loc.includes('products-sitemap')) {
 						productSitemaps.push(loc);
 					}
 				});
 
 				if (productSitemaps.length > 0) {
 					let totalCount = 0;
-					// Limit to first 10 sitemaps (up to 10k products) to prevent network lag
-					const sitemapsToFetch = productSitemaps.slice(0, 10);
-					const sitemapPromises = sitemapsToFetch.map(async (url) => {
+					const sitemapsToFetch = productSitemaps.slice(0, 15);
+					const sitemapPromises = sitemapsToFetch.map(async (sUrl) => {
 						try {
-							const sRes = await axios.get(url, {
+							const sRes = await axios.get(sUrl, {
 								timeout: 6000,
 								headers: requestHeaders,
 							});
@@ -741,7 +744,7 @@ async function scrapeProductCount(urlStr, technology) {
 			}
 		} catch (_err) {}
 
-		// Strategy 2: Directly fetch first sitemap page
+		// Strategy 2: Directly fetch first product sitemap page
 		try {
 			const sitemapUrl = `${baseUrl}/sitemap_products_1.xml`;
 			const res = await axios.get(sitemapUrl, {
@@ -755,7 +758,7 @@ async function scrapeProductCount(urlStr, technology) {
 			}
 		} catch (_err) {}
 
-		// Strategy 3: Paginated products.json query (fetches up to 1000 items)
+		// Strategy 3: Paginated products.json query
 		try {
 			let totalFetched = 0;
 			let page = 1;
@@ -784,11 +787,30 @@ async function scrapeProductCount(urlStr, technology) {
 		} catch (_err) {}
 	}
 
+	// 2. WooCommerce
 	if (technology === 'WooCommerce') {
-		// Strategy 1: Fetch sitemap index and extract product sitemaps
+		// Strategy 1: WooCommerce Store API Public Endpoint
 		try {
-			const sitemapUrls = [`${baseUrl}/sitemap_index.xml`, `${baseUrl}/sitemap.xml`];
-			for (const sUrl of sitemapUrls) {
+			const storeApiUrl = `${baseUrl}/wp-json/wc/store/v1/products?per_page=1`;
+			const res = await axios.get(storeApiUrl, {
+				timeout: 5000,
+				headers: requestHeaders,
+			});
+			const totalHeader = res.headers['x-wp-total'];
+			if (totalHeader) {
+				const total = parseInt(totalHeader, 10);
+				if (!isNaN(total) && total > 0) return total;
+			}
+		} catch (_err) {}
+
+		// Strategy 2: Sitemap indexes (Yoast, RankMath, WP Core, AllInOneSEO)
+		try {
+			const sitemapIndexUrls = [
+				`${baseUrl}/sitemap_index.xml`,
+				`${baseUrl}/sitemap.xml`,
+				`${baseUrl}/wp-sitemap.xml`,
+			];
+			for (const sUrl of sitemapIndexUrls) {
 				try {
 					const res = await axios.get(sUrl, {
 						timeout: 5000,
@@ -799,15 +821,19 @@ async function scrapeProductCount(urlStr, technology) {
 						const productSitemaps = [];
 
 						$('sitemap loc').each((_i, el) => {
-							const loc = $(el).text();
-							if (loc.includes('product-sitemap') || loc.includes('sitemap-products')) {
+							const loc = $(el).text().trim();
+							if (
+								loc.includes('product-sitemap') ||
+								loc.includes('sitemap-products') ||
+								loc.includes('wp-sitemap-posts-product')
+							) {
 								productSitemaps.push(loc);
 							}
 						});
 
 						if (productSitemaps.length > 0) {
 							let totalCount = 0;
-							const sitemapsToFetch = productSitemaps.slice(0, 5);
+							const sitemapsToFetch = productSitemaps.slice(0, 10);
 							const sitemapPromises = sitemapsToFetch.map(async (url) => {
 								try {
 									const sRes = await axios.get(url, {
@@ -830,11 +856,47 @@ async function scrapeProductCount(urlStr, technology) {
 			}
 		} catch (_err) {}
 
-		// Strategy 2: Fallback to direct product-sitemap.xml
+		// Strategy 3: Direct sitemap files
+		const directSitemaps = [
+			`${baseUrl}/product-sitemap.xml`,
+			`${baseUrl}/wp-sitemap-posts-product-1.xml`,
+		];
+		for (const sUrl of directSitemaps) {
+			try {
+				const res = await axios.get(sUrl, {
+					timeout: 5000,
+					headers: requestHeaders,
+				});
+				if (res.status === 200 && res.data) {
+					const $ = cheerio.load(res.data, { xmlMode: true });
+					const count = $('url').length;
+					if (count > 0) return count;
+				}
+			} catch (_err) {}
+		}
+	}
+
+	// 3. VTEX
+	if (technology === 'VTEX') {
+		// Strategy 1: VTEX Public Search API Header
 		try {
-			const sitemapUrl = `${baseUrl}/product-sitemap.xml`;
+			const vtexSearchUrl = `${baseUrl}/api/catalog_system/pub/products/search?_from=0&_to=0`;
+			const res = await axios.get(vtexSearchUrl, {
+				timeout: 5000,
+				headers: requestHeaders,
+			});
+			const resources = res.headers.resources;
+			if (resources && resources.includes('/')) {
+				const total = parseInt(resources.split('/')[1], 10);
+				if (!isNaN(total) && total > 0) return total;
+			}
+		} catch (_err) {}
+
+		// Strategy 2: VTEX Sitemaps
+		try {
+			const sitemapUrl = `${baseUrl}/sitemap/product-0.xml`;
 			const res = await axios.get(sitemapUrl, {
-				timeout: 6000,
+				timeout: 5000,
 				headers: requestHeaders,
 			});
 			if (res.status === 200 && res.data) {
@@ -842,6 +904,62 @@ async function scrapeProductCount(urlStr, technology) {
 				const count = $('url').length;
 				if (count > 0) return count;
 			}
+		} catch (_err) {}
+	}
+
+	// 4. Magento / PrestaShop / Generic E-Commerce Sitemaps
+	if (['Magento', 'PrestaShop'].includes(technology)) {
+		const candidateSitemaps = [
+			`${baseUrl}/sitemap.xml`,
+			`${baseUrl}/pub/sitemap.xml`,
+			`${baseUrl}/1_index_sitemap.xml`,
+		];
+		for (const sUrl of candidateSitemaps) {
+			try {
+				const res = await axios.get(sUrl, {
+					timeout: 5000,
+					headers: requestHeaders,
+				});
+				if (res.status === 200 && res.data) {
+					const $ = cheerio.load(res.data, { xmlMode: true });
+					let productUrlsCount = 0;
+					$('url loc').each((_i, el) => {
+						const loc = $(el).text().toLowerCase();
+						if (
+							loc.includes('/product') ||
+							loc.includes('/producto') ||
+							loc.includes('/catalog/') ||
+							loc.includes('.html')
+						) {
+							productUrlsCount++;
+						}
+					});
+					if (productUrlsCount > 0) return productUrlsCount;
+				}
+			} catch (_err) {}
+		}
+	}
+
+	// 5. Schema.org Product item counting in provided page HTML
+	if (pageHtml) {
+		try {
+			const $ = cheerio.load(pageHtml);
+			let count = 0;
+			$('script[type="application/ld+json"]').each((_i, el) => {
+				try {
+					const json = JSON.parse($(el).html() || '{}');
+					if (json['@type'] === 'Product') count++;
+					if (Array.isArray(json['@graph'])) {
+						json['@graph'].forEach((item) => {
+							if (item['@type'] === 'Product') count++;
+						});
+					}
+					if (json['@type'] === 'ItemList' && Array.isArray(json.itemListElement)) {
+						count += json.itemListElement.length;
+					}
+				} catch (_e) {}
+			});
+			if (count > 0) return count;
 		} catch (_err) {}
 	}
 
@@ -862,7 +980,7 @@ export async function detectTechnology(url) {
 
 		let productCount = null;
 		if (analysis.detected && analysis.technology) {
-			productCount = await scrapeProductCount(responseUrl, analysis.technology);
+			productCount = await scrapeProductCount(responseUrl, analysis.technology, html);
 		}
 
 		return {
