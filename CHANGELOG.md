@@ -1,3 +1,9 @@
+## [1.4.1](https://github.com/RifatelaMX/Chismografo/compare/v1.4.0...v1.4.1) (2026-08-30)
+
+### 📝 Documentación
+
+* **repo:** establecer como regla obligatoria los comentarios de commits en español ([9718b5d](https://github.com/RifatelaMX/Chismografo/commit/9718b5d565cd23d4fc1ee81c7b6fc83b86a82291))
+
 ## [1.4.0](https://github.com/RifatelaMX/Chismografo/compare/v1.3.0...v1.4.0) (2026-08-30)
 
 ### ✨ Nuevas Características
