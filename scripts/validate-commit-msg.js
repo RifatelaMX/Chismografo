@@ -35,7 +35,7 @@ if (!match) {
 	console.error('\n❌ \x1b[31mError: Mensaje de commit inválido.\x1b[0m');
 	console.error(`   Mensaje recibido: "${firstLine}"\n`);
 	console.error(
-		'   Debe cumplir con Conventional Commits: \x1b[36m<tipo>(<scope>): <descripción>\x1b[0m'
+		'   Debe cumplir con Conventional Commits en español: \x1b[36m<tipo>(<scope>): <descripción en español>\x1b[0m'
 	);
 	console.error('   Ejemplos válidos:');
 	console.error('     • \x1b[32mfeat(cli): agregar flag --json para exportar\x1b[0m');

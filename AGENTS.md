@@ -1,7 +1,8 @@
 # Guía de Contribución y Reglas de Desarrollo - Chismógrafo
 
 ## 1. Convención de Commits (Conventional Commits)
-Todos los commits deben seguir el formato `tipo(scope): descripción`:
+Todos los commits deben redactarse obligatoriamente **en español** y seguir el formato `tipo(scope): descripción`:
+- **Idioma**: La descripción y cuerpo del commit deben estar siempre en **español**, en minúsculas y modo imperativo/presente (ej. `feat(api): agregar soporte para...`, `fix(ui): corregir alineación...`).
 - **Tipos**: `feat`, `fix`, `perf`, `refactor`, `style`, `docs`, `test`, `build`, `ci`, `chore`.
 - **Scopes por Componente**:
   - `(cli)`: Cambios en el CLI de terminal (`cli/**`).

@@ -1,11 +1,13 @@
 # Regla: Conventional Commits y Versionado por Componente
 
 ## 1. Convención Obligatoria de Commits
-Todo commit en este repositorio **DEBE** seguir estrictamente la especificación de **Conventional Commits**:
+Todo commit en este repositorio **DEBE** seguir estrictamente la especificación de **Conventional Commits** y redactarse **en español**:
 
 ```
-<tipo>(<scope>): <descripción concisa en minúsculas y presente>
+<tipo>(<scope>): <descripción concisa en español, minúsculas y presente>
 ```
+
+> **Regla de Idioma**: Tanto el mensaje principal (`subject`) como cualquier nota o cuerpo extendido del commit deben redactarse en **español**.
 
 ### Tipos Permitidos
 - `feat`: Nueva funcionalidad o capacidad añadida (incrementa versión MINOR).
