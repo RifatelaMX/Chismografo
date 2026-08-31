@@ -684,7 +684,7 @@ export function analyze(html, headers) {
  * @param {string} [pageHtml]
  * @returns {Promise<number|null>} Product count
  */
-async function scrapeProductCount(urlStr, technology, pageHtml = '') {
+export async function scrapeProductCount(urlStr, technology, pageHtml = '') {
 	if (!technology) return null;
 
 	let baseUrl = urlStr;

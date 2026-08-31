@@ -363,6 +363,23 @@ async function getScreenshot(domain, device = 'desktop', extraParams = {}) {
 }
 
 /**
+ * @api {get} /api/techs Get all available technologies and their rules
+ */
+app.get('/api/techs', (_req, res) => {
+	const techsPath = path.join(__dirname, 'techs', 'index.json');
+	if (fs.existsSync(techsPath)) {
+		try {
+			const data = JSON.parse(fs.readFileSync(techsPath, 'utf-8'));
+			res.json(data);
+		} catch (e) {
+			res.status(500).json({ error: 'Failed to parse techs data' });
+		}
+	} else {
+		res.status(404).json({ error: 'Techs data not found' });
+	}
+});
+
+/**
  * @api {get} /api/config Get server-side API configuration status
  */
 app.get('/api/config', (_req, res) => {

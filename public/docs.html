@@ -108,6 +108,9 @@
       <button class="nerds-tab-btn" data-tab="tab-widget">
         <i data-lucide="search-code"></i> 🔎 Buscador Embed
       </button>
+      <button class="nerds-tab-btn" data-tab="tab-tools">
+        <i data-lucide="book-open"></i> 📚 Directorio
+      </button>
     </nav>
 
     <!-- Main Workspace -->
@@ -431,12 +434,29 @@ chismografo add-infra</code></pre>
         </section>
       </section>
 
+      <!-- =================================================================== -->
+      <!-- TAB: DIRECTORIO DE HERRAMIENTAS -->
+      <!-- =================================================================== -->
+      <section id="tab-tools" class="tab-content-section">
+        <section class="card glass-panel search-section">
+          <div class="card-header">
+            <i data-lucide="book-open"></i>
+            <h2>📚 Directorio de Herramientas</h2>
+          </div>
+          <p class="section-desc">Catálogo de tecnologías y sus reglas de detección ordenadas alfabéticamente por categoría.</p>
+          
+          <div id="tools-directory-container" style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1.5rem;">
+            <div style="text-align:center; color: var(--ink-medium);">Cargando directorio...</div>
+          </div>
+        </section>
+      </section>
+
     </main>
   </div>
 
   <!-- Modal for JSON Import -->
   <div id="import-modal" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 1rem;">
-    <div style="background: white; border-radius: 12px; width: 100%; max-width: 600px; padding: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3); position: relative;">
+    <div style="background: rgba(253, 246, 227, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 2px solid var(--paper-lines); border-radius: 12px; width: 100%; max-width: 600px; padding: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3); position: relative;">
       <h3 style="margin-bottom: 0.5rem; font-family: var(--font-handwritten); font-size: 1.8rem; color: var(--gel-purple);">📂 Importar Firma JSON</h3>
       <p style="font-size: 0.9rem; color: var(--ink-medium); margin-bottom: 1rem;">Pega la firma JSON completa de la tecnología para cargar sus reglas en la herramienta.</p>
       
@@ -448,6 +468,40 @@ chismografo add-infra</code></pre>
           <span>Cargar Reglas</span>
           <i data-lucide="check"></i>
         </button>
+      </div>
+    </div>
+  </div>
+  <!-- Modal for Tool Details -->
+  <div id="tool-modal" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 1rem;">
+    <div style="background: rgba(253, 246, 227, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 2px solid var(--paper-lines); border-radius: 12px; width: 100%; max-width: 800px; max-height: 90vh; overflow-y: auto; padding: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3); position: relative;">
+      <button onclick="closeToolModal()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; cursor: pointer; color: var(--ink-medium);"><i data-lucide="x"></i></button>
+      
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+        <img id="modal-tool-logo" src="" alt="Logo" style="width: 48px; height: 48px; border-radius: 8px; object-fit: contain;">
+        <div>
+          <h3 id="modal-tool-name" style="margin-bottom: 0.25rem; font-family: var(--font-handwritten); font-size: 1.8rem; color: var(--ink-dark);">Herramienta</h3>
+          <span id="modal-tool-category" class="preset-chip" style="font-size: 0.8rem;">Categoría</span>
+        </div>
+      </div>
+      
+      <div style="margin-bottom: 1.5rem;">
+        <h4 style="font-family: var(--font-handwritten); font-size: 1.5rem; color: var(--gel-purple); margin-bottom: 0.5rem;">⚖️ Reglas de Detección (Ordenadas por peso)</h4>
+        <div id="modal-rules-container" class="rule-eval-list" style="max-height: 300px; overflow-y: auto; border: 1px solid var(--paper-lines); padding: 0.5rem; border-radius: 8px; background: rgba(0,0,0,0.02);">
+          <!-- Reglas insertadas aquí -->
+        </div>
+      </div>
+
+      <div style="margin-bottom: 1rem;">
+        <h4 style="font-family: var(--font-handwritten); font-size: 1.5rem; color: var(--gel-blue); margin-bottom: 0.5rem;">🕵️ Tester de Reglas</h4>
+        <p style="font-size: 0.85rem; color: var(--ink-medium); margin-bottom: 0.5rem;">Evalúa esta herramienta con una URL en vivo.</p>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <input type="text" id="modal-test-url" class="code-input" style="flex: 1; padding: 0.65rem 1rem; border-radius: 8px; border: 1px solid var(--paper-lines); outline: none;" placeholder="https://ejemplo.com">
+          <button class="btn-primary" onclick="runToolTest()">
+            <span>Probar URL</span>
+            <i data-lucide="play"></i>
+          </button>
+        </div>
+        <div id="modal-test-result" style="margin-top: 1rem; display: none;"></div>
       </div>
     </div>
   </div>
@@ -540,6 +594,7 @@ chismografo add-infra</code></pre>
     document.addEventListener("DOMContentLoaded", () => {
       setupTabNavigation();
       renderStudio();
+      loadToolsDirectory();
       lucide.createIcons();
     });
 
@@ -949,6 +1004,140 @@ chismografo add-infra</code></pre>
       });
 
       outputArea.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Directorio de Herramientas Logic
+    let currentToolRules = [];
+
+    async function loadToolsDirectory() {
+      const container = document.getElementById("tools-directory-container");
+      try {
+        const res = await fetch('/api/techs');
+        if (!res.ok) throw new Error('Failed to load techs');
+        const data = await res.json();
+        
+        container.innerHTML = '';
+        
+        const categoryNames = {
+          'cms': 'CMS / Plataforma',
+          'apps': 'Apps / Plugins',
+          'gateways': 'Pasarelas de Pago',
+          'infra': 'Infraestructura / CDN'
+        };
+
+        for (const [key, categoryData] of Object.entries(data)) {
+          const sortedTools = categoryData.sort((a, b) => a.name.localeCompare(b.name));
+          
+          const section = document.createElement('div');
+          section.innerHTML = `
+            <h3 style="font-family: var(--font-handwritten); font-size: 1.6rem; color: var(--gel-purple); border-bottom: 2px dashed var(--paper-lines); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+              ${categoryNames[key] || key.toUpperCase()}
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+              ${sortedTools.map(tool => {
+                const encodedTool = encodeURIComponent(JSON.stringify({...tool, category: categoryNames[key] || key.toUpperCase()}));
+                return `
+                  <div class="card glass-panel" style="cursor: pointer; display: flex; align-items: center; gap: 0.75rem; padding: 1rem; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'" onclick="openToolModal('${encodedTool}')">
+                    <img src="https://icon.horse/icon/${tool.logo || 'example.com'}" alt="${tool.name} logo" style="width: 32px; height: 32px; border-radius: 4px; object-fit: contain;">
+                    <span style="font-weight: 600; color: var(--ink-dark);">${tool.name}</span>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          `;
+          container.appendChild(section);
+        }
+        
+      } catch (err) {
+        container.innerHTML = `<div style="color:var(--gel-red)">Error al cargar el directorio: ${err.message}</div>`;
+      }
+    }
+
+    function openToolModal(encodedData) {
+      const tool = JSON.parse(decodeURIComponent(encodedData));
+      currentToolRules = tool.detectionRules || [];
+      
+      document.getElementById('modal-tool-name').textContent = tool.name;
+      document.getElementById('modal-tool-category').textContent = tool.category;
+      document.getElementById('modal-tool-logo').src = `https://icon.horse/icon/${tool.logo || 'example.com'}`;
+      
+      const sortedRules = [...currentToolRules].sort((a, b) => {
+        const weightA = typeof a.weight === 'number' ? a.weight : parseFloat(a.weight || 0.5);
+        const weightB = typeof b.weight === 'number' ? b.weight : parseFloat(b.weight || 0.5);
+        return weightB - weightA;
+      });
+
+      const rulesContainer = document.getElementById('modal-rules-container');
+      if (sortedRules.length === 0) {
+        rulesContainer.innerHTML = '<div style="padding: 1rem; color: var(--ink-medium); text-align: center;">No hay reglas para esta herramienta.</div>';
+      } else {
+        rulesContainer.innerHTML = sortedRules.map((r, idx) => {
+          const w = typeof r.weight === 'number' ? r.weight : parseFloat(r.weight || 0.5);
+          return `
+            <div class="rule-eval-item" style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-bottom: 1px solid var(--paper-lines);">
+              <div style="flex: 1;">
+                <div style="font-weight: bold; color: var(--ink-dark); font-size: 0.9rem;">${idx+1}. [${r.type}] ${r.description || ''}</div>
+                <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink-medium); overflow-wrap: anywhere;">Pattern: ${r.pattern}</div>
+              </div>
+              <div class="confidence-badge match" style="white-space: nowrap; margin-left: 1rem;">Peso: ${w.toFixed(2)}</div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      document.getElementById('modal-test-result').style.display = 'none';
+      document.getElementById('modal-test-url').value = '';
+      document.getElementById('tool-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeToolModal() {
+      document.getElementById('tool-modal').classList.add('hidden');
+    }
+
+    async function runToolTest() {
+      const url = document.getElementById('modal-test-url').value.trim();
+      const resultDiv = document.getElementById('modal-test-result');
+      
+      if (!url) {
+        alert('Ingresa una URL válida');
+        return;
+      }
+      
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = '<span style="color:var(--ink-medium);">Probando...</span>';
+      
+      try {
+        const res = await fetch('/api/rules/test', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url, detectionRules: currentToolRules })
+        });
+        const data = await res.json();
+        
+        if (data.error) throw new Error(data.error);
+        
+        const isDetected = data.score > 0;
+        const color = isDetected ? 'var(--gel-green)' : 'var(--gel-red)';
+        
+        resultDiv.innerHTML = `
+          <div style="background: rgba(255,255,255,0.5); padding: 1rem; border-radius: 8px; border: 1px solid ${color};">
+            <h4 style="color: ${color}; margin-bottom: 0.5rem; font-family: var(--font-handwritten); font-size: 1.4rem;">
+              ${isDetected ? '✅ Detectado' : '❌ No Detectado'} (Confianza: ${(data.score * 100).toFixed(0)}%)
+            </h4>
+            <div style="font-size: 0.85rem; max-height: 150px; overflow-y: auto;">
+              ${data.evaluation.map(e => `
+                <div style="margin-bottom: 0.25rem;">
+                  <span style="font-weight: bold; color: ${e.matched ? 'var(--gel-green)' : 'var(--gel-red)'}">${e.matched ? '✔' : '✖'} [${e.rule.type}]</span> 
+                  ${e.rule.description || e.rule.pattern} ${e.matched ? `(Aportó: ${e.contribution.toFixed(2)})` : ''}
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      } catch (err) {
+        resultDiv.innerHTML = `<span style="color:var(--gel-red);">Error: ${err.message}</span>`;
+      }
     }
   </script>
 </body>
