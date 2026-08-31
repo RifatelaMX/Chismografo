@@ -1,0 +1,20 @@
+{
+  "name": "TikTok Pixel",
+  "category": "Píxeles / Tracking",
+  "web": "https://ads.tiktok.com/help/article/tiktok-pixel",
+  "logo": "tiktok.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "analytics\\.tiktok\\.com\\/i18n\\/pixel",
+      "description": "TikTok Pixel script detectado",
+      "weight": 1.0
+    },
+    {
+      "type": "script-content",
+      "pattern": "ttq\\.load\\(",
+      "description": "TikTok Pixel initialization detectado",
+      "weight": 0.8
+    }
+  ]
+}

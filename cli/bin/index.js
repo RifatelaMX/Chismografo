@@ -448,7 +448,7 @@ else if (command === 'build-index') {
 			`✓ ¡Expediente listo! El Chismógrafo compiló index.json en ${indexPath}`
 		);
 		console.log(
-			`  📊 Resumen del cotilleo: ${cms.length} CMS, ${apps.length} Apps, ${infra.length} Infraestructuras y ${gateways.length} Pasarelas fichadas.`
+			`  📊 Resumen del cotilleo: ${cms.length} CMS, ${apps.length} Apps, ${infra.length} Infraestructuras, ${gateways.length} Pasarelas y ${(indexData.pixels || []).length} Píxeles fichados.`
 		);
 	} catch (err) {
 		console.error(
@@ -949,6 +949,17 @@ else if (command === 'test-domain') {
 			console.log(`   🔎 ${result.paymentGateways.join(', ')}\n`);
 		} else {
 			console.log('   🤷 No se le infirieron métodos de pago... ¡bien guardadito!\n');
+		}
+
+		// 6. Pixels
+		console.log('\x1b[36m\x1b[1m%s\x1b[0m', '🎯 Píxeles de Tracking que le descubrimos:');
+		if (result.pixels && result.pixels.length > 0) {
+			result.pixels.forEach((px) => {
+				console.log(`   🔎 [${px.category}] ${px.name}`);
+			});
+			console.log('');
+		} else {
+			console.log('   🤷 No se le detectaron píxeles de seguimiento.\n');
 		}
 
 		console.log('\x1b[35m%s\x1b[0m', '══════════════════════════════════════════════════\n');

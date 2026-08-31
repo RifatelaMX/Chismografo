@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
-import { getAppRules, getCmsRules, getGatewayRules, getInfraRules } from './techRulesLoader.js';
+import { getAppRules, getCmsRules, getGatewayRules, getInfraRules, getPixelRules } from './techRulesLoader.js';
 
 /**
  * Normalizes a input URL string to include protocol
@@ -520,6 +520,43 @@ export function analyze(html, headers) {
 		}
 	});
 
+	// 1.5 Pixels Scan
+	const detectedPixels = [];
+	const pixelRulesList = getPixelRules();
+
+	pixelRulesList.forEach((px) => {
+		let isPixelMatched = false;
+		let matchedEvidence = '';
+
+		if (Array.isArray(px.detectionRules)) {
+			for (const rule of px.detectionRules) {
+				const regex = rule.regex;
+				if (!regex) continue;
+
+				if (rule.type === 'script-src' || rule.type === 'script-content') {
+					const matchedScript = scripts.find(
+						(s) => (s.src && regex.test(s.src)) || (s.content && regex.test(s.content))
+					);
+					if (matchedScript) {
+						isPixelMatched = true;
+						matchedEvidence = matchedScript.src || 'Script en Línea';
+						break;
+					}
+				}
+			}
+		}
+
+		if (isPixelMatched) {
+			detectedPixels.push({
+				name: px.name,
+				category: px.category || 'Píxeles / Tracking',
+				web: px.web || '',
+				logo: px.logo || '',
+				evidence: matchedEvidence,
+			});
+		}
+	});
+
 	// 2. WooCommerce / WordPress Plugins Scan
 	const wpPlugins = new Set();
 	const wpPluginRegex = /\/wp-content\/plugins\/([a-zA-Z0-9-_]+)/i;
@@ -674,6 +711,7 @@ export function analyze(html, headers) {
 		theme: theme,
 		paymentGateways: paymentGateways,
 		infrastructure: detectedInfra,
+		pixels: detectedPixels,
 	};
 }
 
