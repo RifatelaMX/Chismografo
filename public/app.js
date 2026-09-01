@@ -8,7 +8,7 @@ window.handleLogoError = (img, providedDomain, websiteUrl, provider) => {
 
 	const state = Number.parseInt(img.dataset.fallbackState || '0', 10);
 
-	// Si es proveedor local y falló .svg, intentar con .png
+	// Tier 0: Si es proveedor local y falló .svg, intentar con .png
 	if (provider === 'local') {
 		const hasExt = /\.(svg|png|jpg|jpeg|gif)$/i.test(providedDomain);
 		if (!hasExt && state === 0) {
@@ -24,19 +24,37 @@ window.handleLogoError = (img, providedDomain, websiteUrl, provider) => {
 		return;
 	}
 
-	// Cadena robusta de resolución de logos
-	if (state === 0) {
-		img.dataset.fallbackState = '1';
-		// 1. Google Favicons V2 HD
-		img.src = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://${domain}&size=64`;
-	} else if (state === 1) {
+	const bfKey = window.serverConfig?.brandfetchApiKey ? `?c=${window.serverConfig.brandfetchApiKey}` : '';
+	const biKey = window.serverConfig?.brandiconsApiKey ? `?key=${window.serverConfig.brandiconsApiKey}` : '';
+	const npKey = window.serverConfig?.ninjapearApiKey ? `?key=${window.serverConfig.ninjapearApiKey}` : '';
+	const logoToken = window.serverConfig?.logoDevToken || 'pk_MgKPAkEuRMOiYecOkx67wQ';
+
+	// Cascada completa a través de todos los proveedores integrados:
+	// 1. Google Favicons V2 HD
+	// 2. DuckDuckGo Favicons
+	// 3. Brandfetch API
+	// 4. BrandIcons.dev
+	// 5. NinjaPear API
+	// 6. Logo.dev
+	// 7. Fallback a inicial estilizada
+	if (state === 0 || state === 1) {
 		img.dataset.fallbackState = '2';
-		// 2. DuckDuckGo Favicon Service
-		img.src = `https://icons.duckduckgo.com/ip3/${domain}.ico`;
+		img.src = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://${domain}&size=64`;
 	} else if (state === 2) {
 		img.dataset.fallbackState = '3';
-		// 3. Brandfetch / Logo.dev
-		img.src = `https://asset.brandfetch.io/${domain}`;
+		img.src = `https://icons.duckduckgo.com/ip3/${domain}.ico`;
+	} else if (state === 3) {
+		img.dataset.fallbackState = '4';
+		img.src = `https://asset.brandfetch.io/${domain}${bfKey}`;
+	} else if (state === 4) {
+		img.dataset.fallbackState = '5';
+		img.src = `https://cdn.brandicons.dev/icons/${domain}${biKey}`;
+	} else if (state === 5) {
+		img.dataset.fallbackState = '6';
+		img.src = `https://logo.ninjapear.com/${domain}${npKey}`;
+	} else if (state === 6) {
+		img.dataset.fallbackState = '7';
+		img.src = `https://img.logo.dev/${domain}?token=${logoToken}&size=64`;
 	} else {
 		// Todas las fuentes externas agotadas -> mostrar inicial con diseño
 		img.style.display = 'none';
@@ -1329,6 +1347,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 		if (provider === 'ninjapear' && domain) {
 			return `https://logo.ninjapear.com/${domain}${npKey}`;
+		}
+		if (provider === 'duckduckgo' && domain) {
+			return `https://icons.duckduckgo.com/ip3/${domain}.ico`;
+		}
+		if (provider === 'logodev' && domain && window.serverConfig?.logoDevToken) {
+			const logoToken = window.serverConfig.logoDevToken;
+			return `https://img.logo.dev/${domain}?token=${logoToken}&size=64`;
 		}
 
 		const nameLower = tech.name ? tech.name.toLowerCase() : '';
