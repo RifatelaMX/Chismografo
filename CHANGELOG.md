@@ -1,3 +1,9 @@
+## [1.7.2](https://github.com/RifatelaMX/Chismografo/compare/v1.7.1...v1.7.2) (2026-09-01)
+
+### 🐛 Corrección de Errores
+
+* **ui:** resolver logos usando google favicons hd y corregir dominio de loox ([f5664ed](https://github.com/RifatelaMX/Chismografo/commit/f5664ed9aa41b62978ccc1c3c6f28eb8e3e6dda0))
+
 ## [1.7.1](https://github.com/RifatelaMX/Chismografo/compare/v1.7.0...v1.7.1) (2026-09-01)
 
 ### 🐛 Corrección de Errores
