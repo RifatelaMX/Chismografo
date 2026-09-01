@@ -1,3 +1,9 @@
+## [1.6.2](https://github.com/RifatelaMX/Chismografo/compare/v1.6.1...v1.6.2) (2026-09-01)
+
+### 🐛 Corrección de Errores
+
+* **ui:** mejorar resolución de logos y cadena de fallback multinivel ([d5a751f](https://github.com/RifatelaMX/Chismografo/commit/d5a751f5a297dd9e6647fa6cdf90ef3a371f4876))
+
 ## [1.6.1](https://github.com/RifatelaMX/Chismografo/compare/v1.6.0...v1.6.1) (2026-09-01)
 
 ### ♻️ Refactorización
