@@ -53,10 +53,16 @@ export async function fetchPage(url) {
 			validateStatus: (status) => status >= 200 && status < 400,
 		});
 
+		const finalUrl =
+			response.request?.res?.responseUrl ||
+			response.request?.responseUrl ||
+			response.config?.url ||
+			normalized;
+
 		return {
 			html: response.data,
 			headers: response.headers,
-			responseUrl: response.request.res.responseUrl || normalized,
+			responseUrl: finalUrl,
 			status: response.status,
 		};
 	} catch (error) {

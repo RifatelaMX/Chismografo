@@ -547,6 +547,13 @@ app.post('/api/report', async (req, res) => {
 	}
 });
 
+function withTimeout(promise, ms, fallbackValue = null) {
+	return Promise.race([
+		promise,
+		new Promise((resolve) => setTimeout(() => resolve(fallbackValue), ms)),
+	]);
+}
+
 async function performFullDetection(url) {
 	console.log(
 		`[Detección] 🔍 Ejecutando análisis completo (tecnología, capturas, geolocalización y métricas) para: ${url}`
@@ -558,23 +565,35 @@ async function performFullDetection(url) {
 		.split('/')[0]
 		.trim();
 
-	// Ejecutar en paralelo: Detección, Geolocalización, Capturas y PageSpeed
+	// Ejecutar en paralelo: Detección (prioritaria), Geolocalización, Capturas (con límite) y PageSpeed
 	const [techResult, locationResult, [desktopImg, mobileImg], pagespeedResult] = await Promise.all([
-		detectTechnology(url),
-		getDomainLocation(url).catch((err) => {
-			console.error(`[Ubicación] Error al resolver geolocalización para ${url}: ${err.message}`);
-			return null;
-		}),
-		Promise.all([
-			getScreenshot(domain, 'desktop').catch(() => ''),
-			getScreenshot(domain, 'mobile').catch(() => ''),
-		]),
-		getPageSpeedMetrics(url).catch((err) => {
-			console.error(
-				`[PageSpeed] Error al procesar métricas en scan completo para ${url}: ${err.message}`
-			);
-			return null;
-		}),
+		detectTechnology(url).catch((err) => ({ success: false, error: err.message })),
+		withTimeout(
+			getDomainLocation(url).catch((err) => {
+				console.error(`[Ubicación] Error al resolver geolocalización para ${url}: ${err.message}`);
+				return null;
+			}),
+			3000,
+			null
+		),
+		withTimeout(
+			Promise.all([
+				getScreenshot(domain, 'desktop').catch(() => ''),
+				getScreenshot(domain, 'mobile').catch(() => ''),
+			]),
+			4000,
+			['', '']
+		),
+		withTimeout(
+			getPageSpeedMetrics(url).catch((err) => {
+				console.error(
+					`[PageSpeed] Error al procesar métricas en scan completo para ${url}: ${err.message}`
+				);
+				return null;
+			}),
+			3500,
+			null
+		),
 	]);
 
 	if (techResult.success) {
@@ -584,12 +603,12 @@ async function performFullDetection(url) {
 		await resolveShopifyAppLogos(techResult);
 		techResult.location = locationResult;
 		techResult.screenshots = {
-			desktop: desktopImg || '',
-			mobile: mobileImg || '',
+			desktop: (Array.isArray(desktopImg) ? desktopImg[0] : desktopImg) || '',
+			mobile: (Array.isArray(mobileImg) ? mobileImg[1] : mobileImg) || '',
 		};
 		techResult.pagespeed = pagespeedResult;
 		console.log(
-			`[Detección] 📦 Resultados consolidados para ${url} -> Capturas: [${desktopImg ? 'Desktop' : 'N/A'}, ${mobileImg ? 'Mobile' : 'N/A'}], PageSpeed: ${pagespeedResult ? 'OK' : 'N/A'}`
+			`[Detección] 📦 Resultados consolidados para ${url} -> Capturas: [${techResult.screenshots.desktop ? 'Desktop' : 'N/A'}, ${techResult.screenshots.mobile ? 'Mobile' : 'N/A'}], PageSpeed: ${pagespeedResult ? 'OK' : 'N/A'}`
 		);
 		return { status: 200, data: techResult };
 	}
