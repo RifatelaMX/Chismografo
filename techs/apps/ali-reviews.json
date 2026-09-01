@@ -5,16 +5,16 @@
 	"compatibleCMS": [
 		"Shopify"
 	],
-	"web": "https://www.ali-reviews.com",
+	"web": "https://kudosi.ai",
 	"appStores": [
 		{
 			"cms": "Shopify",
-			"link": "https://apps.shopify.com/ali-reviews"
+			"link": "ali-reviews"
 		}
 	],
 	"logo": {
-		"id": "ali-reviews.com",
-		"provider": ""
+		"id": "alireviews.io",
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

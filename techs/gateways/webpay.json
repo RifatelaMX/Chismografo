@@ -1,21 +1,21 @@
 {
-	"name": "Webpay",
-	"category": "Payment Gateway",
-	"web": "https://www.transbank.cl",
-	"logo": {
-		"id": "webpay.cl",
-		"provider": ""
-	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "webpay\\.js",
-			"description": "Script de integración de Webpay detectado"
-		},
-		{
-			"type": "html",
-			"pattern": "\\bwebpay\\b",
-			"description": "Clase o marca HTML de Webpay detectada"
-		}
-	]
+  "name": "Webpay",
+  "category": "Pasarela de Pago",
+  "web": "https://www.transbank.cl",
+  "logo": {
+    "id": "webpay.cl",
+    "provider": "brandicons"
+  },
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "webpay\\.js",
+      "description": "Script de integración de Webpay detectado"
+    },
+    {
+      "type": "html",
+      "pattern": "\\bwebpay\\b",
+      "description": "Clase o marca HTML de Webpay detectada"
+    }
+  ]
 }

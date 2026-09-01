@@ -1,5 +1,5 @@
 {
-	"name": "Rivo",
+	"name": "Rivo: Loyalty Program, Rewards",
 	"developer": "Rivo",
 	"category": "Fidelización / Lealtad",
 	"compatibleCMS": [
@@ -9,18 +9,19 @@
 	"appStores": [
 		{
 			"cms": "Shopify",
-			"link": "https://apps.shopify.com/rivo"
+			"link": "rivo-loyalty"
 		}
 	],
 	"logo": {
 		"id": "rivo.io",
-		"provider": ""
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{
 			"type": "script-src",
 			"pattern": "rivo\\.io|rivo-app",
-			"description": "Rivo integration script or resource detected"
+			"description": "Integración o recurso de Rivo detectado",
+			"weight": 1
 		}
 	]
 }

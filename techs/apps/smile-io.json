@@ -1,5 +1,5 @@
 {
-	"name": "Smile.io",
+	"name": "Smile: Lealtad y Recompensas",
 	"developer": "Smile.io",
 	"category": "Fidelización / Lealtad",
 	"compatibleCMS": [
@@ -10,10 +10,15 @@
 		"VTEX"
 	],
 	"web": "https://www.smile.io",
-	"appStores": [],
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "smile-io"
+		}
+	],
 	"logo": {
 		"id": "smile.io",
-		"provider": ""
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

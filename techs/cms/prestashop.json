@@ -3,7 +3,7 @@
 	"web": "https://www.prestashop.com",
 	"logo": {
 		"id": "prestashop.com",
-		"provider": ""
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

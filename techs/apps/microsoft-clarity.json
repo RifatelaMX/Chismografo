@@ -1,5 +1,5 @@
 {
-	"name": "Microsoft Clarity",
+	"name": "Microsoft Clarity: AI Insights",
 	"developer": "Microsoft Clarity",
 	"category": "Analítica",
 	"compatibleCMS": [
@@ -10,10 +10,15 @@
 		"VTEX"
 	],
 	"web": "https://www.microsoft.com",
-	"appStores": [],
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "microsoft-clarity"
+		}
+	],
 	"logo": {
-		"id": "microsoft.com",
-		"provider": ""
+		"id": "clarity.microsoft.com",
+		"provider": "brandicons"
 	},
 	"detectionRules": [
 		{

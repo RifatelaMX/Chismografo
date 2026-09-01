@@ -1,6 +1,6 @@
 {
-	"name": "Gorgias",
-	"developer": "Gorgias",
+	"name": " Gorgias: AI, Helpdesk & Chat ",
+	"developer": "Gorgias Inc.",
 	"category": "Soporte / Chat",
 	"compatibleCMS": [
 		"Shopify",
@@ -10,10 +10,15 @@
 		"VTEX"
 	],
 	"web": "https://www.gorgias.com",
-	"appStores": [],
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "helpdesk"
+		}
+	],
 	"logo": {
 		"id": "gorgias.com",
-		"provider": ""
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

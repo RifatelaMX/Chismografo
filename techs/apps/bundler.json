@@ -9,7 +9,7 @@
 	"appStores": [
 		{
 			"cms": "Shopify",
-			"link": "https://apps.shopify.com/bundler"
+			"link": "bundler"
 		}
 	],
 	"logo": {

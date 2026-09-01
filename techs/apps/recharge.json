@@ -1,5 +1,5 @@
 {
-	"name": "Recharge",
+	"name": "Recharge Subscriptions App",
 	"developer": "Recharge",
 	"category": "Suscripciones",
 	"compatibleCMS": [
@@ -9,11 +9,16 @@
 		"PrestaShop",
 		"VTEX"
 	],
-	"web": "https://www.recharge.com",
-	"appStores": [],
+	"web": "https://www.rechargepayments.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "subscription-payments"
+		}
+	],
 	"logo": {
-		"id": "recharge.com",
-		"provider": ""
+		"id": "rechargepayments.com",
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

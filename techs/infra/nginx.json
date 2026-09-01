@@ -3,8 +3,8 @@
 	"category": "Servidor Web",
 	"web": "https://www.nginx.com",
 	"logo": {
-		"id": "nginx.com",
-		"provider": ""
+		"id": "nginx.org",
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

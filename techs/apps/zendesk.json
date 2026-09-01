@@ -13,13 +13,14 @@
 	"appStores": [],
 	"logo": {
 		"id": "zendesk.com",
-		"provider": ""
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{
 			"type": "script-src",
 			"pattern": "zopim\\.com|zendesk\\.com",
-			"description": "Zendesk integration script or resource detected"
+			"description": "Integración o recurso de Zendesk detectado",
+			"weight": 1
 		}
 	]
 }

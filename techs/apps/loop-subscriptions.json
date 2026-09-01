@@ -1,6 +1,6 @@
 {
 	"name": "Loop Subscriptions",
-	"developer": "Loop Subscriptions",
+	"developer": "Loop Solutions Inc.",
 	"category": "Suscripciones",
 	"compatibleCMS": [
 		"Shopify"
@@ -9,12 +9,12 @@
 	"appStores": [
 		{
 			"cms": "Shopify",
-			"link": "https://apps.shopify.com/loop-subscriptions"
+			"link": "loop-subscriptions"
 		}
 	],
 	"logo": {
-		"id": "loop-subscriptions.com",
-		"provider": ""
+		"id": "loop-work.co",
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

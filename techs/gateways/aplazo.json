@@ -1,21 +1,21 @@
 {
-	"name": "Aplazo",
-	"category": "Payment Gateway",
-	"web": "https://aplazo.mx",
-	"logo": {
-		"id": "aplazo.mx",
-		"provider": ""
-	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "aplazo\\.mx|aplazo-sdk",
-			"description": "Script de integración de Aplazo detectado"
-		},
-		{
-			"type": "html",
-			"pattern": "\\baplazo\\b",
-			"description": "Clase o marca HTML de Aplazo detectada"
-		}
-	]
+  "name": "Aplazo",
+  "category": "Pago a Plazos (BNPL)",
+  "web": "https://aplazo.mx",
+  "logo": {
+    "id": "aplazo.mx",
+    "provider": "logodev"
+  },
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "aplazo\\.mx|aplazo-sdk",
+      "description": "Script de integración de Aplazo detectado"
+    },
+    {
+      "type": "html",
+      "pattern": "\\baplazo\\b",
+      "description": "Clase o marca HTML de Aplazo detectada"
+    }
+  ]
 }

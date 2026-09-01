@@ -1,23 +1,23 @@
 {
-	"name": "Amazon CloudFront",
-	"category": "CDN / Cloud",
-	"web": "https://aws.amazon.com/cloudfront",
-	"logo": {
-		"id": "aws.amazon.com",
-		"provider": ""
-	},
-	"detectionRules": [
-		{
-			"type": "header",
-			"key": "x-amz-cf-id",
-			"pattern": ".*",
-			"description": "Amazon CloudFront request ID header present"
-		},
-		{
-			"type": "header",
-			"key": "via",
-			"pattern": "cloudfront",
-			"description": "Via header contains cloudfront"
-		}
-	]
+  "name": "Amazon CloudFront",
+  "category": "CDN / Proxy",
+  "web": "https://aws.amazon.com/cloudfront",
+  "logo": {
+    "id": "aws.amazon.com",
+    "provider": "logodev"
+  },
+  "detectionRules": [
+    {
+      "type": "header",
+      "key": "x-amz-cf-id",
+      "pattern": ".*",
+      "description": "Amazon CloudFront request ID header present"
+    },
+    {
+      "type": "header",
+      "key": "via",
+      "pattern": "cloudfront",
+      "description": "Via header contains cloudfront"
+    }
+  ]
 }

@@ -9,12 +9,12 @@
 	"appStores": [
 		{
 			"cms": "Shopify",
-			"link": "https://apps.shopify.com/loox"
+			"link": "loox"
 		}
 	],
 	"logo": {
 		"id": "loox.app",
-		"provider": ""
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

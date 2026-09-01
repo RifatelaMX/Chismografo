@@ -1,5 +1,5 @@
 {
-	"name": "Stamped.io",
+	"name": "Stamped Reviews & Loyalty",
 	"developer": "Stamped.io",
 	"category": "Reseñas",
 	"compatibleCMS": [
@@ -10,10 +10,15 @@
 		"VTEX"
 	],
 	"web": "https://www.stamped.io",
-	"appStores": [],
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "stamped-reviews-addon"
+		}
+	],
 	"logo": {
 		"id": "stamped.io",
-		"provider": ""
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

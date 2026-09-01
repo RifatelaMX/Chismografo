@@ -1,5 +1,5 @@
 {
-	"name": "Privy",
+	"name": "Privy ‑ Pop Ups, correos, SMS",
 	"developer": "Privy",
 	"category": "Marketing / Popups",
 	"compatibleCMS": [
@@ -10,10 +10,15 @@
 		"VTEX"
 	],
 	"web": "https://www.privy.com",
-	"appStores": [],
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "privy"
+		}
+	],
 	"logo": {
 		"id": "privy.com",
-		"provider": ""
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

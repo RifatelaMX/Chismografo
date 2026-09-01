@@ -1,5 +1,5 @@
 {
-	"name": "Amplitude",
+	"name": " Amplitude: Customer Analytics ",
 	"developer": "Amplitude",
 	"category": "Analítica",
 	"compatibleCMS": [
@@ -13,7 +13,7 @@
 	"appStores": [],
 	"logo": {
 		"id": "amplitude.com",
-		"provider": ""
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

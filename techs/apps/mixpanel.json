@@ -10,10 +10,15 @@
 		"VTEX"
 	],
 	"web": "https://www.mixpanel.com",
-	"appStores": [],
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "mixpanel"
+		}
+	],
 	"logo": {
 		"id": "mixpanel.com",
-		"provider": ""
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

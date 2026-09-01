@@ -1,21 +1,21 @@
 {
-	"name": "Openpay",
-	"category": "Payment Gateway",
-	"web": "https://openpay.mx",
-	"logo": {
-		"id": "openpay.mx",
-		"provider": ""
-	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "openpay\\.js|openpay\\.mx|openpay\\.co",
-			"description": "Script de integración de Openpay detectado"
-		},
-		{
-			"type": "html",
-			"pattern": "\\bopenpay\\b",
-			"description": "Clase o marca HTML de Openpay detectada"
-		}
-	]
+  "name": "Openpay",
+  "category": "Pasarela de Pago",
+  "web": "https://openpay.mx",
+  "logo": {
+    "id": "openpay.mx",
+    "provider": "logodev"
+  },
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "openpay\\.js|openpay\\.mx|openpay\\.co",
+      "description": "Script de integración de Openpay detectado"
+    },
+    {
+      "type": "html",
+      "pattern": "\\bopenpay\\b",
+      "description": "Clase o marca HTML de Openpay detectada"
+    }
+  ]
 }

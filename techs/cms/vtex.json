@@ -3,7 +3,7 @@
 	"web": "https://vtex.com",
 	"logo": {
 		"id": "vtex.com",
-		"provider": ""
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

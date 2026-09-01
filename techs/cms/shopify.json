@@ -3,7 +3,7 @@
 	"web": "https://www.shopify.com",
 	"logo": {
 		"id": "shopify.com",
-		"provider": ""
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

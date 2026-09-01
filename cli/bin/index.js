@@ -20,11 +20,16 @@ function askQuestion(query) {
 }
 
 // Load categories list
-function loadCategories() {
+function loadCategories(stack) {
 	const categoriesPath = path.join(techsDir, 'categories.json');
 	if (fs.existsSync(categoriesPath)) {
 		try {
-			return JSON.parse(fs.readFileSync(categoriesPath, 'utf-8'));
+			const data = JSON.parse(fs.readFileSync(categoriesPath, 'utf-8'));
+			if (stack && data[stack]) {
+				return data[stack];
+			}
+			if (Array.isArray(data)) return data;
+			return Object.values(data).flat();
 		} catch (e) {
 			console.error('Error al leer techs/categories.json, usando listado por defecto.', e.message);
 		}
@@ -32,8 +37,8 @@ function loadCategories() {
 	return ['Otros'];
 }
 
-function askCategoryInteractive(defaultCat) {
-	const categories = loadCategories();
+function askCategoryInteractive(stack, defaultCat) {
+	const categories = loadCategories(stack);
 	let selectedIndex = categories.indexOf(defaultCat);
 	if (selectedIndex === -1) selectedIndex = 0;
 
@@ -532,10 +537,21 @@ else if (command === 'check-tech') {
 		const app = JSON.parse(fs.readFileSync(absolutePath, 'utf-8'));
 		const errors = [];
 
+		const stackMatch = path.relative(techsDir, absolutePath).match(/^([^/]+)/);
+		const stack = stackMatch ? stackMatch[1] : null;
+
 		if (typeof app.name !== 'string' || !app.name)
 			errors.push('Falta o es inválido: "name" (string)');
-		if (typeof app.category !== 'string' || !app.category)
-			errors.push('Falta o es inválido: "category" (string)');
+
+		if (stack && stack !== 'cms') {
+			const validCategories = loadCategories(stack);
+			if (typeof app.category !== 'string' || !app.category) {
+				errors.push('Falta o es inválido: "category" (string)');
+			} else if (!validCategories.includes(app.category)) {
+				errors.push(`Categoría inválida: "${app.category}". Valores permitidos para ${stack}: ${validCategories.join(', ')}`);
+			}
+		}
+
 		if (!Array.isArray(app.detectionRules) || app.detectionRules.length === 0) {
 			errors.push('Falta o es vacío: "detectionRules" (array)');
 		} else {
@@ -583,7 +599,7 @@ else if (command === 'add-app') {
 			process.exit(1);
 		}
 		const tempSlug = toSlug(name);
-		category = await askCategoryInteractive('Otros');
+		category = await askCategoryInteractive('apps', 'Otros');
 		cmsInput = await askCmsMultiSelect();
 		webVal =
 			(await askQuestion(`4. URL de la Web [https://www.${tempSlug}.com]: `)) ||
@@ -669,7 +685,7 @@ else if (command === 'add-infra') {
 			process.exit(1);
 		}
 		const tempSlug = toSlug(name);
-		category = await askCategoryInteractive('CDN / Proxy');
+		category = await askCategoryInteractive('infra', 'CDN / Proxy');
 		webVal =
 			(await askQuestion(`3. URL de la Web [https://www.${tempSlug}.com]: `)) ||
 			`https://www.${tempSlug}.com`;

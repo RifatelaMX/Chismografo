@@ -3,7 +3,7 @@
 	"web": "https://magento.com",
 	"logo": {
 		"id": "magento.com",
-		"provider": ""
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

@@ -1,5 +1,5 @@
 {
-	"name": "LoyaltyLion",
+	"name": "LoyaltyLion Loyalty Program",
 	"developer": "LoyaltyLion",
 	"category": "Fidelización / Lealtad",
 	"compatibleCMS": [
@@ -10,10 +10,15 @@
 		"VTEX"
 	],
 	"web": "https://www.loyaltylion.com",
-	"appStores": [],
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "loyaltylion"
+		}
+	],
 	"logo": {
 		"id": "loyaltylion.com",
-		"provider": ""
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

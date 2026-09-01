@@ -10,10 +10,15 @@
 		"VTEX"
 	],
 	"web": "https://www.printful.com",
-	"appStores": [],
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "printful"
+		}
+	],
 	"logo": {
 		"id": "printful.com",
-		"provider": ""
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

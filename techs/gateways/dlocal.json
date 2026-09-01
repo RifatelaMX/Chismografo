@@ -1,21 +1,21 @@
 {
-	"name": "dLocal",
-	"category": "Payment Gateway",
-	"web": "https://dlocal.com",
-	"logo": {
-		"id": "dlocal.com",
-		"provider": ""
-	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "dlocal\\.com|dlocal-sdk",
-			"description": "Script de integración de dLocal detectado"
-		},
-		{
-			"type": "html",
-			"pattern": "\\bdlocal\\b",
-			"description": "Clase o marca HTML de dLocal detectada"
-		}
-	]
+  "name": "dLocal",
+  "category": "Pasarela de Pago",
+  "web": "https://dlocal.com",
+  "logo": {
+    "id": "dlocal.com",
+    "provider": "logodev"
+  },
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "dlocal\\.com|dlocal-sdk",
+      "description": "Script de integración de dLocal detectado"
+    },
+    {
+      "type": "html",
+      "pattern": "\\bdlocal\\b",
+      "description": "Clase o marca HTML de dLocal detectada"
+    }
+  ]
 }

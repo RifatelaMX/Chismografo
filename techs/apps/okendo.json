@@ -1,5 +1,5 @@
 {
-	"name": "Okendo",
+	"name": "Okendo: Reviews & Loyalty",
 	"developer": "Okendo",
 	"category": "Reseñas",
 	"compatibleCMS": [
@@ -9,12 +9,12 @@
 	"appStores": [
 		{
 			"cms": "Shopify",
-			"link": "https://apps.shopify.com/okendo"
+			"link": "okendo-reviews"
 		}
 	],
 	"logo": {
-		"id": "okendo.co",
-		"provider": ""
+		"id": "okendo.io",
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

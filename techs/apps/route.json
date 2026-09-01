@@ -1,6 +1,6 @@
 {
-	"name": "Route",
-	"developer": "Route",
+	"name": "Route ‑ Protection & Tracking",
+	"developer": "RouteApp LLC",
 	"category": "Envíos / Seguros",
 	"compatibleCMS": [
 		"Shopify",
@@ -10,10 +10,15 @@
 		"VTEX"
 	],
 	"web": "https://www.route.com",
-	"appStores": [],
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "route"
+		}
+	],
 	"logo": {
 		"id": "route.com",
-		"provider": ""
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

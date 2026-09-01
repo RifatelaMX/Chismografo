@@ -1,6 +1,6 @@
 {
 	"name": "Shopify Inbox",
-	"developer": "Shopify Inbox",
+	"developer": "Shopify",
 	"category": "Soporte / Chat",
 	"compatibleCMS": [
 		"Shopify"
@@ -9,12 +9,12 @@
 	"appStores": [
 		{
 			"cms": "Shopify",
-			"link": "https://apps.shopify.com/shopify-inbox"
+			"link": "shopify-inbox"
 		}
 	],
 	"logo": {
-		"id": "shopify-inbox.com",
-		"provider": ""
+		"id": "shopify-inbox",
+		"provider": "local"
 	},
 	"detectionRules": [
 		{

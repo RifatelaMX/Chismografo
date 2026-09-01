@@ -1,4 +1,20 @@
 window.handleLogoError = function(img, providedDomain, websiteUrl, provider) {
+    if (provider === 'local') {
+        const hasExt = /\.(svg|png|jpg|jpeg|gif)$/i.test(providedDomain);
+        const state = parseInt(img.dataset.fallbackState || '0', 10);
+        
+        // Si no se especificó extensión, intentamos con .png si .svg falló
+        if (!hasExt && state === 0) {
+            img.dataset.fallbackState = '1';
+            img.src = `/brand/logo/apps/${providedDomain}.png`;
+            return;
+        }
+        
+        img.style.display = 'none';
+        if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
+        return;
+    }
+
     if (provider) {
         img.style.display = 'none';
         if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
@@ -1280,6 +1296,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (provider === 'brandfetch' && domain) return `https://asset.brandfetch.io/${domain}${bfKey}`;
 		if (provider === 'brandicons' && domain) return `https://cdn.brandicons.dev/icons/${domain}${biKey}`;
 		if (provider === 'ninjapear' && domain) return `https://logo.ninjapear.com/${domain}${npKey}`;
+		if (provider === 'local' && domain) {
+			const hasExt = /\.(svg|png|jpg|jpeg|gif)$/i.test(domain);
+			return `/brand/logo/apps/${domain}${hasExt ? '' : '.svg'}`;
+		}
 
 		const token = serverConfig.logoDevToken;
 		const nameLower = tech.name ? tech.name.toLowerCase() : '';

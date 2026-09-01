@@ -1,25 +1,30 @@
 {
-	"name": "Mailchimp",
-	"developer": "Mailchimp",
-	"category": "Marketing / Email",
-	"compatibleCMS": [
-		"Shopify",
-		"Magento",
-		"WooCommerce",
-		"PrestaShop",
-		"VTEX"
-	],
-	"web": "https://www.mailchimp.com",
-	"appStores": [],
-	"logo": {
-		"id": "mailchimp.com",
-		"provider": ""
-	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "chimpstatic\\.com|mailchimp\\.com",
-			"description": "Mailchimp integration script or resource detected"
-		}
-	]
+  "name": " Mailchimp: Email & SMS ",
+  "developer": "Mailchimp",
+  "category": "Email Marketing",
+  "compatibleCMS": [
+    "Shopify",
+    "Magento",
+    "WooCommerce",
+    "PrestaShop",
+    "VTEX"
+  ],
+  "web": "https://www.mailchimp.com",
+  "appStores": [
+    {
+      "cms": "Shopify",
+      "link": "mailchimp"
+    }
+  ],
+  "logo": {
+    "id": "mailchimp.com",
+    "provider": "logodev"
+  },
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "chimpstatic\\.com|mailchimp\\.com",
+      "description": "Mailchimp integration script or resource detected"
+    }
+  ]
 }

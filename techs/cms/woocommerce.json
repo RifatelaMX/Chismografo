@@ -3,7 +3,7 @@
 	"web": "https://woocommerce.com",
 	"logo": {
 		"id": "woocommerce.com",
-		"provider": ""
+		"provider": "logodev"
 	},
 	"detectionRules": [
 		{

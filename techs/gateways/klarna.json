@@ -1,21 +1,21 @@
 {
-	"name": "Klarna",
-	"category": "Payment Gateway",
-	"web": "https://klarna.com",
-	"logo": {
-		"id": "klarna.com",
-		"provider": ""
-	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "klarna\\.com|klarnacdn\\.net",
-			"description": "Script de integración de Klarna detectado"
-		},
-		{
-			"type": "html",
-			"pattern": "\\bklarna\\b",
-			"description": "Clase o marca HTML de Klarna detectada"
-		}
-	]
+  "name": "Klarna",
+  "category": "Pago a Plazos (BNPL)",
+  "web": "https://klarna.com",
+  "logo": {
+    "id": "klarna.com",
+    "provider": "logodev"
+  },
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "klarna\\.com|klarnacdn\\.net",
+      "description": "Script de integración de Klarna detectado"
+    },
+    {
+      "type": "html",
+      "pattern": "\\bklarna\\b",
+      "description": "Clase o marca HTML de Klarna detectada"
+    }
+  ]
 }
