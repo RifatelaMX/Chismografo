@@ -1165,6 +1165,152 @@ body {
 }
 
 /* ==========================================================================
+   EXAMS & DIAGNOSTIC MODAL (BOLETA DE EXÁMENES)
+   ========================================================================== */
+.exam-tab-btn {
+	background: transparent;
+	border: none;
+	border-bottom: 3px solid transparent;
+	padding: 0.5rem 0.9rem;
+	font-family: var(--font-body);
+	font-size: 0.88rem;
+	font-weight: 700;
+	color: var(--ink-medium);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	transition: var(--transition);
+	white-space: nowrap;
+}
+.exam-tab-btn:hover {
+	color: var(--ink-dark);
+	background: rgba(0, 0, 0, 0.03);
+}
+.exam-tab-btn.active {
+	color: var(--gel-purple);
+	border-bottom-color: var(--gel-purple);
+	background: rgba(155, 89, 182, 0.08);
+	border-radius: 6px 6px 0 0;
+}
+.exam-tab-badge {
+	font-size: 0.7rem;
+	padding: 0.1rem 0.4rem;
+	border-radius: 10px;
+	font-weight: 700;
+}
+.exam-tab-badge.passed {
+	background: rgba(46, 204, 113, 0.2);
+	color: #27ae60;
+}
+.exam-tab-badge.failed {
+	background: rgba(0, 0, 0, 0.08);
+	color: var(--ink-medium);
+}
+.exam-section-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 0.5rem;
+}
+.exam-cards-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.6rem;
+}
+.exam-rule-card {
+	background: var(--paper-dark);
+	border: 1px solid var(--paper-lines);
+	border-radius: 8px;
+	padding: 0.75rem 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+	transition: var(--transition);
+}
+.exam-rule-card:hover {
+	transform: translateX(3px);
+}
+.exam-rule-card.passed {
+	border-left: 4px solid #2ecc71;
+}
+.exam-rule-card.failed {
+	border-left: 4px solid #e74c3c;
+	opacity: 0.88;
+}
+.exam-rule-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+}
+.exam-rule-type-badge {
+	font-size: 0.68rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	padding: 0.15rem 0.45rem;
+	border-radius: 4px;
+	background: var(--sticker-purple);
+	color: var(--ink-dark);
+}
+.exam-rule-status {
+	font-size: 0.75rem;
+	font-weight: 700;
+}
+.exam-rule-status.passed {
+	color: #27ae60;
+}
+.exam-rule-status.failed {
+	color: #c0392b;
+}
+.exam-rule-weight {
+	font-size: 0.75rem;
+	color: var(--ink-light);
+}
+.exam-rule-title {
+	font-size: 0.9rem;
+	font-weight: 700;
+	color: var(--ink-dark);
+}
+.exam-rule-evidence,
+.exam-rule-details {
+	margin-top: 0.25rem;
+	background: rgba(0, 0, 0, 0.04);
+	padding: 0.45rem 0.65rem;
+	border-radius: 6px;
+	border: 1px dashed var(--paper-lines);
+}
+.exam-evidence-label {
+	font-size: 0.7rem;
+	font-weight: 700;
+	color: var(--ink-light);
+	text-transform: uppercase;
+	margin-bottom: 0.2rem;
+}
+.exam-rule-card code {
+	font-family: var(--font-mono);
+	font-size: 0.85rem;
+	color: #8e44ad;
+	word-break: break-all;
+	display: block;
+	white-space: pre-wrap;
+}
+.exam-empty-box {
+	text-align: center;
+	padding: 1.5rem;
+	background: var(--paper-dark);
+	border: 1px dashed var(--paper-lines);
+	border-radius: 8px;
+	color: var(--ink-medium);
+	font-size: 0.9rem;
+}
+.exam-empty-box span {
+	font-size: 1.8rem;
+	display: block;
+	margin-bottom: 0.25rem;
+}
+
+/* ==========================================================================
    RESPONSIVE MEDIA QUERIES
    ========================================================================== */
 @media (max-width: 768px) {

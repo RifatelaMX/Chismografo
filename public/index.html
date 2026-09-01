@@ -86,13 +86,19 @@
         <!-- Technology Header Card -->
         <div class="card glass-panel result-header-card" style="display: flex; justify-content: space-between; align-items: center; gap: 2rem;">
           <div class="result-headline" style="flex: 1; display: flex; align-items: center; gap: 1.5rem;">
-            <div id="tech-icon-container" class="tech-icon-large">
+            <div id="tech-icon-container" class="tech-icon-large" style="cursor: pointer;" title="Ver boleta de exámenes y pruebas">
               <i data-lucide="shopping-bag"></i>
             </div>
             <div class="result-text-summary">
-              <h2 style="display: flex; align-items: center; gap: 0.75rem; margin: 0; color: white;">
-                <span id="detected-tech-name">Shopify</span>
-                <span id="confidence-text-badge" style="font-size: 0.8rem; font-weight: 600; padding: 0.15rem 0.6rem; border-radius: 12px; background: rgba(173, 255, 0, 0.08); color: var(--primary); border: 1px solid rgba(173, 255, 0, 0.2);">100% Segurísimo ✨</span>
+              <h2 style="display: flex; align-items: center; gap: 0.75rem; margin: 0; color: white; flex-wrap: wrap;">
+                <span id="detected-tech-name" style="cursor: pointer;" title="Clic para ver exámenes de detección">Shopify</span>
+                <span id="confidence-text-badge" style="cursor: pointer; font-size: 0.8rem; font-weight: 600; padding: 0.15rem 0.6rem; border-radius: 12px; background: rgba(173, 255, 0, 0.08); color: var(--primary); border: 1px solid rgba(173, 255, 0, 0.2);" title="Clic para ver exámenes de detección">100% Segurísimo ✨</span>
+                <button type="button" id="open-exams-btn"
+                  style="display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 700; padding: 4px 12px; border-radius: 8px; background: rgba(155, 89, 182, 0.15); border: 1px solid var(--gel-purple); color: var(--gel-purple); cursor: pointer; transition: all 0.2s ease; font-family: inherit;"
+                  title="Ver detalles de exámenes aprobados y reprobados">
+                  <i data-lucide="clipboard-check" style="width: 14px; height: 14px;"></i>
+                  <span>Ver Exámenes 📝</span>
+                </button>
               </h2>
               <div id="detected-theme-container" style="display: none; margin-top: 0.25rem;">
                 <span style="font-size: 0.95rem; color: var(--text-secondary);">🎨 Tema que usa: <strong id="detected-theme-name" style="font-weight: 600; color: var(--secondary);">Stretch</strong></span>
@@ -194,6 +200,67 @@
               </div>
               <img id="screenshot-mobile-img" src="" alt="Mobile Preview" style="width: 100%; height: calc(100% - 8px); object-fit: cover;">
             </div>
+          </div>
+        <!-- 📝 Modal de Exámenes y Diagnóstico del Chismógrafo -->
+        <div id="exams-detail-modal" class="custom-modal-backdrop" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.78); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 1rem;">
+          <div class="modal-notebook-card" style="background: var(--paper); border: 2px solid var(--ink-dark); border-radius: 16px; width: 100%; max-width: 680px; max-height: 85vh; display: flex; flex-direction: column; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.5); overflow: hidden;">
+            
+            <!-- Top Gradient Bar -->
+            <div style="height: 6px; background: linear-gradient(90deg, var(--gel-pink), var(--gel-purple), var(--gel-blue), var(--gel-green));"></div>
+
+            <!-- Modal Header -->
+            <div style="padding: 1.25rem 1.5rem 0.75rem; border-bottom: 2px dashed var(--paper-lines); display: flex; justify-content: space-between; align-items: flex-start;">
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                  <span style="font-size: 1.4rem;">📝</span>
+                  <h3 style="margin: 0; font-family: var(--font-handwritten); font-size: 1.7rem; font-weight: 700; color: var(--ink-dark);">
+                    Boleta de Exámenes y Diagnóstico
+                  </h3>
+                </div>
+                <p style="margin: 0; font-size: 0.85rem; color: var(--ink-medium);">
+                  Detalle de todas las pruebas, firmas y patrones que pasó y reprobó este sitio web.
+                </p>
+              </div>
+              <button type="button" id="close-exams-modal-btn" aria-label="Cerrar modal" style="background: rgba(0,0,0,0.06); border: 1px solid var(--ink-faint); color: var(--ink-dark); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold; transition: var(--transition);">
+                ✕
+              </button>
+            </div>
+
+            <!-- Summary Badges Bar -->
+            <div style="padding: 0.75rem 1.5rem; background: var(--paper-dark); display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; border-bottom: 1px solid var(--paper-lines);">
+              <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                <span id="exams-summary-passed" style="font-size: 0.8rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px; background: rgba(46, 204, 113, 0.15); color: #27ae60; border: 1px solid #2ecc71;">
+                  ✅ 0 Aprobados
+                </span>
+                <span id="exams-summary-failed" style="font-size: 0.8rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px; background: rgba(231, 76, 60, 0.12); color: #c0392b; border: 1px solid #e74c3c;">
+                  ❌ 0 Reprobados
+                </span>
+              </div>
+              <div id="exams-summary-confidence" style="font-family: var(--font-handwritten); font-size: 1.2rem; font-weight: 700; color: var(--gel-purple);">
+                Confianza: 100%
+              </div>
+            </div>
+
+            <!-- Platform Tabs -->
+            <div id="exams-platform-tabs" style="display: flex; padding: 0.5rem 1.5rem 0; gap: 0.4rem; overflow-x: auto; border-bottom: 1px solid var(--paper-lines); background: var(--paper);">
+              <!-- Rendered dynamically -->
+            </div>
+
+            <!-- Modal Body (Scrollable) -->
+            <div id="exams-modal-body" style="padding: 1.25rem 1.5rem; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 1rem;">
+              <!-- Tests list rendered dynamically -->
+            </div>
+
+            <!-- Modal Footer -->
+            <div style="padding: 0.75rem 1.5rem; background: var(--paper-dark); border-top: 1px solid var(--paper-lines); display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.78rem; color: var(--ink-light); font-style: italic;">
+                * Las pruebas analizan etiquetas meta, scripts de CDN, cookies, encabezados y código HTML.
+              </span>
+              <button type="button" id="close-exams-modal-bottom-btn" style="background: var(--ink-dark); color: var(--paper); border: none; padding: 0.4rem 1rem; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer;">
+                Entendido 👍
+              </button>
+            </div>
+
           </div>
         </div>
 

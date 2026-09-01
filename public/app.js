@@ -915,9 +915,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 				const compItem = document.createElement('div');
 				compItem.className = 'comparison-item';
+				compItem.style.cursor = 'pointer';
+				compItem.title = `Clic para ver los exámenes evaluados para ${p}`;
 
 				compItem.innerHTML = `
-          <span class="comp-tech">${p}</span>
+          <span class="comp-tech" style="display:flex; align-items:center; gap:4px;">${p} <span style="font-size:0.68rem; opacity:0.7;">📝</span></span>
           <div class="comp-bar-wrapper">
             <div class="comp-bar-bg">
               <div class="comp-bar-fill ${p === data.technology ? 'active' : ''}" style="width: ${pPercent}%"></div>
@@ -925,6 +927,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="comp-val">${pPercent}%</span>
           </div>
         `;
+				compItem.addEventListener('click', () => openExamsModal(p));
 				comparisonContainer.appendChild(compItem);
 			});
 		}
@@ -1668,6 +1671,238 @@ document.addEventListener('DOMContentLoaded', () => {
 			downloadFile(csvContent, `reporte-${domain}.csv`, 'text/csv;charset=utf-8;');
 		});
 	}
+
+	// ─── 📝 Boleta de Exámenes Modal Logic ────────────────────────────────────
+	const examsModal = document.getElementById('exams-detail-modal');
+	const closeExamsModalBtn = document.getElementById('close-exams-modal-btn');
+	const closeExamsModalBottomBtn = document.getElementById('close-exams-modal-bottom-btn');
+	const openExamsBtn = document.getElementById('open-exams-btn');
+	const examsPlatformTabs = document.getElementById('exams-platform-tabs');
+	const examsModalBody = document.getElementById('exams-modal-body');
+	const examsSummaryPassed = document.getElementById('exams-summary-passed');
+	const examsSummaryFailed = document.getElementById('exams-summary-failed');
+	const examsSummaryConfidence = document.getElementById('exams-summary-confidence');
+
+	let currentExamPlatform = null;
+
+	function openExamsModal(platformToSelect) {
+		if (!lastScanData) return;
+		currentExamPlatform =
+			platformToSelect || (lastScanData.detected ? lastScanData.technology : 'Shopify');
+		renderExamsModalContent();
+		if (examsModal) {
+			examsModal.style.display = 'flex';
+			lucide.createIcons();
+		}
+	}
+
+	function closeExamsModal() {
+		if (examsModal) {
+			examsModal.style.display = 'none';
+		}
+	}
+
+	function renderExamsModalContent() {
+		if (!lastScanData) return;
+
+		const platforms = ['Shopify', 'Magento', 'WooCommerce', 'PrestaShop', 'VTEX'];
+		if (!platforms.includes(currentExamPlatform)) {
+			currentExamPlatform = platforms[0];
+		}
+
+		// Render platform tabs
+		if (examsPlatformTabs) {
+			examsPlatformTabs.innerHTML = '';
+			platforms.forEach((plat) => {
+				const match = lastScanData.matches?.[plat];
+				const isDetected = match?.detected || false;
+				const passedCount = match?.matchedRules?.length || 0;
+				const totalCount =
+					(match?.matchedRules?.length || 0) + (match?.unmatchedRules?.length || 0) ||
+					(plat === 'Shopify' ? 6 : plat === 'VTEX' ? 8 : 5);
+				const isSelected = plat === currentExamPlatform;
+
+				const tabBtn = document.createElement('button');
+				tabBtn.type = 'button';
+				tabBtn.className = `exam-tab-btn ${isSelected ? 'active' : ''}`;
+				tabBtn.innerHTML = `
+					<span>${plat}</span>
+					<span class="exam-tab-badge ${isDetected ? 'passed' : 'failed'}">
+						${passedCount}/${totalCount}
+					</span>
+				`;
+				tabBtn.addEventListener('click', () => {
+					currentExamPlatform = plat;
+					renderExamsModalContent();
+				});
+				examsPlatformTabs.appendChild(tabBtn);
+			});
+		}
+
+		// Get current platform data
+		const platformData = lastScanData.matches?.[currentExamPlatform] || {};
+		const passedRules = platformData.matchedRules || [];
+		const failedRules = platformData.unmatchedRules || [];
+		const confidence = platformData.detected ? platformData.confidence : 0;
+
+		// Summary banner numbers
+		if (examsSummaryPassed) {
+			examsSummaryPassed.textContent = `✅ ${passedRules.length} Aprobados`;
+		}
+		if (examsSummaryFailed) {
+			examsSummaryFailed.textContent = `❌ ${failedRules.length} Reprobados`;
+		}
+		if (examsSummaryConfidence) {
+			examsSummaryConfidence.textContent = `Calificación ${currentExamPlatform}: ${Math.round(confidence * 100)}%`;
+		}
+
+		// Render Body
+		if (examsModalBody) {
+			examsModalBody.innerHTML = '';
+
+			// Section 1: Exámenes Aprobados (Passed)
+			const passedSection = document.createElement('div');
+			passedSection.className = 'exam-section';
+			passedSection.innerHTML = `
+				<div class="exam-section-header">
+					<div style="display: flex; align-items: center; gap: 0.5rem;">
+						<span style="font-size: 1.2rem;">✅</span>
+						<h4 style="margin: 0; font-family: var(--font-handwritten); font-size: 1.4rem; color: #1e824c;">
+							Exámenes Aprobados (${passedRules.length})
+						</h4>
+					</div>
+					<span style="font-size: 0.75rem; color: var(--ink-medium); font-weight:600;">Firmas y evidencias confirmadas</span>
+				</div>
+			`;
+
+			const passedList = document.createElement('div');
+			passedList.className = 'exam-cards-list';
+
+			if (passedRules.length > 0) {
+				passedRules.forEach((rule) => {
+					const card = document.createElement('div');
+					card.className = 'exam-rule-card passed';
+					card.innerHTML = `
+						<div class="exam-rule-header">
+							<span class="exam-rule-type-badge ${escapeHtml(rule.type)}">${escapeHtml(rule.type)}</span>
+							<span class="exam-rule-status passed">Aprobado ✅</span>
+							<span class="exam-rule-weight">Peso: <strong>${rule.weight || 0.5}</strong></span>
+						</div>
+						<div class="exam-rule-title">${escapeHtml(rule.description || 'Regla de detección')}</div>
+						${
+							rule.context
+								? `
+							<div class="exam-rule-evidence">
+								<div class="exam-evidence-label">Evidencia encontrada en el sitio:</div>
+								<code>${escapeHtml(rule.context)}</code>
+							</div>
+						`
+								: ''
+						}
+					`;
+					passedList.appendChild(card);
+				});
+			} else {
+				passedList.innerHTML = `
+					<div class="exam-empty-box">
+						<span>🔍</span>
+						<p>No se aprobó ningún examen de ${currentExamPlatform} en este sitio web.</p>
+					</div>
+				`;
+			}
+			passedSection.appendChild(passedList);
+			examsModalBody.appendChild(passedSection);
+
+			// Section 2: Exámenes No Pasados (Failed)
+			const failedSection = document.createElement('div');
+			failedSection.className = 'exam-section';
+			failedSection.innerHTML = `
+				<div class="exam-section-header" style="margin-top: 1.2rem;">
+					<div style="display: flex; align-items: center; gap: 0.5rem;">
+						<span style="font-size: 1.2rem;">❌</span>
+						<h4 style="margin: 0; font-family: var(--font-handwritten); font-size: 1.4rem; color: #c0392b;">
+							Exámenes No Pasados / Reprobados (${failedRules.length})
+						</h4>
+					</div>
+					<span style="font-size: 0.75rem; color: var(--ink-medium); font-weight:600;">Firmas ausentes en el código</span>
+				</div>
+			`;
+
+			const failedList = document.createElement('div');
+			failedList.className = 'exam-cards-list';
+
+			if (failedRules.length > 0) {
+				failedRules.forEach((rule) => {
+					const card = document.createElement('div');
+					card.className = 'exam-rule-card failed';
+					card.innerHTML = `
+						<div class="exam-rule-header">
+							<span class="exam-rule-type-badge ${escapeHtml(rule.type)}">${escapeHtml(rule.type)}</span>
+							<span class="exam-rule-status failed">Reprobado ❌</span>
+							<span class="exam-rule-weight">Peso: <strong>${rule.weight || 0.5}</strong></span>
+						</div>
+						<div class="exam-rule-title">${escapeHtml(rule.description || 'Regla no encontrada')}</div>
+						<div class="exam-rule-details">
+							<div class="exam-evidence-label">Patrón buscado:</div>
+							<code>${escapeHtml(rule.pattern || rule.key || rule.attribute || 'N/A')}</code>
+							<div style="font-size: 0.75rem; color: var(--ink-medium); margin-top: 5px;">
+								⚠️ Esta firma no estuvo presente en los scripts, etiquetas HTML ni encabezados de la página.
+							</div>
+						</div>
+					`;
+					failedList.appendChild(card);
+				});
+			} else {
+				failedList.innerHTML = `
+					<div class="exam-empty-box">
+						<span>🎉</span>
+						<p>¡El sitio pasó el 100% de los exámenes para ${currentExamPlatform}!</p>
+					</div>
+				`;
+			}
+			failedSection.appendChild(failedList);
+			examsModalBody.appendChild(failedSection);
+		}
+	}
+
+	if (closeExamsModalBtn) closeExamsModalBtn.addEventListener('click', closeExamsModal);
+	if (closeExamsModalBottomBtn)
+		closeExamsModalBottomBtn.addEventListener('click', closeExamsModal);
+	if (openExamsBtn) {
+		openExamsBtn.addEventListener('click', (e) => {
+			e.stopPropagation();
+			openExamsModal();
+		});
+	}
+
+	// Click on result header elements opens exams modal
+	const mainTechIcon = document.getElementById('tech-icon-container');
+	const mainTechName = document.getElementById('detected-tech-name');
+	const mainConfidence = document.getElementById('confidence-text-badge');
+
+	if (mainTechIcon) {
+		mainTechIcon.addEventListener('click', () => openExamsModal());
+	}
+	if (mainTechName) {
+		mainTechName.addEventListener('click', () => openExamsModal());
+	}
+	if (mainConfidence) {
+		mainConfidence.addEventListener('click', () => openExamsModal());
+	}
+
+	// Close exams modal on backdrop click
+	if (examsModal) {
+		examsModal.addEventListener('click', (e) => {
+			if (e.target === examsModal) closeExamsModal();
+		});
+	}
+
+	// Close exams modal on Escape key
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape' && examsModal && examsModal.style.display === 'flex') {
+			closeExamsModal();
+		}
+	});
 
 	// ─── Email Report Modal Logic ────────────────────────────────────────────
 	const openEmailReportBtn = document.getElementById('open-email-report-btn');

@@ -283,6 +283,7 @@ export function analyze(html, headers) {
 	for (const cms of cmsPlatforms) {
 		const tech = cms.name;
 		const matchedRules = [];
+		const unmatchedRules = [];
 		const matchedWeights = [];
 
 		if (Array.isArray(cms.detectionRules)) {
@@ -373,12 +374,26 @@ export function analyze(html, headers) {
 						type: rule.type,
 						context: matchContext,
 						weight: rule.weight || 0.5,
+						pattern: rule.pattern,
+						passed: true,
 					});
 					matchedWeights.push(rule.weight || 0.5);
+				} else {
+					unmatchedRules.push({
+						id: rule.id || `${tech}-${rule.type}`,
+						description: rule.description,
+						type: rule.type,
+						pattern: rule.pattern,
+						key: rule.key,
+						attribute: rule.attribute,
+						weight: rule.weight || 0.5,
+						passed: false,
+					});
 				}
 			}
 		}
 
+		const totalRules = (cms.detectionRules || []).length;
 		if (matchedRules.length > 0) {
 			let complementProduct = 1.0;
 			for (const w of matchedWeights) {
@@ -390,6 +405,20 @@ export function analyze(html, headers) {
 				detected: true,
 				confidence,
 				matchedRules,
+				unmatchedRules,
+				totalRules,
+				passedCount: matchedRules.length,
+				failedCount: unmatchedRules.length,
+			};
+		} else {
+			results[tech] = {
+				detected: false,
+				confidence: 0,
+				matchedRules: [],
+				unmatchedRules,
+				totalRules,
+				passedCount: 0,
+				failedCount: unmatchedRules.length,
 			};
 		}
 	}
@@ -718,6 +747,8 @@ export function analyze(html, headers) {
 		technology: primaryTech,
 		confidence: highestConfidence,
 		matches: results,
+		matchedRules: primaryTech && results[primaryTech] ? results[primaryTech].matchedRules : [],
+		unmatchedRules: primaryTech && results[primaryTech] ? results[primaryTech].unmatchedRules : [],
 		plugins: filteredPlugins,
 		theme: theme,
 		paymentGateways: paymentGateways,
