@@ -11,7 +11,7 @@
 		}
 	],
 	"logo": {
-		"id": "loox.app",
+		"id": "loox.io",
 		"provider": "logodev"
 	},
 	"detectionRules": [

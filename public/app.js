@@ -27,19 +27,16 @@ window.handleLogoError = (img, providedDomain, websiteUrl, provider) => {
 	// Cadena robusta de resolución de logos
 	if (state === 0) {
 		img.dataset.fallbackState = '1';
-		// 1. Google Favicons (Alta disponibilidad global, 64px)
-		img.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+		// 1. Google Favicons V2 HD
+		img.src = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://${domain}&size=64`;
 	} else if (state === 1) {
 		img.dataset.fallbackState = '2';
 		// 2. DuckDuckGo Favicon Service
 		img.src = `https://icons.duckduckgo.com/ip3/${domain}.ico`;
 	} else if (state === 2) {
 		img.dataset.fallbackState = '3';
-		// 3. Brandfetch / Brandicons (si están configurados)
-		const bfKey = window.serverConfig?.brandfetchApiKey
-			? `?c=${window.serverConfig.brandfetchApiKey}`
-			: '';
-		img.src = `https://asset.brandfetch.io/${domain}${bfKey}`;
+		// 3. Brandfetch / Logo.dev
+		img.src = `https://asset.brandfetch.io/${domain}`;
 	} else {
 		// Todas las fuentes externas agotadas -> mostrar inicial con diseño
 		img.style.display = 'none';
@@ -802,7 +799,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (techIconContainer) {
 				if (cmsDom) {
 					techIconContainer.innerHTML = `
-            <img src="https://img.logo.dev/${cmsDom}?token=${logoToken}" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;" onerror="window.handleLogoError(this, '${cmsDom}')" />
+            <img src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://${cmsDom}&size=64" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;" onerror="window.handleLogoError(this, '${cmsDom}')" />
             <i data-lucide="${iconName}" style="display:none; width: 24px; height: 24px;"></i>
           `;
 					techIconContainer.style.background = 'transparent';
@@ -1216,7 +1213,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 				let logoHtml = '';
 				if (domain) {
-					logoHtml = `<img src="https://img.logo.dev/${domain}?token=${logoToken}" style="width: 100%; height: 100%; object-fit: contain;" onerror="window.handleLogoError(this, '${domain}')" />`;
+					logoHtml = `<img src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://${domain}&size=64" style="width: 100%; height: 100%; object-fit: contain;" onerror="window.handleLogoError(this, '${domain}')" />`;
 				}
 
 				card.innerHTML = `
@@ -1293,6 +1290,23 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		}
 
+	function getTechIconUrl(tech) {
+		let domain = '';
+		let provider = '';
+
+		if (tech.logo && typeof tech.logo === 'object') {
+			domain = tech.logo.id;
+			provider = tech.logo.provider;
+		} else if (tech.logo) {
+			domain = tech.logo;
+		}
+
+		if (!domain && (tech.web || tech.website || tech.link)) {
+			try {
+				domain = new URL(tech.web || tech.website || tech.link).hostname.replace(/^www\./i, '');
+			} catch (_e) {}
+		}
+
 		const bfKey = window.serverConfig?.brandfetchApiKey
 			? `?c=${window.serverConfig.brandfetchApiKey}`
 			: '';
@@ -1303,26 +1317,25 @@ document.addEventListener('DOMContentLoaded', () => {
 			? `?key=${window.serverConfig.ninjapearApiKey}`
 			: '';
 
-		if (provider === 'brandfetch' && domain) return `https://asset.brandfetch.io/${domain}${bfKey}`;
-		if (provider === 'brandicons' && domain)
-			return `https://cdn.brandicons.dev/icons/${domain}${biKey}`;
-		if (provider === 'ninjapear' && domain) return `https://logo.ninjapear.com/${domain}${npKey}`;
 		if (provider === 'local' && domain) {
 			const hasExt = /\.(svg|png|jpg|jpeg|gif)$/i.test(domain);
 			return `/brand/logo/apps/${domain}${hasExt ? '' : '.svg'}`;
 		}
-		if (provider === 'logodev' && domain) {
-			const token = window.serverConfig?.logoDevToken || 'pk_MgKPAkEuRMOiYecOkx67wQ';
-			return `https://img.logo.dev/${domain}?token=${token}&size=64`;
+		if (provider === 'brandicons' && domain) {
+			return `https://cdn.brandicons.dev/icons/${domain}${biKey}`;
+		}
+		if (provider === 'brandfetch' && domain) {
+			return `https://asset.brandfetch.io/${domain}${bfKey}`;
+		}
+		if (provider === 'ninjapear' && domain) {
+			return `https://logo.ninjapear.com/${domain}${npKey}`;
 		}
 
-		const token = window.serverConfig?.logoDevToken || 'pk_MgKPAkEuRMOiYecOkx67wQ';
 		const nameLower = tech.name ? tech.name.toLowerCase() : '';
-
-		// Check if domain is just pointing to Shopify ecosystem domains (which returns Shopify logo for other apps)
-		const isShopifyDomain = domain.includes('shopify.com');
+		const isShopifyDomain = domain && (domain.includes('shopify.com') || domain.includes('myshopify.com'));
 		const isShopifyPlatform = nameLower === 'shopify';
 
+		// Si tenemos un dominio directo
 		if (
 			domain &&
 			domain !== '#' &&
@@ -1332,72 +1345,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			!domain.includes('trends.builtwith.com') &&
 			(!isShopifyDomain || isShopifyPlatform)
 		) {
-			if (token) {
-				return `https://img.logo.dev/${domain}?token=${token}&size=64`;
-			} else {
-				return `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
-			}
+			return `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://${domain}&size=64`;
 		}
 
-		// Fallbacks for known names or local plugins / Shopify ecosystem apps
-
-		// If we have a token, we can use logo.dev by name
-		if (token) {
-			let searchName = nameLower;
-			if (nameLower.includes('shopify') && nameLower !== 'shopify') {
-				// Strip shopify mentions to find the actual app brand
-				searchName = nameLower
-					.replace(/\bshopify\b/gi, '')
-					.replace(/\s+for\s+/gi, '')
-					.replace(/\s+theme\b/gi, '')
-					.replace(/\s+app\b/gi, '')
-					.trim();
-				if (!searchName) searchName = 'shopify';
-			}
-
-			// Known overrides to ensure exact matches
-			if (nameLower.includes('wordpress')) searchName = 'wordpress';
-			else if (nameLower.includes('woocommerce')) searchName = 'woocommerce';
-			else if (nameLower.includes('magento')) searchName = 'magento';
-			else if (nameLower.includes('prestashop')) searchName = 'prestashop';
-			else if (nameLower.includes('vtex')) searchName = 'vtex';
-			else if (nameLower.includes('stripe')) searchName = 'stripe';
-			else if (nameLower.includes('paypal')) searchName = 'paypal';
-			else if (nameLower.includes('facebook')) searchName = 'facebook';
-			else if (nameLower.includes('google')) searchName = 'google';
-			else if (nameLower.includes('cloudflare')) searchName = 'cloudflare';
-			else if (nameLower.includes('jquery')) searchName = 'jquery';
-			else if (nameLower.includes('conekta')) searchName = 'conekta';
-			else if (nameLower.includes('klaviyo')) searchName = 'klaviyo';
-			else if (nameLower.includes('tidio')) searchName = 'tidio';
-			else if (nameLower.includes('recaptcha')) searchName = 'recaptcha';
-			else if (nameLower.includes('font awesome')) searchName = 'fontawesome';
-			else if (nameLower.includes('loox')) searchName = 'loox';
-			else if (nameLower.includes('klarna')) searchName = 'klarna';
-			else if (nameLower.includes('pagefly')) searchName = 'pagefly';
-			else if (nameLower.includes('mercado pago')) searchName = 'mercadopago';
-			else if (nameLower.includes('openpay')) searchName = 'openpay';
-			else if (nameLower.includes('wordfence')) searchName = 'wordfence';
-			else if (nameLower.includes('contact form 7')) searchName = 'contactform7';
-			else if (nameLower.includes('mailchimp')) searchName = 'mailchimp';
-
-			return `https://img.logo.dev/name/${searchName}?token=${token}&size=64`;
-		}
-
-		// Otherwise, fallback to Google Favicon service with predefined domains
+		// Predefined domain mapping based on name
 		let fallbackDomain = '';
-
-		// Clean name for fallback domain extraction
-		let cleanFallbackName = nameLower;
-		if (nameLower.includes('shopify') && nameLower !== 'shopify') {
-			cleanFallbackName = nameLower
-				.replace(/\bshopify\b/gi, '')
-				.replace(/\s+for\s+/gi, '')
-				.replace(/\s+theme\b/gi, '')
-				.replace(/\s+app\b/gi, '')
-				.trim();
-		}
-
 		if (nameLower === 'shopify') fallbackDomain = 'shopify.com';
 		else if (nameLower.includes('wordpress')) fallbackDomain = 'wordpress.org';
 		else if (nameLower.includes('woocommerce')) fallbackDomain = 'woocommerce.com';
@@ -1418,17 +1370,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		else if (nameLower.includes('loox')) fallbackDomain = 'loox.io';
 		else if (nameLower.includes('klarna')) fallbackDomain = 'klarna.com';
 		else if (nameLower.includes('pagefly')) fallbackDomain = 'pagefly.io';
-		else if (nameLower.includes('mercado pago')) fallbackDomain = 'mercadopago.com.mx';
+		else if (nameLower.includes('mercado pago')) fallbackDomain = 'mercadopago.com';
 		else if (nameLower.includes('openpay')) fallbackDomain = 'openpay.mx';
 		else if (nameLower.includes('wordfence')) fallbackDomain = 'wordfence.com';
 		else if (nameLower.includes('contact form 7')) fallbackDomain = 'contactform7.com';
 		else if (nameLower.includes('mailchimp')) fallbackDomain = 'mailchimp.com';
-		else if (cleanFallbackName) {
-			fallbackDomain = `${cleanFallbackName}.com`;
-		}
 
 		if (fallbackDomain) {
-			return `https://www.google.com/s2/favicons?domain=${fallbackDomain}&sz=64`;
+			return `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://${fallbackDomain}&size=64`;
 		}
 
 		return '';
