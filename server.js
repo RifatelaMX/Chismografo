@@ -7,8 +7,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import morgan from 'morgan';
-import screenshotmachine from 'screenshotmachine';
 import cron from 'node-cron';
+import screenshotmachine from 'screenshotmachine';
 import { detectTechnology, evaluateCustomRules, fetchPage, normalizeUrl } from './src/detector.js';
 import { sendReportEmail } from './src/emailService.js';
 import { getDomainLocation } from './src/location.js';
@@ -186,14 +186,34 @@ async function resolveShopifyAppLogos(data) {
 	}
 }
 
-// Make sure public/screenshots directory exists
-const screenshotsDir = path.join(publicPath, 'screenshots');
-if (!fs.existsSync(screenshotsDir)) {
-	fs.mkdirSync(screenshotsDir, { recursive: true });
+// Detect serverless environment (Vercel / AWS Lambda)
+const isVercel = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+
+// Ensure public/screenshots & public/reports directory exists (use /tmp in serverless)
+const screenshotsDir = isVercel
+	? path.join('/tmp', 'screenshots')
+	: path.join(publicPath, 'screenshots');
+const reportsDir = isVercel ? path.join('/tmp', 'reports') : path.join(publicPath, 'reports');
+
+try {
+	if (!fs.existsSync(screenshotsDir)) {
+		fs.mkdirSync(screenshotsDir, { recursive: true });
+	}
+} catch (err) {
+	console.warn(`[Storage] No se pudo crear el directorio de screenshots: ${err.message}`);
 }
-const reportsDir = path.join(publicPath, 'reports');
-if (!fs.existsSync(reportsDir)) {
-	fs.mkdirSync(reportsDir, { recursive: true });
+
+try {
+	if (!fs.existsSync(reportsDir)) {
+		fs.mkdirSync(reportsDir, { recursive: true });
+	}
+} catch (err) {
+	console.warn(`[Storage] No se pudo crear el directorio de reports: ${err.message}`);
+}
+
+if (isVercel) {
+	app.use('/screenshots', express.static(screenshotsDir));
+	app.use('/reports', express.static(reportsDir));
 }
 
 /**
@@ -202,43 +222,54 @@ if (!fs.existsSync(reportsDir)) {
 function cleanupOldFiles() {
 	const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7 días
 	const now = Date.now();
-	
+
 	const dirs = [reportsDir, screenshotsDir];
 	let deletedCount = 0;
 
 	for (const dir of dirs) {
-		if (!fs.existsSync(dir)) continue;
-		const files = fs.readdirSync(dir);
-		for (const file of files) {
-			// Ignorar mocks
-			if (file === 'desktop-mock.png' || file === 'mobile-mock.png') continue;
-			
-			const filePath = path.join(dir, file);
-			const stats = fs.statSync(filePath);
-			if (now - stats.mtimeMs > MAX_AGE_MS) {
-				try {
-					fs.unlinkSync(filePath);
-					deletedCount++;
-				} catch (err) {
-					console.error(`[Mantenimiento] Error al eliminar archivo antiguo ${file}:`, err.message);
+		try {
+			if (!fs.existsSync(dir)) continue;
+			const files = fs.readdirSync(dir);
+			for (const file of files) {
+				// Ignorar mocks
+				if (file === 'desktop-mock.png' || file === 'mobile-mock.png') continue;
+
+				const filePath = path.join(dir, file);
+				const stats = fs.statSync(filePath);
+				if (now - stats.mtimeMs > MAX_AGE_MS) {
+					try {
+						fs.unlinkSync(filePath);
+						deletedCount++;
+					} catch (err) {
+						console.error(
+							`[Mantenimiento] Error al eliminar archivo antiguo ${file}:`,
+							err.message
+						);
+					}
 				}
 			}
+		} catch (dirErr) {
+			console.warn(`[Mantenimiento] Advertencia al procesar directorio ${dir}:`, dirErr.message);
 		}
 	}
-	
+
 	if (deletedCount > 0) {
-		console.log(`[Mantenimiento] 🧹 Limpieza automática: Se eliminaron ${deletedCount} archivos con más de 7 días de antigüedad.`);
+		console.log(
+			`[Mantenimiento] 🧹 Limpieza automática: Se eliminaron ${deletedCount} archivos con más de 7 días de antigüedad.`
+		);
 	}
 }
 
-// Ejecutar limpieza al iniciar
-cleanupOldFiles();
-
-// Configurar tarea cron para ejecutar la limpieza todos los días a la medianoche (00:00)
-cron.schedule('0 0 * * *', () => {
-	console.log('[Mantenimiento] ⏱️ Ejecutando tarea cron diaria de limpieza...');
+// Ejecutar limpieza y cron solo en servidores dedicados/locales (Vercel usa endpoint cron)
+if (!isVercel) {
 	cleanupOldFiles();
-});
+
+	// Configurar tarea cron para ejecutar la limpieza todos los días a la medianoche (00:00)
+	cron.schedule('0 0 * * *', () => {
+		console.log('[Mantenimiento] ⏱️ Ejecutando tarea cron diaria de limpieza...');
+		cleanupOldFiles();
+	});
+}
 
 /**
  * Captures screenshot for mobile or desktop/responsive version without requiring an API key.
@@ -401,7 +432,9 @@ async function getScreenshot(domain, device = 'desktop', extraParams = {}) {
 	}
 
 	// Si falla, devolvemos string vacío para no mostrar un "Generating Preview" falso
-	console.warn(`[Captura] ⚠️ No se pudo obtener captura para ${cleanDomain} [${device}], omitiendo...`);
+	console.warn(
+		`[Captura] ⚠️ No se pudo obtener captura para ${cleanDomain} [${device}], omitiendo...`
+	);
 	return '';
 }
 
@@ -1200,14 +1233,14 @@ app.post('/api/save-report', express.json({ limit: '10mb' }), (req, res) => {
 		if (!data || !data.url) {
 			return res.status(400).json({ success: false, error: 'Datos inválidos' });
 		}
-		
+
 		// Generar ID único corto (fecha + random)
 		const reportId = Date.now().toString(36) + Math.random().toString(36).substring(2, 7);
 		const fileName = `${reportId}.json`;
-		
+
 		// Guardar como JSON
 		fs.writeFileSync(path.join(reportsDir, fileName), JSON.stringify(data));
-		
+
 		res.json({ success: true, reportId });
 	} catch (e) {
 		res.status(500).json({ success: false, error: e.message });

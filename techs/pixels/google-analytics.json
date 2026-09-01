@@ -1,29 +1,29 @@
 {
-  "name": "Google Analytics",
-  "category": "Analítica",
-  "web": "https://analytics.google.com/",
-  "logo": {
-    "id": "googleanalytics4.com",
-    "provider": "logodev"
-  },
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "googletagmanager\\.com\\/gtag\\/js",
-      "description": "Google Analytics (gtag.js) detectado",
-      "weight": 1
-    },
-    {
-      "type": "script-src",
-      "pattern": "google-analytics\\.com\\/analytics\\.js",
-      "description": "Google Analytics (analytics.js) detectado",
-      "weight": 1
-    },
-    {
-      "type": "script-content",
-      "pattern": "gtag\\('config'",
-      "description": "Google Analytics configuration detectado",
-      "weight": 0.8
-    }
-  ]
+	"name": "Google Analytics",
+	"category": "Analítica",
+	"web": "https://analytics.google.com/",
+	"logo": {
+		"id": "googleanalytics4.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "googletagmanager\\.com\\/gtag\\/js",
+			"description": "Google Analytics (gtag.js) detectado",
+			"weight": 1
+		},
+		{
+			"type": "script-src",
+			"pattern": "google-analytics\\.com\\/analytics\\.js",
+			"description": "Google Analytics (analytics.js) detectado",
+			"weight": 1
+		},
+		{
+			"type": "script-content",
+			"pattern": "gtag\\('config'",
+			"description": "Google Analytics configuration detectado",
+			"weight": 0.8
+		}
+	]
 }

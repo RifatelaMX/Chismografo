@@ -1,21 +1,21 @@
 {
-  "name": "dLocal Go",
-  "category": "Pasarela de Pago",
-  "web": "https://dlocalgo.com",
-  "logo": {
-    "id": "dlocalgo.com",
-    "provider": "logodev"
-  },
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "dlocalgo\\.com|dlocalgo-sdk",
-      "description": "Script de integración de dLocal Go detectado"
-    },
-    {
-      "type": "html",
-      "pattern": "\\bdlocalgo\\b",
-      "description": "Clase o marca HTML de dLocal Go detectada"
-    }
-  ]
+	"name": "dLocal Go",
+	"category": "Pasarela de Pago",
+	"web": "https://dlocalgo.com",
+	"logo": {
+		"id": "dlocalgo.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "dlocalgo\\.com|dlocalgo-sdk",
+			"description": "Script de integración de dLocal Go detectado"
+		},
+		{
+			"type": "html",
+			"pattern": "\\bdlocalgo\\b",
+			"description": "Clase o marca HTML de dLocal Go detectada"
+		}
+	]
 }

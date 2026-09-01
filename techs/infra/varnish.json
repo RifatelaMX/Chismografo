@@ -1,23 +1,23 @@
 {
-  "name": "Varnish",
-  "category": "CDN / Proxy",
-  "web": "https://varnish-cache.org",
-  "logo": {
-    "id": "varnish-cache.org",
-    "provider": "logodev"
-  },
-  "detectionRules": [
-    {
-      "type": "header",
-      "key": "via",
-      "pattern": "varnish",
-      "description": "Via header contains varnish cache"
-    },
-    {
-      "type": "header",
-      "key": "x-varnish",
-      "pattern": ".*",
-      "description": "X-Varnish ID header present"
-    }
-  ]
+	"name": "Varnish",
+	"category": "CDN / Proxy",
+	"web": "https://varnish-cache.org",
+	"logo": {
+		"id": "varnish-cache.org",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "header",
+			"key": "via",
+			"pattern": "varnish",
+			"description": "Via header contains varnish cache"
+		},
+		{
+			"type": "header",
+			"key": "x-varnish",
+			"pattern": ".*",
+			"description": "X-Varnish ID header present"
+		}
+	]
 }

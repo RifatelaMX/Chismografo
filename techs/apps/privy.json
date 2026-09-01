@@ -2,13 +2,7 @@
 	"name": "Privy ‑ Pop Ups, correos, SMS",
 	"developer": "Privy",
 	"category": "Marketing / Popups",
-	"compatibleCMS": [
-		"Shopify",
-		"Magento",
-		"WooCommerce",
-		"PrestaShop",
-		"VTEX"
-	],
+	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.privy.com",
 	"appStores": [
 		{

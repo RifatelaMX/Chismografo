@@ -2,13 +2,7 @@
 	"name": "Route ‑ Protection & Tracking",
 	"developer": "RouteApp LLC",
 	"category": "Envíos / Seguros",
-	"compatibleCMS": [
-		"Shopify",
-		"Magento",
-		"WooCommerce",
-		"PrestaShop",
-		"VTEX"
-	],
+	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.route.com",
 	"appStores": [
 		{

@@ -2,9 +2,7 @@
 	"name": "Rivo: Loyalty Program, Rewards",
 	"developer": "Rivo",
 	"category": "Fidelización / Lealtad",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.rivo.io",
 	"appStores": [
 		{

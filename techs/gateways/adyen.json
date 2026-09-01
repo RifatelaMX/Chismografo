@@ -1,21 +1,21 @@
 {
-  "name": "Adyen",
-  "category": "Pasarela de Pago",
-  "web": "https://adyen.com",
-  "logo": {
-    "id": "adyen.com",
-    "provider": "logodev"
-  },
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "adyen\\.com|adyen\\.js",
-      "description": "Script de integración de Adyen detectado"
-    },
-    {
-      "type": "html",
-      "pattern": "\\badyen\\b",
-      "description": "Clase o marca HTML de Adyen detectada"
-    }
-  ]
+	"name": "Adyen",
+	"category": "Pasarela de Pago",
+	"web": "https://adyen.com",
+	"logo": {
+		"id": "adyen.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "adyen\\.com|adyen\\.js",
+			"description": "Script de integración de Adyen detectado"
+		},
+		{
+			"type": "html",
+			"pattern": "\\badyen\\b",
+			"description": "Clase o marca HTML de Adyen detectada"
+		}
+	]
 }

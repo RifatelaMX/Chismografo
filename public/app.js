@@ -1,57 +1,65 @@
-window.handleLogoError = function(img, providedDomain, websiteUrl, provider) {
-    if (provider === 'local') {
-        const hasExt = /\.(svg|png|jpg|jpeg|gif)$/i.test(providedDomain);
-        const state = parseInt(img.dataset.fallbackState || '0', 10);
-        
-        // Si no se especificó extensión, intentamos con .png si .svg falló
-        if (!hasExt && state === 0) {
-            img.dataset.fallbackState = '1';
-            img.src = `/brand/logo/apps/${providedDomain}.png`;
-            return;
-        }
-        
-        img.style.display = 'none';
-        if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
-        return;
-    }
+window.handleLogoError = (img, providedDomain, websiteUrl, provider) => {
+	if (provider === 'local') {
+		const hasExt = /\.(svg|png|jpg|jpeg|gif)$/i.test(providedDomain);
+		const state = parseInt(img.dataset.fallbackState || '0', 10);
 
-    if (provider) {
-        img.style.display = 'none';
-        if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
-        return;
-    }
-    
-    let domain = providedDomain;
-    if (!domain && websiteUrl) {
-        try { domain = new URL(websiteUrl).hostname.replace(/^www\./i, ''); } catch(e){}
-    }
-    
-    if (!domain) {
-        img.style.display = 'none';
-        if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
-        return;
-    }
+		// Si no se especificó extensión, intentamos con .png si .svg falló
+		if (!hasExt && state === 0) {
+			img.dataset.fallbackState = '1';
+			img.src = `/brand/logo/apps/${providedDomain}.png`;
+			return;
+		}
 
-    const state = parseInt(img.dataset.fallbackState || '0', 10);
-    
-    // Obtener las llaves del servidor (si están configuradas)
-    const bfKey = window.serverConfig?.brandfetchApiKey ? `?c=${window.serverConfig.brandfetchApiKey}` : '';
-    const biKey = window.serverConfig?.brandiconsApiKey ? `?key=${window.serverConfig.brandiconsApiKey}` : '';
-    const npKey = window.serverConfig?.ninjapearApiKey ? `?key=${window.serverConfig.ninjapearApiKey}` : '';
-    
-    if (state === 0) {
-        img.dataset.fallbackState = '1';
-        img.src = `https://asset.brandfetch.io/${domain}${bfKey}`;
-    } else if (state === 1) {
-        img.dataset.fallbackState = '2';
-        img.src = `https://cdn.brandicons.dev/icons/${domain}${biKey}`;
-    } else if (state === 2) {
-        img.dataset.fallbackState = '3';
-        img.src = `https://logo.ninjapear.com/${domain}${npKey}`;
-    } else {
-        img.style.display = 'none';
-        if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
-    }
+		img.style.display = 'none';
+		if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
+		return;
+	}
+
+	if (provider) {
+		img.style.display = 'none';
+		if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
+		return;
+	}
+
+	let domain = providedDomain;
+	if (!domain && websiteUrl) {
+		try {
+			domain = new URL(websiteUrl).hostname.replace(/^www\./i, '');
+		} catch (e) {}
+	}
+
+	if (!domain) {
+		img.style.display = 'none';
+		if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
+		return;
+	}
+
+	const state = parseInt(img.dataset.fallbackState || '0', 10);
+
+	// Obtener las llaves del servidor (si están configuradas)
+	const bfKey = window.serverConfig?.brandfetchApiKey
+		? `?c=${window.serverConfig.brandfetchApiKey}`
+		: '';
+	const biKey = window.serverConfig?.brandiconsApiKey
+		? `?key=${window.serverConfig.brandiconsApiKey}`
+		: '';
+	const npKey = window.serverConfig?.ninjapearApiKey
+		? `?key=${window.serverConfig.ninjapearApiKey}`
+		: '';
+
+	if (state === 0) {
+		img.dataset.fallbackState = '1';
+		img.src = `https://asset.brandfetch.io/${domain}${bfKey}`;
+	} else if (state === 1) {
+		img.dataset.fallbackState = '2';
+		img.src = `https://cdn.brandicons.dev/icons/${domain}${biKey}`;
+	} else if (state === 2) {
+		img.dataset.fallbackState = '3';
+		img.src = `https://logo.ninjapear.com/${domain}${npKey}`;
+	} else {
+		img.style.display = 'none';
+		if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
+	}
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -439,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					const saveRes = await fetch('/api/save-report', {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify(data)
+						body: JSON.stringify(data),
 					});
 					const saveJson = await saveRes.json();
 					if (saveJson.success && saveJson.reportId) {
@@ -633,7 +641,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		if (data.screenshots?.desktop || data.screenshots?.mobile) {
 			if (headerPreviewsContainer) headerPreviewsContainer.style.display = 'flex';
-			
+
 			const desktopMockup = document.querySelector('.desktop-mockup-mini');
 			if (data.screenshots?.desktop) {
 				if (screenshotDesktopImg) screenshotDesktopImg.src = data.screenshots.desktop;
@@ -823,7 +831,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		} else {
 			if (detectedTechName) {
-				detectedTechName.innerHTML = '¿Tu CMS no se detecta? <span style="font-size:0.6em; opacity:0.9; font-weight:normal; display:block; margin-top:5px;">Solicita que se añada a la lista</span>';
+				detectedTechName.innerHTML =
+					'¿Tu CMS no se detecta? <span style="font-size:0.6em; opacity:0.9; font-weight:normal; display:block; margin-top:5px;">Solicita que se añada a la lista</span>';
 			}
 			if (detectedThemeContainer) detectedThemeContainer.style.display = 'none';
 			if (resultStatusLabel) {
@@ -1289,12 +1298,19 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		}
 
-		const bfKey = window.serverConfig?.brandfetchApiKey ? `?c=${window.serverConfig.brandfetchApiKey}` : '';
-		const biKey = window.serverConfig?.brandiconsApiKey ? `?key=${window.serverConfig.brandiconsApiKey}` : '';
-		const npKey = window.serverConfig?.ninjapearApiKey ? `?key=${window.serverConfig.ninjapearApiKey}` : '';
+		const bfKey = window.serverConfig?.brandfetchApiKey
+			? `?c=${window.serverConfig.brandfetchApiKey}`
+			: '';
+		const biKey = window.serverConfig?.brandiconsApiKey
+			? `?key=${window.serverConfig.brandiconsApiKey}`
+			: '';
+		const npKey = window.serverConfig?.ninjapearApiKey
+			? `?key=${window.serverConfig.ninjapearApiKey}`
+			: '';
 
 		if (provider === 'brandfetch' && domain) return `https://asset.brandfetch.io/${domain}${bfKey}`;
-		if (provider === 'brandicons' && domain) return `https://cdn.brandicons.dev/icons/${domain}${biKey}`;
+		if (provider === 'brandicons' && domain)
+			return `https://cdn.brandicons.dev/icons/${domain}${biKey}`;
 		if (provider === 'ninjapear' && domain) return `https://logo.ninjapear.com/${domain}${npKey}`;
 		if (provider === 'local' && domain) {
 			const hasExt = /\.(svg|png|jpg|jpeg|gif)$/i.test(domain);
@@ -1554,17 +1570,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	if (copyLinkBtn) {
 		copyLinkBtn.addEventListener('click', () => {
-			navigator.clipboard.writeText(window.location.href).then(() => {
-				const originalText = copyLinkBtn.innerHTML;
-				copyLinkBtn.innerHTML = '<i data-lucide="check" style="width:15px;height:15px;color:#10b981;"></i> ¡Copiado!';
-				lucide.createIcons();
-				setTimeout(() => {
-					copyLinkBtn.innerHTML = originalText;
+			navigator.clipboard
+				.writeText(window.location.href)
+				.then(() => {
+					const originalText = copyLinkBtn.innerHTML;
+					copyLinkBtn.innerHTML =
+						'<i data-lucide="check" style="width:15px;height:15px;color:#10b981;"></i> ¡Copiado!';
 					lucide.createIcons();
-				}, 2000);
-			}).catch(err => {
-				console.error('Error al copiar el enlace: ', err);
-			});
+					setTimeout(() => {
+						copyLinkBtn.innerHTML = originalText;
+						lucide.createIcons();
+					}, 2000);
+				})
+				.catch((err) => {
+					console.error('Error al copiar el enlace: ', err);
+				});
 		});
 	}
 
@@ -1776,15 +1796,15 @@ document.addEventListener('DOMContentLoaded', () => {
 	if (queryReport) {
 		// Load existing report
 		fetch(`/reports/${queryReport}.json`)
-			.then(r => {
+			.then((r) => {
 				if (!r.ok) throw new Error('Reporte no encontrado');
 				return r.json();
 			})
-			.then(data => {
+			.then((data) => {
 				if (targetUrlInput) targetUrlInput.value = data.resolvedUrl || data.url || '';
 				renderResults(data);
 			})
-			.catch(err => {
+			.catch((err) => {
 				console.error(err);
 				alert('El reporte compartido no existe o expiró.');
 			});

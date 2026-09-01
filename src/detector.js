@@ -1,6 +1,12 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
-import { getAppRules, getCmsRules, getGatewayRules, getInfraRules, getPixelRules } from './techRulesLoader.js';
+import {
+	getAppRules,
+	getCmsRules,
+	getGatewayRules,
+	getInfraRules,
+	getPixelRules,
+} from './techRulesLoader.js';
 
 /**
  * Normalizes a input URL string to include protocol
@@ -454,7 +460,7 @@ export function analyze(html, headers) {
 					developer: app.developer || app.name,
 					compatibleCMS: app.compatibleCMS || [],
 					web: app.web || '',
-					appStores: (app.appStores || []).map(store => {
+					appStores: (app.appStores || []).map((store) => {
 						if (store.cms === 'Shopify' && store.link && !store.link.startsWith('http')) {
 							return { ...store, link: `https://apps.shopify.com/${store.link}` };
 						}
