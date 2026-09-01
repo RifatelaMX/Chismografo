@@ -1,3 +1,10 @@
+## [1.6.0](https://github.com/RifatelaMX/Chismografo/compare/v1.5.0...v1.6.0) (2026-09-01)
+
+### ✨ Nuevas Características
+
+* add configuration files for nine new technology detection apps ([02baee5](https://github.com/RifatelaMX/Chismografo/commit/02baee53e27ee10bafd0e107f6e7ffd8333e3041))
+* add support for pixel categories and implement GitHub PR submission for new tool definitions with improved logo handling logic. ([8aee3c5](https://github.com/RifatelaMX/Chismografo/commit/8aee3c59c3c270712087100ab9a950c449595868))
+
 ## [1.5.0](https://github.com/RifatelaMX/Chismografo/compare/v1.4.1...v1.5.0) (2026-09-01)
 
 ### ✨ Nuevas Características
