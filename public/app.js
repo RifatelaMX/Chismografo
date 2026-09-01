@@ -1271,43 +1271,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			.replace(/'/g, '&#039;');
 	}
 
-	// Helper to extract domain and build Logo.dev / Google Favicon logo URL
-	function getTechIconUrl(tech) {
-		let domain = '';
-		let provider = '';
-
-		if (tech.logo && typeof tech.logo === 'object') {
-			domain = tech.logo.id;
-			provider = tech.logo.provider;
-		} else if (tech.logo) {
-			domain = tech.logo;
-		}
-
-		if (domain && domain.startsWith('http')) {
-			return domain;
-		}
-		if (typeof tech.logo === 'string' && tech.logo.startsWith('http')) {
-			return tech.logo;
-		}
-
-		if (tech.shopifyAppIcon) {
-			return tech.shopifyAppIcon;
-		}
-
-		if (!domain) {
-			// Extract domain from link
-			if (tech.link) {
-				try {
-					domain = new URL(tech.link).hostname.replace(/^www\./i, '');
-				} catch (_e) {}
-			}
-			if (!domain && tech.website) {
-				try {
-					domain = new URL(tech.website).hostname.replace(/^www\./i, '');
-				} catch (_e) {}
-			}
-		}
-
+	// Helper to extract domain and build logo URL for all providers
 	function getTechIconUrl(tech) {
 		let domain = '';
 		let provider = '';
