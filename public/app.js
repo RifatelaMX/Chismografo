@@ -1,31 +1,21 @@
 window.handleLogoError = (img, providedDomain, websiteUrl, provider) => {
+	let domain = providedDomain;
+	if (!domain && websiteUrl) {
+		try {
+			domain = new URL(websiteUrl).hostname.replace(/^www\./i, '');
+		} catch (_e) {}
+	}
+
+	const state = Number.parseInt(img.dataset.fallbackState || '0', 10);
+
+	// Si es proveedor local y falló .svg, intentar con .png
 	if (provider === 'local') {
 		const hasExt = /\.(svg|png|jpg|jpeg|gif)$/i.test(providedDomain);
-		const state = parseInt(img.dataset.fallbackState || '0', 10);
-
-		// Si no se especificó extensión, intentamos con .png si .svg falló
 		if (!hasExt && state === 0) {
 			img.dataset.fallbackState = '1';
 			img.src = `/brand/logo/apps/${providedDomain}.png`;
 			return;
 		}
-
-		img.style.display = 'none';
-		if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
-		return;
-	}
-
-	if (provider) {
-		img.style.display = 'none';
-		if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
-		return;
-	}
-
-	let domain = providedDomain;
-	if (!domain && websiteUrl) {
-		try {
-			domain = new URL(websiteUrl).hostname.replace(/^www\./i, '');
-		} catch (e) {}
 	}
 
 	if (!domain) {
@@ -34,29 +24,24 @@ window.handleLogoError = (img, providedDomain, websiteUrl, provider) => {
 		return;
 	}
 
-	const state = parseInt(img.dataset.fallbackState || '0', 10);
-
-	// Obtener las llaves del servidor (si están configuradas)
-	const bfKey = window.serverConfig?.brandfetchApiKey
-		? `?c=${window.serverConfig.brandfetchApiKey}`
-		: '';
-	const biKey = window.serverConfig?.brandiconsApiKey
-		? `?key=${window.serverConfig.brandiconsApiKey}`
-		: '';
-	const npKey = window.serverConfig?.ninjapearApiKey
-		? `?key=${window.serverConfig.ninjapearApiKey}`
-		: '';
-
+	// Cadena robusta de resolución de logos
 	if (state === 0) {
 		img.dataset.fallbackState = '1';
-		img.src = `https://asset.brandfetch.io/${domain}${bfKey}`;
+		// 1. Google Favicons (Alta disponibilidad global, 64px)
+		img.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
 	} else if (state === 1) {
 		img.dataset.fallbackState = '2';
-		img.src = `https://cdn.brandicons.dev/icons/${domain}${biKey}`;
+		// 2. DuckDuckGo Favicon Service
+		img.src = `https://icons.duckduckgo.com/ip3/${domain}.ico`;
 	} else if (state === 2) {
 		img.dataset.fallbackState = '3';
-		img.src = `https://logo.ninjapear.com/${domain}${npKey}`;
+		// 3. Brandfetch / Brandicons (si están configurados)
+		const bfKey = window.serverConfig?.brandfetchApiKey
+			? `?c=${window.serverConfig.brandfetchApiKey}`
+			: '';
+		img.src = `https://asset.brandfetch.io/${domain}${bfKey}`;
 	} else {
+		// Todas las fuentes externas agotadas -> mostrar inicial con diseño
 		img.style.display = 'none';
 		if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
 	}
@@ -1131,9 +1116,10 @@ document.addEventListener('DOMContentLoaded', () => {
 					}
 
 					const iconUrl = getTechIconUrl(tech);
-					const initial = tech.name.charAt(0).toUpperCase();
+					const initial = (tech.name || '').trim().charAt(0).toUpperCase() || '?';
+					const techWebsite = tech.web || tech.website || tech.link || '';
 					const iconHtml = iconUrl
-						? `<img src="${iconUrl}" class="tech-icon-img" onerror="window.handleLogoError(this, '${domain || ''}', '${tech.website || tech.link || ''}', '${provider || ''}')" />`
+						? `<img src="${iconUrl}" class="tech-icon-img" onerror="window.handleLogoError(this, '${domain || ''}', '${techWebsite}', '${provider || ''}')" />`
 						: '';
 					const displayStyle = iconUrl ? 'display: none;' : 'display: flex;';
 
