@@ -1118,9 +1118,15 @@ document.addEventListener('DOMContentLoaded', () => {
 						domain = tech.logo;
 					}
 
+					const techWebsite = tech.web || tech.website || tech.link || '';
+					if (!domain && techWebsite) {
+						try {
+							domain = new URL(techWebsite).hostname.replace(/^www\./i, '');
+						} catch (_e) {}
+					}
+
 					const iconUrl = getTechIconUrl(tech);
 					const initial = (tech.name || '').trim().charAt(0).toUpperCase() || '?';
-					const techWebsite = tech.web || tech.website || tech.link || '';
 					const iconHtml = iconUrl
 						? `<img src="${iconUrl}" class="tech-icon-img" onerror="window.handleLogoError(this, '${domain || ''}', '${techWebsite}', '${provider || ''}')" />`
 						: '';
