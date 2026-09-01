@@ -436,6 +436,9 @@ app.get('/api/config', (_req, res) => {
 
 	res.json({
 		logoDevToken: process.env.LOGODEV_PUBLISHABLE_KEY || '',
+		brandfetchApiKey: process.env.BRANDFETCH_API_KEY || '',
+		brandiconsApiKey: process.env.BRANDICONS_API_KEY || '',
+		ninjapearApiKey: process.env.NINJAPEAR_API_KEY || '',
 		appUrl: process.env.APP_URL || '',
 		emailEnabled:
 			!!(

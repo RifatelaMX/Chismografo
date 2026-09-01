@@ -135,10 +135,10 @@
             
             <div class="presets-container">
               <span style="font-size: 0.8rem; font-weight: 700; color: var(--ink-medium);">Plantillas rápidas:</span>
-              <button class="preset-chip" onclick="loadPreset('shopify')">🛍️ Shopify</button>
-              <button class="preset-chip" onclick="loadPreset('woocommerce')">🛒 WooCommerce</button>
-              <button class="preset-chip" onclick="loadPreset('paypal')">💳 PayPal</button>
-              <button class="preset-chip" onclick="loadPreset('express')">🚀 Express Header</button>
+              <button class="preset-chip" onclick="loadPreset('cms')">🛍️ CMS / E-Commerce</button>
+              <button class="preset-chip" onclick="loadPreset('apps')">🧩 App / Plugin</button>
+              <button class="preset-chip" onclick="loadPreset('gateways')">💳 Pasarela de Pago</button>
+              <button class="preset-chip" onclick="loadPreset('infra')">🚀 Infraestructura</button>
             </div>
           </div>
 
@@ -174,8 +174,16 @@
             <div>
               <h3>📋 Reglas de Coincidencia (<code>detectionRules</code>)</h3>
               <p class="section-desc">Define qué patrones Regex buscar en meta tags, scripts, cabeceras o DOM.</p>
+              
+              <div style="margin-top: 1rem; display: inline-flex; align-items: center; gap: 0.5rem; background: var(--surface-2); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--paper-lines);">
+                <label style="cursor: pointer; display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: var(--ink-dark);">
+                  <input type="checkbox" id="global-nocode-toggle" checked onchange="toggleGlobalNoCode(this.checked)">
+                  ✨ Modo No-Code (Fácil)
+                </label>
+                <span style="font-size: 0.8rem; color: var(--ink-medium);">(Desactiva para usar Regex avanzado)</span>
+              </div>
             </div>
-            <div style="display: flex; gap: 0.5rem;">
+            <div style="display: flex; gap: 0.5rem; align-items: flex-start;">
               <button class="btn-secondary small-btn" onclick="addRule()">
                 <i data-lucide="plus"></i> ➕ Agregar Regla
               </button>
@@ -535,6 +543,7 @@ chismografo add-infra</code></pre>
   <script>
     // State management
     const state = {
+      isGlobalNoCode: true,
       name: "Shopify",
       category: "cms",
       web: "https://www.shopify.com",
@@ -571,46 +580,46 @@ chismografo add-infra</code></pre>
 
     // Presets catalog
     const PRESETS = {
-      shopify: {
-        name: "Shopify",
+      cms: {
+        name: "Nombre del CMS",
         category: "cms",
-        web: "https://www.shopify.com",
-        logo: "shopify.com",
+        web: "https://ejemplo.com",
+        logo: "ejemplo.com",
         rules: [
-          { type: "meta", key: "generator", pattern: "shopify", description: "Meta generator tag Shopify", weight: 1.0 },
-          { type: "script-src", pattern: "cdn\\.shopify\\.com", description: "Scripts desde CDN Shopify", weight: 0.9 },
-          { type: "link-href", pattern: "cdn\\.shopify\\.com", description: "Estilos CSS desde CDN Shopify", weight: 0.9 },
-          { type: "script-content", pattern: "window\\.Shopify\\b|Shopify\\.theme\\b", description: "Objeto JS Shopify global", weight: 0.95 }
+          { type: "meta", key: "generator", pattern: "ejemplo", description: "Meta generator tag", weight: 1.0, isNoCode: true, noCodeCondition: "contains", noCodeValue: "ejemplo" },
+          { type: "script-src", pattern: "cdn\\.ejemplo\\.com", description: "Scripts desde CDN", weight: 0.9, isNoCode: false },
+          { type: "link-href", pattern: "ejemplo-theme", description: "Estilos CSS del CMS", weight: 0.9, isNoCode: true, noCodeCondition: "contains", noCodeValue: "ejemplo-theme" },
+          { type: "html-class", pattern: "ejemplo-page", description: "Clase CSS global", weight: 0.8, isNoCode: true, noCodeCondition: "contains", noCodeValue: "ejemplo-page" }
         ]
       },
-      woocommerce: {
-        name: "WooCommerce",
-        category: "cms",
-        web: "https://woocommerce.com",
-        logo: "woocommerce.com",
+      apps: {
+        name: "Nombre de la App",
+        category: "apps",
+        web: "https://app.com",
+        logo: "app.com",
         rules: [
-          { type: "script-src", pattern: "woocommerce(?:\\.min)?\\.js", description: "Script principal de WooCommerce", weight: 0.9 },
-          { type: "link-href", pattern: "woocommerce-inline-css|woocommerce-layout", description: "CSS de WooCommerce", weight: 0.8 },
-          { type: "html-class", pattern: "woocommerce|woocommerce-page|woocommerce-cart", description: "Clase CSS en el body o HTML", weight: 0.7 }
+          { type: "script-src", pattern: "widget\\.app\\.com", description: "Script del widget", weight: 0.95, isNoCode: false },
+          { type: "html-attribute", attribute: "data-app-id", pattern: ".*", description: "Atributo de datos de la app", weight: 1.0, isNoCode: false }
         ]
       },
-      paypal: {
-        name: "PayPal Gateway",
+      gateways: {
+        name: "Pasarela de Pago",
         category: "gateways",
-        web: "https://www.paypal.com",
-        logo: "paypal.com",
+        web: "https://pago.com",
+        logo: "pago.com",
         rules: [
-          { type: "script-src", pattern: "paypalobjects\\.com|sdk/js\\?client-id=", description: "SDK JavaScript de PayPal", weight: 0.95 },
-          { type: "html-attribute", attribute: "action", pattern: "paypal\\.com/cgi-bin/webscr", description: "Formulario que envía pagos a PayPal", weight: 0.9 }
+          { type: "script-src", pattern: "js\\.pago\\.com|sdk/pago", description: "SDK JavaScript de la pasarela", weight: 0.95, isNoCode: false },
+          { type: "html-attribute", attribute: "action", pattern: "pago\\.com/checkout", description: "Formulario de pago", weight: 0.9, isNoCode: false }
         ]
       },
-      express: {
-        name: "Express.js",
+      infra: {
+        name: "Infraestructura (CDN/Server)",
         category: "infra",
-        web: "https://expressjs.com",
-        logo: "expressjs.com",
+        web: "https://infra.com",
+        logo: "infra.com",
         rules: [
-          { type: "header", key: "x-powered-by", pattern: "^Express$", description: "Cabecera X-Powered-By Express", weight: 1.0 }
+          { type: "header", key: "server", pattern: "Nginx|Cloudflare", description: "Cabecera de servidor", weight: 1.0, isNoCode: false },
+          { type: "header", key: "x-powered-by", pattern: "Express|PHP", description: "Tecnología backend", weight: 1.0, isNoCode: false }
         ]
       }
     };
@@ -672,6 +681,16 @@ chismografo add-infra</code></pre>
         regexErrorMsg = `⚠️ Error Regex: ${err.message}`;
       }
 
+      const ruleTypeHelp = {
+        "meta": "Busca en la información oculta de la página (ideal para encontrar etiquetas 'generator' o 'author').",
+        "script-src": "Busca en las direcciones de archivos externos (ideal para rastrear CDNs o servicios externos).",
+        "script-content": "Busca en el código dentro de la página (ideal para encontrar variables o funciones específicas).",
+        "link-href": "Busca en las direcciones de estilos o fuentes (ideal para temas o frameworks de diseño).",
+        "html-class": "Busca en los nombres de diseño visual de la página (clases de CSS).",
+        "html-attribute": "Busca en atributos específicos de los elementos (como 'data-id' o 'action' de un formulario).",
+        "header": "Busca en la respuesta HTTP del servidor (ideal para detectar tecnologías backend como Express o PHP)."
+      };
+
       card.innerHTML = `
         <div class="rule-card-header">
           <div class="rule-card-title">
@@ -679,7 +698,7 @@ chismografo add-infra</code></pre>
             <span class="rule-type-badge">${rule.type}</span>
             ${regexErrorMsg ? `<span style="font-size:0.75rem; color:var(--gel-red); font-weight:bold;">${regexErrorMsg}</span>` : ""}
           </div>
-          <div class="rule-actions">
+          <div class="rule-actions" style="display: flex; align-items: center; gap: 0.5rem;">
             <button class="icon-btn" title="Mover arriba" onclick="moveRule(${idx}, -1)" ${idx === 0 ? "disabled" : ""}>
               <i data-lucide="arrow-up" style="width:16px;height:16px;"></i>
             </button>
@@ -697,47 +716,65 @@ chismografo add-infra</code></pre>
 
         <div class="rule-inputs-grid">
           <div class="form-group-sm">
-            <label>Tipo de Regla (type)</label>
+            <label style="display: flex; align-items: center; gap: 0.25rem;">
+              Tipo de Regla
+              <span title="${ruleTypeHelp[rule.type]}" style="cursor: help; color: var(--gel-blue);"><i data-lucide="help-circle" style="width: 14px; height: 14px;"></i></span>
+            </label>
             <select onchange="updateRuleField(${idx}, 'type', this.value)">
-              <option value="meta" ${rule.type === "meta" ? "selected" : ""}>meta (etiqueta HTML)</option>
-              <option value="script-src" ${rule.type === "script-src" ? "selected" : ""}>script-src (URL de script)</option>
-              <option value="script-content" ${rule.type === "script-content" ? "selected" : ""}>script-content (código inline)</option>
-              <option value="link-href" ${rule.type === "link-href" ? "selected" : ""}>link-href (CSS / link)</option>
-              <option value="html-class" ${rule.type === "html-class" ? "selected" : ""}>html-class (clases DOM)</option>
-              <option value="html-attribute" ${rule.type === "html-attribute" ? "selected" : ""}>html-attribute (atributo DOM)</option>
-              <option value="header" ${rule.type === "header" ? "selected" : ""}>header (cabecera HTTP)</option>
+              <option value="meta" ${rule.type === "meta" ? "selected" : ""}>Información oculta (meta)</option>
+              <option value="script-src" ${rule.type === "script-src" ? "selected" : ""}>Archivos de código (script-src)</option>
+              <option value="script-content" ${rule.type === "script-content" ? "selected" : ""}>Código interno (script-content)</option>
+              <option value="link-href" ${rule.type === "link-href" ? "selected" : ""}>Estilos externos (link-href)</option>
+              <option value="html-class" ${rule.type === "html-class" ? "selected" : ""}>Nombres de diseño (html-class)</option>
+              <option value="html-attribute" ${rule.type === "html-attribute" ? "selected" : ""}>Atributos de elementos (html-attribute)</option>
+              <option value="header" ${rule.type === "header" ? "selected" : ""}>Respuesta del servidor (header)</option>
             </select>
           </div>
 
           ${requiresKey ? `
             <div class="form-group-sm">
-              <label>Clave (key) <span style="color:var(--gel-red)">*</span></label>
+              <label>Clave a buscar <span style="color:var(--gel-red)">*</span></label>
               <input type="text" class="code-input" value="${escapeHtml(rule.key || "")}" placeholder="${rule.type === 'meta' ? 'generator' : 'x-powered-by'}" oninput="updateRuleField(${idx}, 'key', this.value)">
             </div>
           ` : ""}
 
           ${requiresAttr ? `
             <div class="form-group-sm">
-              <label>Atributo (attribute) <span style="color:var(--gel-red)">*</span></label>
+              <label>Atributo a buscar <span style="color:var(--gel-red)">*</span></label>
               <input type="text" class="code-input" value="${escapeHtml(rule.attribute || "")}" placeholder="data-store-id" oninput="updateRuleField(${idx}, 'attribute', this.value)">
             </div>
           ` : ""}
 
-          <div class="form-group-sm" style="grid-column: span 2;">
-            <label>Patrón Regex (pattern) <span style="color:var(--gel-red)">*</span></label>
-            <input type="text" class="code-input" value="${escapeHtml(rule.pattern || "")}" placeholder="cdn\\.shopify\\.com" oninput="updateRuleField(${idx}, 'pattern', this.value)">
-            
-            <div class="regex-chips-row">
-              <span style="font-size:0.7rem; color:var(--ink-medium); align-self:center;">Atajos:</span>
-              <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '\\\\.com')">\\.com</button>
-              <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '\\\\b')">\\b</button>
-              <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '^\\\\d+$')">^\\d+$</button>
-              <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '/cart/add')">/cart/add</button>
+          ${state.isGlobalNoCode ? `
+            <div class="form-group-sm" style="grid-column: span 2;">
+              <label>Condición y Valor <span style="color:var(--gel-red)">*</span></label>
+              <div style="display: flex; gap: 0.5rem;">
+                <select style="flex: 1;" onchange="updateRuleField(${idx}, 'noCodeCondition', this.value)">
+                  <option value="contains" ${rule.noCodeCondition === 'contains' ? 'selected' : ''}>Contiene</option>
+                  <option value="exact" ${rule.noCodeCondition === 'exact' ? 'selected' : ''}>Exactamente</option>
+                  <option value="starts" ${rule.noCodeCondition === 'starts' ? 'selected' : ''}>Empieza con</option>
+                  <option value="ends" ${rule.noCodeCondition === 'ends' ? 'selected' : ''}>Termina con</option>
+                </select>
+                <input type="text" style="flex: 2;" value="${escapeHtml(rule.noCodeValue || "")}" placeholder="ej. shopify" oninput="updateRuleField(${idx}, 'noCodeValue', this.value)">
+              </div>
             </div>
-          </div>
+          ` : `
+            <div class="form-group-sm" style="grid-column: span 2;">
+              <label>Patrón Regex (Avanzado) <span style="color:var(--gel-red)">*</span></label>
+              <input type="text" class="code-input" value="${escapeHtml(rule.pattern || "")}" placeholder="cdn\\.shopify\\.com" oninput="updateRuleField(${idx}, 'pattern', this.value)">
+              
+              <div class="regex-chips-row">
+                <span style="font-size:0.7rem; color:var(--ink-medium); align-self:center;">Atajos:</span>
+                <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '\\\\.com')">\\.com</button>
+                <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '\\\\b')">\\b</button>
+                <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '^\\\\d+$')">^\\d+$</button>
+                <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '/cart/add')">/cart/add</button>
+              </div>
+            </div>
+          `}
 
           <div class="form-group-sm">
-            <label>Peso / Confianza (weight: ${rule.weight ?? 0.5})</label>
+            <label>Nivel de Seguridad (weight: ${rule.weight ?? 0.5})</label>
             <div class="weight-control">
               <input type="range" min="0.1" max="1.0" step="0.05" value="${rule.weight ?? 0.5}" oninput="updateRuleField(${idx}, 'weight', parseFloat(this.value))">
               <span class="weight-val-badge">${(rule.weight ?? 0.5).toFixed(2)}</span>
@@ -745,8 +782,8 @@ chismografo add-infra</code></pre>
           </div>
 
           <div class="form-group-sm" style="grid-column: span 2;">
-            <label>Descripción / Comentario (description)</label>
-            <input type="text" value="${escapeHtml(rule.description || "")}" placeholder="Explica qué detecta esta regla..." oninput="updateRuleField(${idx}, 'description', this.value)">
+            <label>¿Para qué sirve esta regla? (Descripción)</label>
+            <input type="text" value="${escapeHtml(rule.description || "")}" placeholder="Explica brevemente qué estamos detectando..." oninput="updateRuleField(${idx}, 'description', this.value)">
           </div>
         </div>
       `;
@@ -765,12 +802,38 @@ chismografo add-infra</code></pre>
       updateJSONPreview();
     }
 
+    function escapeRegExp(string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+    }
+
+    function toggleGlobalNoCode(isNoCode) {
+      state.isGlobalNoCode = isNoCode;
+      renderStudio();
+    }
+
     function updateRuleField(idx, field, value) {
       state.rules[idx][field] = value;
-      // If type changed, re-render to update key/attribute requirement fields
+      
+      const r = state.rules[idx];
+      
+      if (state.isGlobalNoCode) {
+        if (field === 'noCodeCondition' || field === 'noCodeValue') {
+          const val = r.noCodeValue || "";
+          const escaped = escapeRegExp(val);
+          switch(r.noCodeCondition) {
+            case 'contains': r.pattern = escaped; break;
+            case 'exact': r.pattern = `^${escaped}$`; break;
+            case 'starts': r.pattern = `^${escaped}`; break;
+            case 'ends': r.pattern = `${escaped}$`; break;
+            default: r.pattern = escaped;
+          }
+        }
+      }
+
+      // If type changed, re-render
       if (field === "type") {
-        if (value !== "meta" && value !== "header") delete state.rules[idx].key;
-        if (value !== "html-attribute") delete state.rules[idx].attribute;
+        if (value !== "meta" && value !== "header") delete r.key;
+        if (value !== "html-attribute") delete r.attribute;
         renderStudio();
       } else {
         updateJSONPreview();
@@ -788,7 +851,10 @@ chismografo add-infra</code></pre>
         type: "script-src",
         pattern: "ejemplo\\.com",
         description: "Nueva regla de detección",
-        weight: 0.5
+        weight: 0.5,
+        isNoCode: true,
+        noCodeCondition: "contains",
+        noCodeValue: "ejemplo.com"
       });
       renderStudio();
     }
@@ -842,6 +908,7 @@ chismografo add-infra</code></pre>
 
       const fullSignature = {
         name: state.name || "Sin Nombre",
+        category: state.category || "",
         web: state.web || "",
         logo: state.logo || "",
         detectionRules: cleanRules

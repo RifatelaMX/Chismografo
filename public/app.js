@@ -1,3 +1,37 @@
+window.handleLogoError = function(img, providedDomain, websiteUrl) {
+    let domain = providedDomain;
+    if (!domain && websiteUrl) {
+        try { domain = new URL(websiteUrl).hostname.replace(/^www\./i, ''); } catch(e){}
+    }
+    
+    if (!domain) {
+        img.style.display = 'none';
+        if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
+        return;
+    }
+
+    const state = parseInt(img.dataset.fallbackState || '0', 10);
+    
+    // Obtener las llaves del servidor (si están configuradas)
+    const bfKey = window.serverConfig?.brandfetchApiKey ? `?c=${window.serverConfig.brandfetchApiKey}` : '';
+    const biKey = window.serverConfig?.brandiconsApiKey ? `?key=${window.serverConfig.brandiconsApiKey}` : '';
+    const npKey = window.serverConfig?.ninjapearApiKey ? `?key=${window.serverConfig.ninjapearApiKey}` : '';
+    
+    if (state === 0) {
+        img.dataset.fallbackState = '1';
+        img.src = `https://asset.brandfetch.io/${domain}${bfKey}`;
+    } else if (state === 1) {
+        img.dataset.fallbackState = '2';
+        img.src = `https://cdn.brandicons.dev/icons/${domain}${biKey}`;
+    } else if (state === 2) {
+        img.dataset.fallbackState = '3';
+        img.src = `https://logo.ninjapear.com/${domain}${npKey}`;
+    } else {
+        img.style.display = 'none';
+        if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
+    }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
 	// Initialize Lucide Icons
 	lucide.createIcons();
@@ -116,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			const res = await fetch('/api/config');
 			const data = await res.json();
 			serverConfig = data;
+			window.serverConfig = data; // Export global para handleLogoError
 
 			// Update placeholders on banner inputs if set on server
 			if (serverConfig.builtwith) {
@@ -654,8 +689,8 @@ document.addEventListener('DOMContentLoaded', () => {
 							zoomControl: true,
 							scrollWheelZoom: false,
 						});
-						L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-							attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+						L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+							attribution: '&copy; OpenStreetMap contributors',
 						}).addTo(serverMapObj);
 					}
 
@@ -752,7 +787,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (techIconContainer) {
 				if (cmsDom) {
 					techIconContainer.innerHTML = `
-            <img src="https://img.logo.dev/${cmsDom}?token=${logoToken}" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <img src="https://img.logo.dev/${cmsDom}?token=${logoToken}" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;" onerror="window.handleLogoError(this, '${cmsDom}')" />
             <i data-lucide="${iconName}" style="display:none; width: 24px; height: 24px;"></i>
           `;
 					techIconContainer.style.background = 'transparent';
@@ -1058,7 +1093,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					const iconUrl = getTechIconUrl(tech);
 					const initial = tech.name.charAt(0).toUpperCase();
 					const iconHtml = iconUrl
-						? `<img src="${iconUrl}" class="tech-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />`
+						? `<img src="${iconUrl}" class="tech-icon-img" onerror="window.handleLogoError(this, '${tech.logo || ''}', '${tech.website || tech.link || ''}')" />`
 						: '';
 					const displayStyle = iconUrl ? 'display: none;' : 'display: flex;';
 
@@ -1146,7 +1181,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 				let logoHtml = '';
 				if (domain) {
-					logoHtml = `<img src="https://img.logo.dev/${domain}?token=${logoToken}" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />`;
+					logoHtml = `<img src="https://img.logo.dev/${domain}?token=${logoToken}" style="width: 100%; height: 100%; object-fit: contain;" onerror="window.handleLogoError(this, '${domain}')" />`;
 				}
 
 				card.innerHTML = `
@@ -1449,6 +1484,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const downloadJsonBtn = document.getElementById('download-json-btn');
 	const downloadCsvBtn = document.getElementById('download-csv-btn');
 	const copyLinkBtn = document.getElementById('copy-link-btn');
+	const downloadPdfBtn = document.getElementById('download-pdf-btn');
 
 	function downloadFile(content, fileName, contentType) {
 		const a = document.createElement('a');

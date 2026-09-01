@@ -147,6 +147,20 @@
                   Copiar Enlace 🔗
                 </button>
 
+                <!-- Download PDF Button -->
+                <button type="button" id="download-pdf-btn"
+                  style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 99, 71, 0.08); 
+                         border: 1px solid rgba(255, 99, 71, 0.35); color: #ff6347; font-size: 13px; font-weight: 600; 
+                         padding: 9px 18px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
+                         letter-spacing: 0.01em;"
+                  onmouseover="this.style.background='rgba(255, 99, 71, 0.18)'; this.style.borderColor='rgba(255, 99, 71, 0.6)'"
+                  onfocus="this.style.background='rgba(255, 99, 71, 0.18)'; this.style.borderColor='rgba(255, 99, 71, 0.6)'"
+                  onmouseout="this.style.background='rgba(255, 99, 71, 0.08)'; this.style.borderColor='rgba(255, 99, 71, 0.35)'"
+                  onblur="this.style.background='rgba(255, 99, 71, 0.08)'; this.style.borderColor='rgba(255, 99, 71, 0.35)'">
+                  <i data-lucide="file-text" style="width:15px;height:15px;"></i>
+                  Generar PDF 📄
+                </button>
+
                 <!-- Email Report Button (only visible when emailEnabled is true) -->
                 <button type="button" id="open-email-report-btn"
                   style="display: none; align-items: center; gap: 8px; background: rgba(138,43,226,0.12); 
@@ -262,33 +276,6 @@
         <div class="unified-dashboard-layout">
           <!-- Main Left Column -->
           <div class="unified-main-column">
-            <!-- Server Location Map Card -->
-            <div class="card glass-panel map-card" id="map-card" style="margin-bottom: 2rem; display: none;">
-              <div class="card-header">
-                <i data-lucide="map-pin"></i>
-                <h3>📍 ¿Desde dónde opera?</h3>
-              </div>
-              <p class="section-desc">Le rastreamos la ubicación del server y checamos qué tan rápido responde desde México 🇲🇽</p>
-              
-              <div class="map-section-wrapper" style="display: flex; flex-direction: column; gap: 1rem;">
-                <div id="server-map" style="height: 350px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.2);"></div>
-                <div class="latency-info-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                  <div class="latency-card" style="padding: 1rem; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; gap: 0.25rem;">
-                    <span style="font-size: 0.72rem; color: var(--text-dark); text-transform: uppercase;">⏱️ Latencia a México</span>
-                    <span id="mexico-latency-val" style="font-size: 1.5rem; font-weight: 700; color: var(--accent-turquoise);">0 ms</span>
-                  </div>
-                  <div class="latency-card" style="padding: 1rem; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; gap: 0.25rem;">
-                    <span style="font-size: 0.72rem; color: var(--text-dark); text-transform: uppercase;">🌐 IP del Server</span>
-                    <span id="server-ip-val" style="font-size: 1.2rem; font-weight: 600; color: white;">0.0.0.0</span>
-                  </div>
-                  <div class="latency-card" style="padding: 1rem; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; gap: 0.25rem;">
-                    <span style="font-size: 0.72rem; color: var(--text-dark); text-transform: uppercase;">🗺️ ¿Dónde está?</span>
-                    <span id="server-location-val" style="font-size: 1.2rem; font-weight: 600; color: white;">Ni idea 🤷</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <!-- PageSpeed Insights Performance Card -->
             <div class="card glass-panel pagespeed-card" id="pagespeed-card" style="margin-bottom: 2rem; display: none;">
               <div class="card-header">
@@ -414,6 +401,33 @@
               <p class="section-desc">Todas las apps y plugins que usa esta tienda, ¡las fichamos todas! 📝</p>
               <div class="tech-grid" id="unified-tech-grid">
                 <!-- Dynamically populated -->
+              </div>
+            </div>
+
+            <!-- Server Location Map Card -->
+            <div class="card glass-panel map-card" id="map-card" style="margin-top: 2rem; margin-bottom: 2rem; display: none;">
+              <div class="card-header">
+                <i data-lucide="map-pin"></i>
+                <h3>📍 ¿Desde dónde opera?</h3>
+              </div>
+              <p class="section-desc">Le rastreamos la ubicación del server y checamos qué tan rápido responde desde México 🇲🇽</p>
+              
+              <div class="map-section-wrapper" style="display: flex; flex-direction: column; gap: 1rem;">
+                <div id="server-map" style="height: 350px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.2);"></div>
+                <div class="latency-info-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                  <div class="latency-card" style="padding: 1rem; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span style="font-size: 0.72rem; color: var(--text-dark); text-transform: uppercase;">⏱️ Latencia a México</span>
+                    <span id="mexico-latency-val" style="font-size: 1.5rem; font-weight: 700; color: var(--accent-turquoise);">0 ms</span>
+                  </div>
+                  <div class="latency-card" style="padding: 1rem; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span style="font-size: 0.72rem; color: var(--text-dark); text-transform: uppercase;">🌐 IP del Server</span>
+                    <span id="server-ip-val" style="font-size: 1.2rem; font-weight: 600; color: white;">0.0.0.0</span>
+                  </div>
+                  <div class="latency-card" style="padding: 1rem; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span style="font-size: 0.72rem; color: var(--text-dark); text-transform: uppercase;">🗺️ ¿Dónde está?</span>
+                    <span id="server-location-val" style="font-size: 1.2rem; font-weight: 600; color: white;">Ni idea 🤷</span>
+                  </div>
+                </div>
               </div>
             </div>
 
