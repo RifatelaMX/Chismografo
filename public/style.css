@@ -1576,36 +1576,48 @@ body {
 }
 
 @media print {
-  /* Hide UI elements that shouldn't be printed */
-  .app-header, .search-section, .error-section, #scanning-state, #download-pdf-btn, #download-json-btn, #download-csv-btn, #copy-link-btn, #open-email-report-btn {
-    display: none !important;
-  }
-  
-  /* Reset background and colors for printing */
-  body, .app-main {
-    background: white !important;
-    color: black !important;
-  }
-  
-  .card.glass-panel {
-    background: white !important;
-    border: 1px solid #ccc !important;
-    box-shadow: none !important;
-    color: black !important;
-    break-inside: avoid;
-  }
+	/* Hide UI elements that shouldn't be printed */
+	.app-header,
+	.search-section,
+	.error-section,
+	#scanning-state,
+	#download-pdf-btn,
+	#download-json-btn,
+	#download-csv-btn,
+	#copy-link-btn,
+	#open-email-report-btn {
+		display: none !important;
+	}
 
-  .unified-dashboard-layout {
-    display: block !important;
-  }
+	/* Reset background and colors for printing */
+	body,
+	.app-main {
+		background: white !important;
+		color: black !important;
+	}
 
-  /* Ensure text is readable */
-  * {
-    color: black !important;
-    text-shadow: none !important;
-  }
-  
-  h2, h3, h4, .section-desc {
-    color: black !important;
-  }
+	.card.glass-panel {
+		background: white !important;
+		border: 1px solid #ccc !important;
+		box-shadow: none !important;
+		color: black !important;
+		break-inside: avoid;
+	}
+
+	.unified-dashboard-layout {
+		display: block !important;
+	}
+
+	/* Ensure text is readable */
+	* {
+		color: black !important;
+		text-shadow: none !important;
+	}
+
+	h2,
+	h3,
+	h4,
+	.section-desc {
+		color: black !important;
+	}
 }

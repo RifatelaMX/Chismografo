@@ -548,7 +548,9 @@ else if (command === 'check-tech') {
 			if (typeof app.category !== 'string' || !app.category) {
 				errors.push('Falta o es inválido: "category" (string)');
 			} else if (!validCategories.includes(app.category)) {
-				errors.push(`Categoría inválida: "${app.category}". Valores permitidos para ${stack}: ${validCategories.join(', ')}`);
+				errors.push(
+					`Categoría inválida: "${app.category}". Valores permitidos para ${stack}: ${validCategories.join(', ')}`
+				);
 			}
 		}
 
@@ -886,10 +888,7 @@ else if (command === 'add-pixel') {
 	const slug = toSlug(name);
 	const targetPath = path.join(techsDir, 'pixels', `${slug}.json`);
 
-	console.log(
-		'\x1b[36m%s\x1b[0m',
-		`📝 El Chismógrafo está fichando el Píxel: ${name}...`
-	);
+	console.log('\x1b[36m%s\x1b[0m', `📝 El Chismógrafo está fichando el Píxel: ${name}...`);
 
 	const templatePath = path.join(templatesDir, 'pixels.json');
 	try {
@@ -909,11 +908,7 @@ else if (command === 'add-pixel') {
 			`✓ ¡Fichado! El Chismógrafo guardó el expediente del Píxel en ${targetPath}`
 		);
 	} catch (err) {
-		console.error(
-			'\x1b[31m%s\x1b[0m',
-			'✗ ¡Chisme fallido! Error al fichar píxel:',
-			err.message
-		);
+		console.error('\x1b[31m%s\x1b[0m', '✗ ¡Chisme fallido! Error al fichar píxel:', err.message);
 		process.exit(1);
 	}
 }

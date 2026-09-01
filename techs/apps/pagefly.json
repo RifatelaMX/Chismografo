@@ -1,26 +1,24 @@
 {
-  "name": "PageFly",
-  "developer": "PageFly",
-  "category": "Constructor de Páginas",
-  "compatibleCMS": [
-    "Shopify"
-  ],
-  "web": "https://www.pagefly.com",
-  "appStores": [
-    {
-      "cms": "Shopify",
-      "link": "pagefly"
-    }
-  ],
-  "logo": {
-    "id": "pagefly.com",
-    "provider": ""
-  },
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "pagefly",
-      "description": "PageFly integration script or resource detected"
-    }
-  ]
+	"name": "PageFly",
+	"developer": "PageFly",
+	"category": "Constructor de Páginas",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.pagefly.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "pagefly"
+		}
+	],
+	"logo": {
+		"id": "pagefly.com",
+		"provider": ""
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "pagefly",
+			"description": "PageFly integration script or resource detected"
+		}
+	]
 }

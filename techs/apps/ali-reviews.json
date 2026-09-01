@@ -2,9 +2,7 @@
 	"name": "Ali Reviews",
 	"developer": "Ali Reviews",
 	"category": "Reseñas",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://kudosi.ai",
 	"appStores": [
 		{

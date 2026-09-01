@@ -1,21 +1,21 @@
 {
-  "name": "PayPal",
-  "category": "Pasarela de Pago",
-  "web": "https://paypal.com",
-  "logo": {
-    "id": "paypal.com",
-    "provider": "logodev"
-  },
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "paypal\\.com/sdk/js|checkout\\.js|paypal-objects",
-      "description": "Script de integración de PayPal detectado"
-    },
-    {
-      "type": "html",
-      "pattern": "payment_method_paypal|\\bpaypal\\b|\\bpay-pal\\b",
-      "description": "Clase o marca HTML de PayPal detectada"
-    }
-  ]
+	"name": "PayPal",
+	"category": "Pasarela de Pago",
+	"web": "https://paypal.com",
+	"logo": {
+		"id": "paypal.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "paypal\\.com/sdk/js|checkout\\.js|paypal-objects",
+			"description": "Script de integración de PayPal detectado"
+		},
+		{
+			"type": "html",
+			"pattern": "payment_method_paypal|\\bpaypal\\b|\\bpay-pal\\b",
+			"description": "Clase o marca HTML de PayPal detectada"
+		}
+	]
 }

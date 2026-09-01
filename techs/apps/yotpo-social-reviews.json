@@ -1,31 +1,25 @@
 {
-  "name": "Yotpo",
-  "developer": "Yotpo",
-  "category": "Reseñas",
-  "compatibleCMS": [
-    "Shopify",
-    "Magento",
-    "WooCommerce",
-    "PrestaShop",
-    "VTEX"
-  ],
-  "web": "https://www.yotpo.com",
-  "appStores": [
-    {
-      "cms": "Shopify",
-      "link": "yotpo-social-reviews"
-    }
-  ],
-  "logo": {
-    "id": "yotpo.com",
-    "provider": "logodev"
-  },
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "yotpo\\.js|static\\.yotpo\\.com",
-      "description": "Integración o recurso de Yotpo detectado",
-      "weight": 1
-    }
-  ]
+	"name": "Yotpo",
+	"developer": "Yotpo",
+	"category": "Reseñas",
+	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"web": "https://www.yotpo.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "yotpo-social-reviews"
+		}
+	],
+	"logo": {
+		"id": "yotpo.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "yotpo\\.js|static\\.yotpo\\.com",
+			"description": "Integración o recurso de Yotpo detectado",
+			"weight": 1
+		}
+	]
 }

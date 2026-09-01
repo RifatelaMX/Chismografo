@@ -1,21 +1,21 @@
 {
-  "name": "Conekta",
-  "category": "Pasarela de Pago",
-  "web": "https://conekta.com",
-  "logo": {
-    "id": "conekta.com",
-    "provider": "logodev"
-  },
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "conekta\\.js|cdn\\.conekta\\.io",
-      "description": "Script de integración de Conekta detectado"
-    },
-    {
-      "type": "html",
-      "pattern": "\\bconekta\\b",
-      "description": "Clase o marca HTML de Conekta detectada"
-    }
-  ]
+	"name": "Conekta",
+	"category": "Pasarela de Pago",
+	"web": "https://conekta.com",
+	"logo": {
+		"id": "conekta.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "conekta\\.js|cdn\\.conekta\\.io",
+			"description": "Script de integración de Conekta detectado"
+		},
+		{
+			"type": "html",
+			"pattern": "\\bconekta\\b",
+			"description": "Clase o marca HTML de Conekta detectada"
+		}
+	]
 }

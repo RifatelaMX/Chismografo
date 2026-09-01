@@ -1,21 +1,21 @@
 {
-  "name": "Kueski Pay",
-  "category": "Pago a Plazos (BNPL)",
-  "web": "https://kueskipay.com",
-  "logo": {
-    "id": "kueskipay.com",
-    "provider": "logodev"
-  },
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "kueskipay|kueski-cdn",
-      "description": "Script de integración de Kueski Pay detectado"
-    },
-    {
-      "type": "html",
-      "pattern": "\\bkueski\\b",
-      "description": "Clase o marca HTML de Kueski Pay detectada"
-    }
-  ]
+	"name": "Kueski Pay",
+	"category": "Pago a Plazos (BNPL)",
+	"web": "https://kueskipay.com",
+	"logo": {
+		"id": "kueskipay.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "kueskipay|kueski-cdn",
+			"description": "Script de integración de Kueski Pay detectado"
+		},
+		{
+			"type": "html",
+			"pattern": "\\bkueski\\b",
+			"description": "Clase o marca HTML de Kueski Pay detectada"
+		}
+	]
 }

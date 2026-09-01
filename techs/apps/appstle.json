@@ -2,9 +2,7 @@
 	"name": "Appstle",
 	"developer": "Appstle",
 	"category": "Suscripciones",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.appstle.com",
 	"appStores": [
 		{

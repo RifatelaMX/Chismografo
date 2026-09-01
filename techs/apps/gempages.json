@@ -1,26 +1,24 @@
 {
-  "name": "GemPages",
-  "developer": "GemPages",
-  "category": "Constructor de Páginas",
-  "compatibleCMS": [
-    "Shopify"
-  ],
-  "web": "https://www.gempages.com",
-  "appStores": [
-    {
-      "cms": "Shopify",
-      "link": "gempages"
-    }
-  ],
-  "logo": {
-    "id": "gempages.com",
-    "provider": ""
-  },
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "gempages",
-      "description": "GemPages integration script or resource detected"
-    }
-  ]
+	"name": "GemPages",
+	"developer": "GemPages",
+	"category": "Constructor de Páginas",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.gempages.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "gempages"
+		}
+	],
+	"logo": {
+		"id": "gempages.com",
+		"provider": ""
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "gempages",
+			"description": "GemPages integration script or resource detected"
+		}
+	]
 }

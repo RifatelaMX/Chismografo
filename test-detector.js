@@ -28,7 +28,9 @@ const testCases = [
 		},
 		expectedTech: 'Shopify',
 		minConfidence: 0.99,
-		expectedPlugins: ['Klaviyo', 'Loox', 'Klarna', 'Google Tag Manager', 'Meta Pixel (Facebook)'],
+		expectedPlugins: ['Klaviyo', 'Loox'],
+		expectedGateways: ['Klarna'],
+		expectedPixels: ['Google Tag Manager', 'Meta Pixel'],
 	},
 	{
 		name: 'Shopify site (JS variable & Cart Form match & PageFly & LatAm gateways)',
@@ -57,7 +59,8 @@ const testCases = [
 		},
 		expectedTech: 'Shopify',
 		minConfidence: 0.95,
-		expectedPlugins: ['PageFly', 'Mercado Pago', 'Conekta', 'Openpay'],
+		expectedPlugins: ['PageFly'],
+		expectedGateways: ['Mercado Pago', 'Conekta', 'Openpay'],
 	},
 	{
 		name: 'Magento site (RequireJS, static paths & Magento Tax module)',
@@ -243,16 +246,43 @@ for (const t of testCases) {
 		const isThemeMatch = t.expectedTheme ? result.theme === t.expectedTheme : true;
 
 		// Verify plugins list
-		const detectedPluginNames = result.plugins.map((p) => p.name);
+		const detectedPluginNames = (result.plugins || []).map((p) => p.name);
 		let pluginsMatch = true;
-		for (const expectedPlg of t.expectedPlugins) {
+		for (const expectedPlg of t.expectedPlugins || []) {
 			if (!detectedPluginNames.includes(expectedPlg)) {
 				pluginsMatch = false;
 				break;
 			}
 		}
 
-		if (isTechMatch && isConfidenceMatch && pluginsMatch && isThemeMatch) {
+		// Verify gateways list
+		const detectedGateways = result.paymentGateways || [];
+		let gatewaysMatch = true;
+		for (const expectedGw of t.expectedGateways || []) {
+			if (!detectedGateways.includes(expectedGw)) {
+				gatewaysMatch = false;
+				break;
+			}
+		}
+
+		// Verify pixels list
+		const detectedPixelNames = (result.pixels || []).map((p) => p.name);
+		let pixelsMatch = true;
+		for (const expectedPx of t.expectedPixels || []) {
+			if (!detectedPixelNames.includes(expectedPx)) {
+				pixelsMatch = false;
+				break;
+			}
+		}
+
+		if (
+			isTechMatch &&
+			isConfidenceMatch &&
+			pluginsMatch &&
+			gatewaysMatch &&
+			pixelsMatch &&
+			isThemeMatch
+		) {
 			console.log(`✅ PASSED: ${t.name}`);
 			let techDisplay = result.technology
 				? `${result.technology} (Confidence: ${(result.confidence * 100).toFixed(2)}%)`
@@ -264,11 +294,17 @@ for (const t of testCases) {
 			if (result.plugins.length > 0) {
 				console.log(`   Plugins:  ${detectedPluginNames.join(', ')}`);
 			}
+			if (detectedGateways.length > 0) {
+				console.log(`   Gateways: ${detectedGateways.join(', ')}`);
+			}
+			if (detectedPixelNames.length > 0) {
+				console.log(`   Pixels:   ${detectedPixelNames.join(', ')}`);
+			}
 			passed++;
 		} else {
 			console.log(`❌ FAILED: ${t.name}`);
 			console.log(
-				`   Expected: Tech: ${t.expectedTech} (Conf >= ${t.minConfidence}), Theme: ${t.expectedTheme || 'Any'}, Plugins: [${t.expectedPlugins.join(', ')}]`
+				`   Expected: Tech: ${t.expectedTech} (Conf >= ${t.minConfidence}), Theme: ${t.expectedTheme || 'Any'}, Plugins: [${(t.expectedPlugins || []).join(', ')}]`
 			);
 			console.log(
 				`   Actual:   Tech: ${result.technology} (Conf: ${result.confidence}), Theme: ${result.theme || 'None'}, Plugins: [${detectedPluginNames.join(', ')}]`

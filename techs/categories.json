@@ -1,35 +1,22 @@
 {
-  "apps": [
-    "Analítica",
-    "Buscador / Filtros",
-    "Checkout / Ofertas",
-    "Constructor de Páginas",
-    "Envíos / Seguros",
-    "Fidelización / Lealtad",
-    "Impresión bajo Demanda",
-    "Email Marketing",
-    "Marketing / Popups",
-    "Reseñas",
-    "SEO",
-    "Soporte / Chat",
-    "Suscripciones",
-    "Otros"
-  ],
-  "cms": [
-    "CMS"
-  ],
-  "gateways": [
-    "Pasarela de Pago",
-    "Pago a Plazos (BNPL)"
-  ],
-  "infra": [
-    "CDN / Proxy",
-    "Servidor Web",
-    "Seguridad"
-  ],
-  "pixels": [
-    "Redes Sociales",
-    "Píxeles / Tracking",
-    "Analítica"
-  ]
+	"apps": [
+		"Analítica",
+		"Buscador / Filtros",
+		"Checkout / Ofertas",
+		"Constructor de Páginas",
+		"Envíos / Seguros",
+		"Fidelización / Lealtad",
+		"Impresión bajo Demanda",
+		"Email Marketing",
+		"Marketing / Popups",
+		"Reseñas",
+		"SEO",
+		"Soporte / Chat",
+		"Suscripciones",
+		"Otros"
+	],
+	"cms": ["CMS"],
+	"gateways": ["Pasarela de Pago", "Pago a Plazos (BNPL)"],
+	"infra": ["CDN / Proxy", "Servidor Web", "Seguridad"],
+	"pixels": ["Redes Sociales", "Píxeles / Tracking", "Analítica"]
 }
