@@ -729,10 +729,11 @@
         data.plugins.forEach(p => { 
           let pluginLogo = p.shopifyAppIcon || '';
           if (p.logo) {
-            if (p.logo.startsWith('http')) {
-              pluginLogo = p.logo;
+            const logoId = (typeof p.logo === 'object' && p.logo !== null) ? p.logo.id : p.logo;
+            if (logoId.startsWith('http')) {
+              pluginLogo = logoId;
             } else {
-              pluginLogo = `https://img.logo.dev/${p.logo}?token=pk_MgKPAkEuRMOiYecOkx67wQ&size=64`;
+              pluginLogo = `https://img.logo.dev/${logoId}?token=pk_MgKPAkEuRMOiYecOkx67wQ&size=64`;
             }
           }
           items.push({ name: p.name, logo: pluginLogo }); 

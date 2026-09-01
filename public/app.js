@@ -1300,8 +1300,12 @@ document.addEventListener('DOMContentLoaded', () => {
 			const hasExt = /\.(svg|png|jpg|jpeg|gif)$/i.test(domain);
 			return `/brand/logo/apps/${domain}${hasExt ? '' : '.svg'}`;
 		}
+		if (provider === 'logodev' && domain) {
+			const token = window.serverConfig?.logoDevToken || 'pk_MgKPAkEuRMOiYecOkx67wQ';
+			return `https://img.logo.dev/${domain}?token=${token}&size=64`;
+		}
 
-		const token = serverConfig.logoDevToken;
+		const token = window.serverConfig?.logoDevToken || 'pk_MgKPAkEuRMOiYecOkx67wQ';
 		const nameLower = tech.name ? tech.name.toLowerCase() : '';
 
 		// Check if domain is just pointing to Shopify ecosystem domains (which returns Shopify logo for other apps)
