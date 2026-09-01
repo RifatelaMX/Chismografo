@@ -1,3 +1,9 @@
+## [1.8.2](https://github.com/RifatelaMX/Chismografo/compare/v1.8.1...v1.8.2) (2026-09-01)
+
+### 🐛 Corrección de Errores
+
+* **ui:** corregir error de sintaxis por bloque duplicado en app.js ([62917b9](https://github.com/RifatelaMX/Chismografo/commit/62917b924fbeb0d82f91d5530a22a93545abb09a))
+
 ## [1.8.1](https://github.com/RifatelaMX/Chismografo/compare/v1.8.0...v1.8.1) (2026-09-01)
 
 ### 🐛 Corrección de Errores
