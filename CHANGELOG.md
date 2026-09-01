@@ -1,3 +1,9 @@
+## [1.6.1](https://github.com/RifatelaMX/Chismografo/compare/v1.6.0...v1.6.1) (2026-09-01)
+
+### ♻️ Refactorización
+
+* reformat JSON technology files using tabs for consistent indentation ([57f6d35](https://github.com/RifatelaMX/Chismografo/commit/57f6d354e7f74738bfb0033bd1362d40fbc3c8a1))
+
 ## [1.6.0](https://github.com/RifatelaMX/Chismografo/compare/v1.5.0...v1.6.0) (2026-09-01)
 
 ### ✨ Nuevas Características

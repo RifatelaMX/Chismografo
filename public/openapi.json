@@ -3,7 +3,7 @@
 	"info": {
 		"title": "Chismógrafo API REST 📓",
 		"description": "API REST y widgets incrustables del Chismógrafo para husmear plataformas de e-commerce, pasarelas de pago, aplicaciones de Shopify, geolocalización de servidores y velocidad de carga móvil en cualquier sitio web... ¡Todo sin que se enteren! 🤫",
-		"version": "1.6.0"
+		"version": "1.6.1"
 	},
 	"servers": [
 		{
@@ -215,7 +215,9 @@
 		"schemas": {
 			"DetectRequest": {
 				"type": "object",
-				"required": ["url"],
+				"required": [
+					"url"
+				],
 				"properties": {
 					"url": {
 						"type": "string",
@@ -311,7 +313,10 @@
 								"items": {
 									"type": "number"
 								},
-								"example": [19.43, -99.13]
+								"example": [
+									19.43,
+									-99.13
+								]
 							}
 						}
 					},
