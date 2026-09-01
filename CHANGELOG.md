@@ -1,3 +1,24 @@
+## [1.5.0](https://github.com/RifatelaMX/Chismografo/compare/v1.4.1...v1.5.0) (2026-09-01)
+
+### ✨ Nuevas Características
+
+* add multi-service logo fallback handler, update map tiles, and improve configuration management ([a06feb5](https://github.com/RifatelaMX/Chismografo/commit/a06feb5b248311cb3fb4adb67a935ba0318b50ef))
+* add technology directory API endpoint and interactive UI for tool management ([5e71382](https://github.com/RifatelaMX/Chismografo/commit/5e713822ac4d05a17e6e4967f71e61b2856fbb40))
+* implement directory filtering by category and CMS and reorganize technology tracking definitions. ([1e8a184](https://github.com/RifatelaMX/Chismografo/commit/1e8a18492cdd15f55e0f4df1a898df7957deaf78))
+* implement persistent report sharing via JSON storage and automated 7-day cleanup cron job ([1abac0f](https://github.com/RifatelaMX/Chismografo/commit/1abac0fa3524625d23b9ce2a2f132a49305038cc))
+* implement tracking pixel detection and add support for major advertising platforms ([612b5c6](https://github.com/RifatelaMX/Chismografo/commit/612b5c657e1807e5fa342726374b9cc1d16c85ca))
+
+### ♻️ Refactorización
+
+* standardize logo schema across technology definitions and add Vercel cron cleanup endpoint ([b91cbed](https://github.com/RifatelaMX/Chismografo/commit/b91cbed5a4ef82b3b33bb7c9a64442f07e8a0a24))
+* update technology categories, improve detection metadata, and synchronize app definitions. ([9c2641d](https://github.com/RifatelaMX/Chismografo/commit/9c2641da22ea108113056a58b1e46da7065fbce5))
+
+### 🤖 Integración Continua (CI/CD)
+
+* actualizar actions/checkout a v5 para soporte de Node.js 24 ([2b9ec71](https://github.com/RifatelaMX/Chismografo/commit/2b9ec71e7615ca103df9a517ade7f7d6709e9d9f))
+* actualizar actions/checkout a v7 ([a5eb9b8](https://github.com/RifatelaMX/Chismografo/commit/a5eb9b839372b0b2a674580460754835233e8b85))
+* actualizar actions/setup-node a v7 ([73c3771](https://github.com/RifatelaMX/Chismografo/commit/73c377158cadac5380280f0908f0a134defa8b57))
+
 ## [1.4.1](https://github.com/RifatelaMX/Chismografo/compare/v1.4.0...v1.4.1) (2026-08-30)
 
 ### 📝 Documentación
