@@ -1,3 +1,9 @@
+## [1.8.1](https://github.com/RifatelaMX/Chismografo/compare/v1.8.0...v1.8.1) (2026-09-01)
+
+### 🐛 Corrección de Errores
+
+* **api:** optimizar tiempos de respuesta y evitar bloqueos en escaneo de dominios ([397bbba](https://github.com/RifatelaMX/Chismografo/commit/397bbbaba077d72d5abd2bb095fb18c01a12094a))
+
 ## [1.8.0](https://github.com/RifatelaMX/Chismografo/compare/v1.7.2...v1.8.0) (2026-09-01)
 
 ### ✨ Nuevas Características
