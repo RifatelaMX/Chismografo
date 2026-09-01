@@ -1,0 +1,26 @@
+{
+	"name": "SEO Manager",
+	"developer": "SEO Manager",
+	"category": "SEO",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://www.seo-manager.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "https://apps.shopify.com/seo-manager"
+		}
+	],
+	"logo": {
+		"id": "seo-manager.com",
+		"provider": ""
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "seomanager",
+			"description": "SEO Manager integration script or resource detected"
+		}
+	]
+}

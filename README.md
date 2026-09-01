@@ -328,6 +328,7 @@ El Chismógrafo utiliza un motor modular basado en firmas JSON para identificar 
 *   `techs/apps/`: Aplicaciones de terceros, plugins y scripts instalados.
 *   `techs/infra/`: Servidores web, CDN, Proxies e infraestructura general.
 *   `techs/gateways/`: Pasarelas y proveedores de procesamiento de pagos.
+*   `techs/pixels/`: Píxeles de seguimiento, analítica y redes sociales.
 
 ### 1. Reglas de Detección (`detectionRules`)
 Cada firma JSON define una lista de reglas (`detectionRules`) que especifican qué buscar en las cabeceras HTTP o en el HTML de la página web. Cada regla admite los siguientes parámetros:
@@ -361,6 +362,7 @@ Estas plantillas contienen marcadores especiales (placeholders) como `{{name}}`,
 *   `chismografo add-app`
 *   `chismografo add-infra`
 *   `chismografo add-gateway`
+*   `chismografo add-pixel`
 
 Una vez creada la nueva firma, ejecuta `chismografo build-index` para fusionar y compilar todas las firmas individuales en el índice centralizado `techs/index.json`.
 
