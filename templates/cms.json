@@ -1,7 +1,10 @@
 {
 	"name": "{{name}}",
 	"web": "{{web}}",
-	"logo": "{{logo}}",
+	"logo": {
+		"id": "{{id_logo}}",
+		"provider": "{{provider_logo}}"
+	},
 	"detectionRules": [
 		{
 			"id": "{{slug}}-meta-generator",

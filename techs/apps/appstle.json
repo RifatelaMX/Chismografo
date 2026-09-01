@@ -2,15 +2,20 @@
 	"name": "Appstle",
 	"developer": "Appstle",
 	"category": "Suscripciones",
-	"compatibleCMS": ["Shopify"],
+	"compatibleCMS": [
+		"Shopify"
+	],
 	"web": "https://www.appstle.com",
 	"appStores": [
 		{
 			"cms": "Shopify",
-			"link": "https://apps.shopify.com/appstle"
+			"link": "appstle"
 		}
 	],
-	"logo": "appstle.com",
+	"logo": {
+		"id": "appstle.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

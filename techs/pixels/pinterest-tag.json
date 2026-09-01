@@ -1,0 +1,23 @@
+{
+  "name": "Pinterest Tag",
+  "category": "Redes Sociales",
+  "web": "https://help.pinterest.com/en/business/article/add-the-pinterest-tag-to-your-website",
+  "logo": {
+    "id": "pinterest.com",
+    "provider": "logodev"
+  },
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "s\\.pinimg\\.com\\/ct\\/core\\.js",
+      "description": "Pinterest Tag script detectado",
+      "weight": 1
+    },
+    {
+      "type": "script-content",
+      "pattern": "pintrk\\('load'",
+      "description": "Pinterest Tag initialization detectado",
+      "weight": 0.8
+    }
+  ]
+}

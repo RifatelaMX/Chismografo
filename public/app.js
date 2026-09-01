@@ -1,3 +1,59 @@
+window.handleLogoError = function(img, providedDomain, websiteUrl, provider) {
+    if (provider === 'local') {
+        const hasExt = /\.(svg|png|jpg|jpeg|gif)$/i.test(providedDomain);
+        const state = parseInt(img.dataset.fallbackState || '0', 10);
+        
+        // Si no se especificó extensión, intentamos con .png si .svg falló
+        if (!hasExt && state === 0) {
+            img.dataset.fallbackState = '1';
+            img.src = `/brand/logo/apps/${providedDomain}.png`;
+            return;
+        }
+        
+        img.style.display = 'none';
+        if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
+        return;
+    }
+
+    if (provider) {
+        img.style.display = 'none';
+        if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
+        return;
+    }
+    
+    let domain = providedDomain;
+    if (!domain && websiteUrl) {
+        try { domain = new URL(websiteUrl).hostname.replace(/^www\./i, ''); } catch(e){}
+    }
+    
+    if (!domain) {
+        img.style.display = 'none';
+        if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
+        return;
+    }
+
+    const state = parseInt(img.dataset.fallbackState || '0', 10);
+    
+    // Obtener las llaves del servidor (si están configuradas)
+    const bfKey = window.serverConfig?.brandfetchApiKey ? `?c=${window.serverConfig.brandfetchApiKey}` : '';
+    const biKey = window.serverConfig?.brandiconsApiKey ? `?key=${window.serverConfig.brandiconsApiKey}` : '';
+    const npKey = window.serverConfig?.ninjapearApiKey ? `?key=${window.serverConfig.ninjapearApiKey}` : '';
+    
+    if (state === 0) {
+        img.dataset.fallbackState = '1';
+        img.src = `https://asset.brandfetch.io/${domain}${bfKey}`;
+    } else if (state === 1) {
+        img.dataset.fallbackState = '2';
+        img.src = `https://cdn.brandicons.dev/icons/${domain}${biKey}`;
+    } else if (state === 2) {
+        img.dataset.fallbackState = '3';
+        img.src = `https://logo.ninjapear.com/${domain}${npKey}`;
+    } else {
+        img.style.display = 'none';
+        if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
+    }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
 	// Initialize Lucide Icons
 	lucide.createIcons();
@@ -116,6 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			const res = await fetch('/api/config');
 			const data = await res.json();
 			serverConfig = data;
+			window.serverConfig = data; // Export global para handleLogoError
 
 			// Update placeholders on banner inputs if set on server
 			if (serverConfig.builtwith) {
@@ -276,6 +333,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// Perform detection flow
 	async function performDetection(targetUrl) {
+		// Update URL with query param temporarily during scan
+		try {
+			const urlObj = new URL(window.location);
+			urlObj.searchParams.delete('report');
+			urlObj.searchParams.set('url', targetUrl);
+			window.history.pushState({}, '', urlObj);
+		} catch (e) {}
+
 		// Reset PageSpeed card
 		const pagespeedCard = document.getElementById('pagespeed-card');
 		const pagespeedLoader = document.getElementById('pagespeed-loader');
@@ -368,6 +433,24 @@ document.addEventListener('DOMContentLoaded', () => {
 				clearInterval(interval);
 				scannerProgressBar.style.width = '100%';
 				scannerStep.textContent = '¡Ya tenemos el chisme completo! 🎉';
+
+				// Save the report to get a shareable ID
+				try {
+					const saveRes = await fetch('/api/save-report', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify(data)
+					});
+					const saveJson = await saveRes.json();
+					if (saveJson.success && saveJson.reportId) {
+						const urlObj = new URL(window.location);
+						urlObj.searchParams.delete('url');
+						urlObj.searchParams.set('report', saveJson.reportId);
+						window.history.pushState({}, '', urlObj);
+					}
+				} catch (e) {
+					console.warn('Could not save report state for sharing', e);
+				}
 
 				// Smooth transition to results
 				setTimeout(() => {
@@ -548,10 +631,24 @@ document.addEventListener('DOMContentLoaded', () => {
 		const screenshotDesktopImg = document.getElementById('screenshot-desktop-img');
 		const screenshotMobileImg = document.getElementById('screenshot-mobile-img');
 
-		if (data.screenshots?.desktop && data.screenshots.mobile) {
-			if (screenshotDesktopImg) screenshotDesktopImg.src = data.screenshots.desktop;
-			if (screenshotMobileImg) screenshotMobileImg.src = data.screenshots.mobile;
+		if (data.screenshots?.desktop || data.screenshots?.mobile) {
 			if (headerPreviewsContainer) headerPreviewsContainer.style.display = 'flex';
+			
+			const desktopMockup = document.querySelector('.desktop-mockup-mini');
+			if (data.screenshots?.desktop) {
+				if (screenshotDesktopImg) screenshotDesktopImg.src = data.screenshots.desktop;
+				if (desktopMockup) desktopMockup.style.display = 'block';
+			} else {
+				if (desktopMockup) desktopMockup.style.display = 'none';
+			}
+
+			const mobileMockup = document.querySelector('.mobile-mockup-mini');
+			if (data.screenshots?.mobile) {
+				if (screenshotMobileImg) screenshotMobileImg.src = data.screenshots.mobile;
+				if (mobileMockup) mobileMockup.style.display = 'block';
+			} else {
+				if (mobileMockup) mobileMockup.style.display = 'none';
+			}
 		} else {
 			if (headerPreviewsContainer) headerPreviewsContainer.style.display = 'none';
 		}
@@ -614,8 +711,8 @@ document.addEventListener('DOMContentLoaded', () => {
 							zoomControl: true,
 							scrollWheelZoom: false,
 						});
-						L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-							attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+						L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+							attribution: '&copy; OpenStreetMap contributors',
 						}).addTo(serverMapObj);
 					}
 
@@ -712,7 +809,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (techIconContainer) {
 				if (cmsDom) {
 					techIconContainer.innerHTML = `
-            <img src="https://img.logo.dev/${cmsDom}?token=${logoToken}" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <img src="https://img.logo.dev/${cmsDom}?token=${logoToken}" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;" onerror="window.handleLogoError(this, '${cmsDom}')" />
             <i data-lucide="${iconName}" style="display:none; width: 24px; height: 24px;"></i>
           `;
 					techIconContainer.style.background = 'transparent';
@@ -725,7 +822,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 			}
 		} else {
-			if (detectedTechName) detectedTechName.textContent = 'No Detectada';
+			if (detectedTechName) {
+				detectedTechName.innerHTML = '¿Tu CMS no se detecta? <span style="font-size:0.6em; opacity:0.9; font-weight:normal; display:block; margin-top:5px;">Solicita que se añada a la lista</span>';
+			}
 			if (detectedThemeContainer) detectedThemeContainer.style.display = 'none';
 			if (resultStatusLabel) {
 				resultStatusLabel.textContent = 'Desconocido';
@@ -1013,10 +1112,19 @@ document.addEventListener('DOMContentLoaded', () => {
 					card.className = 'plugin-card';
 					card.style.padding = '0.75rem';
 
+					let domain = '';
+					let provider = '';
+					if (tech.logo && typeof tech.logo === 'object') {
+						domain = tech.logo.id;
+						provider = tech.logo.provider;
+					} else if (tech.logo) {
+						domain = tech.logo;
+					}
+
 					const iconUrl = getTechIconUrl(tech);
 					const initial = tech.name.charAt(0).toUpperCase();
 					const iconHtml = iconUrl
-						? `<img src="${iconUrl}" class="tech-icon-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />`
+						? `<img src="${iconUrl}" class="tech-icon-img" onerror="window.handleLogoError(this, '${domain || ''}', '${tech.website || tech.link || ''}', '${provider || ''}')" />`
 						: '';
 					const displayStyle = iconUrl ? 'display: none;' : 'display: flex;';
 
@@ -1104,7 +1212,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 				let logoHtml = '';
 				if (domain) {
-					logoHtml = `<img src="https://img.logo.dev/${domain}?token=${logoToken}" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />`;
+					logoHtml = `<img src="https://img.logo.dev/${domain}?token=${logoToken}" style="width: 100%; height: 100%; object-fit: contain;" onerror="window.handleLogoError(this, '${domain}')" />`;
 				}
 
 				card.innerHTML = `
@@ -1146,18 +1254,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// Helper to extract domain and build Logo.dev / Google Favicon logo URL
 	function getTechIconUrl(tech) {
-		if (tech.logo && tech.logo.startsWith('http')) {
+		let domain = '';
+		let provider = '';
+
+		if (tech.logo && typeof tech.logo === 'object') {
+			domain = tech.logo.id;
+			provider = tech.logo.provider;
+		} else if (tech.logo) {
+			domain = tech.logo;
+		}
+
+		if (domain && domain.startsWith('http')) {
+			return domain;
+		}
+		if (typeof tech.logo === 'string' && tech.logo.startsWith('http')) {
 			return tech.logo;
 		}
 
 		if (tech.shopifyAppIcon) {
 			return tech.shopifyAppIcon;
 		}
-		let domain = '';
 
-		if (tech.logo) {
-			domain = tech.logo;
-		} else {
+		if (!domain) {
 			// Extract domain from link
 			if (tech.link) {
 				try {
@@ -1171,8 +1289,20 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		}
 
+		const bfKey = window.serverConfig?.brandfetchApiKey ? `?c=${window.serverConfig.brandfetchApiKey}` : '';
+		const biKey = window.serverConfig?.brandiconsApiKey ? `?key=${window.serverConfig.brandiconsApiKey}` : '';
+		const npKey = window.serverConfig?.ninjapearApiKey ? `?key=${window.serverConfig.ninjapearApiKey}` : '';
+
+		if (provider === 'brandfetch' && domain) return `https://asset.brandfetch.io/${domain}${bfKey}`;
+		if (provider === 'brandicons' && domain) return `https://cdn.brandicons.dev/icons/${domain}${biKey}`;
+		if (provider === 'ninjapear' && domain) return `https://logo.ninjapear.com/${domain}${npKey}`;
+		if (provider === 'local' && domain) {
+			const hasExt = /\.(svg|png|jpg|jpeg|gif)$/i.test(domain);
+			return `/brand/logo/apps/${domain}${hasExt ? '' : '.svg'}`;
+		}
+
 		const token = serverConfig.logoDevToken;
-		const nameLower = tech.name.toLowerCase();
+		const nameLower = tech.name ? tech.name.toLowerCase() : '';
 
 		// Check if domain is just pointing to Shopify ecosystem domains (which returns Shopify logo for other apps)
 		const isShopifyDomain = domain.includes('shopify.com');
@@ -1406,6 +1536,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	// ─── Download Report Functionality ─────────────────────────────────────────
 	const downloadJsonBtn = document.getElementById('download-json-btn');
 	const downloadCsvBtn = document.getElementById('download-csv-btn');
+	const copyLinkBtn = document.getElementById('copy-link-btn');
+	const downloadPdfBtn = document.getElementById('download-pdf-btn');
 
 	function downloadFile(content, fileName, contentType) {
 		const a = document.createElement('a');
@@ -1414,6 +1546,22 @@ document.addEventListener('DOMContentLoaded', () => {
 		a.download = fileName;
 		a.click();
 		URL.revokeObjectURL(a.href);
+	}
+
+	if (copyLinkBtn) {
+		copyLinkBtn.addEventListener('click', () => {
+			navigator.clipboard.writeText(window.location.href).then(() => {
+				const originalText = copyLinkBtn.innerHTML;
+				copyLinkBtn.innerHTML = '<i data-lucide="check" style="width:15px;height:15px;color:#10b981;"></i> ¡Copiado!';
+				lucide.createIcons();
+				setTimeout(() => {
+					copyLinkBtn.innerHTML = originalText;
+					lucide.createIcons();
+				}, 2000);
+			}).catch(err => {
+				console.error('Error al copiar el enlace: ', err);
+			});
+		});
 	}
 
 	if (downloadJsonBtn) {
@@ -1618,8 +1766,25 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.head.appendChild(spinStyle);
 
 	// Auto-fill query parameter URL and perform scan on load if present
+	const queryReport = urlParams.get('report');
 	const queryUrl = urlParams.get('url');
-	if (queryUrl && targetUrlInput) {
+
+	if (queryReport) {
+		// Load existing report
+		fetch(`/reports/${queryReport}.json`)
+			.then(r => {
+				if (!r.ok) throw new Error('Reporte no encontrado');
+				return r.json();
+			})
+			.then(data => {
+				if (targetUrlInput) targetUrlInput.value = data.resolvedUrl || data.url || '';
+				renderResults(data);
+			})
+			.catch(err => {
+				console.error(err);
+				alert('El reporte compartido no existe o expiró.');
+			});
+	} else if (queryUrl && targetUrlInput) {
 		targetUrlInput.value = queryUrl;
 		performDetection(queryUrl);
 	}

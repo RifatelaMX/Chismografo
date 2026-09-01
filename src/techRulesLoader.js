@@ -13,6 +13,7 @@ let cmsList = [];
 let appsList = [];
 let infraList = [];
 let gatewaysList = [];
+let pixelsList = [];
 
 // Helper to safely load JSON files from a folder
 function loadFolderJson(folderName) {
@@ -45,8 +46,9 @@ export function buildIndex() {
 	const apps = loadFolderJson('apps');
 	const infra = loadFolderJson('infra');
 	const gateways = loadFolderJson('gateways');
+	const pixels = loadFolderJson('pixels');
 
-	const indexData = { cms, apps, infra, gateways };
+	const indexData = { cms, apps, infra, gateways, pixels };
 	try {
 		fs.writeFileSync(indexPath, JSON.stringify(indexData, null, 2), 'utf-8');
 		console.log(`[TechRulesLoader] Unified index.json generated successfully at ${indexPath}`);
@@ -78,6 +80,7 @@ export function loadAllTechRules() {
 	appsList = indexData.apps || [];
 	infraList = indexData.infra || [];
 	gatewaysList = indexData.gateways || [];
+	pixelsList = indexData.pixels || [];
 
 	// Compile regex patterns for cms
 	cmsList.forEach((cms) => {
@@ -123,8 +126,19 @@ export function loadAllTechRules() {
 		}
 	});
 
+	// Compile regex patterns for pixels
+	pixelsList.forEach((px) => {
+		if (Array.isArray(px.detectionRules)) {
+			px.detectionRules.forEach((rule) => {
+				if (rule.pattern) {
+					rule.regex = new RegExp(rule.pattern, 'i');
+				}
+			});
+		}
+	});
+
 	console.log(
-		`[TechRulesLoader] Rules loaded and compiled: ${cmsList.length} CMS, ${appsList.length} Apps, ${infraList.length} Infra, ${gatewaysList.length} Gateways.`
+		`[TechRulesLoader] Rules loaded and compiled: ${cmsList.length} CMS, ${appsList.length} Apps, ${infraList.length} Infra, ${gatewaysList.length} Gateways, ${pixelsList.length} Pixels.`
 	);
 }
 
@@ -142,6 +156,10 @@ export function getInfraRules() {
 
 export function getGatewayRules() {
 	return gatewaysList;
+}
+
+export function getPixelRules() {
+	return pixelsList;
 }
 
 // Run initial load

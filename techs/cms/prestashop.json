@@ -1,7 +1,10 @@
 {
 	"name": "PrestaShop",
 	"web": "https://www.prestashop.com",
-	"logo": "prestashop.com",
+	"logo": {
+		"id": "prestashop.com",
+		"provider": "logodev"
+	},
 	"detectionRules": [
 		{
 			"id": "prestashop-meta-generator",
@@ -9,7 +12,7 @@
 			"key": "generator",
 			"pattern": "prestashop",
 			"description": "Meta generator contains \"PrestaShop\"",
-			"weight": 1.0
+			"weight": 1
 		},
 		{
 			"id": "prestashop-js-global",

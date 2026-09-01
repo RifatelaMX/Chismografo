@@ -1,11 +1,25 @@
 {
-	"name": "Microsoft Clarity",
+	"name": "Microsoft Clarity: AI Insights",
 	"developer": "Microsoft Clarity",
 	"category": "Analítica",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"compatibleCMS": [
+		"Shopify",
+		"Magento",
+		"WooCommerce",
+		"PrestaShop",
+		"VTEX"
+	],
 	"web": "https://www.microsoft.com",
-	"appStores": [],
-	"logo": "microsoft.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "microsoft-clarity"
+		}
+	],
+	"logo": {
+		"id": "clarity.microsoft.com",
+		"provider": "brandicons"
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

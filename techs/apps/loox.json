@@ -2,15 +2,20 @@
 	"name": "Loox",
 	"developer": "Loox",
 	"category": "Reseñas",
-	"compatibleCMS": ["Shopify"],
+	"compatibleCMS": [
+		"Shopify"
+	],
 	"web": "https://www.loox.io",
 	"appStores": [
 		{
 			"cms": "Shopify",
-			"link": "https://apps.shopify.com/loox"
+			"link": "loox"
 		}
 	],
-	"logo": "loox.app",
+	"logo": {
+		"id": "loox.app",
+		"provider": "logodev"
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

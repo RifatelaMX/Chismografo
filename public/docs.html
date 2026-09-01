@@ -108,6 +108,9 @@
       <button class="nerds-tab-btn" data-tab="tab-widget">
         <i data-lucide="search-code"></i> 🔎 Buscador Embed
       </button>
+      <button class="nerds-tab-btn" data-tab="tab-tools">
+        <i data-lucide="book-open"></i> 📚 Directorio
+      </button>
     </nav>
 
     <!-- Main Workspace -->
@@ -132,10 +135,10 @@
             
             <div class="presets-container">
               <span style="font-size: 0.8rem; font-weight: 700; color: var(--ink-medium);">Plantillas rápidas:</span>
-              <button class="preset-chip" onclick="loadPreset('shopify')">🛍️ Shopify</button>
-              <button class="preset-chip" onclick="loadPreset('woocommerce')">🛒 WooCommerce</button>
-              <button class="preset-chip" onclick="loadPreset('paypal')">💳 PayPal</button>
-              <button class="preset-chip" onclick="loadPreset('express')">🚀 Express Header</button>
+              <button class="preset-chip" onclick="loadPreset('cms')">🛍️ CMS / E-Commerce</button>
+              <button class="preset-chip" onclick="loadPreset('apps')">🧩 App / Plugin</button>
+              <button class="preset-chip" onclick="loadPreset('gateways')">💳 Pasarela de Pago</button>
+              <button class="preset-chip" onclick="loadPreset('infra')">🚀 Infraestructura</button>
             </div>
           </div>
 
@@ -171,8 +174,16 @@
             <div>
               <h3>📋 Reglas de Coincidencia (<code>detectionRules</code>)</h3>
               <p class="section-desc">Define qué patrones Regex buscar en meta tags, scripts, cabeceras o DOM.</p>
+              
+              <div style="margin-top: 1rem; display: inline-flex; align-items: center; gap: 0.5rem; background: var(--surface-2); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--paper-lines);">
+                <label style="cursor: pointer; display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: var(--ink-dark);">
+                  <input type="checkbox" id="global-nocode-toggle" checked onchange="toggleGlobalNoCode(this.checked)">
+                  ✨ Modo No-Code (Fácil)
+                </label>
+                <span style="font-size: 0.8rem; color: var(--ink-medium);">(Desactiva para usar Regex avanzado)</span>
+              </div>
             </div>
-            <div style="display: flex; gap: 0.5rem;">
+            <div style="display: flex; gap: 0.5rem; align-items: flex-start;">
               <button class="btn-secondary small-btn" onclick="addRule()">
                 <i data-lucide="plus"></i> ➕ Agregar Regla
               </button>
@@ -431,12 +442,54 @@ chismografo add-infra</code></pre>
         </section>
       </section>
 
+      <!-- =================================================================== -->
+      <!-- TAB: DIRECTORIO DE HERRAMIENTAS -->
+      <!-- =================================================================== -->
+      <section id="tab-tools" class="tab-content-section">
+        <section class="card glass-panel search-section">
+          <div class="card-header">
+            <i data-lucide="book-open"></i>
+            <h2>📚 Directorio de Herramientas</h2>
+          </div>
+          <p class="section-desc">Catálogo de tecnologías y sus reglas de detección ordenadas alfabéticamente por categoría.</p>
+          
+          <div style="display: flex; gap: 1rem; margin-top: 1.5rem; margin-bottom: -0.5rem; flex-wrap: wrap;">
+            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+              <label style="font-size: 0.8rem; font-weight: bold; color: var(--ink-medium);">Filtrar por Categoría</label>
+              <select id="filter-dir-category" class="code-input" style="padding: 0.5rem; border-radius: 6px; border: 1px solid var(--paper-lines); background: var(--paper);" onchange="renderToolsDirectory()">
+                <option value="all">Todas las categorías</option>
+                <option value="cms">CMS / Plataforma</option>
+                <option value="apps">Apps / Plugins</option>
+                <option value="gateways">Pasarelas de Pago</option>
+                <option value="infra">Infraestructura / CDN</option>
+                <option value="pixels">Píxeles / Tracking</option>
+              </select>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+              <label style="font-size: 0.8rem; font-weight: bold; color: var(--ink-medium);">Filtrar por CMS</label>
+              <select id="filter-dir-cms" class="code-input" style="padding: 0.5rem; border-radius: 6px; border: 1px solid var(--paper-lines); background: var(--paper);" onchange="renderToolsDirectory()">
+                <option value="all">Cualquier CMS</option>
+                <option value="Shopify">Shopify</option>
+                <option value="WooCommerce">WooCommerce</option>
+                <option value="PrestaShop">PrestaShop</option>
+                <option value="Magento">Magento</option>
+                <option value="VTEX">VTEX</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="tools-directory-container" style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1.5rem;">
+            <div style="text-align:center; color: var(--ink-medium);">Cargando directorio...</div>
+          </div>
+        </section>
+      </section>
+
     </main>
   </div>
 
   <!-- Modal for JSON Import -->
   <div id="import-modal" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 1rem;">
-    <div style="background: white; border-radius: 12px; width: 100%; max-width: 600px; padding: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3); position: relative;">
+    <div style="background: rgba(253, 246, 227, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 2px solid var(--paper-lines); border-radius: 12px; width: 100%; max-width: 600px; padding: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3); position: relative;">
       <h3 style="margin-bottom: 0.5rem; font-family: var(--font-handwritten); font-size: 1.8rem; color: var(--gel-purple);">📂 Importar Firma JSON</h3>
       <p style="font-size: 0.9rem; color: var(--ink-medium); margin-bottom: 1rem;">Pega la firma JSON completa de la tecnología para cargar sus reglas en la herramienta.</p>
       
@@ -451,11 +504,46 @@ chismografo add-infra</code></pre>
       </div>
     </div>
   </div>
+  <!-- Modal for Tool Details -->
+  <div id="tool-modal" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 1rem;">
+    <div style="background: rgba(253, 246, 227, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 2px solid var(--paper-lines); border-radius: 12px; width: 100%; max-width: 800px; max-height: 90vh; overflow-y: auto; padding: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3); position: relative;">
+      <button onclick="closeToolModal()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; cursor: pointer; color: var(--ink-medium);"><i data-lucide="x"></i></button>
+      
+      <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+        <img id="modal-tool-logo" src="" alt="Logo" style="width: 48px; height: 48px; border-radius: 8px; object-fit: contain;">
+        <div>
+          <h3 id="modal-tool-name" style="margin-bottom: 0.25rem; font-family: var(--font-handwritten); font-size: 1.8rem; color: var(--ink-dark);">Herramienta</h3>
+          <span id="modal-tool-category" class="preset-chip" style="font-size: 0.8rem;">Categoría</span>
+        </div>
+      </div>
+      
+      <div style="margin-bottom: 1.5rem;">
+        <h4 style="font-family: var(--font-handwritten); font-size: 1.5rem; color: var(--gel-purple); margin-bottom: 0.5rem;">⚖️ Reglas de Detección (Ordenadas por peso)</h4>
+        <div id="modal-rules-container" class="rule-eval-list" style="max-height: 300px; overflow-y: auto; border: 1px solid var(--paper-lines); padding: 0.5rem; border-radius: 8px; background: rgba(0,0,0,0.02);">
+          <!-- Reglas insertadas aquí -->
+        </div>
+      </div>
+
+      <div style="margin-bottom: 1rem;">
+        <h4 style="font-family: var(--font-handwritten); font-size: 1.5rem; color: var(--gel-blue); margin-bottom: 0.5rem;">🕵️ Tester de Reglas</h4>
+        <p style="font-size: 0.85rem; color: var(--ink-medium); margin-bottom: 0.5rem;">Evalúa esta herramienta con una URL en vivo.</p>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <input type="text" id="modal-test-url" class="code-input" style="flex: 1; padding: 0.65rem 1rem; border-radius: 8px; border: 1px solid var(--paper-lines); outline: none;" placeholder="https://ejemplo.com">
+          <button class="btn-primary" onclick="runToolTest()">
+            <span>Probar URL</span>
+            <i data-lucide="play"></i>
+          </button>
+        </div>
+        <div id="modal-test-result" style="margin-top: 1rem; display: none;"></div>
+      </div>
+    </div>
+  </div>
 
   <!-- STUDIO INTERACTIVE SCRIPT -->
   <script>
     // State management
     const state = {
+      isGlobalNoCode: true,
       name: "Shopify",
       category: "cms",
       web: "https://www.shopify.com",
@@ -492,46 +580,46 @@ chismografo add-infra</code></pre>
 
     // Presets catalog
     const PRESETS = {
-      shopify: {
-        name: "Shopify",
+      cms: {
+        name: "Nombre del CMS",
         category: "cms",
-        web: "https://www.shopify.com",
-        logo: "shopify.com",
+        web: "https://ejemplo.com",
+        logo: { id: "ejemplo.com", provider: "logodev" },
         rules: [
-          { type: "meta", key: "generator", pattern: "shopify", description: "Meta generator tag Shopify", weight: 1.0 },
-          { type: "script-src", pattern: "cdn\\.shopify\\.com", description: "Scripts desde CDN Shopify", weight: 0.9 },
-          { type: "link-href", pattern: "cdn\\.shopify\\.com", description: "Estilos CSS desde CDN Shopify", weight: 0.9 },
-          { type: "script-content", pattern: "window\\.Shopify\\b|Shopify\\.theme\\b", description: "Objeto JS Shopify global", weight: 0.95 }
+          { type: "meta", key: "generator", pattern: "ejemplo", description: "Meta generator tag", weight: 1.0, isNoCode: true, noCodeCondition: "contains", noCodeValue: "ejemplo" },
+          { type: "script-src", pattern: "cdn\\.ejemplo\\.com", description: "Scripts desde CDN", weight: 0.9, isNoCode: false },
+          { type: "link-href", pattern: "ejemplo-theme", description: "Estilos CSS del CMS", weight: 0.9, isNoCode: true, noCodeCondition: "contains", noCodeValue: "ejemplo-theme" },
+          { type: "html-class", pattern: "ejemplo-page", description: "Clase CSS global", weight: 0.8, isNoCode: true, noCodeCondition: "contains", noCodeValue: "ejemplo-page" }
         ]
       },
-      woocommerce: {
-        name: "WooCommerce",
-        category: "cms",
-        web: "https://woocommerce.com",
-        logo: "woocommerce.com",
+      apps: {
+        name: "Nombre de la App",
+        category: "apps",
+        web: "https://app.com",
+        logo: { id: "app.com", provider: "logodev" },
         rules: [
-          { type: "script-src", pattern: "woocommerce(?:\\.min)?\\.js", description: "Script principal de WooCommerce", weight: 0.9 },
-          { type: "link-href", pattern: "woocommerce-inline-css|woocommerce-layout", description: "CSS de WooCommerce", weight: 0.8 },
-          { type: "html-class", pattern: "woocommerce|woocommerce-page|woocommerce-cart", description: "Clase CSS en el body o HTML", weight: 0.7 }
+          { type: "script-src", pattern: "widget\\.app\\.com", description: "Script del widget", weight: 0.95, isNoCode: false },
+          { type: "html-attribute", attribute: "data-app-id", pattern: ".*", description: "Atributo de datos de la app", weight: 1.0, isNoCode: false }
         ]
       },
-      paypal: {
-        name: "PayPal Gateway",
+      gateways: {
+        name: "Pasarela de Pago",
         category: "gateways",
-        web: "https://www.paypal.com",
-        logo: "paypal.com",
+        web: "https://pago.com",
+        logo: { id: "pago.com", provider: "logodev" },
         rules: [
-          { type: "script-src", pattern: "paypalobjects\\.com|sdk/js\\?client-id=", description: "SDK JavaScript de PayPal", weight: 0.95 },
-          { type: "html-attribute", attribute: "action", pattern: "paypal\\.com/cgi-bin/webscr", description: "Formulario que envía pagos a PayPal", weight: 0.9 }
+          { type: "script-src", pattern: "js\\.pago\\.com|sdk/pago", description: "SDK JavaScript de la pasarela", weight: 0.95, isNoCode: false },
+          { type: "html-attribute", attribute: "action", pattern: "pago\\.com/checkout", description: "Formulario de pago", weight: 0.9, isNoCode: false }
         ]
       },
-      express: {
-        name: "Express.js",
+      infra: {
+        name: "Infraestructura (CDN/Server)",
         category: "infra",
-        web: "https://expressjs.com",
-        logo: "expressjs.com",
+        web: "https://infra.com",
+        logo: { id: "infra.com", provider: "logodev" },
         rules: [
-          { type: "header", key: "x-powered-by", pattern: "^Express$", description: "Cabecera X-Powered-By Express", weight: 1.0 }
+          { type: "header", key: "server", pattern: "Nginx|Cloudflare", description: "Cabecera de servidor", weight: 1.0, isNoCode: false },
+          { type: "header", key: "x-powered-by", pattern: "Express|PHP", description: "Tecnología backend", weight: 1.0, isNoCode: false }
         ]
       }
     };
@@ -540,6 +628,7 @@ chismografo add-infra</code></pre>
     document.addEventListener("DOMContentLoaded", () => {
       setupTabNavigation();
       renderStudio();
+      loadToolsDirectory();
       lucide.createIcons();
     });
 
@@ -592,6 +681,16 @@ chismografo add-infra</code></pre>
         regexErrorMsg = `⚠️ Error Regex: ${err.message}`;
       }
 
+      const ruleTypeHelp = {
+        "meta": "Busca en la información oculta de la página (ideal para encontrar etiquetas 'generator' o 'author').",
+        "script-src": "Busca en las direcciones de archivos externos (ideal para rastrear CDNs o servicios externos).",
+        "script-content": "Busca en el código dentro de la página (ideal para encontrar variables o funciones específicas).",
+        "link-href": "Busca en las direcciones de estilos o fuentes (ideal para temas o frameworks de diseño).",
+        "html-class": "Busca en los nombres de diseño visual de la página (clases de CSS).",
+        "html-attribute": "Busca en atributos específicos de los elementos (como 'data-id' o 'action' de un formulario).",
+        "header": "Busca en la respuesta HTTP del servidor (ideal para detectar tecnologías backend como Express o PHP)."
+      };
+
       card.innerHTML = `
         <div class="rule-card-header">
           <div class="rule-card-title">
@@ -599,7 +698,7 @@ chismografo add-infra</code></pre>
             <span class="rule-type-badge">${rule.type}</span>
             ${regexErrorMsg ? `<span style="font-size:0.75rem; color:var(--gel-red); font-weight:bold;">${regexErrorMsg}</span>` : ""}
           </div>
-          <div class="rule-actions">
+          <div class="rule-actions" style="display: flex; align-items: center; gap: 0.5rem;">
             <button class="icon-btn" title="Mover arriba" onclick="moveRule(${idx}, -1)" ${idx === 0 ? "disabled" : ""}>
               <i data-lucide="arrow-up" style="width:16px;height:16px;"></i>
             </button>
@@ -617,47 +716,65 @@ chismografo add-infra</code></pre>
 
         <div class="rule-inputs-grid">
           <div class="form-group-sm">
-            <label>Tipo de Regla (type)</label>
+            <label style="display: flex; align-items: center; gap: 0.25rem;">
+              Tipo de Regla
+              <span title="${ruleTypeHelp[rule.type]}" style="cursor: help; color: var(--gel-blue);"><i data-lucide="help-circle" style="width: 14px; height: 14px;"></i></span>
+            </label>
             <select onchange="updateRuleField(${idx}, 'type', this.value)">
-              <option value="meta" ${rule.type === "meta" ? "selected" : ""}>meta (etiqueta HTML)</option>
-              <option value="script-src" ${rule.type === "script-src" ? "selected" : ""}>script-src (URL de script)</option>
-              <option value="script-content" ${rule.type === "script-content" ? "selected" : ""}>script-content (código inline)</option>
-              <option value="link-href" ${rule.type === "link-href" ? "selected" : ""}>link-href (CSS / link)</option>
-              <option value="html-class" ${rule.type === "html-class" ? "selected" : ""}>html-class (clases DOM)</option>
-              <option value="html-attribute" ${rule.type === "html-attribute" ? "selected" : ""}>html-attribute (atributo DOM)</option>
-              <option value="header" ${rule.type === "header" ? "selected" : ""}>header (cabecera HTTP)</option>
+              <option value="meta" ${rule.type === "meta" ? "selected" : ""}>Información oculta (meta)</option>
+              <option value="script-src" ${rule.type === "script-src" ? "selected" : ""}>Archivos de código (script-src)</option>
+              <option value="script-content" ${rule.type === "script-content" ? "selected" : ""}>Código interno (script-content)</option>
+              <option value="link-href" ${rule.type === "link-href" ? "selected" : ""}>Estilos externos (link-href)</option>
+              <option value="html-class" ${rule.type === "html-class" ? "selected" : ""}>Nombres de diseño (html-class)</option>
+              <option value="html-attribute" ${rule.type === "html-attribute" ? "selected" : ""}>Atributos de elementos (html-attribute)</option>
+              <option value="header" ${rule.type === "header" ? "selected" : ""}>Respuesta del servidor (header)</option>
             </select>
           </div>
 
           ${requiresKey ? `
             <div class="form-group-sm">
-              <label>Clave (key) <span style="color:var(--gel-red)">*</span></label>
+              <label>Clave a buscar <span style="color:var(--gel-red)">*</span></label>
               <input type="text" class="code-input" value="${escapeHtml(rule.key || "")}" placeholder="${rule.type === 'meta' ? 'generator' : 'x-powered-by'}" oninput="updateRuleField(${idx}, 'key', this.value)">
             </div>
           ` : ""}
 
           ${requiresAttr ? `
             <div class="form-group-sm">
-              <label>Atributo (attribute) <span style="color:var(--gel-red)">*</span></label>
+              <label>Atributo a buscar <span style="color:var(--gel-red)">*</span></label>
               <input type="text" class="code-input" value="${escapeHtml(rule.attribute || "")}" placeholder="data-store-id" oninput="updateRuleField(${idx}, 'attribute', this.value)">
             </div>
           ` : ""}
 
-          <div class="form-group-sm" style="grid-column: span 2;">
-            <label>Patrón Regex (pattern) <span style="color:var(--gel-red)">*</span></label>
-            <input type="text" class="code-input" value="${escapeHtml(rule.pattern || "")}" placeholder="cdn\\.shopify\\.com" oninput="updateRuleField(${idx}, 'pattern', this.value)">
-            
-            <div class="regex-chips-row">
-              <span style="font-size:0.7rem; color:var(--ink-medium); align-self:center;">Atajos:</span>
-              <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '\\\\.com')">\\.com</button>
-              <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '\\\\b')">\\b</button>
-              <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '^\\\\d+$')">^\\d+$</button>
-              <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '/cart/add')">/cart/add</button>
+          ${state.isGlobalNoCode ? `
+            <div class="form-group-sm" style="grid-column: span 2;">
+              <label>Condición y Valor <span style="color:var(--gel-red)">*</span></label>
+              <div style="display: flex; gap: 0.5rem;">
+                <select style="flex: 1;" onchange="updateRuleField(${idx}, 'noCodeCondition', this.value)">
+                  <option value="contains" ${rule.noCodeCondition === 'contains' ? 'selected' : ''}>Contiene</option>
+                  <option value="exact" ${rule.noCodeCondition === 'exact' ? 'selected' : ''}>Exactamente</option>
+                  <option value="starts" ${rule.noCodeCondition === 'starts' ? 'selected' : ''}>Empieza con</option>
+                  <option value="ends" ${rule.noCodeCondition === 'ends' ? 'selected' : ''}>Termina con</option>
+                </select>
+                <input type="text" style="flex: 2;" value="${escapeHtml(rule.noCodeValue || "")}" placeholder="ej. shopify" oninput="updateRuleField(${idx}, 'noCodeValue', this.value)">
+              </div>
             </div>
-          </div>
+          ` : `
+            <div class="form-group-sm" style="grid-column: span 2;">
+              <label>Patrón Regex (Avanzado) <span style="color:var(--gel-red)">*</span></label>
+              <input type="text" class="code-input" value="${escapeHtml(rule.pattern || "")}" placeholder="cdn\\.shopify\\.com" oninput="updateRuleField(${idx}, 'pattern', this.value)">
+              
+              <div class="regex-chips-row">
+                <span style="font-size:0.7rem; color:var(--ink-medium); align-self:center;">Atajos:</span>
+                <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '\\\\.com')">\\.com</button>
+                <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '\\\\b')">\\b</button>
+                <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '^\\\\d+$')">^\\d+$</button>
+                <button class="chip-btn" onclick="insertRegexSnippet(${idx}, '/cart/add')">/cart/add</button>
+              </div>
+            </div>
+          `}
 
           <div class="form-group-sm">
-            <label>Peso / Confianza (weight: ${rule.weight ?? 0.5})</label>
+            <label>Nivel de Seguridad (weight: ${rule.weight ?? 0.5})</label>
             <div class="weight-control">
               <input type="range" min="0.1" max="1.0" step="0.05" value="${rule.weight ?? 0.5}" oninput="updateRuleField(${idx}, 'weight', parseFloat(this.value))">
               <span class="weight-val-badge">${(rule.weight ?? 0.5).toFixed(2)}</span>
@@ -665,8 +782,8 @@ chismografo add-infra</code></pre>
           </div>
 
           <div class="form-group-sm" style="grid-column: span 2;">
-            <label>Descripción / Comentario (description)</label>
-            <input type="text" value="${escapeHtml(rule.description || "")}" placeholder="Explica qué detecta esta regla..." oninput="updateRuleField(${idx}, 'description', this.value)">
+            <label>¿Para qué sirve esta regla? (Descripción)</label>
+            <input type="text" value="${escapeHtml(rule.description || "")}" placeholder="Explica brevemente qué estamos detectando..." oninput="updateRuleField(${idx}, 'description', this.value)">
           </div>
         </div>
       `;
@@ -685,12 +802,38 @@ chismografo add-infra</code></pre>
       updateJSONPreview();
     }
 
+    function escapeRegExp(string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+    }
+
+    function toggleGlobalNoCode(isNoCode) {
+      state.isGlobalNoCode = isNoCode;
+      renderStudio();
+    }
+
     function updateRuleField(idx, field, value) {
       state.rules[idx][field] = value;
-      // If type changed, re-render to update key/attribute requirement fields
+      
+      const r = state.rules[idx];
+      
+      if (state.isGlobalNoCode) {
+        if (field === 'noCodeCondition' || field === 'noCodeValue') {
+          const val = r.noCodeValue || "";
+          const escaped = escapeRegExp(val);
+          switch(r.noCodeCondition) {
+            case 'contains': r.pattern = escaped; break;
+            case 'exact': r.pattern = `^${escaped}$`; break;
+            case 'starts': r.pattern = `^${escaped}`; break;
+            case 'ends': r.pattern = `${escaped}$`; break;
+            default: r.pattern = escaped;
+          }
+        }
+      }
+
+      // If type changed, re-render
       if (field === "type") {
-        if (value !== "meta" && value !== "header") delete state.rules[idx].key;
-        if (value !== "html-attribute") delete state.rules[idx].attribute;
+        if (value !== "meta" && value !== "header") delete r.key;
+        if (value !== "html-attribute") delete r.attribute;
         renderStudio();
       } else {
         updateJSONPreview();
@@ -708,7 +851,10 @@ chismografo add-infra</code></pre>
         type: "script-src",
         pattern: "ejemplo\\.com",
         description: "Nueva regla de detección",
-        weight: 0.5
+        weight: 0.5,
+        isNoCode: true,
+        noCodeCondition: "contains",
+        noCodeValue: "ejemplo.com"
       });
       renderStudio();
     }
@@ -762,6 +908,7 @@ chismografo add-infra</code></pre>
 
       const fullSignature = {
         name: state.name || "Sin Nombre",
+        category: state.category || "",
         web: state.web || "",
         logo: state.logo || "",
         detectionRules: cleanRules
@@ -949,6 +1096,173 @@ chismografo add-infra</code></pre>
       });
 
       outputArea.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Directorio de Herramientas Logic
+    let currentToolRules = [];
+
+    let toolsData = null;
+
+    async function loadToolsDirectory() {
+      const container = document.getElementById("tools-directory-container");
+      try {
+        const res = await fetch('/api/techs');
+        if (!res.ok) throw new Error('Failed to load techs');
+        toolsData = await res.json();
+        renderToolsDirectory();
+      } catch (err) {
+        container.innerHTML = `<div style="color:var(--gel-red)">Error al cargar el directorio: ${err.message}</div>`;
+      }
+    }
+
+    function renderToolsDirectory() {
+      const container = document.getElementById("tools-directory-container");
+      if (!toolsData) return;
+      
+      const filterCat = document.getElementById("filter-dir-category").value;
+      const filterCms = document.getElementById("filter-dir-cms").value;
+
+      container.innerHTML = '';
+      
+      const categoryNames = {
+        'cms': 'CMS / Plataforma',
+        'apps': 'Apps / Plugins',
+        'gateways': 'Pasarelas de Pago',
+        'infra': 'Infraestructura / CDN',
+        'pixels': 'Píxeles / Tracking'
+      };
+
+      let hasVisibleTools = false;
+
+      for (const [key, categoryData] of Object.entries(toolsData)) {
+        if (filterCat !== 'all' && key !== filterCat) continue;
+
+        let filteredTools = categoryData;
+        if (filterCms !== 'all') {
+          filteredTools = categoryData.filter(tool => {
+            if (key === 'cms') return tool.name === filterCms;
+            if (tool.compatibleCMS && Array.isArray(tool.compatibleCMS) && tool.compatibleCMS.length > 0) {
+              return tool.compatibleCMS.includes(filterCms);
+            }
+            return true; // Si no especifica, asumimos universal/infra.
+          });
+        }
+
+        if (filteredTools.length === 0) continue;
+
+        hasVisibleTools = true;
+        const sortedTools = filteredTools.sort((a, b) => a.name.localeCompare(b.name));
+        
+        const section = document.createElement('div');
+        section.innerHTML = `
+          <h3 style="font-family: var(--font-handwritten); font-size: 1.6rem; color: var(--gel-purple); border-bottom: 2px dashed var(--paper-lines); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+            ${categoryNames[key] || key.toUpperCase()}
+          </h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+            ${sortedTools.map(tool => {
+              const encodedTool = encodeURIComponent(JSON.stringify({...tool, category: categoryNames[key] || key.toUpperCase()})).replace(/'/g, "%27");
+              return `
+                <div class="card glass-panel" style="cursor: pointer; display: flex; align-items: center; gap: 0.75rem; padding: 1rem; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'" onclick="openToolModal('${encodedTool}')">
+                  <img src="https://icon.horse/icon/${tool.logo || 'example.com'}" alt="${tool.name} logo" style="width: 32px; height: 32px; border-radius: 4px; object-fit: contain;">
+                  <span style="font-weight: 600; color: var(--ink-dark);">${tool.name}</span>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+        container.appendChild(section);
+      }
+
+      if (!hasVisibleTools) {
+        container.innerHTML = '<div style="text-align:center; color: var(--ink-medium); padding: 2rem;">No se encontraron herramientas que coincidan con los filtros seleccionados.</div>';
+      }
+    }
+
+    function openToolModal(encodedData) {
+      const tool = JSON.parse(decodeURIComponent(encodedData));
+      currentToolRules = tool.detectionRules || [];
+      
+      document.getElementById('modal-tool-name').textContent = tool.name;
+      document.getElementById('modal-tool-category').textContent = tool.category;
+      document.getElementById('modal-tool-logo').src = `https://icon.horse/icon/${tool.logo || 'example.com'}`;
+      
+      const sortedRules = [...currentToolRules].sort((a, b) => {
+        const weightA = typeof a.weight === 'number' ? a.weight : parseFloat(a.weight || 0.5);
+        const weightB = typeof b.weight === 'number' ? b.weight : parseFloat(b.weight || 0.5);
+        return weightB - weightA;
+      });
+
+      const rulesContainer = document.getElementById('modal-rules-container');
+      if (sortedRules.length === 0) {
+        rulesContainer.innerHTML = '<div style="padding: 1rem; color: var(--ink-medium); text-align: center;">No hay reglas para esta herramienta.</div>';
+      } else {
+        rulesContainer.innerHTML = sortedRules.map((r, idx) => {
+          const w = typeof r.weight === 'number' ? r.weight : parseFloat(r.weight || 0.5);
+          return `
+            <div class="rule-eval-item" style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-bottom: 1px solid var(--paper-lines);">
+              <div style="flex: 1;">
+                <div style="font-weight: bold; color: var(--ink-dark); font-size: 0.9rem;">${idx+1}. [${r.type}] ${r.description || ''}</div>
+                <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink-medium); overflow-wrap: anywhere;">Pattern: ${r.pattern}</div>
+              </div>
+              <div class="confidence-badge match" style="white-space: nowrap; margin-left: 1rem;">Peso: ${w.toFixed(2)}</div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      document.getElementById('modal-test-result').style.display = 'none';
+      document.getElementById('modal-test-url').value = '';
+      document.getElementById('tool-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeToolModal() {
+      document.getElementById('tool-modal').classList.add('hidden');
+    }
+
+    async function runToolTest() {
+      const url = document.getElementById('modal-test-url').value.trim();
+      const resultDiv = document.getElementById('modal-test-result');
+      
+      if (!url) {
+        alert('Ingresa una URL válida');
+        return;
+      }
+      
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = '<span style="color:var(--ink-medium);">Probando...</span>';
+      
+      try {
+        const res = await fetch('/api/rules/test', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url, detectionRules: currentToolRules })
+        });
+        const data = await res.json();
+        
+        if (data.error) throw new Error(data.error);
+        
+        const isDetected = data.score > 0;
+        const color = isDetected ? 'var(--gel-green)' : 'var(--gel-red)';
+        
+        resultDiv.innerHTML = `
+          <div style="background: rgba(255,255,255,0.5); padding: 1rem; border-radius: 8px; border: 1px solid ${color};">
+            <h4 style="color: ${color}; margin-bottom: 0.5rem; font-family: var(--font-handwritten); font-size: 1.4rem;">
+              ${isDetected ? '✅ Detectado' : '❌ No Detectado'} (Confianza: ${(data.score * 100).toFixed(0)}%)
+            </h4>
+            <div style="font-size: 0.85rem; max-height: 150px; overflow-y: auto;">
+              ${data.evaluation.map(e => `
+                <div style="margin-bottom: 0.25rem;">
+                  <span style="font-weight: bold; color: ${e.matched ? 'var(--gel-green)' : 'var(--gel-red)'}">${e.matched ? '✔' : '✖'} [${e.rule.type}]</span> 
+                  ${e.rule.description || e.rule.pattern} ${e.matched ? `(Aportó: ${e.contribution.toFixed(2)})` : ''}
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      } catch (err) {
+        resultDiv.innerHTML = `<span style="color:var(--gel-red);">Error: ${err.message}</span>`;
+      }
     }
   </script>
 </body>

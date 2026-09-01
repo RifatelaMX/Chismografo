@@ -2,15 +2,20 @@
 	"name": "Avada SEO",
 	"developer": "Avada SEO",
 	"category": "SEO",
-	"compatibleCMS": ["Shopify"],
+	"compatibleCMS": [
+		"Shopify"
+	],
 	"web": "https://www.avada.io",
 	"appStores": [
 		{
 			"cms": "Shopify",
-			"link": "https://apps.shopify.com/avada-seo"
+			"link": "avada-seo"
 		}
 	],
-	"logo": "avada.io",
+	"logo": {
+		"id": "avada.io",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

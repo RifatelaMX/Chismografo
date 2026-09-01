@@ -1,16 +1,31 @@
 {
-	"name": "Tidio",
+	"name": "Tidio: AI Chatbot & Live Chat",
 	"developer": "Tidio",
 	"category": "Soporte / Chat",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"compatibleCMS": [
+		"Shopify",
+		"Magento",
+		"WooCommerce",
+		"PrestaShop",
+		"VTEX"
+	],
 	"web": "https://www.tidio.com",
-	"appStores": [],
-	"logo": "tidio.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "tidio-chat"
+		}
+	],
+	"logo": {
+		"id": "tidio.com",
+		"provider": "logodev"
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",
 			"pattern": "tidio\\.co|tidiochat\\.com",
-			"description": "Tidio integration script or resource detected"
+			"description": "Integración o recurso de Tidio detectado",
+			"weight": 1
 		}
 	]
 }

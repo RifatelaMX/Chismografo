@@ -6,5 +6,5 @@ node_modules/
 .tempmediaStorage/
 .vercel/
 .env*
-public/screenshots/*
-!public/screenshots/.gitkeep
+public/screenshots/
+public/reports/

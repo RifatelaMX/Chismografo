@@ -1,7 +1,10 @@
 {
 	"name": "WooCommerce",
 	"web": "https://woocommerce.com",
-	"logo": "woocommerce.com",
+	"logo": {
+		"id": "woocommerce.com",
+		"provider": "logodev"
+	},
 	"detectionRules": [
 		{
 			"id": "woocommerce-meta-generator",
@@ -9,7 +12,7 @@
 			"key": "generator",
 			"pattern": "woocommerce",
 			"description": "Meta generator contains \"WooCommerce\"",
-			"weight": 1.0
+			"weight": 1
 		},
 		{
 			"id": "woocommerce-script-src-plugin",

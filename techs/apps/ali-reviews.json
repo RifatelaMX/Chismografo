@@ -2,15 +2,20 @@
 	"name": "Ali Reviews",
 	"developer": "Ali Reviews",
 	"category": "Reseñas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.ali-reviews.com",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://kudosi.ai",
 	"appStores": [
 		{
 			"cms": "Shopify",
-			"link": "https://apps.shopify.com/ali-reviews"
+			"link": "ali-reviews"
 		}
 	],
-	"logo": "ali-reviews.com",
+	"logo": {
+		"id": "alireviews.io",
+		"provider": "logodev"
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

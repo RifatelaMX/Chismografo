@@ -1,18 +1,21 @@
 {
-	"name": "Braintree",
-	"category": "Payment Gateway",
-	"web": "https://braintreepayments.com",
-	"logo": "braintreepayments.com",
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "braintreegateway\\.com|braintree\\.js",
-			"description": "Script de integración de Braintree detectado"
-		},
-		{
-			"type": "html",
-			"pattern": "\\bbraintree\\b",
-			"description": "Clase o marca HTML de Braintree detectada"
-		}
-	]
+  "name": "Braintree",
+  "category": "Pasarela de Pago",
+  "web": "https://braintreepayments.com",
+  "logo": {
+    "id": "braintreepayments.com",
+    "provider": "logodev"
+  },
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "braintreegateway\\.com|braintree\\.js",
+      "description": "Script de integración de Braintree detectado"
+    },
+    {
+      "type": "html",
+      "pattern": "\\bbraintree\\b",
+      "description": "Clase o marca HTML de Braintree detectada"
+    }
+  ]
 }

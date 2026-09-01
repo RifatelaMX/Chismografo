@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
-import { getAppRules, getCmsRules, getGatewayRules, getInfraRules } from './techRulesLoader.js';
+import { getAppRules, getCmsRules, getGatewayRules, getInfraRules, getPixelRules } from './techRulesLoader.js';
 
 /**
  * Normalizes a input URL string to include protocol
@@ -454,7 +454,12 @@ export function analyze(html, headers) {
 					developer: app.developer || app.name,
 					compatibleCMS: app.compatibleCMS || [],
 					web: app.web || '',
-					appStores: app.appStores || [],
+					appStores: (app.appStores || []).map(store => {
+						if (store.cms === 'Shopify' && store.link && !store.link.startsWith('http')) {
+							return { ...store, link: `https://apps.shopify.com/${store.link}` };
+						}
+						return store;
+					}),
 					logo: app.logo || '',
 					category: app.category,
 					type: 'signature',
@@ -515,6 +520,43 @@ export function analyze(html, headers) {
 				category: infra.category || 'Infraestructura',
 				web: infra.web || '',
 				logo: infra.logo || '',
+				evidence: matchedEvidence,
+			});
+		}
+	});
+
+	// 1.5 Pixels Scan
+	const detectedPixels = [];
+	const pixelRulesList = getPixelRules();
+
+	pixelRulesList.forEach((px) => {
+		let isPixelMatched = false;
+		let matchedEvidence = '';
+
+		if (Array.isArray(px.detectionRules)) {
+			for (const rule of px.detectionRules) {
+				const regex = rule.regex;
+				if (!regex) continue;
+
+				if (rule.type === 'script-src' || rule.type === 'script-content') {
+					const matchedScript = scripts.find(
+						(s) => (s.src && regex.test(s.src)) || (s.content && regex.test(s.content))
+					);
+					if (matchedScript) {
+						isPixelMatched = true;
+						matchedEvidence = matchedScript.src || 'Script en Línea';
+						break;
+					}
+				}
+			}
+		}
+
+		if (isPixelMatched) {
+			detectedPixels.push({
+				name: px.name,
+				category: px.category || 'Píxeles / Tracking',
+				web: px.web || '',
+				logo: px.logo || '',
 				evidence: matchedEvidence,
 			});
 		}
@@ -674,6 +716,7 @@ export function analyze(html, headers) {
 		theme: theme,
 		paymentGateways: paymentGateways,
 		infrastructure: detectedInfra,
+		pixels: detectedPixels,
 	};
 }
 
@@ -684,7 +727,7 @@ export function analyze(html, headers) {
  * @param {string} [pageHtml]
  * @returns {Promise<number|null>} Product count
  */
-async function scrapeProductCount(urlStr, technology, pageHtml = '') {
+export async function scrapeProductCount(urlStr, technology, pageHtml = '') {
 	if (!technology) return null;
 
 	let baseUrl = urlStr;

@@ -2,7 +2,10 @@
 	"name": "{{name}}",
 	"category": "{{category}}",
 	"web": "{{web}}",
-	"logo": "{{logo}}",
+	"logo": {
+		"id": "{{id_logo}}",
+		"provider": "{{provider_logo}}"
+	},
 	"detectionRules": [
 		{
 			"type": "header",

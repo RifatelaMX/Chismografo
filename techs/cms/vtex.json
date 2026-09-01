@@ -1,7 +1,10 @@
 {
 	"name": "VTEX",
 	"web": "https://vtex.com",
-	"logo": "vtex.com",
+	"logo": {
+		"id": "vtex.com",
+		"provider": "logodev"
+	},
 	"detectionRules": [
 		{
 			"id": "vtex-meta-generator",
@@ -9,7 +12,7 @@
 			"key": "generator",
 			"pattern": "vtex",
 			"description": "Meta generator contains \"VTEX\"",
-			"weight": 1.0
+			"weight": 1
 		},
 		{
 			"id": "vtex-script-src-cdn",

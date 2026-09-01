@@ -2,7 +2,10 @@
 	"name": "Apache",
 	"category": "Servidor Web",
 	"web": "https://httpd.apache.org",
-	"logo": "apache.org",
+	"logo": {
+		"id": "apache.org",
+		"provider": "logodev"
+	},
 	"detectionRules": [
 		{
 			"type": "header",

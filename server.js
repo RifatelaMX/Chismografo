@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import morgan from 'morgan';
 import screenshotmachine from 'screenshotmachine';
+import cron from 'node-cron';
 import { detectTechnology, evaluateCustomRules, fetchPage, normalizeUrl } from './src/detector.js';
 import { sendReportEmail } from './src/emailService.js';
 import { getDomainLocation } from './src/location.js';
@@ -190,10 +191,57 @@ const screenshotsDir = path.join(publicPath, 'screenshots');
 if (!fs.existsSync(screenshotsDir)) {
 	fs.mkdirSync(screenshotsDir, { recursive: true });
 }
+const reportsDir = path.join(publicPath, 'reports');
+if (!fs.existsSync(reportsDir)) {
+	fs.mkdirSync(reportsDir, { recursive: true });
+}
+
+/**
+ * Limpia reportes y capturas más antiguos que 7 días
+ */
+function cleanupOldFiles() {
+	const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7 días
+	const now = Date.now();
+	
+	const dirs = [reportsDir, screenshotsDir];
+	let deletedCount = 0;
+
+	for (const dir of dirs) {
+		if (!fs.existsSync(dir)) continue;
+		const files = fs.readdirSync(dir);
+		for (const file of files) {
+			// Ignorar mocks
+			if (file === 'desktop-mock.png' || file === 'mobile-mock.png') continue;
+			
+			const filePath = path.join(dir, file);
+			const stats = fs.statSync(filePath);
+			if (now - stats.mtimeMs > MAX_AGE_MS) {
+				try {
+					fs.unlinkSync(filePath);
+					deletedCount++;
+				} catch (err) {
+					console.error(`[Mantenimiento] Error al eliminar archivo antiguo ${file}:`, err.message);
+				}
+			}
+		}
+	}
+	
+	if (deletedCount > 0) {
+		console.log(`[Mantenimiento] 🧹 Limpieza automática: Se eliminaron ${deletedCount} archivos con más de 7 días de antigüedad.`);
+	}
+}
+
+// Ejecutar limpieza al iniciar
+cleanupOldFiles();
+
+// Configurar tarea cron para ejecutar la limpieza todos los días a la medianoche (00:00)
+cron.schedule('0 0 * * *', () => {
+	console.log('[Mantenimiento] ⏱️ Ejecutando tarea cron diaria de limpieza...');
+	cleanupOldFiles();
+});
 
 /**
  * Captures screenshot for mobile or desktop/responsive version without requiring an API key.
- * Uses free providers (Microlink API & WordPress mshots) with device emulation.
  *
  * @param {string} domain - Target domain (e.g. 'shopify.com')
  * @param {'desktop'|'mobile'|'responsive'} device - Target device viewport
@@ -251,7 +299,8 @@ async function fetchFreeScreenshot(domain, device = 'desktop') {
 			timeout: 10000,
 		});
 
-		if (res.data && res.data.length > 1000) {
+		// 8737 bytes is the size of the "Generating Preview" placeholder image.
+		if (res.data && res.data.length > 12000) {
 			console.log(
 				`[Captura Local] ✅ Captura [${device}] obtenida exitosamente vía WordPress mshots para ${domain} (${res.data.length} bytes)`
 			);
@@ -277,11 +326,13 @@ async function getScreenshot(domain, device = 'desktop', extraParams = {}) {
 
 	console.log(`[Captura] 📸 Solicitando captura [${device}] para dominio: ${cleanDomain}`);
 
-	// 1. Verificar si la captura ya existe en caché local
+	// 1. Verificar si la captura ya existe en caché local (DESACTIVADO: El usuario solicitó sobreescribir siempre en cada consulta)
+	/*
 	if (fs.existsSync(filePath) && Object.keys(extraParams).length === 0) {
 		console.log(`[Captura] ⚡ Captura [${device}] recuperada desde la caché: ${filename}`);
 		return `/screenshots/${filename}`;
 	}
+	*/
 
 	const screenshotsEnabled = process.env.ENABLE_SCREENSHOTS !== 'false';
 	if (!screenshotsEnabled) {
@@ -319,7 +370,7 @@ async function getScreenshot(domain, device = 'desktop', extraParams = {}) {
 				console.log(
 					`[Captura Screenshot Machine] ✅ Captura [${device}] guardada correctamente en ${filename}`
 				);
-				return `/screenshots/${filename}`;
+				return `/screenshots/${filename}?v=${Date.now()}`;
 			}
 		} catch (err) {
 			console.error(
@@ -340,7 +391,7 @@ async function getScreenshot(domain, device = 'desktop', extraParams = {}) {
 			console.log(
 				`[Captura] ✅ Captura [${device}] guardada exitosamente usando método local en ${filename}`
 			);
-			return `/screenshots/${filename}`;
+			return `/screenshots/${filename}?v=${Date.now()}`;
 		}
 	} catch (err) {
 		console.error(
@@ -349,18 +400,41 @@ async function getScreenshot(domain, device = 'desktop', extraParams = {}) {
 		);
 	}
 
-	// Respaldo final a imagen mock en caso de fallo o desconexión
-	console.warn(`[Captura] ⚠️ Usando imagen mock de respaldo para ${cleanDomain} [${device}]`);
-	const mockFile = device === 'desktop' ? 'desktop-mock.png' : 'mobile-mock.png';
-	const mockPath = path.join(publicPath, 'mocks', mockFile);
-	if (fs.existsSync(mockPath)) {
-		try {
-			fs.copyFileSync(mockPath, filePath);
-			return `/screenshots/${filename}`;
-		} catch (_e) {}
-	}
+	// Si falla, devolvemos string vacío para no mostrar un "Generating Preview" falso
+	console.warn(`[Captura] ⚠️ No se pudo obtener captura para ${cleanDomain} [${device}], omitiendo...`);
 	return '';
 }
+
+/**
+ * @api {get} /api/techs Get all available technologies and their rules
+ */
+app.get('/api/techs', (_req, res) => {
+	const techsPath = path.join(__dirname, 'techs', 'index.json');
+	if (fs.existsSync(techsPath)) {
+		try {
+			const data = JSON.parse(fs.readFileSync(techsPath, 'utf-8'));
+			res.json(data);
+		} catch (e) {
+			res.status(500).json({ error: 'Failed to parse techs data' });
+		}
+	} else {
+		res.status(404).json({ error: 'Techs data not found' });
+	}
+});
+
+/**
+ * @api {get} /api/cron/cleanup Cron endpoint to trigger cleanup on Vercel
+ */
+app.get('/api/cron/cleanup', (req, res) => {
+	try {
+		console.log('[Mantenimiento] ⏱️ Ejecutando limpieza vía Vercel Cron...');
+		cleanupOldFiles();
+		res.status(200).json({ status: 'success', message: 'Cleanup executed successfully' });
+	} catch (error) {
+		console.error('[Mantenimiento] Error en endpoint cron:', error);
+		res.status(500).json({ status: 'error', message: error.message });
+	}
+});
 
 /**
  * @api {get} /api/config Get server-side API configuration status
@@ -376,6 +450,9 @@ app.get('/api/config', (_req, res) => {
 
 	res.json({
 		logoDevToken: process.env.LOGODEV_PUBLISHABLE_KEY || '',
+		brandfetchApiKey: process.env.BRANDFETCH_API_KEY || '',
+		brandiconsApiKey: process.env.BRANDICONS_API_KEY || '',
+		ninjapearApiKey: process.env.NINJAPEAR_API_KEY || '',
 		appUrl: process.env.APP_URL || '',
 		emailEnabled:
 			!!(
@@ -1112,6 +1189,29 @@ app.get('/widget', validateUrlParam, async (req, res) => {
 // 13. Embeddable Search Widget Page
 app.get('/search-widget', (_req, res) => {
 	res.sendFile(path.join(publicPath, 'search-widget.html'));
+});
+
+/**
+ * @api {post} /api/save-report Guardar estado del reporte para compartir
+ */
+app.post('/api/save-report', express.json({ limit: '10mb' }), (req, res) => {
+	try {
+		const data = req.body;
+		if (!data || !data.url) {
+			return res.status(400).json({ success: false, error: 'Datos inválidos' });
+		}
+		
+		// Generar ID único corto (fecha + random)
+		const reportId = Date.now().toString(36) + Math.random().toString(36).substring(2, 7);
+		const fileName = `${reportId}.json`;
+		
+		// Guardar como JSON
+		fs.writeFileSync(path.join(reportsDir, fileName), JSON.stringify(data));
+		
+		res.json({ success: true, reportId });
+	} catch (e) {
+		res.status(500).json({ success: false, error: e.message });
+	}
 });
 
 // Fallback index.html route for SPA dashboard

@@ -1,0 +1,23 @@
+{
+  "name": "Meta Pixel",
+  "category": "Redes Sociales",
+  "web": "https://www.facebook.com/business/tools/meta-pixel",
+  "logo": {
+    "id": "facebook.com",
+    "provider": "logodev"
+  },
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "connect\\.facebook\\.net\\/en_US\\/fbevents\\.js",
+      "description": "Meta Pixel script detectado",
+      "weight": 1
+    },
+    {
+      "type": "script-content",
+      "pattern": "fbq\\('init'",
+      "description": "Meta Pixel initialization detectado",
+      "weight": 0.8
+    }
+  ]
+}

@@ -2,15 +2,20 @@
 	"name": "Frequently Bought Together",
 	"developer": "Frequently Bought Together",
 	"category": "Checkout / Ofertas",
-	"compatibleCMS": ["Shopify"],
+	"compatibleCMS": [
+		"Shopify"
+	],
 	"web": "https://www.frequently-bought-together.com",
 	"appStores": [
 		{
 			"cms": "Shopify",
-			"link": "https://apps.shopify.com/frequently-bought-together"
+			"link": "frequently-bought-together"
 		}
 	],
-	"logo": "frequently-bought-together.com",
+	"logo": {
+		"id": "frequently-bought-together.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

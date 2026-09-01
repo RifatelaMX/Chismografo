@@ -1,11 +1,25 @@
 {
-	"name": "Recharge",
+	"name": "Recharge Subscriptions App",
 	"developer": "Recharge",
 	"category": "Suscripciones",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.recharge.com",
-	"appStores": [],
-	"logo": "recharge.com",
+	"compatibleCMS": [
+		"Shopify",
+		"Magento",
+		"WooCommerce",
+		"PrestaShop",
+		"VTEX"
+	],
+	"web": "https://www.rechargepayments.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "subscription-payments"
+		}
+	],
+	"logo": {
+		"id": "rechargepayments.com",
+		"provider": "logodev"
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",
