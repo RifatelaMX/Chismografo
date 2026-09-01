@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import morgan from 'morgan';
 import screenshotmachine from 'screenshotmachine';
+import cron from 'node-cron';
 import { detectTechnology, evaluateCustomRules, fetchPage, normalizeUrl } from './src/detector.js';
 import { sendReportEmail } from './src/emailService.js';
 import { getDomainLocation } from './src/location.js';
@@ -190,6 +191,54 @@ const screenshotsDir = path.join(publicPath, 'screenshots');
 if (!fs.existsSync(screenshotsDir)) {
 	fs.mkdirSync(screenshotsDir, { recursive: true });
 }
+const reportsDir = path.join(publicPath, 'reports');
+if (!fs.existsSync(reportsDir)) {
+	fs.mkdirSync(reportsDir, { recursive: true });
+}
+
+/**
+ * Limpia reportes y capturas más antiguos que 7 días
+ */
+function cleanupOldFiles() {
+	const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7 días
+	const now = Date.now();
+	
+	const dirs = [reportsDir, screenshotsDir];
+	let deletedCount = 0;
+
+	for (const dir of dirs) {
+		if (!fs.existsSync(dir)) continue;
+		const files = fs.readdirSync(dir);
+		for (const file of files) {
+			// Ignorar mocks
+			if (file === 'desktop-mock.png' || file === 'mobile-mock.png') continue;
+			
+			const filePath = path.join(dir, file);
+			const stats = fs.statSync(filePath);
+			if (now - stats.mtimeMs > MAX_AGE_MS) {
+				try {
+					fs.unlinkSync(filePath);
+					deletedCount++;
+				} catch (err) {
+					console.error(`[Mantenimiento] Error al eliminar archivo antiguo ${file}:`, err.message);
+				}
+			}
+		}
+	}
+	
+	if (deletedCount > 0) {
+		console.log(`[Mantenimiento] 🧹 Limpieza automática: Se eliminaron ${deletedCount} archivos con más de 7 días de antigüedad.`);
+	}
+}
+
+// Ejecutar limpieza al iniciar
+cleanupOldFiles();
+
+// Configurar tarea cron para ejecutar la limpieza todos los días a la medianoche (00:00)
+cron.schedule('0 0 * * *', () => {
+	console.log('[Mantenimiento] ⏱️ Ejecutando tarea cron diaria de limpieza...');
+	cleanupOldFiles();
+});
 
 /**
  * Captures screenshot for mobile or desktop/responsive version without requiring an API key.
@@ -1123,6 +1172,29 @@ app.get('/widget', validateUrlParam, async (req, res) => {
 // 13. Embeddable Search Widget Page
 app.get('/search-widget', (_req, res) => {
 	res.sendFile(path.join(publicPath, 'search-widget.html'));
+});
+
+/**
+ * @api {post} /api/save-report Guardar estado del reporte para compartir
+ */
+app.post('/api/save-report', express.json({ limit: '10mb' }), (req, res) => {
+	try {
+		const data = req.body;
+		if (!data || !data.url) {
+			return res.status(400).json({ success: false, error: 'Datos inválidos' });
+		}
+		
+		// Generar ID único corto (fecha + random)
+		const reportId = Date.now().toString(36) + Math.random().toString(36).substring(2, 7);
+		const fileName = `${reportId}.json`;
+		
+		// Guardar como JSON
+		fs.writeFileSync(path.join(reportsDir, fileName), JSON.stringify(data));
+		
+		res.json({ success: true, reportId });
+	} catch (e) {
+		res.status(500).json({ success: false, error: e.message });
+	}
 });
 
 // Fallback index.html route for SPA dashboard

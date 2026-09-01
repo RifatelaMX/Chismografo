@@ -276,6 +276,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// Perform detection flow
 	async function performDetection(targetUrl) {
+		// Update URL with query param temporarily during scan
+		try {
+			const urlObj = new URL(window.location);
+			urlObj.searchParams.delete('report');
+			urlObj.searchParams.set('url', targetUrl);
+			window.history.pushState({}, '', urlObj);
+		} catch (e) {}
+
 		// Reset PageSpeed card
 		const pagespeedCard = document.getElementById('pagespeed-card');
 		const pagespeedLoader = document.getElementById('pagespeed-loader');
@@ -368,6 +376,24 @@ document.addEventListener('DOMContentLoaded', () => {
 				clearInterval(interval);
 				scannerProgressBar.style.width = '100%';
 				scannerStep.textContent = '¡Ya tenemos el chisme completo! 🎉';
+
+				// Save the report to get a shareable ID
+				try {
+					const saveRes = await fetch('/api/save-report', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify(data)
+					});
+					const saveJson = await saveRes.json();
+					if (saveJson.success && saveJson.reportId) {
+						const urlObj = new URL(window.location);
+						urlObj.searchParams.delete('url');
+						urlObj.searchParams.set('report', saveJson.reportId);
+						window.history.pushState({}, '', urlObj);
+					}
+				} catch (e) {
+					console.warn('Could not save report state for sharing', e);
+				}
 
 				// Smooth transition to results
 				setTimeout(() => {
@@ -1422,6 +1448,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	// ─── Download Report Functionality ─────────────────────────────────────────
 	const downloadJsonBtn = document.getElementById('download-json-btn');
 	const downloadCsvBtn = document.getElementById('download-csv-btn');
+	const copyLinkBtn = document.getElementById('copy-link-btn');
 
 	function downloadFile(content, fileName, contentType) {
 		const a = document.createElement('a');
@@ -1430,6 +1457,22 @@ document.addEventListener('DOMContentLoaded', () => {
 		a.download = fileName;
 		a.click();
 		URL.revokeObjectURL(a.href);
+	}
+
+	if (copyLinkBtn) {
+		copyLinkBtn.addEventListener('click', () => {
+			navigator.clipboard.writeText(window.location.href).then(() => {
+				const originalText = copyLinkBtn.innerHTML;
+				copyLinkBtn.innerHTML = '<i data-lucide="check" style="width:15px;height:15px;color:#10b981;"></i> ¡Copiado!';
+				lucide.createIcons();
+				setTimeout(() => {
+					copyLinkBtn.innerHTML = originalText;
+					lucide.createIcons();
+				}, 2000);
+			}).catch(err => {
+				console.error('Error al copiar el enlace: ', err);
+			});
+		});
 	}
 
 	if (downloadJsonBtn) {
@@ -1634,8 +1677,25 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.head.appendChild(spinStyle);
 
 	// Auto-fill query parameter URL and perform scan on load if present
+	const queryReport = urlParams.get('report');
 	const queryUrl = urlParams.get('url');
-	if (queryUrl && targetUrlInput) {
+
+	if (queryReport) {
+		// Load existing report
+		fetch(`/reports/${queryReport}.json`)
+			.then(r => {
+				if (!r.ok) throw new Error('Reporte no encontrado');
+				return r.json();
+			})
+			.then(data => {
+				if (targetUrlInput) targetUrlInput.value = data.resolvedUrl || data.url || '';
+				renderResults(data);
+			})
+			.catch(err => {
+				console.error(err);
+				alert('El reporte compartido no existe o expiró.');
+			});
+	} else if (queryUrl && targetUrlInput) {
 		targetUrlInput.value = queryUrl;
 		performDetection(queryUrl);
 	}
