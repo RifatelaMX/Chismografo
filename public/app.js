@@ -548,10 +548,24 @@ document.addEventListener('DOMContentLoaded', () => {
 		const screenshotDesktopImg = document.getElementById('screenshot-desktop-img');
 		const screenshotMobileImg = document.getElementById('screenshot-mobile-img');
 
-		if (data.screenshots?.desktop && data.screenshots.mobile) {
-			if (screenshotDesktopImg) screenshotDesktopImg.src = data.screenshots.desktop;
-			if (screenshotMobileImg) screenshotMobileImg.src = data.screenshots.mobile;
+		if (data.screenshots?.desktop || data.screenshots?.mobile) {
 			if (headerPreviewsContainer) headerPreviewsContainer.style.display = 'flex';
+			
+			const desktopMockup = document.querySelector('.desktop-mockup-mini');
+			if (data.screenshots?.desktop) {
+				if (screenshotDesktopImg) screenshotDesktopImg.src = data.screenshots.desktop;
+				if (desktopMockup) desktopMockup.style.display = 'block';
+			} else {
+				if (desktopMockup) desktopMockup.style.display = 'none';
+			}
+
+			const mobileMockup = document.querySelector('.mobile-mockup-mini');
+			if (data.screenshots?.mobile) {
+				if (screenshotMobileImg) screenshotMobileImg.src = data.screenshots.mobile;
+				if (mobileMockup) mobileMockup.style.display = 'block';
+			} else {
+				if (mobileMockup) mobileMockup.style.display = 'none';
+			}
 		} else {
 			if (headerPreviewsContainer) headerPreviewsContainer.style.display = 'none';
 		}
@@ -725,7 +739,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 			}
 		} else {
-			if (detectedTechName) detectedTechName.textContent = 'No Detectada';
+			if (detectedTechName) {
+				detectedTechName.innerHTML = '¿Tu CMS no se detecta? <span style="font-size:0.6em; opacity:0.9; font-weight:normal; display:block; margin-top:5px;">Solicita que se añada a la lista</span>';
+			}
 			if (detectedThemeContainer) detectedThemeContainer.style.display = 'none';
 			if (resultStatusLabel) {
 				resultStatusLabel.textContent = 'Desconocido';

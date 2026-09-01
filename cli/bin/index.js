@@ -274,6 +274,10 @@ const helpText = `
     \x1b[90m--web <url>                           URL del sitio de la pasarela.
     \x1b[90m--logo <logo>                         Logo de la pasarela (ej. stripe.com).\x1b[0m
 
+  \x1b[1m\x1b[36madd-pixel\x1b[0m \x1b[33m<nombre> [opciones]\x1b[0m            Registra un nuevo píxel de tracking o red social.
+    \x1b[90m--web <url>                           URL del sitio del píxel.
+    \x1b[90m--logo <logo>                         Logo del píxel (ej. facebook.com).\x1b[0m
+
   \x1b[1m\x1b[36mversion, --version, -v\x1b[0m                 Muestra las versiones del Chismógrafo.
     \x1b[90m--cli, -c                             Muestra solo la versión del CLI.
     --ui, -u, --front                     Muestra solo la versión de la interfaz (UI).
@@ -417,6 +421,7 @@ else if (command === 'build-index') {
 		let apps = loadFolder('apps');
 		let infra = loadFolder('infra');
 		let gateways = loadFolder('gateways');
+		let pixels = loadFolder('pixels');
 
 		// Apply CMS filter (filters apps compatible with the CMS)
 		if (cmsFilter) {
@@ -436,9 +441,10 @@ else if (command === 'build-index') {
 			apps = apps.filter((app) => app.category?.toLowerCase().includes(catLower));
 			infra = infra.filter((inf) => inf.category?.toLowerCase().includes(catLower));
 			gateways = gateways.filter((gw) => gw.category?.toLowerCase().includes(catLower));
+			pixels = pixels.filter((px) => px.category?.toLowerCase().includes(catLower));
 		}
 
-		const indexData = { cms, apps, infra, gateways };
+		const indexData = { cms, apps, infra, gateways, pixels };
 
 		// Compress/Minify output (no spaces/newlines in JSON.stringify)
 		fs.writeFileSync(indexPath, JSON.stringify(indexData), 'utf-8');
@@ -833,6 +839,69 @@ else if (command === 'add-gateway') {
 	}
 }
 
+// 7c. Command: add-pixel
+else if (command === 'add-pixel') {
+	let name = args[1];
+	let webVal = getOption('--web');
+	let logoVal = getOption('--logo');
+
+	if (!name) {
+		console.log(
+			'\x1b[36m%s\x1b[0m',
+			'🎮 El Chismógrafo abre el creador interactivo de expedientes para Píxeles de Tracking...'
+		);
+		name = await askQuestion('1. Nombre del Píxel: ');
+		if (!name) {
+			console.error('\x1b[31m%s\x1b[0m', '✗ El nombre es obligatorio.');
+			process.exit(1);
+		}
+		const tempSlug = toSlug(name);
+		webVal =
+			(await askQuestion(`2. URL de la Web [https://www.${tempSlug}.com]: `)) ||
+			`https://www.${tempSlug}.com`;
+		logoVal =
+			(await askQuestion(`3. Identificador de Logo [${tempSlug}.com]: `)) || `${tempSlug}.com`;
+	} else {
+		const tempSlug = toSlug(name);
+		webVal = webVal || `https://www.${tempSlug}.com`;
+		logoVal = logoVal || `${tempSlug}.com`;
+	}
+
+	const slug = toSlug(name);
+	const targetPath = path.join(techsDir, 'pixels', `${slug}.json`);
+
+	console.log(
+		'\x1b[36m%s\x1b[0m',
+		`📝 El Chismógrafo está fichando el Píxel: ${name}...`
+	);
+
+	const templatePath = path.join(templatesDir, 'pixels.json');
+	try {
+		let templateStr = fs.readFileSync(templatePath, 'utf-8');
+		templateStr = templateStr
+			.replace(/\{\{name\}\}/g, name)
+			.replace(/\{\{slug\}\}/g, slug)
+			.replace(/\{\{web\}\}/g, webVal)
+			.replace(/\{\{logo\}\}/g, logoVal);
+
+		const template = JSON.parse(templateStr);
+
+		fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+		fs.writeFileSync(targetPath, JSON.stringify(template, null, 2), 'utf-8');
+		console.log(
+			'\x1b[32m%s\x1b[0m',
+			`✓ ¡Fichado! El Chismógrafo guardó el expediente del Píxel en ${targetPath}`
+		);
+	} catch (err) {
+		console.error(
+			'\x1b[31m%s\x1b[0m',
+			'✗ ¡Chisme fallido! Error al fichar píxel:',
+			err.message
+		);
+		process.exit(1);
+	}
+}
+
 // 8. Command: test-domain
 else if (command === 'test-domain') {
 	let url = args[1];
@@ -908,7 +977,7 @@ else if (command === 'test-domain') {
 			);
 		} else {
 			console.log('\x1b[36m\x1b[1m%s\x1b[0m', '📦 Plataforma E-Commerce (CMS):');
-			console.log('   🤷 No se le encontró plataforma conocida... ¡qué misterio!\n');
+			console.log('   🤷 ¿Tu CMS no se detecta? Solicita que se añada a la lista.\n');
 		}
 
 		// 2. Apps

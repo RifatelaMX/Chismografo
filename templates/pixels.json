@@ -1,0 +1,20 @@
+{
+	"name": "{{name}}",
+	"category": "Píxeles / Tracking",
+	"web": "{{web}}",
+	"logo": "{{logo}}",
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "{{slug}}",
+			"description": "Script de {{name}} detectado",
+			"weight": 1.0
+		},
+		{
+			"type": "script-content",
+			"pattern": "{{slug}}",
+			"description": "Configuración en línea de {{name}} detectada",
+			"weight": 0.8
+		}
+	]
+}

@@ -445,6 +445,31 @@ chismografo add-infra</code></pre>
           </div>
           <p class="section-desc">Catálogo de tecnologías y sus reglas de detección ordenadas alfabéticamente por categoría.</p>
           
+          <div style="display: flex; gap: 1rem; margin-top: 1.5rem; margin-bottom: -0.5rem; flex-wrap: wrap;">
+            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+              <label style="font-size: 0.8rem; font-weight: bold; color: var(--ink-medium);">Filtrar por Categoría</label>
+              <select id="filter-dir-category" class="code-input" style="padding: 0.5rem; border-radius: 6px; border: 1px solid var(--paper-lines); background: var(--paper);" onchange="renderToolsDirectory()">
+                <option value="all">Todas las categorías</option>
+                <option value="cms">CMS / Plataforma</option>
+                <option value="apps">Apps / Plugins</option>
+                <option value="gateways">Pasarelas de Pago</option>
+                <option value="infra">Infraestructura / CDN</option>
+                <option value="pixels">Píxeles / Tracking</option>
+              </select>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+              <label style="font-size: 0.8rem; font-weight: bold; color: var(--ink-medium);">Filtrar por CMS</label>
+              <select id="filter-dir-cms" class="code-input" style="padding: 0.5rem; border-radius: 6px; border: 1px solid var(--paper-lines); background: var(--paper);" onchange="renderToolsDirectory()">
+                <option value="all">Cualquier CMS</option>
+                <option value="Shopify">Shopify</option>
+                <option value="WooCommerce">WooCommerce</option>
+                <option value="PrestaShop">PrestaShop</option>
+                <option value="Magento">Magento</option>
+                <option value="VTEX">VTEX</option>
+              </select>
+            </div>
+          </div>
+
           <div id="tools-directory-container" style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1.5rem;">
             <div style="text-align:center; color: var(--ink-medium);">Cargando directorio...</div>
           </div>
@@ -1009,48 +1034,80 @@ chismografo add-infra</code></pre>
     // Directorio de Herramientas Logic
     let currentToolRules = [];
 
+    let toolsData = null;
+
     async function loadToolsDirectory() {
       const container = document.getElementById("tools-directory-container");
       try {
         const res = await fetch('/api/techs');
         if (!res.ok) throw new Error('Failed to load techs');
-        const data = await res.json();
-        
-        container.innerHTML = '';
-        
-        const categoryNames = {
-          'cms': 'CMS / Plataforma',
-          'apps': 'Apps / Plugins',
-          'gateways': 'Pasarelas de Pago',
-          'infra': 'Infraestructura / CDN',
-          'pixels': 'Píxeles / Tracking'
-        };
-
-        for (const [key, categoryData] of Object.entries(data)) {
-          const sortedTools = categoryData.sort((a, b) => a.name.localeCompare(b.name));
-          
-          const section = document.createElement('div');
-          section.innerHTML = `
-            <h3 style="font-family: var(--font-handwritten); font-size: 1.6rem; color: var(--gel-purple); border-bottom: 2px dashed var(--paper-lines); padding-bottom: 0.5rem; margin-bottom: 1rem;">
-              ${categoryNames[key] || key.toUpperCase()}
-            </h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
-              ${sortedTools.map(tool => {
-                const encodedTool = encodeURIComponent(JSON.stringify({...tool, category: categoryNames[key] || key.toUpperCase()}));
-                return `
-                  <div class="card glass-panel" style="cursor: pointer; display: flex; align-items: center; gap: 0.75rem; padding: 1rem; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'" onclick="openToolModal('${encodedTool}')">
-                    <img src="https://icon.horse/icon/${tool.logo || 'example.com'}" alt="${tool.name} logo" style="width: 32px; height: 32px; border-radius: 4px; object-fit: contain;">
-                    <span style="font-weight: 600; color: var(--ink-dark);">${tool.name}</span>
-                  </div>
-                `;
-              }).join('')}
-            </div>
-          `;
-          container.appendChild(section);
-        }
-        
+        toolsData = await res.json();
+        renderToolsDirectory();
       } catch (err) {
         container.innerHTML = `<div style="color:var(--gel-red)">Error al cargar el directorio: ${err.message}</div>`;
+      }
+    }
+
+    function renderToolsDirectory() {
+      const container = document.getElementById("tools-directory-container");
+      if (!toolsData) return;
+      
+      const filterCat = document.getElementById("filter-dir-category").value;
+      const filterCms = document.getElementById("filter-dir-cms").value;
+
+      container.innerHTML = '';
+      
+      const categoryNames = {
+        'cms': 'CMS / Plataforma',
+        'apps': 'Apps / Plugins',
+        'gateways': 'Pasarelas de Pago',
+        'infra': 'Infraestructura / CDN',
+        'pixels': 'Píxeles / Tracking'
+      };
+
+      let hasVisibleTools = false;
+
+      for (const [key, categoryData] of Object.entries(toolsData)) {
+        if (filterCat !== 'all' && key !== filterCat) continue;
+
+        let filteredTools = categoryData;
+        if (filterCms !== 'all') {
+          filteredTools = categoryData.filter(tool => {
+            if (key === 'cms') return tool.name === filterCms;
+            if (tool.compatibleCMS && Array.isArray(tool.compatibleCMS) && tool.compatibleCMS.length > 0) {
+              return tool.compatibleCMS.includes(filterCms);
+            }
+            return true; // Si no especifica, asumimos universal/infra.
+          });
+        }
+
+        if (filteredTools.length === 0) continue;
+
+        hasVisibleTools = true;
+        const sortedTools = filteredTools.sort((a, b) => a.name.localeCompare(b.name));
+        
+        const section = document.createElement('div');
+        section.innerHTML = `
+          <h3 style="font-family: var(--font-handwritten); font-size: 1.6rem; color: var(--gel-purple); border-bottom: 2px dashed var(--paper-lines); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+            ${categoryNames[key] || key.toUpperCase()}
+          </h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+            ${sortedTools.map(tool => {
+              const encodedTool = encodeURIComponent(JSON.stringify({...tool, category: categoryNames[key] || key.toUpperCase()})).replace(/'/g, "%27");
+              return `
+                <div class="card glass-panel" style="cursor: pointer; display: flex; align-items: center; gap: 0.75rem; padding: 1rem; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'" onclick="openToolModal('${encodedTool}')">
+                  <img src="https://icon.horse/icon/${tool.logo || 'example.com'}" alt="${tool.name} logo" style="width: 32px; height: 32px; border-radius: 4px; object-fit: contain;">
+                  <span style="font-weight: 600; color: var(--ink-dark);">${tool.name}</span>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+        container.appendChild(section);
+      }
+
+      if (!hasVisibleTools) {
+        container.innerHTML = '<div style="text-align:center; color: var(--ink-medium); padding: 2rem;">No se encontraron herramientas que coincidan con los filtros seleccionados.</div>';
       }
     }
 

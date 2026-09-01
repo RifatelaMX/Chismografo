@@ -193,7 +193,6 @@ if (!fs.existsSync(screenshotsDir)) {
 
 /**
  * Captures screenshot for mobile or desktop/responsive version without requiring an API key.
- * Uses free providers (Microlink API & WordPress mshots) with device emulation.
  *
  * @param {string} domain - Target domain (e.g. 'shopify.com')
  * @param {'desktop'|'mobile'|'responsive'} device - Target device viewport
@@ -251,7 +250,8 @@ async function fetchFreeScreenshot(domain, device = 'desktop') {
 			timeout: 10000,
 		});
 
-		if (res.data && res.data.length > 1000) {
+		// 8737 bytes is the size of the "Generating Preview" placeholder image.
+		if (res.data && res.data.length > 12000) {
 			console.log(
 				`[Captura Local] ✅ Captura [${device}] obtenida exitosamente vía WordPress mshots para ${domain} (${res.data.length} bytes)`
 			);
@@ -277,11 +277,13 @@ async function getScreenshot(domain, device = 'desktop', extraParams = {}) {
 
 	console.log(`[Captura] 📸 Solicitando captura [${device}] para dominio: ${cleanDomain}`);
 
-	// 1. Verificar si la captura ya existe en caché local
+	// 1. Verificar si la captura ya existe en caché local (DESACTIVADO: El usuario solicitó sobreescribir siempre en cada consulta)
+	/*
 	if (fs.existsSync(filePath) && Object.keys(extraParams).length === 0) {
 		console.log(`[Captura] ⚡ Captura [${device}] recuperada desde la caché: ${filename}`);
 		return `/screenshots/${filename}`;
 	}
+	*/
 
 	const screenshotsEnabled = process.env.ENABLE_SCREENSHOTS !== 'false';
 	if (!screenshotsEnabled) {
@@ -319,7 +321,7 @@ async function getScreenshot(domain, device = 'desktop', extraParams = {}) {
 				console.log(
 					`[Captura Screenshot Machine] ✅ Captura [${device}] guardada correctamente en ${filename}`
 				);
-				return `/screenshots/${filename}`;
+				return `/screenshots/${filename}?v=${Date.now()}`;
 			}
 		} catch (err) {
 			console.error(
@@ -340,7 +342,7 @@ async function getScreenshot(domain, device = 'desktop', extraParams = {}) {
 			console.log(
 				`[Captura] ✅ Captura [${device}] guardada exitosamente usando método local en ${filename}`
 			);
-			return `/screenshots/${filename}`;
+			return `/screenshots/${filename}?v=${Date.now()}`;
 		}
 	} catch (err) {
 		console.error(
@@ -349,16 +351,8 @@ async function getScreenshot(domain, device = 'desktop', extraParams = {}) {
 		);
 	}
 
-	// Respaldo final a imagen mock en caso de fallo o desconexión
-	console.warn(`[Captura] ⚠️ Usando imagen mock de respaldo para ${cleanDomain} [${device}]`);
-	const mockFile = device === 'desktop' ? 'desktop-mock.png' : 'mobile-mock.png';
-	const mockPath = path.join(publicPath, 'mocks', mockFile);
-	if (fs.existsSync(mockPath)) {
-		try {
-			fs.copyFileSync(mockPath, filePath);
-			return `/screenshots/${filename}`;
-		} catch (_e) {}
-	}
+	// Si falla, devolvemos string vacío para no mostrar un "Generating Preview" falso
+	console.warn(`[Captura] ⚠️ No se pudo obtener captura para ${cleanDomain} [${device}], omitiendo...`);
 	return '';
 }
 

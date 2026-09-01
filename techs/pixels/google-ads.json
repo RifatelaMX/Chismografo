@@ -1,0 +1,20 @@
+{
+  "name": "Google Ads",
+  "category": "Píxeles / Tracking",
+  "web": "https://ads.google.com/",
+  "logo": "ads.google.com",
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "googletagmanager\\.com\\/gtag\\/js\\?id=AW-",
+      "description": "Google Ads script detectado",
+      "weight": 1.0
+    },
+    {
+      "type": "script-content",
+      "pattern": "gtag\\('config'\\s*,\\s*['\"]AW-",
+      "description": "Google Ads configuración detectada",
+      "weight": 0.8
+    }
+  ]
+}

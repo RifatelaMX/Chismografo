@@ -6,7 +6,7 @@
 	"detectionRules": [
 		{
 			"type": "script-src",
-			"pattern": "dlocal\\.com|dlocal-js",
+			"pattern": "dlocal\\.com|dlocal-sdk",
 			"description": "Script de integración de dLocal detectado"
 		},
 		{
