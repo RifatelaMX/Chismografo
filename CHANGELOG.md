@@ -1,3 +1,9 @@
+## [1.7.0](https://github.com/RifatelaMX/Chismografo/compare/v1.6.2...v1.7.0) (2026-09-01)
+
+### ✨ Nuevas Características
+
+* **ui:** permitir ver detalles de examenes aprobados y reprobados al hacer clic en el reporte ([c18eea0](https://github.com/RifatelaMX/Chismografo/commit/c18eea04cb31572f8d67540ef86d0b935ad620a9))
+
 ## [1.6.2](https://github.com/RifatelaMX/Chismografo/compare/v1.6.1...v1.6.2) (2026-09-01)
 
 ### 🐛 Corrección de Errores
