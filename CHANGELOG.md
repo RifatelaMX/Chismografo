@@ -1,3 +1,9 @@
+## [1.7.1](https://github.com/RifatelaMX/Chismografo/compare/v1.7.0...v1.7.1) (2026-09-01)
+
+### 🐛 Corrección de Errores
+
+* **ui:** corregir cierre de tarjeta principal de resultados y extraccion de dominio para logos ([19ac2fd](https://github.com/RifatelaMX/Chismografo/commit/19ac2fda27997753f8edf88c6fe20132ba376345))
+
 ## [1.7.0](https://github.com/RifatelaMX/Chismografo/compare/v1.6.2...v1.7.0) (2026-09-01)
 
 ### ✨ Nuevas Características
