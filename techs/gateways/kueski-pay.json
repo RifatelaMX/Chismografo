@@ -2,7 +2,10 @@
 	"name": "Kueski Pay",
 	"category": "Payment Gateway",
 	"web": "https://kueskipay.com",
-	"logo": "kueskipay.com",
+	"logo": {
+		"id": "kueskipay.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

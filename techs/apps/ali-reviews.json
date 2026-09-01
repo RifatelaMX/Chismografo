@@ -2,7 +2,9 @@
 	"name": "Ali Reviews",
 	"developer": "Ali Reviews",
 	"category": "Reseñas",
-	"compatibleCMS": ["Shopify"],
+	"compatibleCMS": [
+		"Shopify"
+	],
 	"web": "https://www.ali-reviews.com",
 	"appStores": [
 		{
@@ -10,7 +12,10 @@
 			"link": "https://apps.shopify.com/ali-reviews"
 		}
 	],
-	"logo": "ali-reviews.com",
+	"logo": {
+		"id": "ali-reviews.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

@@ -2,7 +2,10 @@
 	"name": "Mercado Pago",
 	"category": "Payment Gateway",
 	"web": "https://mercadopago.com",
-	"logo": "mercadopago.com",
+	"logo": {
+		"id": "mercadopago.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

@@ -2,10 +2,19 @@
 	"name": "Yotpo",
 	"developer": "Yotpo",
 	"category": "Reseñas / Marketing",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"compatibleCMS": [
+		"Shopify",
+		"Magento",
+		"WooCommerce",
+		"PrestaShop",
+		"VTEX"
+	],
 	"web": "https://www.yotpo.com",
 	"appStores": [],
-	"logo": "yotpo.com",
+	"logo": {
+		"id": "yotpo.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

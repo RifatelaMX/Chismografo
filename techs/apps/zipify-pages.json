@@ -2,7 +2,9 @@
 	"name": "Zipify Pages",
 	"developer": "Zipify Pages",
 	"category": "Diseño de Páginas",
-	"compatibleCMS": ["Shopify"],
+	"compatibleCMS": [
+		"Shopify"
+	],
 	"web": "https://www.zipify-pages.com",
 	"appStores": [
 		{
@@ -10,7 +12,10 @@
 			"link": "https://apps.shopify.com/zipify-pages"
 		}
 	],
-	"logo": "zipify-pages.com",
+	"logo": {
+		"id": "zipify-pages.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

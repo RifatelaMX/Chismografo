@@ -2,10 +2,19 @@
 	"name": "Mailchimp",
 	"developer": "Mailchimp",
 	"category": "Marketing / Email",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"compatibleCMS": [
+		"Shopify",
+		"Magento",
+		"WooCommerce",
+		"PrestaShop",
+		"VTEX"
+	],
 	"web": "https://www.mailchimp.com",
 	"appStores": [],
-	"logo": "mailchimp.com",
+	"logo": {
+		"id": "mailchimp.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

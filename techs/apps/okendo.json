@@ -2,7 +2,9 @@
 	"name": "Okendo",
 	"developer": "Okendo",
 	"category": "Reseñas",
-	"compatibleCMS": ["Shopify"],
+	"compatibleCMS": [
+		"Shopify"
+	],
 	"web": "https://www.okendo.co",
 	"appStores": [
 		{
@@ -10,7 +12,10 @@
 			"link": "https://apps.shopify.com/okendo"
 		}
 	],
-	"logo": "okendo.co",
+	"logo": {
+		"id": "okendo.co",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

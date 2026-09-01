@@ -2,7 +2,10 @@
 	"name": "Cloudflare",
 	"category": "CDN / Proxy / Seguridad",
 	"web": "https://www.cloudflare.com",
-	"logo": "cloudflare.com",
+	"logo": {
+		"id": "cloudflare.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "header",

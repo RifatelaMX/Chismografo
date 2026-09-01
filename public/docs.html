@@ -584,7 +584,7 @@ chismografo add-infra</code></pre>
         name: "Nombre del CMS",
         category: "cms",
         web: "https://ejemplo.com",
-        logo: "ejemplo.com",
+        logo: { id: "ejemplo.com", provider: "logodev" },
         rules: [
           { type: "meta", key: "generator", pattern: "ejemplo", description: "Meta generator tag", weight: 1.0, isNoCode: true, noCodeCondition: "contains", noCodeValue: "ejemplo" },
           { type: "script-src", pattern: "cdn\\.ejemplo\\.com", description: "Scripts desde CDN", weight: 0.9, isNoCode: false },
@@ -596,7 +596,7 @@ chismografo add-infra</code></pre>
         name: "Nombre de la App",
         category: "apps",
         web: "https://app.com",
-        logo: "app.com",
+        logo: { id: "app.com", provider: "logodev" },
         rules: [
           { type: "script-src", pattern: "widget\\.app\\.com", description: "Script del widget", weight: 0.95, isNoCode: false },
           { type: "html-attribute", attribute: "data-app-id", pattern: ".*", description: "Atributo de datos de la app", weight: 1.0, isNoCode: false }
@@ -606,7 +606,7 @@ chismografo add-infra</code></pre>
         name: "Pasarela de Pago",
         category: "gateways",
         web: "https://pago.com",
-        logo: "pago.com",
+        logo: { id: "pago.com", provider: "logodev" },
         rules: [
           { type: "script-src", pattern: "js\\.pago\\.com|sdk/pago", description: "SDK JavaScript de la pasarela", weight: 0.95, isNoCode: false },
           { type: "html-attribute", attribute: "action", pattern: "pago\\.com/checkout", description: "Formulario de pago", weight: 0.9, isNoCode: false }
@@ -616,7 +616,7 @@ chismografo add-infra</code></pre>
         name: "Infraestructura (CDN/Server)",
         category: "infra",
         web: "https://infra.com",
-        logo: "infra.com",
+        logo: { id: "infra.com", provider: "logodev" },
         rules: [
           { type: "header", key: "server", pattern: "Nginx|Cloudflare", description: "Cabecera de servidor", weight: 1.0, isNoCode: false },
           { type: "header", key: "x-powered-by", pattern: "Express|PHP", description: "Tecnología backend", weight: 1.0, isNoCode: false }

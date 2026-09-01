@@ -2,10 +2,19 @@
 	"name": "Mixpanel",
 	"developer": "Mixpanel",
 	"category": "Analítica",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"compatibleCMS": [
+		"Shopify",
+		"Magento",
+		"WooCommerce",
+		"PrestaShop",
+		"VTEX"
+	],
 	"web": "https://www.mixpanel.com",
 	"appStores": [],
-	"logo": "mixpanel.com",
+	"logo": {
+		"id": "mixpanel.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

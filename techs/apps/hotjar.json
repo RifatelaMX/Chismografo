@@ -2,10 +2,19 @@
 	"name": "Hotjar",
 	"developer": "Hotjar",
 	"category": "Analítica",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"compatibleCMS": [
+		"Shopify",
+		"Magento",
+		"WooCommerce",
+		"PrestaShop",
+		"VTEX"
+	],
 	"web": "https://www.hotjar.com",
 	"appStores": [],
-	"logo": "hotjar.com",
+	"logo": {
+		"id": "hotjar.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

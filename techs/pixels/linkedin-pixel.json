@@ -1,20 +1,23 @@
 {
-  "name": "LinkedIn Insight Tag",
-  "category": "Píxeles / Tracking",
-  "web": "https://business.linkedin.com/marketing-solutions/insight-tag",
-  "logo": "linkedin.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "snap\\.licdn\\.com\\/li\\.lms-analytics\\/insight\\.min\\.js",
-      "description": "LinkedIn Insight Tag script detectado",
-      "weight": 1.0
-    },
-    {
-      "type": "script-content",
-      "pattern": "_linkedin_partner_id",
-      "description": "LinkedIn Insight Tag configuración detectada",
-      "weight": 0.8
-    }
-  ]
+	"name": "LinkedIn Insight Tag",
+	"category": "Píxeles / Tracking",
+	"web": "https://business.linkedin.com/marketing-solutions/insight-tag",
+	"logo": {
+		"id": "linkedin.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "snap\\.licdn\\.com\\/li\\.lms-analytics\\/insight\\.min\\.js",
+			"description": "LinkedIn Insight Tag script detectado",
+			"weight": 1
+		},
+		{
+			"type": "script-content",
+			"pattern": "_linkedin_partner_id",
+			"description": "LinkedIn Insight Tag configuración detectada",
+			"weight": 0.8
+		}
+	]
 }

@@ -2,7 +2,9 @@
 	"name": "Judge.me",
 	"developer": "Judge.me",
 	"category": "Reseñas",
-	"compatibleCMS": ["Shopify"],
+	"compatibleCMS": [
+		"Shopify"
+	],
 	"web": "https://www.judge.me",
 	"appStores": [
 		{
@@ -10,7 +12,10 @@
 			"link": "https://apps.shopify.com/judge-me"
 		}
 	],
-	"logo": "judge.me",
+	"logo": {
+		"id": "judge.me",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

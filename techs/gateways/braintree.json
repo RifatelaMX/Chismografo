@@ -2,7 +2,10 @@
 	"name": "Braintree",
 	"category": "Payment Gateway",
 	"web": "https://braintreepayments.com",
-	"logo": "braintreepayments.com",
+	"logo": {
+		"id": "braintreepayments.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

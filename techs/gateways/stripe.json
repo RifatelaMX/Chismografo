@@ -2,7 +2,10 @@
 	"name": "Stripe",
 	"category": "Payment Gateway",
 	"web": "https://stripe.com",
-	"logo": "stripe.com",
+	"logo": {
+		"id": "stripe.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

@@ -2,7 +2,9 @@
 	"name": "GemPages",
 	"developer": "GemPages",
 	"category": "Diseño de Páginas",
-	"compatibleCMS": ["Shopify"],
+	"compatibleCMS": [
+		"Shopify"
+	],
 	"web": "https://www.gempages.com",
 	"appStores": [
 		{
@@ -10,7 +12,10 @@
 			"link": "https://apps.shopify.com/gempages"
 		}
 	],
-	"logo": "gempages.com",
+	"logo": {
+		"id": "gempages.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

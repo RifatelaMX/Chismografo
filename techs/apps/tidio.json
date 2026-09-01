@@ -2,10 +2,19 @@
 	"name": "Tidio",
 	"developer": "Tidio",
 	"category": "Soporte / Chat",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"compatibleCMS": [
+		"Shopify",
+		"Magento",
+		"WooCommerce",
+		"PrestaShop",
+		"VTEX"
+	],
 	"web": "https://www.tidio.com",
 	"appStores": [],
-	"logo": "tidio.com",
+	"logo": {
+		"id": "tidio.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

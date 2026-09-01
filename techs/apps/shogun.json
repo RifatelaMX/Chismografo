@@ -2,7 +2,9 @@
 	"name": "Shogun",
 	"developer": "Shogun",
 	"category": "Diseño de Páginas",
-	"compatibleCMS": ["Shopify"],
+	"compatibleCMS": [
+		"Shopify"
+	],
 	"web": "https://www.shogun.com",
 	"appStores": [
 		{
@@ -10,7 +12,10 @@
 			"link": "https://apps.shopify.com/shogun"
 		}
 	],
-	"logo": "shogun.com",
+	"logo": {
+		"id": "shogun.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

@@ -2,7 +2,10 @@
 	"name": "Klarna",
 	"category": "Payment Gateway",
 	"web": "https://klarna.com",
-	"logo": "klarna.com",
+	"logo": {
+		"id": "klarna.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

@@ -2,10 +2,19 @@
 	"name": "Zendesk",
 	"developer": "Zendesk",
 	"category": "Soporte / Chat",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"compatibleCMS": [
+		"Shopify",
+		"Magento",
+		"WooCommerce",
+		"PrestaShop",
+		"VTEX"
+	],
 	"web": "https://www.zendesk.com",
 	"appStores": [],
-	"logo": "zendesk.com",
+	"logo": {
+		"id": "zendesk.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

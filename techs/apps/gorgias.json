@@ -2,10 +2,19 @@
 	"name": "Gorgias",
 	"developer": "Gorgias",
 	"category": "Soporte / Chat",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"compatibleCMS": [
+		"Shopify",
+		"Magento",
+		"WooCommerce",
+		"PrestaShop",
+		"VTEX"
+	],
 	"web": "https://www.gorgias.com",
 	"appStores": [],
-	"logo": "gorgias.com",
+	"logo": {
+		"id": "gorgias.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

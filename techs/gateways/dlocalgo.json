@@ -2,7 +2,10 @@
 	"name": "dLocal Go",
 	"category": "Payment Gateway",
 	"web": "https://dlocalgo.com",
-	"logo": "dlocalgo.com",
+	"logo": {
+		"id": "dlocalgo.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

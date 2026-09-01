@@ -2,7 +2,9 @@
 	"name": "Bundler",
 	"developer": "Bundler",
 	"category": "Checkout / Ofertas",
-	"compatibleCMS": ["Shopify"],
+	"compatibleCMS": [
+		"Shopify"
+	],
 	"web": "https://www.bundler.com",
 	"appStores": [
 		{
@@ -10,7 +12,10 @@
 			"link": "https://apps.shopify.com/bundler"
 		}
 	],
-	"logo": "bundler.com",
+	"logo": {
+		"id": "bundler.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

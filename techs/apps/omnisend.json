@@ -2,10 +2,19 @@
 	"name": "Omnisend",
 	"developer": "Omnisend",
 	"category": "Marketing / Email",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"compatibleCMS": [
+		"Shopify",
+		"Magento",
+		"WooCommerce",
+		"PrestaShop",
+		"VTEX"
+	],
 	"web": "https://www.omnisend.com",
 	"appStores": [],
-	"logo": "omnisend.com",
+	"logo": {
+		"id": "omnisend.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

@@ -2,7 +2,10 @@
 	"name": "Amazon CloudFront",
 	"category": "CDN / Cloud",
 	"web": "https://aws.amazon.com/cloudfront",
-	"logo": "aws.amazon.com",
+	"logo": {
+		"id": "aws.amazon.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "header",

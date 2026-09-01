@@ -2,7 +2,9 @@
 	"name": "Loop Subscriptions",
 	"developer": "Loop Subscriptions",
 	"category": "Suscripciones",
-	"compatibleCMS": ["Shopify"],
+	"compatibleCMS": [
+		"Shopify"
+	],
 	"web": "https://www.loop-subscriptions.com",
 	"appStores": [
 		{
@@ -10,7 +12,10 @@
 			"link": "https://apps.shopify.com/loop-subscriptions"
 		}
 	],
-	"logo": "loop-subscriptions.com",
+	"logo": {
+		"id": "loop-subscriptions.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

@@ -2,7 +2,10 @@
 	"name": "Nginx",
 	"category": "Servidor Web",
 	"web": "https://www.nginx.com",
-	"logo": "nginx.com",
+	"logo": {
+		"id": "nginx.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "header",

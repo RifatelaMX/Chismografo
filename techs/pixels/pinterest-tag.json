@@ -1,20 +1,23 @@
 {
-  "name": "Pinterest Tag",
-  "category": "Píxeles / Tracking",
-  "web": "https://help.pinterest.com/en/business/article/add-the-pinterest-tag-to-your-website",
-  "logo": "pinterest.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "s\\.pinimg\\.com\\/ct\\/core\\.js",
-      "description": "Pinterest Tag script detectado",
-      "weight": 1.0
-    },
-    {
-      "type": "script-content",
-      "pattern": "pintrk\\('load'",
-      "description": "Pinterest Tag initialization detectado",
-      "weight": 0.8
-    }
-  ]
+	"name": "Pinterest Tag",
+	"category": "Píxeles / Tracking",
+	"web": "https://help.pinterest.com/en/business/article/add-the-pinterest-tag-to-your-website",
+	"logo": {
+		"id": "pinterest.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "s\\.pinimg\\.com\\/ct\\/core\\.js",
+			"description": "Pinterest Tag script detectado",
+			"weight": 1
+		},
+		{
+			"type": "script-content",
+			"pattern": "pintrk\\('load'",
+			"description": "Pinterest Tag initialization detectado",
+			"weight": 0.8
+		}
+	]
 }

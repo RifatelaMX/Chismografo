@@ -423,6 +423,20 @@ app.get('/api/techs', (_req, res) => {
 });
 
 /**
+ * @api {get} /api/cron/cleanup Cron endpoint to trigger cleanup on Vercel
+ */
+app.get('/api/cron/cleanup', (req, res) => {
+	try {
+		console.log('[Mantenimiento] ⏱️ Ejecutando limpieza vía Vercel Cron...');
+		cleanupOldFiles();
+		res.status(200).json({ status: 'success', message: 'Cleanup executed successfully' });
+	} catch (error) {
+		console.error('[Mantenimiento] Error en endpoint cron:', error);
+		res.status(500).json({ status: 'error', message: error.message });
+	}
+});
+
+/**
  * @api {get} /api/config Get server-side API configuration status
  */
 app.get('/api/config', (_req, res) => {

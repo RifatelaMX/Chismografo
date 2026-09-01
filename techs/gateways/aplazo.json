@@ -2,7 +2,10 @@
 	"name": "Aplazo",
 	"category": "Payment Gateway",
 	"web": "https://aplazo.mx",
-	"logo": "aplazo.mx",
+	"logo": {
+		"id": "aplazo.mx",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

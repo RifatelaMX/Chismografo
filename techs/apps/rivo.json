@@ -2,7 +2,9 @@
 	"name": "Rivo",
 	"developer": "Rivo",
 	"category": "Fidelización / Lealtad",
-	"compatibleCMS": ["Shopify"],
+	"compatibleCMS": [
+		"Shopify"
+	],
 	"web": "https://www.rivo.io",
 	"appStores": [
 		{
@@ -10,7 +12,10 @@
 			"link": "https://apps.shopify.com/rivo"
 		}
 	],
-	"logo": "rivo.io",
+	"logo": {
+		"id": "rivo.io",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

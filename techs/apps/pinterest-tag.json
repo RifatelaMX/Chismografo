@@ -2,10 +2,19 @@
 	"name": "Pinterest Tag",
 	"developer": "Pinterest Tag",
 	"category": "Analítica / Marketing",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"compatibleCMS": [
+		"Shopify",
+		"Magento",
+		"WooCommerce",
+		"PrestaShop",
+		"VTEX"
+	],
 	"web": "https://www.pinterest.com",
 	"appStores": [],
-	"logo": "pinterest.com",
+	"logo": {
+		"id": "pinterest.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

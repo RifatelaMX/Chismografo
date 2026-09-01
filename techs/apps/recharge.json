@@ -2,10 +2,19 @@
 	"name": "Recharge",
 	"developer": "Recharge",
 	"category": "Suscripciones",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"compatibleCMS": [
+		"Shopify",
+		"Magento",
+		"WooCommerce",
+		"PrestaShop",
+		"VTEX"
+	],
 	"web": "https://www.recharge.com",
 	"appStores": [],
-	"logo": "recharge.com",
+	"logo": {
+		"id": "recharge.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

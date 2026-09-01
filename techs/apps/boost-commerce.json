@@ -2,7 +2,9 @@
 	"name": "Boost Commerce",
 	"developer": "Boost Commerce",
 	"category": "Buscador / Filtros",
-	"compatibleCMS": ["Shopify"],
+	"compatibleCMS": [
+		"Shopify"
+	],
 	"web": "https://www.boost-commerce.com",
 	"appStores": [
 		{
@@ -10,7 +12,10 @@
 			"link": "https://apps.shopify.com/boost-commerce"
 		}
 	],
-	"logo": "boost-commerce.com",
+	"logo": {
+		"id": "boost-commerce.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

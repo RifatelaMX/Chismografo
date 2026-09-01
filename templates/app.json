@@ -5,7 +5,10 @@
 	"compatibleCMS": "{{compatibleCMS}}",
 	"web": "{{web}}",
 	"appStores": "{{appStores}}",
-	"logo": "{{logo}}",
+	"logo": {
+		"id": "{{id_logo}}",
+		"provider": "{{provider_logo}}"
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

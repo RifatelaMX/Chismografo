@@ -2,10 +2,19 @@
 	"name": "Stamped.io",
 	"developer": "Stamped.io",
 	"category": "Reseñas",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"compatibleCMS": [
+		"Shopify",
+		"Magento",
+		"WooCommerce",
+		"PrestaShop",
+		"VTEX"
+	],
 	"web": "https://www.stamped.io",
 	"appStores": [],
-	"logo": "stamped.io",
+	"logo": {
+		"id": "stamped.io",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

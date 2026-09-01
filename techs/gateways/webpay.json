@@ -2,7 +2,10 @@
 	"name": "Webpay",
 	"category": "Payment Gateway",
 	"web": "https://www.transbank.cl",
-	"logo": "webpay.cl",
+	"logo": {
+		"id": "webpay.cl",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

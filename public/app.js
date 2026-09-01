@@ -1,4 +1,10 @@
-window.handleLogoError = function(img, providedDomain, websiteUrl) {
+window.handleLogoError = function(img, providedDomain, websiteUrl, provider) {
+    if (provider) {
+        img.style.display = 'none';
+        if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
+        return;
+    }
+    
     let domain = providedDomain;
     if (!domain && websiteUrl) {
         try { domain = new URL(websiteUrl).hostname.replace(/^www\./i, ''); } catch(e){}
@@ -1090,10 +1096,19 @@ document.addEventListener('DOMContentLoaded', () => {
 					card.className = 'plugin-card';
 					card.style.padding = '0.75rem';
 
+					let domain = '';
+					let provider = '';
+					if (tech.logo && typeof tech.logo === 'object') {
+						domain = tech.logo.id;
+						provider = tech.logo.provider;
+					} else if (tech.logo) {
+						domain = tech.logo;
+					}
+
 					const iconUrl = getTechIconUrl(tech);
 					const initial = tech.name.charAt(0).toUpperCase();
 					const iconHtml = iconUrl
-						? `<img src="${iconUrl}" class="tech-icon-img" onerror="window.handleLogoError(this, '${tech.logo || ''}', '${tech.website || tech.link || ''}')" />`
+						? `<img src="${iconUrl}" class="tech-icon-img" onerror="window.handleLogoError(this, '${domain || ''}', '${tech.website || tech.link || ''}', '${provider || ''}')" />`
 						: '';
 					const displayStyle = iconUrl ? 'display: none;' : 'display: flex;';
 
@@ -1223,18 +1238,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// Helper to extract domain and build Logo.dev / Google Favicon logo URL
 	function getTechIconUrl(tech) {
-		if (tech.logo && tech.logo.startsWith('http')) {
+		let domain = '';
+		let provider = '';
+
+		if (tech.logo && typeof tech.logo === 'object') {
+			domain = tech.logo.id;
+			provider = tech.logo.provider;
+		} else if (tech.logo) {
+			domain = tech.logo;
+		}
+
+		if (domain && domain.startsWith('http')) {
+			return domain;
+		}
+		if (typeof tech.logo === 'string' && tech.logo.startsWith('http')) {
 			return tech.logo;
 		}
 
 		if (tech.shopifyAppIcon) {
 			return tech.shopifyAppIcon;
 		}
-		let domain = '';
 
-		if (tech.logo) {
-			domain = tech.logo;
-		} else {
+		if (!domain) {
 			// Extract domain from link
 			if (tech.link) {
 				try {
@@ -1248,8 +1273,16 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		}
 
+		const bfKey = window.serverConfig?.brandfetchApiKey ? `?c=${window.serverConfig.brandfetchApiKey}` : '';
+		const biKey = window.serverConfig?.brandiconsApiKey ? `?key=${window.serverConfig.brandiconsApiKey}` : '';
+		const npKey = window.serverConfig?.ninjapearApiKey ? `?key=${window.serverConfig.ninjapearApiKey}` : '';
+
+		if (provider === 'brandfetch' && domain) return `https://asset.brandfetch.io/${domain}${bfKey}`;
+		if (provider === 'brandicons' && domain) return `https://cdn.brandicons.dev/icons/${domain}${biKey}`;
+		if (provider === 'ninjapear' && domain) return `https://logo.ninjapear.com/${domain}${npKey}`;
+
 		const token = serverConfig.logoDevToken;
-		const nameLower = tech.name.toLowerCase();
+		const nameLower = tech.name ? tech.name.toLowerCase() : '';
 
 		// Check if domain is just pointing to Shopify ecosystem domains (which returns Shopify logo for other apps)
 		const isShopifyDomain = domain.includes('shopify.com');

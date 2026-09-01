@@ -2,7 +2,9 @@
 	"name": "SEO Manager",
 	"developer": "SEO Manager",
 	"category": "SEO",
-	"compatibleCMS": ["Shopify"],
+	"compatibleCMS": [
+		"Shopify"
+	],
 	"web": "https://www.seo-manager.com",
 	"appStores": [
 		{
@@ -10,7 +12,10 @@
 			"link": "https://apps.shopify.com/seo-manager"
 		}
 	],
-	"logo": "seo-manager.com",
+	"logo": {
+		"id": "seo-manager.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

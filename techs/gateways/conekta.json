@@ -2,7 +2,10 @@
 	"name": "Conekta",
 	"category": "Payment Gateway",
 	"web": "https://conekta.com",
-	"logo": "conekta.com",
+	"logo": {
+		"id": "conekta.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

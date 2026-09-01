@@ -2,7 +2,10 @@
 	"name": "Fastly",
 	"category": "CDN / Proxy",
 	"web": "https://www.fastly.com",
-	"logo": "fastly.com",
+	"logo": {
+		"id": "fastly.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "header",

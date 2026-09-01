@@ -2,10 +2,19 @@
 	"name": "Klaviyo",
 	"developer": "Klaviyo",
 	"category": "Marketing / Email",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"compatibleCMS": [
+		"Shopify",
+		"Magento",
+		"WooCommerce",
+		"PrestaShop",
+		"VTEX"
+	],
 	"web": "https://www.klaviyo.com",
 	"appStores": [],
-	"logo": "klaviyo.com",
+	"logo": {
+		"id": "klaviyo.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

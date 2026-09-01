@@ -2,7 +2,10 @@
 	"name": "Varnish",
 	"category": "Cache / Proxy",
 	"web": "https://varnish-cache.org",
-	"logo": "varnish-cache.org",
+	"logo": {
+		"id": "varnish-cache.org",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "header",

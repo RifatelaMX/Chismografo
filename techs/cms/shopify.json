@@ -1,7 +1,10 @@
 {
 	"name": "Shopify",
 	"web": "https://www.shopify.com",
-	"logo": "shopify.com",
+	"logo": {
+		"id": "shopify.com",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"id": "shopify-meta-generator",
@@ -9,7 +12,7 @@
 			"key": "generator",
 			"pattern": "shopify",
 			"description": "Meta generator contains \"Shopify\"",
-			"weight": 1.0
+			"weight": 1
 		},
 		{
 			"id": "shopify-cdn-script",

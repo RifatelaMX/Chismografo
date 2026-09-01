@@ -2,10 +2,19 @@
 	"name": "Smile.io",
 	"developer": "Smile.io",
 	"category": "Fidelización / Lealtad",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
+	"compatibleCMS": [
+		"Shopify",
+		"Magento",
+		"WooCommerce",
+		"PrestaShop",
+		"VTEX"
+	],
 	"web": "https://www.smile.io",
 	"appStores": [],
-	"logo": "smile.io",
+	"logo": {
+		"id": "smile.io",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",

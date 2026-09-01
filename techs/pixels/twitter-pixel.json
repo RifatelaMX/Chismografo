@@ -1,20 +1,23 @@
 {
-  "name": "Twitter / X Pixel",
-  "category": "Píxeles / Tracking",
-  "web": "https://business.twitter.com/en/help/campaign-measurement-and-analytics/pixel-for-website-tracking.html",
-  "logo": "x.com",
-  "detectionRules": [
-    {
-      "type": "script-src",
-      "pattern": "static\\.ads-twitter\\.com\\/uwt\\.js",
-      "description": "Twitter Pixel script detectado",
-      "weight": 1.0
-    },
-    {
-      "type": "script-content",
-      "pattern": "twq\\('init'",
-      "description": "Twitter Pixel initialization detectado",
-      "weight": 0.8
-    }
-  ]
+	"name": "Twitter / X Pixel",
+	"category": "Píxeles / Tracking",
+	"web": "https://business.twitter.com/en/help/campaign-measurement-and-analytics/pixel-for-website-tracking.html",
+	"logo": {
+		"id": "x.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "static\\.ads-twitter\\.com\\/uwt\\.js",
+			"description": "X (Twitter) Pixel script detectado",
+			"weight": 1
+		},
+		{
+			"type": "script-content",
+			"pattern": "twq\\('init'",
+			"description": "X (Twitter) Pixel initialization detectado",
+			"weight": 0.8
+		}
+	]
 }

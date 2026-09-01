@@ -2,7 +2,10 @@
 	"name": "Openpay",
 	"category": "Payment Gateway",
 	"web": "https://openpay.mx",
-	"logo": "openpay.mx",
+	"logo": {
+		"id": "openpay.mx",
+		"provider": ""
+	},
 	"detectionRules": [
 		{
 			"type": "script-src",
