@@ -1817,6 +1817,32 @@
       ]
     },
     {
+      "name": "SK: WhatsApp Chat Button",
+      "developer": "SK",
+      "category": "Otros",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://apps.shopify.com/whatsapp-chat-button-squadkin",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "whatsapp-chat-button-squadkin"
+        }
+      ],
+      "logo": {
+        "id": "sk-whatsapp-chat-button",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "whatsapp-chat-button-squadkin|whatsapp[_-]?chat[_-]?button[_-]?squadkin",
+          "description": "Script o recurso de integración de SK: WhatsApp Chat Button detectado"
+        }
+      ]
+    },
+    {
       "name": "Wholesale Pricing Discount B2B",
       "developer": "Wholesale Helper",
       "category": "B2B / Precios al Mayoreo",
