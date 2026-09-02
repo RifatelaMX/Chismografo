@@ -1,3 +1,16 @@
+window.handleLogoLoad = (img, providedDomain, websiteUrl, provider) => {
+	// Si el proveedor devolvió un favicon genérico diminuto (16x16 o menor) o imagen vacía
+	if (
+		img.naturalWidth <= 16 &&
+		(img.src.includes('google.com') ||
+			img.src.includes('gstatic.com') ||
+			img.src.includes('duckduckgo.com') ||
+			img.src.includes('logo.dev'))
+	) {
+		window.handleLogoError(img, providedDomain, websiteUrl, provider);
+	}
+};
+
 window.handleLogoError = (img, providedDomain, websiteUrl, provider) => {
 	const state = Number.parseInt(img.dataset.fallbackState || '0', 10);
 
@@ -52,34 +65,46 @@ window.handleLogoError = (img, providedDomain, websiteUrl, provider) => {
 		: '';
 	const logoToken = window.serverConfig?.logoDevToken || 'pk_MgKPAkEuRMOiYecOkx67wQ';
 
-	// Cascada completa a través de todos los proveedores integrados usando el dominio web real:
-	// 1. Google Favicons V2 HD
+	// Cascada sin globos genéricos:
+	// 1. Logo.dev HD
 	// 2. DuckDuckGo Favicons
-	// 3. Brandfetch API
-	// 4. BrandIcons.dev
-	// 5. NinjaPear API
-	// 6. Logo.dev
+	// 3. Google Favicons HD
+	// 4. Brandfetch API
+	// 5. BrandIcons.dev
+	// 6. NinjaPear API
 	// 7. Fallback a inicial estilizada
 	if (state === 0 || state === 1) {
 		img.dataset.fallbackState = '2';
-		img.src = `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://${domain}&size=64`;
+		img.src = `https://img.logo.dev/${domain}?token=${logoToken}&size=64`;
 	} else if (state === 2) {
 		img.dataset.fallbackState = '3';
 		img.src = `https://icons.duckduckgo.com/ip3/${domain}.ico`;
 	} else if (state === 3) {
 		img.dataset.fallbackState = '4';
-		img.src = `https://asset.brandfetch.io/${domain}${bfKey}`;
+		img.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
 	} else if (state === 4) {
 		img.dataset.fallbackState = '5';
-		img.src = `https://cdn.brandicons.dev/icons/${domain}${biKey}`;
+		if (window.serverConfig?.brandfetchApiKey) {
+			img.src = `https://asset.brandfetch.io/${domain}${bfKey}`;
+		} else {
+			window.handleLogoError(img, providedDomain, websiteUrl, provider);
+		}
 	} else if (state === 5) {
 		img.dataset.fallbackState = '6';
-		img.src = `https://logo.ninjapear.com/${domain}${npKey}`;
+		if (window.serverConfig?.brandiconsApiKey) {
+			img.src = `https://cdn.brandicons.dev/icons/${domain}${biKey}`;
+		} else {
+			window.handleLogoError(img, providedDomain, websiteUrl, provider);
+		}
 	} else if (state === 6) {
 		img.dataset.fallbackState = '7';
-		img.src = `https://img.logo.dev/${domain}?token=${logoToken}&size=64`;
+		if (window.serverConfig?.ninjapearApiKey) {
+			img.src = `https://logo.ninjapear.com/${domain}${npKey}`;
+		} else {
+			window.handleLogoError(img, providedDomain, websiteUrl, provider);
+		}
 	} else {
-		// Todas las fuentes externas agotadas -> mostrar inicial con diseño
+		// Todas las fuentes externas agotadas o sin logo -> mostrar inicial estilizada
 		img.style.display = 'none';
 		if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
 	}
@@ -840,7 +865,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (techIconContainer) {
 				if (cmsDom) {
 					techIconContainer.innerHTML = `
-            <img src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://${cmsDom}&size=64" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;" onerror="window.handleLogoError(this, '${cmsDom}')" />
+            <img src="https://img.logo.dev/${cmsDom}?token=${logoToken}&size=64" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;" onload="window.handleLogoLoad(this, '${cmsDom}')" onerror="window.handleLogoError(this, '${cmsDom}')" />
             <i data-lucide="${iconName}" style="display:none; width: 24px; height: 24px;"></i>
           `;
 					techIconContainer.style.background = 'transparent';
@@ -1194,7 +1219,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					const iconUrl = getTechIconUrl(tech);
 					const initial = (tech.name || '').trim().charAt(0).toUpperCase() || '?';
 					const iconHtml = iconUrl
-						? `<img src="${iconUrl}" class="tech-icon-img" onerror="window.handleLogoError(this, '${domain || ''}', '${techWebsite}', '${provider || ''}')" />`
+						? `<img src="${iconUrl}" class="tech-icon-img" onload="window.handleLogoLoad(this, '${domain || ''}', '${techWebsite}', '${provider || ''}')" onerror="window.handleLogoError(this, '${domain || ''}', '${techWebsite}', '${provider || ''}')" />`
 						: '';
 					const displayStyle = iconUrl ? 'display: none;' : 'display: flex;';
 
@@ -1289,7 +1314,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 				let logoHtml = '';
 				if (domain) {
-					logoHtml = `<img src="https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://${domain}&size=64" style="width: 100%; height: 100%; object-fit: contain;" onerror="window.handleLogoError(this, '${domain}')" />`;
+					logoHtml = `<img src="https://img.logo.dev/${domain}?token=${logoToken}&size=64" style="width: 100%; height: 100%; object-fit: contain;" onload="window.handleLogoLoad(this, '${domain}')" onerror="window.handleLogoError(this, '${domain}')" />`;
 				}
 
 				card.innerHTML = `
@@ -1393,7 +1418,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			!domain.includes('trends.builtwith.com') &&
 			(!isShopifyDomain || isShopifyPlatform)
 		) {
-			return `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://${domain}&size=64`;
+			const logoToken = window.serverConfig?.logoDevToken || 'pk_MgKPAkEuRMOiYecOkx67wQ';
+			return `https://img.logo.dev/${domain}?token=${logoToken}&size=64`;
 		}
 
 		// Predefined domain mapping based on name
@@ -1968,12 +1994,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		if (appModalIconImg && appModalIconInitial) {
 			if (iconUrl) {
+				delete appModalIconImg.dataset.fallbackState;
 				appModalIconImg.style.display = 'block';
 				appModalIconInitial.style.display = 'none';
-				appModalIconImg.src = iconUrl;
+				appModalIconImg.onload = () => {
+					window.handleLogoLoad(appModalIconImg, domain, techWebsite, provider);
+				};
 				appModalIconImg.onerror = () => {
 					window.handleLogoError(appModalIconImg, domain, techWebsite, provider);
 				};
+				appModalIconImg.src = iconUrl;
 			} else {
 				appModalIconImg.style.display = 'none';
 				appModalIconInitial.style.display = 'flex';
