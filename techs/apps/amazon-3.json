@@ -1,0 +1,26 @@
+{
+	"name": "CS Amazon Integration & Sync",
+	"developer": "CS Amazon Integration & Sync",
+	"category": "Envíos / Pedidos",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://apps.shopify.com/amazon-3",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "amazon-3"
+		}
+	],
+	"logo": {
+		"id": "amazon-3.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "amazon-3|amazon[_-]?3",
+			"description": "Script o recurso de integración de CS Amazon Integration & Sync detectado"
+		}
+	]
+}
