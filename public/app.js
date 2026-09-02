@@ -1303,8 +1303,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// Utility to escape HTML entities
 	function escapeHtml(unsafe) {
-		if (!unsafe) return '';
-		return unsafe
+		if (unsafe === null || unsafe === undefined) return '';
+		return String(unsafe)
 			.replace(/&/g, '&amp;')
 			.replace(/</g, '&lt;')
 			.replace(/>/g, '&gt;')
@@ -1672,10 +1672,19 @@ document.addEventListener('DOMContentLoaded', () => {
 	let currentExamPlatform = null;
 
 	function openExamsModal(platformToSelect) {
-		if (!lastScanData) return;
-		currentExamPlatform =
-			platformToSelect || (lastScanData.detected ? lastScanData.technology : 'Shopify');
-		renderExamsModalContent();
+		const data = lastScanData || {
+			detected: false,
+			technology: 'Shopify',
+			matches: {
+				Shopify: { detected: false, confidence: 0, matchedRules: [], unmatchedRules: [] },
+				Magento: { detected: false, confidence: 0, matchedRules: [], unmatchedRules: [] },
+				WooCommerce: { detected: false, confidence: 0, matchedRules: [], unmatchedRules: [] },
+				PrestaShop: { detected: false, confidence: 0, matchedRules: [], unmatchedRules: [] },
+				VTEX: { detected: false, confidence: 0, matchedRules: [], unmatchedRules: [] },
+			},
+		};
+		currentExamPlatform = platformToSelect || (data.detected ? data.technology : 'Shopify');
+		renderExamsModalContent(data);
 		if (examsModal) {
 			examsModal.style.display = 'flex';
 			lucide.createIcons();
@@ -1688,8 +1697,19 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
-	function renderExamsModalContent() {
-		if (!lastScanData) return;
+	function renderExamsModalContent(dataToRender) {
+		const data = dataToRender ||
+			lastScanData || {
+				detected: false,
+				technology: 'Shopify',
+				matches: {
+					Shopify: { detected: false, confidence: 0, matchedRules: [], unmatchedRules: [] },
+					Magento: { detected: false, confidence: 0, matchedRules: [], unmatchedRules: [] },
+					WooCommerce: { detected: false, confidence: 0, matchedRules: [], unmatchedRules: [] },
+					PrestaShop: { detected: false, confidence: 0, matchedRules: [], unmatchedRules: [] },
+					VTEX: { detected: false, confidence: 0, matchedRules: [], unmatchedRules: [] },
+				},
+			};
 
 		const platforms = ['Shopify', 'Magento', 'WooCommerce', 'PrestaShop', 'VTEX'];
 		if (!platforms.includes(currentExamPlatform)) {
@@ -1700,7 +1720,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (examsPlatformTabs) {
 			examsPlatformTabs.innerHTML = '';
 			platforms.forEach((plat) => {
-				const match = lastScanData.matches?.[plat];
+				const match = data.matches?.[plat];
 				const isDetected = match?.detected || false;
 				const passedCount = match?.matchedRules?.length || 0;
 				const totalCount =
@@ -1719,14 +1739,14 @@ document.addEventListener('DOMContentLoaded', () => {
 				`;
 				tabBtn.addEventListener('click', () => {
 					currentExamPlatform = plat;
-					renderExamsModalContent();
+					renderExamsModalContent(data);
 				});
 				examsPlatformTabs.appendChild(tabBtn);
 			});
 		}
 
 		// Get current platform data
-		const platformData = lastScanData.matches?.[currentExamPlatform] || {};
+		const platformData = data.matches?.[currentExamPlatform] || {};
 		const passedRules = platformData.matchedRules || [];
 		const failedRules = platformData.unmatchedRules || [];
 		const confidence = platformData.detected ? platformData.confidence : 0;
@@ -2098,6 +2118,14 @@ document.addEventListener('DOMContentLoaded', () => {
 					</div>
 				`;
 				appModalBody.appendChild(singleRuleCard);
+			} else {
+				const noEvidenceCard = document.createElement('div');
+				noEvidenceCard.className = 'exam-empty-box';
+				noEvidenceCard.innerHTML = `
+					<span>🔍</span>
+					<p>Tecnología detectada mediante análisis de firmas del sitio.</p>
+				`;
+				appModalBody.appendChild(noEvidenceCard);
 			}
 		}
 
