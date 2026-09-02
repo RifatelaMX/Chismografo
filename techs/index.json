@@ -3997,6 +3997,32 @@
       ]
     },
     {
+      "name": "Yeps Announcement Bar Banner",
+      "developer": "Yeps",
+      "category": "Marketing / Popups",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://yeps.io",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "yeps-announcement-bar-banners"
+        }
+      ],
+      "logo": {
+        "id": "yeps.io",
+        "provider": "logodev"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "yeps-announcement-bar-banners|yeps[_-]?announcement[_-]?bar[_-]?banners|yeps",
+          "description": "Script o recurso de integración de Yeps Announcement Bar Banner detectado"
+        }
+      ]
+    },
+    {
       "name": "Yotpo",
       "developer": "Yotpo",
       "category": "Reseñas",
