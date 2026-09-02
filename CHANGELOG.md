@@ -1,3 +1,9 @@
+## [1.13.0](https://github.com/RifatelaMX/Chismografo/compare/v1.12.0...v1.13.0) (2026-09-02)
+
+### ✨ Nuevas Características
+
+* **ci:** agregar scope techs para plantillas y categorias en conventional commits ([ce93b15](https://github.com/RifatelaMX/Chismografo/commit/ce93b159291b92d8a65e83c75305e26e476539b6))
+
 ## [1.12.0](https://github.com/RifatelaMX/Chismografo/compare/v1.11.1...v1.12.0) (2026-09-02)
 
 ### ✨ Nuevas Características
