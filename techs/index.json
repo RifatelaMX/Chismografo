@@ -2127,6 +2127,32 @@
       ]
     },
     {
+      "name": "Nova Bundle products",
+      "developer": "Nova Bundle products",
+      "category": "Otros",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://apps.shopify.com/nova-bundle-products",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "nova-bundle-products"
+        }
+      ],
+      "logo": {
+        "id": "nova-bundle-products.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "nova-bundle-products|nova[_-]?bundle[_-]?products",
+          "description": "Script o recurso de integración de Nova Bundle products detectado"
+        }
+      ]
+    },
+    {
       "name": "Okendo: Reviews & Loyalty",
       "developer": "Okendo",
       "category": "Reseñas",
