@@ -2105,6 +2105,32 @@
       ]
     },
     {
+      "name": "POWR: Accordion Product Tabs",
+      "developer": "POWR",
+      "category": "Constructor de Páginas",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://www.powr.io",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "powr-tabs"
+        }
+      ],
+      "logo": {
+        "id": "powr-tabs.jpg",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "powr-tabs|powr[_-]?tabs",
+          "description": "Script o recurso de integración de POWR: Accordion Product Tabs detectado"
+        }
+      ]
+    },
+    {
       "name": "POWR: Customer Testimonials",
       "developer": "POWR",
       "category": "Reseñas",
