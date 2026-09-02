@@ -236,10 +236,11 @@ export function detectPaymentGateways(html, scripts, links) {
  * Runs rule matching on fetched HTML and headers
  * @param {string} html
  * @param {object} headers
+ * @param {string} [baseUrl]
  * @returns {object} Detection results
  */
-export function analyze(html, headers) {
-	const $ = cheerio.load(html);
+export function analyze(html, headers = {}, baseUrl = '') {
+	const $ = cheerio.load(html || '');
 	const results = {};
 
 	// Normalize header keys to lowercase
@@ -791,11 +792,13 @@ export function analyze(html, headers) {
 	}
 
 	const paymentGateways = detectPaymentGateways(html, scripts, links);
+	const siteLogo = scrapeSiteLogo(html, baseUrl);
 
 	return {
 		detected: primaryTech !== null,
 		technology: primaryTech,
 		confidence: highestConfidence,
+		siteLogo: siteLogo,
 		matches: results,
 		matchedRules: primaryTech && results[primaryTech] ? results[primaryTech].matchedRules : [],
 		unmatchedRules: primaryTech && results[primaryTech] ? results[primaryTech].unmatchedRules : [],
@@ -805,6 +808,269 @@ export function analyze(html, headers) {
 		infrastructure: detectedInfra,
 		pixels: detectedPixels,
 	};
+}
+
+/**
+ * Resolves a candidate URL to an absolute URL given a baseUrl
+ * @param {string} candidate
+ * @param {string} baseUrl
+ * @returns {string|null}
+ */
+function resolveCandidateUrl(candidate, baseUrl = '') {
+	if (!candidate || typeof candidate !== 'string') return null;
+	const trimmed = candidate.trim();
+	if (!trimmed) return null;
+
+	// Support valid svg or raster base64 data URIs of reasonable size
+	if (trimmed.startsWith('data:image/')) {
+		if (
+			trimmed.length > 60 &&
+			!trimmed.includes('1x1') &&
+			!trimmed.includes('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')
+		) {
+			return trimmed;
+		}
+		return null;
+	}
+
+	if (trimmed.startsWith('//')) {
+		return `https:${trimmed}`;
+	}
+
+	if (/^https?:\/\//i.test(trimmed)) {
+		return trimmed;
+	}
+
+	if (baseUrl) {
+		try {
+			return new URL(trimmed, baseUrl).href;
+		} catch (_e) {
+			return null;
+		}
+	}
+
+	if (trimmed.startsWith('/')) {
+		return `https://${trimmed.replace(/^\/+/, '')}`;
+	}
+
+	return null;
+}
+
+/**
+ * Checks if candidate text or URL looks like a false positive (not a brand logo)
+ * @param {string} url
+ * @param {string} alt
+ * @param {string} className
+ * @returns {boolean}
+ */
+function isFalsePositiveLogo(url = '', alt = '', className = '') {
+	const str = `${url} ${alt} ${className}`.toLowerCase();
+	const blocklist = [
+		'visa',
+		'mastercard',
+		'amex',
+		'american-express',
+		'paypal',
+		'oxxo',
+		'spei',
+		'kueski',
+		'apple-pay',
+		'google-pay',
+		'badge',
+		'rating',
+		'star',
+		'trustpilot',
+		'reviews',
+		'cart',
+		'checkout',
+		'search',
+		'pixel',
+		'tracking',
+		'facebook-pixel',
+		'analytics',
+		'counter',
+		'flag',
+		'country',
+		'close',
+		'hamburger',
+		'arrow',
+		'chevron',
+		'spinner',
+		'loading',
+		'placeholder',
+	];
+	return blocklist.some((term) => str.includes(term));
+}
+
+/**
+ * Scrapes the website's logo from HTML content
+ * @param {string} html Raw HTML
+ * @param {string} [baseUrl] Base URL for resolving relative assets
+ * @returns {string|null} Absolute URL of the detected logo or null
+ */
+export function scrapeSiteLogo(html, baseUrl = '') {
+	if (!html || typeof html !== 'string') return null;
+	const $ = cheerio.load(html);
+
+	const extractImgSrc = (el) => {
+		const $el = $(el);
+		const rawSrc =
+			$el.attr('src') ||
+			$el.attr('data-src') ||
+			$el.attr('data-lazy-src') ||
+			$el.attr('data-original') ||
+			$el.attr('data-srcset')?.split(',')[0]?.trim().split(' ')[0] ||
+			$el.attr('srcset')?.split(',')[0]?.trim().split(' ')[0];
+
+		const alt = $el.attr('alt') || '';
+		const className = $el.attr('class') || '';
+		const id = $el.attr('id') || '';
+
+		if (!rawSrc || isFalsePositiveLogo(rawSrc, `${alt} ${id}`, className)) {
+			return null;
+		}
+		return resolveCandidateUrl(rawSrc, baseUrl);
+	};
+
+	// 1. Check Schema.org / JSON-LD structured data for Organization / WebSite / Store logo
+	let jsonLdLogo = null;
+	$('script[type="application/ld+json"]').each((_i, el) => {
+		if (jsonLdLogo) return false;
+		try {
+			const jsonText = $(el).html()?.trim();
+			if (!jsonText) return;
+			const data = JSON.parse(jsonText);
+			const items = Array.isArray(data) ? data : [data];
+
+			for (const item of items) {
+				if (!item || typeof item !== 'object') continue;
+				const candidates = Array.isArray(item['@graph']) ? item['@graph'] : [item];
+				for (const node of candidates) {
+					if (!node || typeof node !== 'object') continue;
+					const type = String(node['@type'] || '').toLowerCase();
+					const isOrgOrStore =
+						type.includes('organization') ||
+						type.includes('store') ||
+						type.includes('website') ||
+						type.includes('business') ||
+						type.includes('brand') ||
+						type.includes('corporation');
+
+					let logoCandidate = node.logo || (isOrgOrStore ? node.image : null);
+					if (logoCandidate) {
+						if (typeof logoCandidate === 'object') {
+							logoCandidate = logoCandidate.url || logoCandidate.contentUrl || logoCandidate['@id'];
+						}
+						if (typeof logoCandidate === 'string' && !isFalsePositiveLogo(logoCandidate)) {
+							const resolved = resolveCandidateUrl(logoCandidate, baseUrl);
+							if (resolved) {
+								jsonLdLogo = resolved;
+								return false;
+							}
+						}
+					}
+				}
+			}
+		} catch (_e) {}
+	});
+	if (jsonLdLogo) return jsonLdLogo;
+
+	// 2. Explicit Meta tags (itemprop="logo", og:logo, name="logo")
+	const metaLogo =
+		$('meta[itemprop="logo"]').attr('content') ||
+		$('meta[itemprop="logo"]').attr('href') ||
+		$('meta[property="og:logo"]').attr('content') ||
+		$('meta[name="logo"]').attr('content');
+
+	if (metaLogo) {
+		const resolved = resolveCandidateUrl(metaLogo, baseUrl);
+		if (resolved && !isFalsePositiveLogo(resolved)) return resolved;
+	}
+
+	// 3. Header / Nav brand logo selectors (priority order)
+	const logoSelectors = [
+		'header [class*="logo" i] img',
+		'header img[class*="logo" i]',
+		'header img[id*="logo" i]',
+		'header img[alt*="logo" i]',
+		'header img[src*="logo" i]',
+		'.header__heading-logo',
+		'.custom-logo',
+		'.site-logo img',
+		'.site-header img[class*="logo" i]',
+		'.site-header img[alt*="logo" i]',
+		'nav [class*="logo" i] img',
+		'nav img[class*="logo" i]',
+		'nav img[alt*="logo" i]',
+		'a.navbar-brand img',
+		'a[class*="brand" i] img',
+		'a[class*="logo" i] img',
+		'img[class*="logo" i]',
+		'img[id*="logo" i]',
+		'img[alt*="logo" i]',
+		'header a img',
+		'header img',
+		'nav a img',
+	];
+
+	for (const selector of logoSelectors) {
+		let found = null;
+		$(selector).each((_i, el) => {
+			const candidate = extractImgSrc(el);
+			if (candidate) {
+				found = candidate;
+				return false;
+			}
+		});
+		if (found) return found;
+	}
+
+	// 4. Apple Touch Icon (high-res mobile/brand icon, usually 180x180 png)
+	const appleTouchIcon =
+		$('link[rel="apple-touch-icon"]').attr('href') ||
+		$('link[rel="apple-touch-icon-precomposed"]').attr('href') ||
+		$('link[rel="fluid-icon"]').attr('href');
+
+	if (appleTouchIcon) {
+		const resolved = resolveCandidateUrl(appleTouchIcon, baseUrl);
+		if (resolved && !isFalsePositiveLogo(resolved)) return resolved;
+	}
+
+	// 5. OpenGraph image fallback if og:image contains logo or brand in name
+	const ogImage =
+		$('meta[property="og:image"]').attr('content') ||
+		$('meta[name="twitter:image"]').attr('content');
+	if (
+		ogImage &&
+		(ogImage.toLowerCase().includes('logo') || ogImage.toLowerCase().includes('brand'))
+	) {
+		const resolved = resolveCandidateUrl(ogImage, baseUrl);
+		if (resolved && !isFalsePositiveLogo(resolved)) return resolved;
+	}
+
+	// 6. Favicon fallback (icon with sizes or standard shortcut icon)
+	const iconHref =
+		$('link[rel="icon"][sizes]').attr('href') ||
+		$('link[rel="icon"]').attr('href') ||
+		$('link[rel="shortcut icon"]').attr('href');
+
+	if (iconHref) {
+		const resolved = resolveCandidateUrl(iconHref, baseUrl);
+		if (resolved && !isFalsePositiveLogo(resolved)) return resolved;
+	}
+
+	// 7. Domain fallback favicon if baseUrl provided
+	if (baseUrl) {
+		try {
+			const parsed = new URL(baseUrl);
+			const domain = parsed.hostname.replace(/^www\./i, '');
+			if (domain && domain.includes('.')) {
+				return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+			}
+		} catch (_e) {}
+	}
+
+	return null;
 }
 
 /**
@@ -1107,7 +1373,7 @@ export async function detectTechnology(url) {
 
 	try {
 		const { html, headers, responseUrl } = await fetchPage(normalized);
-		const analysis = analyze(html, headers);
+		const analysis = analyze(html, headers, responseUrl);
 
 		let productCount = null;
 		if (analysis.detected && analysis.technology) {

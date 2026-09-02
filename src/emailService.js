@@ -121,8 +121,10 @@ export function buildReportEmail(data, recipientName = '') {
 		theme = null,
 		plugins = [],
 		infrastructure = [],
+		pixels = [],
 		location = {},
 		pagespeed = null,
+		siteLogo = null,
 	} = data;
 
 	const confidencePct = Math.round((confidence || 0) * 100);
@@ -191,6 +193,19 @@ export function buildReportEmail(data, recipientName = '') {
 					)
 					.join('')
 			: '<span style="color: #5c5654; font-size: 13px; font-family: \'Comic Sans MS\', sans-serif; font-style: italic;">🤷 No se le vio infraestructura conocida.</span>';
+
+	// Pixels list HTML
+	const pixelsHtml =
+		pixels.length > 0
+			? pixels
+					.map(
+						(px) => `
+        <span style="display: inline-block; background: #fdf2e9; border: 1px dashed #e67e22; 
+                     color: #2b2523; font-size: 11px; font-weight: bold; padding: 4px 10px; font-family: 'Comic Sans MS', sans-serif;
+                     border-radius: 12px; margin: 3px 4px 3px 0;">🎯 ${px.name}${px.category ? ` (${px.category})` : ''}</span>`
+					)
+					.join('')
+			: '<span style="color: #5c5654; font-size: 13px; font-family: \'Comic Sans MS\', sans-serif; font-style: italic;">🤷 No se le detectaron píxeles de seguimiento.</span>';
 
 	// Location info
 	const locationHtml = location?.country
@@ -337,7 +352,7 @@ export function buildReportEmail(data, recipientName = '') {
               <!-- Greeting and Intro -->
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 24px;">
                 <tr>
-                  <td>
+                  <td style="vertical-align: top;">
                     <h3 style="margin: 0 0 10px; color: #2b2523; font-size: 18px; font-family: 'Comic Sans MS', sans-serif;">
                       ¡Psst! ${greeting} 🤫
                     </h3>
@@ -345,6 +360,14 @@ export function buildReportEmail(data, recipientName = '') {
                       Nos metimos a husmear a los servidores de <strong>${domain}</strong> y le sacamos todo el chisme tecnológico. ¡Aquí tienes el expediente calientito!
                     </p>
                   </td>
+                  ${
+										siteLogo
+											? `
+                  <td style="vertical-align: top; padding-left: 16px; width: 64px;" align="right">
+                    <img src="${siteLogo}" width="52" height="52" alt="${domain}" style="border-radius: 10px; border: 2px solid #9b59b6; background: #ffffff; object-fit: contain; display: block;" onerror="this.style.display='none'">
+                  </td>`
+											: ''
+									}
                 </tr>
               </table>
 
@@ -429,6 +452,24 @@ export function buildReportEmail(data, recipientName = '') {
                 </tr>
               </table>
 
+              <!-- Pixels Note -->
+              <!-- Sticky tape -->
+              <div style="background: rgba(244,238,216,0.85); border-left: 1px dashed rgba(43,37,35,0.15); border-right: 1px dashed rgba(43,37,35,0.15); height: 14px; width: 80px; margin: 0 auto -8px; z-index: 10; position: relative;"></div>
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"
+                     style="background: #ffffff; border: 2px solid #2b2523; 
+                            border-radius: 12px; box-shadow: 4px 4px 0px rgba(43,37,35,0.15); margin-bottom: 24px;">
+                <tr>
+                  <td style="padding: 20px 24px;">
+                    <p style="margin: 0 0 12px; color: #e67e22; font-size: 13px; font-weight: bold; text-transform: uppercase; font-family: 'Comic Sans MS', sans-serif;">
+                      🎯 Píxeles de Rastreo y Analítica (${pixels.length})
+                    </p>
+                    <div style="padding-top: 4px;">
+                      ${pixelsHtml}
+                    </div>
+                  </td>
+                </tr>
+              </table>
+
               <!-- PageSpeed -->
               ${pagespeedHtml}
 
@@ -459,13 +500,17 @@ export function buildReportEmail(data, recipientName = '') {
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
                 <tr>
                   <td>
-                    <p style="margin: 0; font-size: 11px; color: #5c5654; line-height: 1.5; font-family: 'Comic Sans MS', sans-serif;">
-                      Este expediente chismoso fue generado por el <strong style="color: #ff7eb9;">Chismógrafo 📓</strong>.<br>
-                      Si te enviaron esto por error, no te estreses, bórralo y ya. ✨
+                    <p style="margin: 0 0 6px; font-size: 13px; color: #2b2523; font-weight: bold; font-family: 'Comic Sans MS', sans-serif;">
+                      🤫 Chismógrafo
+                    </p>
+                    <p style="margin: 0; font-size: 11px; color: #5c5654; line-height: 1.5; font-family: Arial, sans-serif;">
+                      Auditoría tecnológica automatizada de tiendas online. Sin trucos ni espías extraños.
                     </p>
                   </td>
-                  <td align="right" style="vertical-align: middle; padding-left: 10px;">
-                    <p style="margin: 0; font-size: 11px; color: #9b59b6; font-weight: 800; font-family: 'Comic Sans MS', sans-serif; white-space: nowrap;">📓 chismografo.com</p>
+                  <td align="right" style="vertical-align: middle;">
+                    <a href="${appUrl}" style="color: #ff7eb9; font-size: 12px; font-weight: bold; text-decoration: none; font-family: 'Comic Sans MS', sans-serif;">
+                      rifatela.lol ✨
+                    </a>
                   </td>
                 </tr>
               </table>

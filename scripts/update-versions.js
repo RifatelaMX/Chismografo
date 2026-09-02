@@ -192,10 +192,7 @@ function analyzeCommit(commit) {
 	// Check scope match
 	if (scope) {
 		for (const [compKey, compDef] of Object.entries(COMPONENT_DEFINITIONS)) {
-			if (
-				compDef.scopes.includes(scope) ||
-				compDef.scopes.some((s) => scope.startsWith(`${s}/`))
-			) {
+			if (compDef.scopes.includes(scope) || compDef.scopes.some((s) => scope.startsWith(`${s}/`))) {
 				affectedComponents.add(compKey);
 			}
 		}

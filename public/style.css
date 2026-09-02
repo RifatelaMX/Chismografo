@@ -326,6 +326,43 @@ body {
 	font-size: 1.5rem;
 }
 
+.section-count-badge {
+	font-family: var(--font-body);
+	font-size: 0.75rem;
+	font-weight: 700;
+	background: var(--sticker-pink);
+	color: var(--gel-purple);
+	border: 1.5px solid var(--gel-pink);
+	padding: 0.1rem 0.55rem;
+	border-radius: 12px;
+	margin-left: auto;
+	box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.08);
+}
+
+.empty-section-notice {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	color: var(--ink-light);
+	padding: 1.75rem 1rem;
+	width: 100%;
+	font-family: var(--font-handwritten);
+	font-size: 1.15rem;
+	background: rgba(0, 0, 0, 0.02);
+	border: 1.5px dashed var(--paper-lines);
+	border-radius: 10px;
+}
+
+.empty-section-notice i {
+	width: 32px;
+	height: 32px;
+	margin-bottom: 0.35rem;
+	stroke-width: 1.5;
+	color: var(--ink-light);
+}
+
 /* ==========================================================================
    BUTTONS — Gel / Sticker style
    ========================================================================== */
@@ -635,23 +672,101 @@ body {
 	font-weight: 700 !important;
 }
 
+.site-logo-large {
+	height: 58px;
+	min-width: 64px;
+	max-width: 180px;
+	width: auto;
+	padding: 6px 12px;
+	border-radius: 12px;
+	background: white;
+	border: 2px solid var(--gel-purple, #9b59b6);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.12);
+	transform: none;
+	margin: 0 auto;
+	flex-shrink: 0;
+	transition:
+		transform 0.2s ease,
+		box-shadow 0.2s ease,
+		background-color 0.25s ease;
+}
+
+.site-logo-large:hover {
+	transform: scale(1.04);
+	box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.18);
+}
+
+.site-logo-large.logo-theme-dark-bg {
+	background: #18181b !important;
+	border-color: rgba(155, 89, 182, 0.7) !important;
+	box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35) !important;
+}
+
+.site-logo-large.logo-theme-light-bg {
+	background: #ffffff !important;
+	border-color: var(--gel-purple, #9b59b6) !important;
+}
+
+.site-logo-img {
+	max-width: 100%;
+	max-height: 100%;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	display: block;
+	transition: filter 0.25s ease;
+}
+
+.site-logo-fallback {
+	font-size: 1.75rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	min-width: 44px;
+	color: var(--gel-purple, #9b59b6);
+	background: rgba(155, 89, 182, 0.08);
+	font-weight: 700;
+	user-select: none;
+}
+
 .tech-icon-large {
-	width: 56px;
-	height: 56px;
-	border-radius: 10px;
+	width: 42px;
+	height: 42px;
+	border-radius: 9px;
 	background: white;
 	border: 2px solid var(--gel-blue);
-	display: flex;
+	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	overflow: hidden;
 	box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
 	transform: rotate(-2deg);
+	flex-shrink: 0;
+	vertical-align: middle;
+	transition: transform 0.2s ease;
+}
+
+.tech-icon-large:hover {
+	transform: rotate(0deg) scale(1.08);
+}
+
+.tech-icon-large img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	padding: 3px;
+	display: block;
 }
 
 .tech-icon-large i {
-	width: 24px;
-	height: 24px;
+	width: 22px;
+	height: 22px;
 	color: var(--gel-purple);
 }
 
@@ -1750,48 +1865,57 @@ body {
 }
 
 @media print {
-	/* Hide UI elements that shouldn't be printed */
+	@page {
+		size: landscape;
+		margin: 6mm 8mm;
+	}
+
+	/* Hide non-report UI elements */
 	.app-header,
 	.search-section,
 	.error-section,
 	#scanning-state,
-	#download-pdf-btn,
-	#download-json-btn,
-	#download-csv-btn,
-	#copy-link-btn,
-	#open-email-report-btn {
+	.result-actions-container,
+	.custom-modal-backdrop,
+	#exams-detail-modal,
+	#app-detail-modal,
+	#email-report-modal,
+	#open-exams-btn {
 		display: none !important;
 	}
 
-	/* Reset background and colors for printing */
 	body,
 	.app-main {
-		background: white !important;
-		color: black !important;
+		background: #fdf6e3 !important;
+		-webkit-print-color-adjust: exact !important;
+		print-color-adjust: exact !important;
+		color: #2c1810 !important;
+		padding: 0 !important;
+	}
+
+	.results-section {
+		display: block !important;
+		width: 100% !important;
 	}
 
 	.card.glass-panel {
-		background: white !important;
-		border: 1px solid #ccc !important;
-		box-shadow: none !important;
-		color: black !important;
+		background: #ffffff !important;
+		border: 1.5px solid var(--gel-purple, #9b59b6) !important;
+		box-shadow: 2px 2px 0 rgba(155, 89, 182, 0.2) !important;
 		break-inside: avoid;
+		page-break-inside: avoid;
 	}
 
 	.unified-dashboard-layout {
 		display: block !important;
 	}
 
-	/* Ensure text is readable */
-	* {
-		color: black !important;
-		text-shadow: none !important;
-	}
-
-	h2,
-	h3,
-	h4,
-	.section-desc {
-		color: black !important;
+	.result-header-card {
+		display: flex !important;
+		justify-content: space-between !important;
+		align-items: center !important;
+		background: #ffffff !important;
+		border: 2px solid #9b59b6 !important;
+		page-break-inside: avoid;
 	}
 }

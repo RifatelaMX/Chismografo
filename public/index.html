@@ -19,6 +19,9 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- jsPDF & html2canvas for client-side PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
   <!-- Background Decorative Glows -->
@@ -86,11 +89,11 @@
         <!-- Technology Header Card -->
         <div class="card glass-panel result-header-card">
           <div class="result-headline">
-            <div id="tech-icon-container" class="tech-icon-large" style="cursor: pointer;" title="Ver boleta de exámenes y pruebas">
-              <i data-lucide="shopping-bag"></i>
-            </div>
             <div class="result-text-summary">
               <h2 style="display: flex; align-items: center; gap: 0.75rem; margin: 0; color: white; flex-wrap: wrap;">
+                <div id="tech-icon-container" class="tech-icon-large" style="cursor: pointer;" title="CMS detectado (Ver boleta de exámenes y pruebas)">
+                  <i data-lucide="shopping-bag"></i>
+                </div>
                 <span id="detected-tech-name" style="cursor: pointer;" title="Clic para ver exámenes de detección">Shopify</span>
                 <span id="confidence-text-badge" style="cursor: pointer; font-size: 0.8rem; font-weight: 600; padding: 0.15rem 0.6rem; border-radius: 12px; background: rgba(173, 255, 0, 0.08); color: var(--primary); border: 1px solid rgba(173, 255, 0, 0.2);" title="Clic para ver exámenes de detección">100% Segurísimo ✨</span>
                 <button type="button" id="open-exams-btn"
@@ -102,9 +105,6 @@
               </h2>
               <div id="detected-theme-container" style="display: none; margin-top: 0.25rem;">
                 <span style="font-size: 0.95rem; color: var(--text-secondary);">🎨 Tema que usa: <strong id="detected-theme-name" style="font-weight: 600; color: var(--secondary);">Stretch</strong></span>
-              </div>
-              <div id="product-count-container" style="display: none; margin-top: 0.25rem;">
-                <span style="font-size: 0.95rem; color: var(--text-secondary);">📦 Productos que vende: <strong id="product-count-val" style="font-weight: 600; color: var(--primary);">0</strong></span>
               </div>
               <p class="resolved-url-text" style="margin-top: 0.5rem; margin-bottom: 0;">URL: <a href="https://tienda.com" id="resolved-url-link" target="_blank" rel="noopener noreferrer">https://tienda.com</a></p>
               <div id="scan-date-container" style="display: none; margin-top: 0.35rem;">
@@ -186,21 +186,30 @@
             </div>
           </div>
 
-          <!-- Previews Container -->
-          <div class="header-previews-container" id="header-previews-container" style="display: none; align-items: center; gap: 1.25rem;">
-            <div class="desktop-mockup-mini" style="position: relative; width: 220px; height: 140px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); overflow: hidden; background: #000; flex-shrink: 0;">
-              <div class="mockup-header-mini" style="height: 8px; background: rgba(255,255,255,0.08); display: flex; gap: 3px; align-items: center; padding: 0 6px;">
-                <span style="width: 3px; height: 3px; border-radius: 50%; background: #ff5f56; display: inline-block;"></span>
-                <span style="width: 3px; height: 3px; border-radius: 50%; background: #ffbd2e; display: inline-block;"></span>
-                <span style="width: 3px; height: 3px; border-radius: 50%; background: #27c93f; display: inline-block;"></span>
-              </div>
-              <img id="screenshot-desktop-img" src="" alt="Desktop Preview" style="width: 100%; height: calc(100% - 8px); object-fit: cover;">
+          <!-- Previews Container with Site Logo on Top -->
+          <div class="header-previews-container" id="header-previews-container" style="display: none; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem;">
+            <!-- Site Logo on Top of Screenshots (Centered) -->
+            <div id="site-logo-container" class="site-logo-large" title="Logo del sitio web analizado" style="align-self: center; margin: 0 auto;">
+              <img id="site-logo-img" class="site-logo-img" src="" alt="Logo del sitio" style="display:none;" />
+              <div id="site-logo-fallback" class="site-logo-fallback">🌐</div>
             </div>
-            <div class="mobile-mockup-mini" style="position: relative; width: 80px; height: 140px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); overflow: hidden; background: #000; flex-shrink: 0;">
-              <div class="mockup-header-mini" style="height: 8px; background: rgba(255,255,255,0.08); display: flex; justify-content: center; align-items: center;">
-                <span style="width: 12px; height: 3px; border-radius: 1.5px; background: rgba(255,255,255,0.3); display: inline-block;"></span>
+
+            <!-- Screenshots Row -->
+            <div style="display: flex; align-items: center; justify-content: center; gap: 1.25rem;">
+              <div class="desktop-mockup-mini" style="position: relative; width: 220px; height: 140px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); overflow: hidden; background: #000; flex-shrink: 0;">
+                <div class="mockup-header-mini" style="height: 8px; background: rgba(255,255,255,0.08); display: flex; gap: 3px; align-items: center; padding: 0 6px;">
+                  <span style="width: 3px; height: 3px; border-radius: 50%; background: #ff5f56; display: inline-block;"></span>
+                  <span style="width: 3px; height: 3px; border-radius: 50%; background: #ffbd2e; display: inline-block;"></span>
+                  <span style="width: 3px; height: 3px; border-radius: 50%; background: #27c93f; display: inline-block;"></span>
+                </div>
+                <img id="screenshot-desktop-img" src="" alt="Desktop Preview" style="width: 100%; height: calc(100% - 8px); object-fit: cover;">
               </div>
-              <img id="screenshot-mobile-img" src="" alt="Mobile Preview" style="width: 100%; height: calc(100% - 8px); object-fit: cover;">
+              <div class="mobile-mockup-mini" style="position: relative; width: 80px; height: 140px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); overflow: hidden; background: #000; flex-shrink: 0;">
+                <div class="mockup-header-mini" style="height: 8px; background: rgba(255,255,255,0.08); display: flex; justify-content: center; align-items: center;">
+                  <span style="width: 12px; height: 3px; border-radius: 1.5px; background: rgba(255,255,255,0.3); display: inline-block;"></span>
+                </div>
+                <img id="screenshot-mobile-img" src="" alt="Mobile Preview" style="width: 100%; height: calc(100% - 8px); object-fit: cover;">
+              </div>
             </div>
           </div>
         </div>
@@ -522,14 +531,41 @@
               </div>
             </div>
 
-            <!-- Active Technologies Card -->
-            <div class="card glass-panel">
+            <!-- Apps Note Card -->
+            <div class="card glass-panel" id="apps-card">
               <div class="card-header">
                 <i data-lucide="package-open"></i>
                 <h3>🔌 Apps que le cachamos</h3>
+                <span id="apps-count-badge" class="section-count-badge">0</span>
               </div>
-              <p class="section-desc">Todas las apps y plugins que usa esta tienda, ¡las fichamos todas! 📝</p>
-              <div class="tech-grid" id="unified-tech-grid">
+              <p class="section-desc">Todas las aplicaciones, extensiones y plugins que potencian la tienda... ¡las fichamos todas! 📝</p>
+              <div class="tech-grid" id="apps-tech-grid">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+
+            <!-- Infrastructure Note Card -->
+            <div class="card glass-panel" id="infra-card">
+              <div class="card-header">
+                <i data-lucide="server"></i>
+                <h3>🌐 Infraestructura y Red</h3>
+                <span id="infra-count-badge" class="section-count-badge">0</span>
+              </div>
+              <p class="section-desc">Servidores, CDNs, proxies y capas de seguridad que sostienen el sitio... ¡todo su cableado al descubierto! 🛡️</p>
+              <div class="tech-grid" id="infra-tech-grid">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+
+            <!-- Pixels Note Card -->
+            <div class="card glass-panel" id="pixels-card">
+              <div class="card-header">
+                <i data-lucide="crosshair"></i>
+                <h3>🎯 Píxeles de Rastreo</h3>
+                <span id="pixels-count-badge" class="section-count-badge">0</span>
+              </div>
+              <p class="section-desc">Píxeles de conversión, analítica y etiquetas de marketing que le siguen la pista a los visitantes... ¡bien vigilado! 👁️</p>
+              <div class="tech-grid" id="pixels-tech-grid">
                 <!-- Dynamically populated -->
               </div>
             </div>
@@ -582,10 +618,17 @@
     </main>
 
     <!-- Footer -->
-    <footer class="app-footer">
-      <p>📓 Chismógrafo © 2026 — ¡El que todo lo sabe! ✨</p>
-      <p class="footer-meta">hecho con 💜 usando Node.js, Express, Axios & Cheerio</p>
-      <p id="app-versions-display" style="font-size: 0.72rem; opacity: 0.8; margin-top: 0.25rem; font-family: var(--font-body); font-weight: 700;"></p>
+    <footer class="app-footer" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; text-align: center;">
+      <div style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-handwritten); font-size: 1.45rem; font-weight: 700; color: var(--gel-purple); line-height: 1;">
+        <span>Hecho con 💜 en</span>
+        <a href="https://rifatela.lol" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; text-decoration: none; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+          <img src="https://rifatela.lol/Positivo.svg" alt="Rífatela Logo" height="26" style="height: 26px; width: auto; vertical-align: middle; display: block;" />
+        </a>
+      </div>
+      <p class="footer-meta" style="margin: 0; font-size: 0.85rem; color: var(--ink-medium);">
+        🤫 Expediente Confidencial • <span id="footer-scan-date">📓 Chismógrafo © 2026 — ¡El que todo lo sabe! ✨</span>
+      </p>
+      <p id="app-versions-display" style="font-size: 0.72rem; opacity: 0.8; margin: 0; font-family: var(--font-body); font-weight: 700;"></p>
     </footer>
   </div>
 

@@ -1,0 +1,23 @@
+{
+	"name": "Microsoft Clarity",
+	"category": "Analítica",
+	"web": "https://clarity.microsoft.com",
+	"logo": {
+		"id": "clarity.microsoft.com",
+		"provider": "brandicons"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "clarity\\.ms\\/tag\\/|clarity\\.ms\\/s\\/|scripts\\.clarity\\.ms|www\\.clarity\\.ms|clarity\\.js",
+			"description": "Microsoft Clarity script detectado",
+			"weight": 1
+		},
+		{
+			"type": "script-content",
+			"pattern": "clarity\\.ms\\/tag|\\(window,\\s*document,\\s*[\"']clarity[\"']|window\\[[\"']clarity[\"']\\]|window\\.clarity\\s*=|clarity\\([\"']set[\"']|clarity\\([\"']identify[\"']|clarity\\([\"']consent[\"']",
+			"description": "Microsoft Clarity configuración o inicialización detectada",
+			"weight": 0.8
+		}
+	]
+}

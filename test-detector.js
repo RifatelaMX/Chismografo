@@ -286,6 +286,117 @@ const testCases = [
 		expectedPlugins: [],
 		expectedTheme: 'Dawn',
 	},
+	{
+		name: 'Shopify site with header logo (relative path resolution)',
+		html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Fashion Store</title>
+          <meta name="generator" content="Shopify">
+        </head>
+        <body>
+          <header class="site-header">
+            <a href="/" class="header__heading-link">
+              <img class="header__heading-logo" src="//cdn.shopify.com/s/files/1/0001/files/fashion-brand-logo.png" alt="Fashion Store Brand Logo">
+            </a>
+          </header>
+        </body>
+      </html>
+    `,
+		headers: {
+			'content-type': 'text/html',
+		},
+		baseUrl: 'https://fashionstore.com',
+		expectedTech: 'Shopify',
+		minConfidence: 0.99,
+		expectedPlugins: [],
+		expectedLogo: 'https://cdn.shopify.com/s/files/1/0001/files/fashion-brand-logo.png',
+	},
+	{
+		name: 'Store with JSON-LD Schema Organization logo',
+		html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Tech Gadgets Store</title>
+          <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Tech Gadgets",
+              "url": "https://techgadgets.com",
+              "logo": "https://techgadgets.com/assets/img/tech-gadgets-logo.svg"
+            }
+          </script>
+        </head>
+        <body>
+          <h1>Tech Gadgets</h1>
+        </body>
+      </html>
+    `,
+		headers: {
+			'content-type': 'text/html',
+		},
+		baseUrl: 'https://techgadgets.com',
+		expectedTech: null,
+		minConfidence: 0,
+		expectedPlugins: [],
+		expectedLogo: 'https://techgadgets.com/assets/img/tech-gadgets-logo.svg',
+	},
+	{
+		name: 'Site with Apple Touch Icon fallback logo',
+		html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Handmade Gifts</title>
+          <link rel="apple-touch-icon" href="/icons/apple-touch-icon-180x180.png">
+        </head>
+        <body>
+          <h1>Handmade Gifts Store</h1>
+        </body>
+      </html>
+    `,
+		headers: {
+			'content-type': 'text/html',
+		},
+		baseUrl: 'https://handmadegifts.com',
+		expectedTech: null,
+		minConfidence: 0,
+		expectedPlugins: [],
+		expectedLogo: 'https://handmadegifts.com/icons/apple-touch-icon-180x180.png',
+	},
+	{
+		name: 'Shopify site with Microsoft Clarity pixel tracking',
+		html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Clarity Store</title>
+          <meta name="generator" content="Shopify">
+          <script type="text/javascript">
+            (function(c,l,a,r,i,t,y){
+              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "test123clarity");
+          </script>
+        </head>
+        <body>
+          <h1>Store with Clarity</h1>
+        </body>
+      </html>
+    `,
+		headers: {
+			'content-type': 'text/html',
+		},
+		expectedTech: 'Shopify',
+		minConfidence: 0.99,
+		expectedPlugins: [],
+		expectedGateways: [],
+		expectedPixels: ['Microsoft Clarity'],
+	},
 ];
 
 // Run the verification tests
@@ -294,11 +405,12 @@ let passed = 0;
 
 for (const t of testCases) {
 	try {
-		const result = analyze(t.html, t.headers);
+		const result = analyze(t.html, t.headers, t.baseUrl || '');
 
 		const isTechMatch = result.technology === t.expectedTech;
 		const isConfidenceMatch = result.confidence >= t.minConfidence;
 		const isThemeMatch = t.expectedTheme ? result.theme === t.expectedTheme : true;
+		const isLogoMatch = t.expectedLogo ? result.siteLogo === t.expectedLogo : true;
 
 		// Verify plugins list
 		const detectedPluginNames = (result.plugins || []).map((p) => p.name);
@@ -336,7 +448,8 @@ for (const t of testCases) {
 			pluginsMatch &&
 			gatewaysMatch &&
 			pixelsMatch &&
-			isThemeMatch
+			isThemeMatch &&
+			isLogoMatch
 		) {
 			console.log(`✅ PASSED: ${t.name}`);
 			let techDisplay = result.technology
@@ -346,6 +459,9 @@ for (const t of testCases) {
 				techDisplay += ` [Theme: ${result.theme}]`;
 			}
 			console.log(`   Detected: ${techDisplay}`);
+			if (result.siteLogo) {
+				console.log(`   Logo:     ${result.siteLogo}`);
+			}
 			if (result.plugins.length > 0) {
 				console.log(`   Plugins:  ${detectedPluginNames.join(', ')}`);
 			}
@@ -359,10 +475,10 @@ for (const t of testCases) {
 		} else {
 			console.log(`❌ FAILED: ${t.name}`);
 			console.log(
-				`   Expected: Tech: ${t.expectedTech} (Conf >= ${t.minConfidence}), Theme: ${t.expectedTheme || 'Any'}, Plugins: [${(t.expectedPlugins || []).join(', ')}]`
+				`   Expected: Tech: ${t.expectedTech} (Conf >= ${t.minConfidence}), Theme: ${t.expectedTheme || 'Any'}, Logo: ${t.expectedLogo || 'Any'}, Plugins: [${(t.expectedPlugins || []).join(', ')}]`
 			);
 			console.log(
-				`   Actual:   Tech: ${result.technology} (Conf: ${result.confidence}), Theme: ${result.theme || 'None'}, Plugins: [${detectedPluginNames.join(', ')}]`
+				`   Actual:   Tech: ${result.technology} (Conf: ${result.confidence}), Theme: ${result.theme || 'None'}, Logo: ${result.siteLogo || 'None'}, Plugins: [${detectedPluginNames.join(', ')}]`
 			);
 			console.log(`   Full Result:`, JSON.stringify(result, null, 2));
 		}

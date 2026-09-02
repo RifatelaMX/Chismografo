@@ -110,6 +110,81 @@ window.handleLogoError = (img, providedDomain, websiteUrl, provider) => {
 	}
 };
 
+/**
+ * Analiza la luminancia y contraste de un logo transparente o gráfico
+ * para asegurar máxima visibilidad (adaptando fondo blanco/oscuro o drop-shadow).
+ * @param {HTMLImageElement} img
+ * @param {HTMLElement} container
+ */
+window.analyzeAndApplyImageContrast = (img, container) => {
+	if (!img || !container) return;
+
+	const applyContrast = (isLight) => {
+		container.classList.remove('logo-theme-light-bg', 'logo-theme-dark-bg');
+		if (typeof lastScanData !== 'undefined' && lastScanData) {
+			lastScanData.isLogoDark = isLight;
+		}
+		if (isLight) {
+			container.classList.add('logo-theme-dark-bg');
+			img.style.filter = 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45))';
+		} else {
+			container.classList.add('logo-theme-light-bg');
+			img.style.filter = 'drop-shadow(0 0 1px rgba(0, 0, 0, 0.15))';
+		}
+	};
+
+	try {
+		const canvas = document.createElement('canvas');
+		const ctx = canvas.getContext('2d', { willReadFrequently: true });
+		if (!ctx) {
+			applyContrast(false);
+			return;
+		}
+
+		const w = (canvas.width = Math.min(img.naturalWidth || 64, 80));
+		const h = (canvas.height = Math.min(img.naturalHeight || 64, 80));
+
+		ctx.clearRect(0, 0, w, h);
+		ctx.drawImage(img, 0, 0, w, h);
+
+		const imageData = ctx.getImageData(0, 0, w, h);
+		const data = imageData.data;
+
+		let visiblePixels = 0;
+		let lightPixels = 0;
+		let totalLuminance = 0;
+
+		for (let i = 0; i < data.length; i += 4) {
+			const alpha = data[i + 3];
+			if (alpha > 30) {
+				const r = data[i];
+				const g = data[i + 1];
+				const b = data[i + 2];
+				const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+				totalLuminance += lum;
+				visiblePixels++;
+				if (lum > 175) {
+					lightPixels++;
+				}
+			}
+		}
+
+		if (visiblePixels > 0) {
+			const avgLum = totalLuminance / visiblePixels;
+			const isLight = lightPixels / visiblePixels > 0.45 || avgLum > 175;
+			applyContrast(isLight);
+		} else {
+			applyContrast(false);
+		}
+	} catch (_e) {
+		// Fallback para imágenes sin cabeceras CORS (tainted canvas)
+		container.classList.remove('logo-theme-dark-bg');
+		container.classList.add('logo-theme-light-bg');
+		img.style.filter =
+			'drop-shadow(0 0 1px rgba(0, 0, 0, 0.55)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))';
+	}
+};
+
 document.addEventListener('DOMContentLoaded', () => {
 	// Initialize Lucide Icons
 	lucide.createIcons();
@@ -682,12 +757,22 @@ document.addEventListener('DOMContentLoaded', () => {
 			fetchPageSpeed(data.resolvedUrl || targetUrlInput.value.trim());
 		}
 
-		// Render screenshots if available
+		// Render screenshots and site preview header if available
 		const headerPreviewsContainer = document.getElementById('header-previews-container');
 		const screenshotDesktopImg = document.getElementById('screenshot-desktop-img');
 		const screenshotMobileImg = document.getElementById('screenshot-mobile-img');
 
-		if (data.screenshots?.desktop || data.screenshots?.mobile) {
+		let siteDomain = '';
+		try {
+			if (data.resolvedUrl || data.url) {
+				siteDomain = new URL(data.resolvedUrl || data.url).hostname.replace(/^www\./i, '');
+			}
+		} catch (_e) {}
+
+		const hasScreenshots = !!(data.screenshots?.desktop || data.screenshots?.mobile);
+		const hasSiteLogoOrUrl = !!(data.siteLogo || siteDomain);
+
+		if (hasScreenshots || hasSiteLogoOrUrl) {
 			if (headerPreviewsContainer) headerPreviewsContainer.style.display = 'flex';
 
 			const desktopMockup = document.querySelector('.desktop-mockup-mini');
@@ -707,6 +792,47 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		} else {
 			if (headerPreviewsContainer) headerPreviewsContainer.style.display = 'none';
+		}
+
+		// Render Scraped Site Logo with Contrast Analysis
+		const siteLogoContainer = document.getElementById('site-logo-container');
+		const siteLogoImg = document.getElementById('site-logo-img');
+		const siteLogoFallback = document.getElementById('site-logo-fallback');
+
+		const initialChar = (siteDomain || 'W').charAt(0).toUpperCase();
+
+		if (siteLogoContainer && siteLogoImg && siteLogoFallback) {
+			siteLogoFallback.textContent = initialChar || '🌐';
+			siteLogoFallback.style.display = 'flex';
+			siteLogoImg.style.display = 'none';
+
+			const candidateLogo =
+				data.siteLogo ||
+				(siteDomain
+					? `https://img.logo.dev/${siteDomain}?token=pk_MgKPAkEuRMOiYecOkx67wQ&size=64`
+					: '');
+
+			if (candidateLogo) {
+				siteLogoImg.crossOrigin = 'anonymous';
+				siteLogoImg.src = candidateLogo;
+				siteLogoImg.onload = () => {
+					siteLogoImg.style.display = 'block';
+					siteLogoFallback.style.display = 'none';
+					window.analyzeAndApplyImageContrast(siteLogoImg, siteLogoContainer);
+				};
+				siteLogoImg.onerror = () => {
+					const fallbackUrl = siteDomain
+						? `https://www.google.com/s2/favicons?domain=${siteDomain}&sz=128`
+						: '';
+					if (fallbackUrl && siteLogoImg.src !== fallbackUrl) {
+						siteLogoImg.crossOrigin = 'anonymous';
+						siteLogoImg.src = fallbackUrl;
+					} else {
+						siteLogoImg.style.display = 'none';
+						siteLogoFallback.style.display = 'flex';
+					}
+				};
+			}
 		}
 
 		// Resolved URL
@@ -729,6 +855,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 			scanDateVal.textContent = formattedDate;
 			scanDateContainer.style.display = 'block';
+
+			const footerScanDate = document.getElementById('footer-scan-date');
+			if (footerScanDate) {
+				footerScanDate.textContent = `Generado el ${formattedDate}`;
+			}
 		} else if (scanDateContainer) {
 			scanDateContainer.style.display = 'none';
 		}
@@ -866,16 +997,16 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (techIconContainer) {
 				if (cmsDom) {
 					techIconContainer.innerHTML = `
-            <img src="https://img.logo.dev/${cmsDom}?token=${logoToken}&size=64" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px;" onload="window.handleLogoLoad(this, '${cmsDom}')" onerror="window.handleLogoError(this, '${cmsDom}')" />
-            <i data-lucide="${iconName}" style="display:none; width: 24px; height: 24px;"></i>
+            <img src="https://img.logo.dev/${cmsDom}?token=${logoToken}&size=64" style="width: 100%; height: 100%; object-fit: contain; border-radius: 8px; display: block;" onload="window.handleLogoLoad(this, '${cmsDom}')" onerror="window.handleLogoError(this, '${cmsDom}')" />
+            <i data-lucide="${iconName}" style="display:none; width: 22px; height: 22px;"></i>
           `;
-					techIconContainer.style.background = 'transparent';
-					techIconContainer.style.border = 'none';
+					techIconContainer.style.background = '#ffffff';
+					techIconContainer.style.border = '2px solid var(--gel-blue, #00a8ff)';
 				} else {
-					techIconContainer.innerHTML = `<i data-lucide="${iconName}"></i>`;
+					techIconContainer.innerHTML = `<i data-lucide="${iconName}" style="width: 22px; height: 22px;"></i>`;
 					techIconContainer.style.background =
 						'linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%)';
-					techIconContainer.style.border = '';
+					techIconContainer.style.border = '2px solid var(--gel-blue, #00a8ff)';
 				}
 			}
 		} else {
@@ -896,25 +1027,6 @@ document.addEventListener('DOMContentLoaded', () => {
 				techIconContainer.style.background = 'rgba(255, 255, 255, 0.05)';
 				techIconContainer.style.border = '';
 			}
-		}
-
-		// Product count display: show only when valid positive product count is present
-		const productCountContainer = document.getElementById('product-count-container');
-		const productCountVal = document.getElementById('product-count-val');
-		const hasValidProducts =
-			data.detected &&
-			data.productCount !== undefined &&
-			data.productCount !== null &&
-			!isNaN(data.productCount) &&
-			Number(data.productCount) > 0;
-
-		if (hasValidProducts) {
-			if (productCountVal)
-				productCountVal.textContent = Number(data.productCount).toLocaleString('es-MX');
-			if (productCountContainer) productCountContainer.style.display = 'block';
-		} else {
-			if (productCountVal) productCountVal.textContent = '0';
-			if (productCountContainer) productCountContainer.style.display = 'none';
 		}
 
 		// Render Stats
@@ -1013,259 +1125,152 @@ document.addEventListener('DOMContentLoaded', () => {
 		lucide.createIcons();
 	}
 
-	// Render scan results in a single, unified view
-	function renderUnifiedDashboard(data) {
-		const unifiedTechGrid = document.getElementById('unified-tech-grid');
-		const unifiedTechCount = document.getElementById('unified-tech-count');
+	// Helper to create tech item cards
+	function createTechItemCard(tech, defaultCategory = 'Tecnología') {
+		const card = document.createElement('div');
+		card.className = 'plugin-card';
+		card.style.padding = '0.75rem';
+		card.style.cursor = 'pointer';
+		card.title = `Haz clic para ver las pruebas y detalles de ${tech.name}`;
 
-		unifiedTechGrid.innerHTML = '';
-
-		// 1. Gather all active technologies
-		const allActive = [];
-
-		// Helper to check if a tech is excluded (CDN, Edge, SSL, Root Authority)
-		const isExcluded = (_name, _category) => {
-			return false;
-		};
-
-		// Helper to check if a tech is included (CMS, E-Commerce, Shopify Apps, Payment Methods, Pay Later, Hosting)
-		const isIncluded = (_name, _category) => {
-			return true;
-		};
-
-		// Helper to merge items by name
-		const mergeItem = (techObj, source = 'Motor Local') => {
-			if (!techObj || !techObj.name) return;
-			const name = techObj.name;
-			const category = techObj.category || 'Otros';
-
-			if (isExcluded(name, category)) return;
-			if (source !== 'Motor Local' && !isIncluded(name, category)) return;
-
-			const key = name.toLowerCase().trim();
-			let existing = allActive.find((item) => item.name.toLowerCase().trim() === key);
-
-			if (!existing) {
-				existing = {
-					...techObj,
-					sources: [source],
-				};
-				allActive.push(existing);
-			} else {
-				if (!existing.link && techObj.link) existing.link = techObj.link;
-				if (!existing.web && techObj.web) existing.web = techObj.web;
-				if (!existing.logo && techObj.logo) existing.logo = techObj.logo;
-				if (!existing.developer && techObj.developer) existing.developer = techObj.developer;
-				if (!existing.evidence && techObj.evidence) existing.evidence = techObj.evidence;
-				if (!existing.rules && techObj.rules) existing.rules = techObj.rules;
-				if (!existing.appStores && techObj.appStores) existing.appStores = techObj.appStores;
-				if (!existing.compatibleCMS && techObj.compatibleCMS)
-					existing.compatibleCMS = techObj.compatibleCMS;
-				if (!existing.shopifyAppIcon && techObj.shopifyAppIcon)
-					existing.shopifyAppIcon = techObj.shopifyAppIcon;
-				if (!existing.sources.includes(source)) existing.sources.push(source);
-			}
-		};
-
-		// Process from Local Plugins
-		if (data.plugins) {
-			data.plugins.forEach((p) => {
-				mergeItem(
-					{
-						name: p.name,
-						category: p.category,
-						developer: p.developer,
-						web: p.web,
-						logo: p.logo,
-						link: p.evidence?.startsWith('http') ? p.evidence : p.web || '',
-						evidence: p.evidence,
-						rules: p.rules,
-						appStores: p.appStores,
-						compatibleCMS: p.compatibleCMS,
-						shopifyAppIcon: p.shopifyAppIcon,
-					},
-					'Motor Local'
-				);
-			});
+		let domain = '';
+		let provider = '';
+		if (tech.logo && typeof tech.logo === 'object') {
+			domain = tech.logo.id;
+			provider = tech.logo.provider;
+		} else if (tech.logo) {
+			domain = tech.logo;
 		}
 
-		// Process from Infrastructure Detections
-		if (data.infrastructure) {
-			data.infrastructure.forEach((inf) => {
-				mergeItem(
-					{
-						name: inf.name,
-						category: inf.category,
-						web: inf.web,
-						logo: inf.logo,
-						evidence: inf.evidence,
-						rules: inf.rules,
-					},
-					'Motor Local'
-				);
-			});
+		const techWebsite = tech.web || tech.website || tech.link || '';
+		if (!domain && techWebsite) {
+			try {
+				domain = new URL(techWebsite).hostname.replace(/^www\./i, '');
+			} catch (_e) {}
 		}
 
-		// Process from Pixels
-		if (data.pixels) {
-			data.pixels.forEach((px) => {
-				mergeItem(
-					{
-						name: px.name,
-						category: px.category,
-						web: px.web,
-						logo: px.logo,
-						evidence: px.evidence,
-						rules: px.rules,
-					},
-					'Motor Local'
-				);
-			});
-		}
+		const iconUrl = getTechIconUrl(tech);
+		const initial = (tech.name || '').trim().charAt(0).toUpperCase() || '?';
+		const iconHtml = iconUrl
+			? `<img src="${iconUrl}" class="tech-icon-img" onload="window.handleLogoLoad(this, '${domain || ''}', '${techWebsite}', '${provider || ''}')" onerror="window.handleLogoError(this, '${domain || ''}', '${techWebsite}', '${provider || ''}')" />`
+			: '';
+		const displayStyle = iconUrl ? 'display: none;' : 'display: flex;';
 
-		// 2. Group the active technologies by category
-		const groups = {};
-		allActive.forEach((item) => {
-			const translatedCat = translateCategory(item.category);
-			if (!groups[translatedCat]) groups[translatedCat] = [];
-			groups[translatedCat].push(item);
-		});
-
-		// Render group segments in UI
-		const categoryPriority = [
-			'CMS / E-Commerce',
-			'Aplicaciones de Shopify',
-			'Aplicaciones de WordPress',
-			'Aplicaciones detectadas',
-			'Pay Later',
-			'Procesador de Pago',
-			'Métodos de Pago',
-			'CDN / Proxy',
-			'CDN / Proxy / Seguridad',
-			'Servidor Web',
-			'Ubicación de Almacenamiento',
-			'Infraestructura',
-			'Otros',
-		];
-
-		// Sort categories based on priority list
-		const sortedCategories = Object.keys(groups).sort((a, b) => {
-			let idxA = categoryPriority.indexOf(a);
-			let idxB = categoryPriority.indexOf(b);
-			if (idxA === -1) idxA = 999;
-			if (idxB === -1) idxB = 999;
-			return idxA - idxB;
-		});
-
-		// Update active count
-		if (unifiedTechCount) unifiedTechCount.textContent = allActive.length;
-
-		// Update Shopify Apps count
-		const shopifyAppsMetricCard = document.getElementById('shopify-apps-metric-card');
-		const shopifyAppsCount = document.getElementById('shopify-apps-count');
-		const shopifyAppsLabel = shopifyAppsMetricCard
-			? shopifyAppsMetricCard.querySelector('.metric-label')
-			: null;
-		const shopifyAppsList = groups['Aplicaciones de Shopify'] || [];
-
-		if (shopifyAppsList.length > 0) {
-			if (shopifyAppsCount) shopifyAppsCount.textContent = shopifyAppsList.length;
-			if (shopifyAppsLabel) {
-				shopifyAppsLabel.textContent = 'Aplicaciones de Shopify';
-			}
-			if (shopifyAppsMetricCard) shopifyAppsMetricCard.style.display = 'flex';
+		let infoHtml = '';
+		if (tech.firstSeen) {
+			infoHtml = `<span style="font-size:0.62rem; color:var(--ink-medium); opacity:0.8;">Visto: ${tech.firstSeen}</span>`;
 		} else {
-			if (shopifyAppsMetricCard) shopifyAppsMetricCard.style.display = 'none';
+			infoHtml = `<span style="font-size:0.65rem; color:var(--gel-purple); font-weight:600; display:flex; align-items:center; gap:0.2rem;">Ver pruebas 🔍</span>`;
 		}
 
-		if (allActive.length > 0) {
-			sortedCategories.forEach((cat) => {
-				const catContainer = document.createElement('div');
-				catContainer.className = 'tech-category-group';
-				catContainer.style.marginBottom = '2rem';
-
-				catContainer.innerHTML = `
-          <h4>
-            <span>${cat}</span>
-            <span style="font-size:0.8rem; background:rgba(0,0,0,0.05); padding:0.1rem 0.5rem; border-radius:10px; font-weight:normal; opacity:0.8;">${groups[cat].length}</span>
-          </h4>
-          <div class="plugins-grid"></div>
-        `;
-
-				const grid = catContainer.querySelector('.plugins-grid');
-
-				groups[cat].forEach((tech) => {
-					const card = document.createElement('div');
-					card.className = 'plugin-card';
-					card.style.padding = '0.75rem';
-					card.style.cursor = 'pointer';
-					card.title = `Haz clic para ver las pruebas y detalles de ${tech.name}`;
-
-					let domain = '';
-					let provider = '';
-					if (tech.logo && typeof tech.logo === 'object') {
-						domain = tech.logo.id;
-						provider = tech.logo.provider;
-					} else if (tech.logo) {
-						domain = tech.logo;
-					}
-
-					const techWebsite = tech.web || tech.website || tech.link || '';
-					if (!domain && techWebsite) {
-						try {
-							domain = new URL(techWebsite).hostname.replace(/^www\./i, '');
-						} catch (_e) {}
-					}
-
-					const iconUrl = getTechIconUrl(tech);
-					const initial = (tech.name || '').trim().charAt(0).toUpperCase() || '?';
-					const iconHtml = iconUrl
-						? `<img src="${iconUrl}" class="tech-icon-img" onload="window.handleLogoLoad(this, '${domain || ''}', '${techWebsite}', '${provider || ''}')" onerror="window.handleLogoError(this, '${domain || ''}', '${techWebsite}', '${provider || ''}')" />`
-						: '';
-					const displayStyle = iconUrl ? 'display: none;' : 'display: flex;';
-
-					let infoHtml = '';
-					if (tech.firstSeen) {
-						infoHtml = `<span style="font-size:0.62rem; color:var(--ink-medium); opacity:0.8;">Visto: ${tech.firstSeen}</span>`;
-					} else {
-						infoHtml = `<span style="font-size:0.65rem; color:var(--gel-purple); font-weight:600; display:flex; align-items:center; gap:0.2rem;">Ver pruebas 🔍</span>`;
-					}
-
-					card.innerHTML = `
-            <div class="plugin-header" style="display: flex; align-items: center; gap: 0.65rem; margin: 0; width: 100%;">
-              <div class="tech-icon-container-mini" style="position: relative; width: 30px; height: 30px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
-                ${iconHtml}
-                <div class="tech-icon-mini" style="${displayStyle}">${initial}</div>
-              </div>
-              <div class="plugin-title-info" style="display: flex; flex-direction: column; flex-grow: 1; min-width: 0;">
-                <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; width: 100%;">
-                  <h4 style="margin: 0; font-size: 0.88rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(tech.name)}</h4>
-                  <span class="plugin-category" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px;">${escapeHtml(tech.category)}</span>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 0.15rem; font-size: 0.62rem;">
-                  ${infoHtml}
-                </div>
-              </div>
-            </div>
-          `;
-
-					card.addEventListener('click', () => {
-						openAppDetailModal(tech);
-					});
-
-					grid.appendChild(card);
-				});
-
-				unifiedTechGrid.appendChild(catContainer);
-			});
-		} else {
-			unifiedTechGrid.innerHTML = `
-        <div style="text-align: center; color: var(--text-dark); padding: 3rem 0; width: 100%;">
-          <i data-lucide="package-search" style="width: 48px; height: 48px; margin-bottom: 0.5rem; stroke-width: 1;"></i>
-          <p>No se encontraron tecnologías o aplicaciones compatibles en esta tienda.</p>
+		card.innerHTML = `
+      <div class="plugin-header" style="display: flex; align-items: center; gap: 0.65rem; margin: 0; width: 100%;">
+        <div class="tech-icon-container-mini" style="position: relative; width: 30px; height: 30px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+          ${iconHtml}
+          <div class="tech-icon-mini" style="${displayStyle}">${initial}</div>
         </div>
-      `;
+        <div class="plugin-title-info" style="display: flex; flex-direction: column; flex-grow: 1; min-width: 0;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; width: 100%;">
+            <h4 style="margin: 0; font-size: 0.88rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(tech.name)}</h4>
+            <span class="plugin-category" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px;">${escapeHtml(tech.category || defaultCategory)}</span>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 0.15rem; font-size: 0.62rem;">
+            ${infoHtml}
+          </div>
+        </div>
+      </div>
+    `;
+
+		card.addEventListener('click', () => {
+			openAppDetailModal(tech);
+		});
+
+		return card;
+	}
+
+	function createEmptySectionNotice(iconName, message) {
+		const div = document.createElement('div');
+		div.className = 'empty-section-notice';
+		div.innerHTML = `
+      <i data-lucide="${iconName}"></i>
+      <p style="margin: 0;">${message}</p>
+    `;
+		return div;
+	}
+
+	// Render scan results into independent section notes
+	function renderUnifiedDashboard(data) {
+		// 1. APPS & PLUGINS SECTION
+		const appsGrid = document.getElementById('apps-tech-grid');
+		const appsCountBadge = document.getElementById('apps-count-badge');
+		const appsList = Array.isArray(data.plugins) ? data.plugins : [];
+
+		if (appsGrid) {
+			appsGrid.innerHTML = '';
+			if (appsCountBadge) appsCountBadge.textContent = appsList.length;
+
+			if (appsList.length > 0) {
+				const pluginsGrid = document.createElement('div');
+				pluginsGrid.className = 'plugins-grid';
+				appsList.forEach((app) => {
+					pluginsGrid.appendChild(createTechItemCard(app, 'App'));
+				});
+				appsGrid.appendChild(pluginsGrid);
+			} else {
+				appsGrid.appendChild(
+					createEmptySectionNotice('package-search', '🤷 No le encontramos apps o plugins instalados... ¡anda bien discreto!')
+				);
+			}
 		}
+
+		// 2. INFRASTRUCTURE & NETWORK SECTION
+		const infraGrid = document.getElementById('infra-tech-grid');
+		const infraCountBadge = document.getElementById('infra-count-badge');
+		const infraList = Array.isArray(data.infrastructure) ? data.infrastructure : [];
+
+		if (infraGrid) {
+			infraGrid.innerHTML = '';
+			if (infraCountBadge) infraCountBadge.textContent = infraList.length;
+
+			if (infraList.length > 0) {
+				const pluginsGrid = document.createElement('div');
+				pluginsGrid.className = 'plugins-grid';
+				infraList.forEach((inf) => {
+					pluginsGrid.appendChild(createTechItemCard(inf, 'Infraestructura'));
+				});
+				infraGrid.appendChild(pluginsGrid);
+			} else {
+				infraGrid.appendChild(
+					createEmptySectionNotice('shield-alert', '🤷 No se detectó infraestructura conocida ni CDN pública.')
+				);
+			}
+		}
+
+		// 3. PIXELS & TRACKING SECTION
+		const pixelsGrid = document.getElementById('pixels-tech-grid');
+		const pixelsCountBadge = document.getElementById('pixels-count-badge');
+		const pixelsList = Array.isArray(data.pixels) ? data.pixels : [];
+
+		if (pixelsGrid) {
+			pixelsGrid.innerHTML = '';
+			if (pixelsCountBadge) pixelsCountBadge.textContent = pixelsList.length;
+
+			if (pixelsList.length > 0) {
+				const pluginsGrid = document.createElement('div');
+				pluginsGrid.className = 'plugins-grid';
+				pixelsList.forEach((px) => {
+					pluginsGrid.appendChild(createTechItemCard(px, 'Píxel / Tracking'));
+				});
+				pixelsGrid.appendChild(pluginsGrid);
+			} else {
+				pixelsGrid.appendChild(
+					createEmptySectionNotice('eye-off', '🤷 No se le encontraron píxeles de seguimiento ni etiquetas de tracking activas.')
+				);
+			}
+		}
+
+		// Refresh Lucide icons in dynamically added elements
+		lucide.createIcons();
 
 		// 3. Render Payment Gateways
 		const paymentGatewaysCard = document.getElementById('payment-gateways-card');
@@ -1642,6 +1647,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			csvRows.push(`${esc('Propiedad')},${esc('Valor')}`);
 			csvRows.push(`${esc('URL Detectada')},${esc(data.url)}`);
 			csvRows.push(`${esc('URL Resuelta')},${esc(data.resolvedUrl)}`);
+			csvRows.push(`${esc('Logo del Sitio')},${esc(data.siteLogo || '')}`);
 			csvRows.push(`${esc('Plataforma CMS')},${esc(data.technology)}`);
 			csvRows.push(`${esc('Confianza de CMS')},${esc(`${Math.round(data.confidence * 100)}%`)}`);
 			csvRows.push(`${esc('Tema de la Tienda')},${esc(data.theme || 'N/A')}`);
@@ -1699,6 +1705,391 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			const csvContent = csvRows.join('\n');
 			downloadFile(csvContent, `reporte-${domain}.csv`, 'text/csv;charset=utf-8;');
+		});
+	}
+
+	async function generatePdfWithJsPdf(data) {
+		if (!data) return;
+
+		const originalBtnHtml = downloadPdfBtn ? downloadPdfBtn.innerHTML : '';
+		if (downloadPdfBtn) {
+			downloadPdfBtn.disabled = true;
+			downloadPdfBtn.innerHTML =
+				'<i data-lucide="loader" class="spin-icon" style="width:15px;height:15px;"></i> Generando PDF... ⏳';
+			lucide.createIcons();
+		}
+
+		try {
+			const domain = (data.resolvedUrl || data.url || 'reporte')
+				.replace(/^https?:\/\//i, '')
+				.replace(/^www\./i, '')
+				.split('/')[0];
+
+			const scanDateFormatted = data.scanDate
+				? new Date(data.scanDate).toLocaleString('es-MX', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric',
+						hour: '2-digit',
+						minute: '2-digit',
+					})
+				: new Date().toLocaleString('es-MX');
+
+			const confidencePct = Math.round((data.confidence || 0) * 100);
+			const technology = data.technology || 'Desconocido';
+			const theme = data.theme || '';
+			const siteLogo = data.siteLogo || '';
+			const desktopImg = data.screenshots?.desktop || '';
+			const mobileImg = data.screenshots?.mobile || '';
+
+			const cmsDomains = {
+				Shopify: 'shopify.com',
+				Magento: 'magento.com',
+				WooCommerce: 'woocommerce.com',
+				PrestaShop: 'prestashop.com',
+				VTEX: 'vtex.com',
+				Odoo: 'odoo.com',
+			};
+			const cmsLogoUrl = cmsDomains[technology]
+				? `https://img.logo.dev/${cmsDomains[technology]}?token=pk_MgKPAkEuRMOiYecOkx67wQ&size=64`
+				: '';
+
+			// Plugins list HTML
+			const pluginsHtml =
+				Array.isArray(data.plugins) && data.plugins.length > 0
+					? data.plugins
+							.map((p) => {
+								const initial = (p.name || 'P').trim().charAt(0).toUpperCase();
+								const iconUrl = getTechIconUrl(p);
+								return `
+              <div class="pdf-plugin-item" style="display: flex; align-items: center; gap: 8px; padding: 4px 0; border-bottom: 1px dashed #f0f0f0;">
+                <div class="pdf-plugin-icon" style="width: 22px; height: 22px; border-radius: 5px; background: #f8f9fa; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;">
+                  ${
+										iconUrl
+											? `<img src="${iconUrl}" alt="${p.name}" crossorigin="anonymous" style="width: 100%; height: 100%; object-fit: contain; display: block;" onload="this.style.display='block'; if(this.nextElementSibling) this.nextElementSibling.style.display='none';" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';" />
+                         <div class="pdf-icon-fallback" style="display:none; font-size: 11px; font-weight: 700; color: #9b59b6;">${initial}</div>`
+											: `<div class="pdf-icon-fallback" style="font-size: 11px; font-weight: 700; color: #9b59b6;">${initial}</div>`
+									}
+                </div>
+                <div class="pdf-plugin-info" style="display: flex; align-items: baseline; gap: 4px; min-width: 0;">
+                  <span class="pdf-plugin-name" style="font-size: 0.8rem; font-weight: 700; color: #2c1810; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(p.name)}</span>
+                  <span class="pdf-plugin-cat" style="font-size: 0.68rem; color: #8b7d6b; white-space: nowrap;">(${escapeHtml(p.category || 'App')})</span>
+                </div>
+              </div>
+            `;
+							})
+							.join('')
+					: '<p class="pdf-empty-text" style="font-size: 0.8rem; color: #8b7d6b; font-style: italic; padding: 4px 0;">🤷 No se detectaron apps o plugins instalados.</p>';
+
+			// Infra HTML
+			const infraHtml =
+				Array.isArray(data.infrastructure) && data.infrastructure.length > 0
+					? data.infrastructure
+							.map(
+								(i) =>
+									`<span class="pdf-chip pdf-chip-infra" style="display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 8px; background: #e8f4fc; border: 1px solid #3498db; color: #2c1810;">🌐 ${i.name} (${i.category || 'CDN'})</span>`
+							)
+							.join('')
+					: '<p class="pdf-empty-text" style="font-size: 0.8rem; color: #8b7d6b; font-style: italic; padding: 4px 0;">🤷 No se detectó infraestructura conocida.</p>';
+
+			// Gateways HTML
+			const gatewaysHtml =
+				Array.isArray(data.paymentGateways) && data.paymentGateways.length > 0
+					? data.paymentGateways
+							.map(
+								(g) =>
+									`<span class="pdf-chip pdf-chip-gateway" style="display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 8px; background: #eafaf1; border: 1px solid #2ecc71; color: #2c1810;">💳 ${g}</span>`
+							)
+							.join('')
+					: '<p class="pdf-empty-text" style="font-size: 0.8rem; color: #8b7d6b; font-style: italic; padding: 4px 0;">🤷 No se detectaron pasarelas visibles.</p>';
+
+			// Pixels HTML
+			const pixelsHtml =
+				Array.isArray(data.pixels) && data.pixels.length > 0
+					? data.pixels
+							.map(
+								(px) =>
+									`<span class="pdf-chip pdf-chip-pixel" style="display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 8px; background: #fdf2e9; border: 1px solid #e67e22; color: #2c1810;">🎯 ${px.name}</span>`
+							)
+							.join('')
+					: '<p class="pdf-empty-text" style="font-size: 0.8rem; color: #8b7d6b; font-style: italic; padding: 4px 0;">🤷 No se detectaron píxeles de seguimiento.</p>';
+
+			// PageSpeed Scores
+			let scoresHtml = '';
+			if (data.pagespeed?.scores || data.pagespeed?.lighthouseResult) {
+				const scores = data.pagespeed.scores || {};
+				const getScoreBadge = (val, label) => {
+					if (val === null || val === undefined) return '';
+					const scoreNum = Number(val);
+					const color = scoreNum >= 90 ? '#2ecc71' : scoreNum >= 50 ? '#f39c12' : '#e74c3c';
+					return `
+            <div class="pdf-score-item" style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+              <div class="pdf-score-circle" style="width: 32px; height: 32px; border-radius: 50%; border: 2.5px solid ${color}; color: ${color}; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700;">${scoreNum}</div>
+              <span class="pdf-score-label" style="font-size: 0.68rem; color: #5a4a3f; font-weight: 700;">${label}</span>
+            </div>
+          `;
+				};
+				scoresHtml = `
+          <div class="pdf-scores-row" style="display: flex; justify-content: space-around; gap: 6px; margin-top: 4px;">
+            ${getScoreBadge(scores.performance, 'Rendimiento')}
+            ${getScoreBadge(scores.accessibility, 'Accesibilidad')}
+            ${getScoreBadge(scores.bestPractices || scores['best-practices'], 'Prácticas')}
+            ${getScoreBadge(scores.seo, 'SEO')}
+          </div>
+        `;
+			}
+
+			// Location info and latency
+			const ip = data.location?.ip || 'N/A';
+			const country = data.location?.country || '';
+			const region = data.location?.region || '';
+			const city = data.location?.city || '';
+			const locationStr =
+				`${city ? `${city}, ` : ''}${region ? `${region}, ` : ''}${country}` || 'Desconocida';
+			let estLatency = 'N/A';
+			let staticMapImgUrl = '';
+
+			if (data.location?.ll && Array.isArray(data.location.ll) && data.location.ll.length >= 2) {
+				const [lat, lon] = data.location.ll;
+				const mexLat = 19.4326;
+				const mexLon = -99.1332;
+				const distance = calculateDistance(lat, lon, mexLat, mexLon);
+				estLatency = `${Math.round((distance / 100) * 1.25 + 22)} ms`;
+				staticMapImgUrl = `https://staticmap.openstreetmap.de/staticmap.php?center=${lat},${lon}&zoom=4&size=450x130&markers=${lat},${lon},ol-marker`;
+			}
+
+			const locationText = data.location?.country
+				? `📍 ${data.location.country}${data.location.city ? ` (${data.location.city})` : ''} • IP: ${data.location.ip || 'N/A'}`
+				: '📍 Servidor no geolocalizado';
+
+			const siteLogoContainer = document.getElementById('site-logo-container');
+			const isDarkThemeLogo =
+				siteLogoContainer?.classList.contains('logo-theme-dark-bg') ||
+				data.isLogoDark === true ||
+				false;
+
+			// Create invisible DOM mount for html2canvas
+			const renderWrapper = document.createElement('div');
+			renderWrapper.id = 'jspdf-render-wrapper';
+			renderWrapper.style.position = 'fixed';
+			renderWrapper.style.left = '-10000px';
+			renderWrapper.style.top = '0';
+			renderWrapper.style.width = '1122px';
+			renderWrapper.style.height = '793px';
+			renderWrapper.style.zIndex = '-99999';
+			renderWrapper.style.boxSizing = 'border-box';
+			renderWrapper.style.padding = '18px 26px 14px 26px';
+			renderWrapper.style.backgroundColor = '#fdf6e3';
+			renderWrapper.style.backgroundImage = `
+        linear-gradient(90deg, transparent 79px, #e8828a 79px, #e8828a 81px, transparent 81px),
+        linear-gradient(#b8d4e3 1px, transparent 1px)
+      `;
+			renderWrapper.style.backgroundSize = '100% 100%, 100% 1.75rem';
+			renderWrapper.style.color = '#2c1810';
+			renderWrapper.style.fontFamily = "'Comic Neue', 'Comic Sans MS', cursive, sans-serif";
+
+			renderWrapper.innerHTML = `
+        <div class="pdf-notebook-sheet" style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box;">
+          <div class="pdf-top-content" style="display: flex; flex-direction: column; gap: 8px;">
+            <div class="pdf-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #9b59b6; padding-bottom: 6px;">
+              <div class="pdf-title-block" style="display: flex; align-items: center; gap: 8px;">
+                <h1 style="font-family: 'Caveat', 'Patrick Hand', cursive; font-size: 2.35rem; font-weight: 700; color: #2c1810; line-height: 1; margin: 0;">🤫 El chisme de: <span style="color: #9b59b6;">${domain}</span></h1>
+              </div>
+              <div class="pdf-meta-badge" style="text-align: right; font-size: 0.85rem; color: #5a4a3f;">
+                <div>Fecha: <strong>${scanDateFormatted}</strong></div>
+              </div>
+            </div>
+
+            <div class="pdf-hero-grid" style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 14px; background: #ffffff; border: 2px solid #9b59b6; border-radius: 12px; padding: 10px 16px; box-shadow: 3px 3px 0 rgba(155, 89, 182, 0.25);">
+              <div>
+                <div class="pdf-cms-headline" style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+                  <div class="pdf-cms-icon" style="width: 42px; height: 42px; border-radius: 9px; background: white; border: 2px solid #3498db; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 2px 2px 0 rgba(0,0,0,0.1); flex-shrink: 0;">
+                    ${
+											cmsLogoUrl
+												? `<img src="${cmsLogoUrl}" alt="${technology}" crossorigin="anonymous" style="width: 100%; height: 100%; object-fit: contain; padding: 3px;" onerror="this.parentElement.innerHTML='<span style=\\'font-size:18px;font-weight:bold;color:#9b59b6;\\'>${technology.charAt(0)}</span>'"/>`
+												: `<span style="font-size:18px;font-weight:bold;color:#9b59b6;">${technology.charAt(0)}</span>`
+										}
+                  </div>
+                  <div class="pdf-cms-name" style="font-family: 'Caveat', cursive; font-size: 2rem; font-weight: 700; color: #2c1810; line-height: 1;">${technology}</div>
+                  <span class="pdf-cert-badge" style="font-size: 0.75rem; font-weight: 700; background: #f8bbd0; color: #ff69b4; border: 1px solid #ff69b4; padding: 2px 8px; border-radius: 10px; margin-left: 8px;">${confidencePct}% Segurísimo ✨</span>
+                </div>
+                <div class="pdf-site-details" style="font-size: 0.85rem; color: #5a4a3f; line-height: 1.4;">
+                  ${theme ? `<div>🎨 Tema que usa: <strong style="color: #9b59b6;">${theme}</strong></div>` : ''}
+                  <div>🔗 URL Analizada: <strong style="color: #3498db;">${data.resolvedUrl || data.url}</strong></div>
+                  <div style="margin-top: 3px;">${locationText}</div>
+                </div>
+              </div>
+
+              <div class="pdf-preview-col" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;">
+                ${
+									siteLogo
+										? `<div class="pdf-site-logo-card" style="height: 50px; min-width: 64px; max-width: 180px; padding: 3px 12px; border-radius: 10px; ${isDarkThemeLogo ? 'background: #18181b !important; border: 2px solid rgba(155, 89, 182, 0.7) !important; box-shadow: 2px 2px 0 rgba(0,0,0,0.35) !important;' : 'background: #ffffff !important; border: 2px solid #9b59b6; box-shadow: 2px 2px 0 rgba(0,0,0,0.12);'}; display: inline-flex; align-items: center; justify-content: center;">
+                      <img src="${siteLogo}" alt="${domain}" crossorigin="anonymous" style="max-width: 100%; max-height: 100%; object-fit: contain; ${isDarkThemeLogo ? 'filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45));' : ''}" onerror="this.parentElement.style.display='none';" />
+                    </div>`
+										: ''
+								}
+                ${
+									desktopImg || mobileImg
+										? `<div class="pdf-mockups-row" style="display: flex; align-items: center; justify-content: center; gap: 12px;">
+                        ${desktopImg ? `<div class="pdf-mockup-desktop" style="width: 160px; height: 100px; background: #000; border-radius: 6px; border: 1px solid #ccc; overflow: hidden; flex-shrink: 0;"><img src="${desktopImg}" crossorigin="anonymous" alt="Desktop" style="width: 100%; height: 100%; object-fit: cover;" /></div>` : ''}
+                        ${mobileImg ? `<div class="pdf-mockup-mobile" style="width: 58px; height: 100px; background: #000; border-radius: 6px; border: 1px solid #ccc; overflow: hidden; flex-shrink: 0;"><img src="${mobileImg}" crossorigin="anonymous" alt="Mobile" style="width: 100%; height: 100%; object-fit: cover;" /></div>` : ''}
+                      </div>`
+										: ''
+								}
+              </div>
+            </div>
+
+            <div class="pdf-details-grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+              <div class="pdf-card" style="background: #ffffff; border: 1.5px solid #b8d4e3; border-radius: 10px; padding: 8px 12px; box-shadow: 2px 2px 0 rgba(0,0,0,0.06); display: flex; flex-direction: column; gap: 5px;">
+                <h3 style="font-family: 'Caveat', cursive; font-size: 1.25rem; font-weight: 700; color: #9b59b6; border-bottom: 1px dashed #b8d4e3; padding-bottom: 3px; margin: 0;">🔌 Apps y Plugins</h3>
+                <div class="pdf-plugins-list" style="max-height: 180px; overflow: hidden;">
+                  ${pluginsHtml}
+                </div>
+              </div>
+
+              <div class="pdf-card" style="background: #ffffff; border: 1.5px solid #b8d4e3; border-radius: 10px; padding: 8px 12px; box-shadow: 2px 2px 0 rgba(0,0,0,0.06); display: flex; flex-direction: column; gap: 5px;">
+                <h3 style="font-family: 'Caveat', cursive; font-size: 1.25rem; font-weight: 700; color: #9b59b6; border-bottom: 1px dashed #b8d4e3; padding-bottom: 3px; margin: 0;">🌐 Infraestructura y Red</h3>
+                <div class="pdf-chips-wrapper" style="display: flex; flex-wrap: wrap; gap: 5px;">
+                  ${infraHtml}
+                </div>
+
+                <h3 style="font-family: 'Caveat', cursive; font-size: 1.25rem; font-weight: 700; color: #9b59b6; border-bottom: 1px dashed #b8d4e3; padding-bottom: 3px; margin-top: 5px; margin-bottom: 0;">💳 Pasarelas y Métodos</h3>
+                <div class="pdf-chips-wrapper" style="display: flex; flex-wrap: wrap; gap: 5px;">
+                  ${gatewaysHtml}
+                </div>
+              </div>
+
+              <div class="pdf-card" style="background: #ffffff; border: 1.5px solid #b8d4e3; border-radius: 10px; padding: 8px 12px; box-shadow: 2px 2px 0 rgba(0,0,0,0.06); display: flex; flex-direction: column; gap: 5px;">
+                <h3 style="font-family: 'Caveat', cursive; font-size: 1.25rem; font-weight: 700; color: #9b59b6; border-bottom: 1px dashed #b8d4e3; padding-bottom: 3px; margin: 0;">🎯 Píxeles de Tracking</h3>
+                <div class="pdf-chips-wrapper" style="display: flex; flex-wrap: wrap; gap: 5px;">
+                  ${pixelsHtml}
+                </div>
+
+                ${
+									scoresHtml
+										? `<h3 style="font-family: 'Caveat', cursive; font-size: 1.25rem; font-weight: 700; color: #9b59b6; border-bottom: 1px dashed #b8d4e3; padding-bottom: 3px; margin-top: 5px; margin-bottom: 0;">⚡ Rendimiento Lighthouse</h3>
+                       ${scoresHtml}`
+										: ''
+								}
+              </div>
+            </div>
+
+            <!-- Server Location Map & Latency Card -->
+            <div class="pdf-map-card" style="background: #ffffff; border: 1.5px solid #b8d4e3; border-radius: 10px; padding: 7px 12px; box-shadow: 2px 2px 0 rgba(0,0,0,0.06); display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 12px; align-items: center;">
+              <div>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+                  <h3 style="font-family: 'Caveat', cursive; font-size: 1.22rem; font-weight: 700; color: #9b59b6; margin: 0; line-height: 1;">📍 ¿Desde dónde opera?</h3>
+                  <span style="font-size: 0.7rem; color: #8b7d6b; font-style: italic;">Rastreado en México 🇲🇽</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 6px;">
+                  <div style="background: #fdf6e3; border: 1px solid #b8d4e3; border-radius: 6px; padding: 3px 6px; display: flex; flex-direction: column;">
+                    <span style="font-size: 0.62rem; color: #8b7d6b; font-weight: 700; text-transform: uppercase;">⏱️ Latencia Mex</span>
+                    <span style="font-size: 1.1rem; font-weight: 700; color: #2ecc71; line-height: 1.1;">${estLatency}</span>
+                  </div>
+                  <div style="background: #fdf6e3; border: 1px solid #b8d4e3; border-radius: 6px; padding: 3px 6px; display: flex; flex-direction: column;">
+                    <span style="font-size: 0.62rem; color: #8b7d6b; font-weight: 700; text-transform: uppercase;">🌐 IP Servidor</span>
+                    <span style="font-size: 0.88rem; font-weight: 700; color: #2c1810; line-height: 1.1;">${ip}</span>
+                  </div>
+                  <div style="background: #fdf6e3; border: 1px solid #b8d4e3; border-radius: 6px; padding: 3px 6px; display: flex; flex-direction: column;">
+                    <span style="font-size: 0.62rem; color: #8b7d6b; font-weight: 700; text-transform: uppercase;">🗺️ Ubicación</span>
+                    <span style="font-size: 0.82rem; font-weight: 700; color: #2c1810; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${locationStr}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div style="height: 56px; border-radius: 6px; overflow: hidden; border: 1px solid #b8d4e3; background: #e8f4fc; display: flex; align-items: center; justify-content: center; position: relative;">
+                ${
+									staticMapImgUrl
+										? `<img src="${staticMapImgUrl}" alt="Mapa Servidor" crossorigin="anonymous" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';" />
+                       <div style="display: none; width: 100%; height: 100%; align-items: center; justify-content: center; font-size: 0.78rem; color: #3498db; font-weight: 700;">📍 ${locationStr} (${ip})</div>`
+										: `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; color: #3498db; font-weight: 700;">📍 ${locationStr} (${ip})</div>`
+								}
+              </div>
+            </div>
+          </div>
+
+          <!-- Pinned Footer at the very bottom of the page -->
+          <div class="pdf-footer" style="margin-top: auto; padding-top: 8px; border-top: 1.5px dashed #b8d4e3; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.82rem; color: #8b7d6b; font-style: italic; white-space: nowrap;">
+            <span>🤫 Expediente Confidencial</span>
+            <span>•</span>
+            <span style="display: inline-flex; align-items: center; gap: 5px;">
+              Hecho con 💜 en
+              <a href="https://rifatela.lol" target="_blank" style="display: inline-flex; align-items: center; text-decoration: none;">
+                <img src="https://rifatela.lol/Positivo.svg" alt="Rífatela Logo" height="18" crossorigin="anonymous" style="height: 18px; width: auto; vertical-align: middle; display: inline-block;" />
+              </a>
+            </span>
+            <span>•</span>
+            <span>Generado el ${scanDateFormatted}</span>
+          </div>
+        </div>
+      `;
+
+			document.body.appendChild(renderWrapper);
+
+			// Preload and wait for all images inside renderWrapper
+			const images = Array.from(renderWrapper.querySelectorAll('img'));
+			await Promise.all(
+				images.map((img) => {
+					if (img.complete) return Promise.resolve();
+					return new Promise((resolve) => {
+						img.onload = resolve;
+						img.onerror = resolve;
+						setTimeout(resolve, 1500);
+					});
+				})
+			);
+
+			// Render canvas via html2canvas
+			const canvas = await html2canvas(renderWrapper, {
+				scale: 2,
+				useCORS: true,
+				allowTaint: true,
+				backgroundColor: '#fdf6e3',
+				logging: false,
+			});
+
+			document.body.removeChild(renderWrapper);
+
+			if (window.jspdf && window.jspdf.jsPDF) {
+				const { jsPDF } = window.jspdf;
+				const pdf = new jsPDF({
+					orientation: 'landscape',
+					unit: 'mm',
+					format: 'a4',
+					compress: true,
+				});
+
+				const pdfWidth = pdf.internal.pageSize.getWidth();
+				const pdfHeight = pdf.internal.pageSize.getHeight();
+				const imgData = canvas.toDataURL('image/jpeg', 0.95);
+
+				pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+				pdf.save(`chisme-${domain}.pdf`);
+			} else {
+				// Fallback to window print if jsPDF is unavailable
+				openLandscapePdfReport(data);
+			}
+		} catch (err) {
+			console.error('Error generando PDF con jsPDF:', err);
+			openLandscapePdfReport(data);
+		} finally {
+			if (downloadPdfBtn) {
+				downloadPdfBtn.disabled = false;
+				downloadPdfBtn.innerHTML = originalBtnHtml;
+				lucide.createIcons();
+			}
+		}
+	}
+
+	if (downloadPdfBtn) {
+		downloadPdfBtn.addEventListener('click', () => {
+			if (!lastScanData) {
+				alert(
+					'No hay datos de auditoría disponibles para exportar a PDF. Realiza un escaneo primero.'
+				);
+				return;
+			}
+			generatePdfWithJsPdf(lastScanData);
 		});
 	}
 

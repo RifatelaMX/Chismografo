@@ -979,6 +979,11 @@ else if (command === 'test-domain') {
 		console.log('\x1b[35m\x1b[1m%s\x1b[0m', `║ 🤫 EXPEDIENTE CHISMOSO DE: ${url}`);
 		console.log('\x1b[35m%s\x1b[0m', '╚══════════════════════════════════════════════════╝\n');
 
+		if (result.siteLogo) {
+			console.log('\x1b[36m\x1b[1m%s\x1b[0m', '🖼️  Logo del Sitio:');
+			console.log(`   🔗 ${result.siteLogo}\n`);
+		}
+
 		// 1. CMS
 		if (result.detected && result.technology) {
 			const themeText = result.theme ? ` (Tema: ${result.theme})` : '';
