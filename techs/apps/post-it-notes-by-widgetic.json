@@ -1,0 +1,26 @@
+{
+	"name": "Widgetic (Post It Notes)",
+	"developer": "Widgetic",
+	"category": "Constructor de Páginas",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://widgetic.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "post-it-notes-by-widgetic"
+		}
+	],
+	"logo": {
+		"id": "widgetic-post-it-notes.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "post-it-notes-by-widgetic|post[_-]?it[_-]?notes[_-]?by[_-]?widgetic",
+			"description": "Script o recurso de integración de Widgetic (Post It Notes) detectado"
+		}
+	]
+}
