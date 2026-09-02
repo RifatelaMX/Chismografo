@@ -1,0 +1,26 @@
+{
+	"name": "Hulk GDPR Cookie Consent Bar",
+	"developer": "HulkApps",
+	"category": "Seguridad",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://www.hulkapps.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "gdpr-cookie-notice"
+		}
+	],
+	"logo": {
+		"id": "gdpr-cookie-notice.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "gdpr-cookie-notice|gdpr[_-]?cookie[_-]?notice",
+			"description": "Script o recurso de integración de Hulk GDPR Cookie Consent Bar detectado"
+		}
+	]
+}
