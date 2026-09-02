@@ -574,6 +574,32 @@
       ]
     },
     {
+      "name": "Supernova Currency Converter",
+      "developer": "Supernova Currency Converter",
+      "category": "Otros",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://apps.shopify.com/auto-currency-converter-1",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "auto-currency-converter-1"
+        }
+      ],
+      "logo": {
+        "id": "auto-currency-converter-1.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "auto-currency-converter-1|auto[_-]?currency[_-]?converter[_-]?1",
+          "description": "Script o recurso de integración de Supernova Currency Converter detectado"
+        }
+      ]
+    },
+    {
       "name": "Avada SEO",
       "developer": "Avada SEO",
       "category": "SEO",
