@@ -33,6 +33,36 @@ const testCases = [
 		expectedPixels: ['Google Tag Manager', 'Meta Pixel'],
 	},
 	{
+		name: 'Shopify site (Lucky Orange, GOAFFPRO, Connected Inventory detection)',
+		html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Apps Test Store</title>
+          <meta name="generator" content="Shopify">
+          <script src="https://cdn.luckyorange.com/core/lo.js"></script>
+          <script src="https://api.goaffpro.com/loader.js?shop=test.myshopify.com"></script>
+          <script src="https://cdn.shopify.com/s/files/1/0000/connected-inventory.js"></script>
+        </head>
+        <body>
+          <h1>Shopify Store with New Apps</h1>
+        </body>
+      </html>
+    `,
+		headers: {
+			'content-type': 'text/html',
+		},
+		expectedTech: 'Shopify',
+		minConfidence: 0.99,
+		expectedPlugins: [
+			'Lucky Orange Heatmaps & Replay',
+			'GOAFFPRO ‑ Affiliate Marketing',
+			'NASP Connected Inventory',
+		],
+		expectedGateways: [],
+		expectedPixels: [],
+	},
+	{
 		name: 'Shopify site (JS variable & Cart Form match & PageFly & LatAm gateways)',
 		html: `
       <!DOCTYPE html>

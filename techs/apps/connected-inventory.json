@@ -1,0 +1,24 @@
+{
+	"name": "NASP Connected Inventory",
+	"developer": "Not A Side Project",
+	"category": "Inventario / Sincronización",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://notasideproject.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "connected-inventory"
+		}
+	],
+	"logo": {
+		"id": "notasideproject.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "connected-inventory|notasideproject",
+			"description": "Script o recurso de integración de NASP Connected Inventory detectado"
+		}
+	]
+}

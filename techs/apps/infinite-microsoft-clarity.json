@@ -11,8 +11,8 @@
 		}
 	],
 	"logo": {
-		"id": "clarity.microsoft.com",
-		"provider": "google"
+		"id": "infinite-microsoft-clarity.png",
+		"provider": "local"
 	},
 	"detectionRules": [
 		{

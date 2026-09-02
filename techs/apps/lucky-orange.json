@@ -1,0 +1,24 @@
+{
+	"name": "Lucky Orange Heatmaps & Replay",
+	"developer": "Lucky Orange LLC",
+	"category": "Analítica",
+	"compatibleCMS": ["Shopify", "WooCommerce", "Magento", "PrestaShop", "VTEX"],
+	"web": "https://www.luckyorange.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "lucky-orange"
+		}
+	],
+	"logo": {
+		"id": "luckyorange.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "tools\\.luckyorange\\.com|cdn\\.luckyorange\\.com|luckyorange\\.net|upload\\.luckyorange\\.net|luckyorange",
+			"description": "Script o recurso de integración de Lucky Orange detectado"
+		}
+	]
+}
