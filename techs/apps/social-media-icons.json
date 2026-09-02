@@ -1,0 +1,26 @@
+{
+	"name": "POWR: Social Media Icons Bar",
+	"developer": "POWR",
+	"category": "Analítica / Marketing",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://www.powr.io",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "social-media-icons"
+		}
+	],
+	"logo": {
+		"id": "social-media-icons.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "social-media-icons|social[_-]?media[_-]?icons",
+			"description": "Script o recurso de integración de POWR: Social Media Icons Bar detectado"
+		}
+	]
+}
