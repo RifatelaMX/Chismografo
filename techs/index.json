@@ -1707,6 +1707,32 @@
       ]
     },
     {
+      "name": "Mintt Free Gift & BOGO Upsell",
+      "developer": "Mintt",
+      "category": "Checkout / Ofertas",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://mintt.co",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "mintt-free-gift"
+        }
+      ],
+      "logo": {
+        "id": "mintt-free-gift.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "mintt-free-gift|mintt[_-]?free[_-]?gift",
+          "description": "Script o recurso de integración de Mintt Free Gift & BOGO Upsell detectado"
+        }
+      ]
+    },
+    {
       "name": "Mintt TikTok Feed",
       "developer": "Mintt",
       "category": "Analítica / Marketing",
