@@ -3555,6 +3555,32 @@
       ]
     },
     {
+      "name": "Way2Enjoy Image Optimizer",
+      "developer": "Way2Enjoy",
+      "category": "SEO",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://apps.shopify.com/way2enjoy-image-optimizer",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "way2enjoy-image-optimizer"
+        }
+      ],
+      "logo": {
+        "id": "way2enjoy-image-optimizer.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "way2enjoy-image-optimizer|way2enjoy[_-]?image[_-]?optimizer",
+          "description": "Script o recurso de integración de Way2Enjoy Image Optimizer detectado"
+        }
+      ]
+    },
+    {
       "name": "SK: WhatsApp Chat Button",
       "developer": "SK",
       "category": "Otros",
