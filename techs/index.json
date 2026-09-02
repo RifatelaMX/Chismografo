@@ -859,6 +859,32 @@
       ]
     },
     {
+      "name": "Powerful Contact Form Builder",
+      "developer": "Powerful Contact Form Builder",
+      "category": "Otros",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://powerfulform.com",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "form-builder-contact-form"
+        }
+      ],
+      "logo": {
+        "id": "powerfulform.com",
+        "provider": "logodev"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "form-builder-contact-form|form[_-]?builder[_-]?contact[_-]?form|powerfulform",
+          "description": "Script o recurso de integración de Powerful Contact Form Builder detectado"
+        }
+      ]
+    },
+    {
       "name": "Frequently Bought Together",
       "developer": "Frequently Bought Together",
       "category": "Checkout / Ofertas",
