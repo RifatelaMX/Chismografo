@@ -17,7 +17,7 @@
 	"detectionRules": [
 		{
 			"type": "script-src",
-			"pattern": "infinite-microsoft-clarity|clarity-infinite|clarity\\.ms\\/tag\\/|clarity\\.js",
+			"pattern": "infinite-microsoft-clarity|clarity-infinite",
 			"description": "Script o recurso de integración de ∞ Microsoft Clarity & Heatmap detectado"
 		}
 	]
