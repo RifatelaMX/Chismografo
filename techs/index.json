@@ -1767,6 +1767,32 @@
       ]
     },
     {
+      "name": "POWR Sales Popup, Email Pop up",
+      "developer": "POWR",
+      "category": "Marketing / Popups",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://www.powr.io",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "powr-popup"
+        }
+      ],
+      "logo": {
+        "id": "powr-popup.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "powr-popup|powr[_-]?popup",
+          "description": "Script o recurso de integración de POWR Sales Popup, Email Pop up detectado"
+        }
+      ]
+    },
+    {
       "name": "Printful",
       "developer": "Printful",
       "category": "Impresión bajo Demanda",
