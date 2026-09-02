@@ -2587,6 +2587,32 @@
       ]
     },
     {
+      "name": "SalesPop: Order & Sales Popup",
+      "developer": "SalesPop",
+      "category": "Marketing / Popups",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://salespop.com",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "shoppop"
+        }
+      ],
+      "logo": {
+        "id": "salespop.com",
+        "provider": "logodev"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "shoppop|salespop",
+          "description": "Script o recurso de integración de SalesPop: Order & Sales Popup detectado"
+        }
+      ]
+    },
+    {
       "name": "POWR: Size Chart Sizing Guide",
       "developer": "POWR",
       "category": "Constructor de Páginas",
