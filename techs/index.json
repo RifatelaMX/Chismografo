@@ -2127,6 +2127,32 @@
       ]
     },
     {
+      "name": "Yotpo: Loyalty Rewards Program",
+      "developer": "Yotpo",
+      "category": "Otros",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://yotpo.com",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "swell"
+        }
+      ],
+      "logo": {
+        "id": "yotpo.com",
+        "provider": "logodev"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "swell|yotpo",
+          "description": "Script o recurso de integración de Yotpo: Loyalty Rewards Program detectado"
+        }
+      ]
+    },
+    {
       "name": "Test CLI",
       "developer": "Test CLI",
       "category": "Otros",
