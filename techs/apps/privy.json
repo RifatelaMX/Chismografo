@@ -1,9 +1,11 @@
 {
-	"name": "Privy ‑ Pop Ups, correos, SMS",
+	"name": "Privy ‑ Email, SMS & Pop Ups",
 	"developer": "Privy",
 	"category": "Marketing / Popups",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.privy.com",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://privi.com",
 	"appStores": [
 		{
 			"cms": "Shopify",
@@ -11,14 +13,14 @@
 		}
 	],
 	"logo": {
-		"id": "privy.com",
+		"id": "privi.com",
 		"provider": "logodev"
 	},
 	"detectionRules": [
 		{
 			"type": "script-src",
-			"pattern": "privy\\.com",
-			"description": "Privy integration script or resource detected"
+			"pattern": "privy|privi",
+			"description": "Script o recurso de integración de Privy ‑ Email, SMS & Pop Ups detectado"
 		}
 	]
 }
