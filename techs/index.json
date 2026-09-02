@@ -2105,6 +2105,32 @@
       ]
     },
     {
+      "name": "POWR: Customer Testimonials",
+      "developer": "POWR",
+      "category": "Reseñas",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://www.powr.io",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "powr-testimonials"
+        }
+      ],
+      "logo": {
+        "id": "powr-testimonials.jpg",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "powr-testimonials|powr[_-]?testimonials",
+          "description": "Script o recurso de integración de POWR: Customer Testimonials detectado"
+        }
+      ]
+    },
+    {
       "name": "POWR: Video Slider & Carousel",
       "developer": "POWR",
       "category": "Constructor de Páginas",
