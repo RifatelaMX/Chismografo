@@ -1793,6 +1793,32 @@
       ]
     },
     {
+      "name": "POWR: Customer Survey | Poll",
+      "developer": "POWR",
+      "category": "Formularios / Contacto",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://www.powr.io",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "powr-survey"
+        }
+      ],
+      "logo": {
+        "id": "powr-survey.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "powr-survey|powr[_-]?survey",
+          "description": "Script o recurso de integración de POWR: Customer Survey | Poll detectado"
+        }
+      ]
+    },
+    {
       "name": "Printful",
       "developer": "Printful",
       "category": "Impresión bajo Demanda",
