@@ -1923,6 +1923,32 @@
       ]
     },
     {
+      "name": "POWR: Pricing Table Comparison",
+      "developer": "POWR",
+      "category": "Checkout / Ofertas",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://www.powr.io",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "powr-pricing-table"
+        }
+      ],
+      "logo": {
+        "id": "powr-pricing-table.jpg",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "powr-pricing-table|powr[_-]?pricing[_-]?table",
+          "description": "Script o recurso de integración de POWR: Pricing Table Comparison detectado"
+        }
+      ]
+    },
+    {
       "name": "POWR: Customer Survey | Poll",
       "developer": "POWR",
       "category": "Formularios / Contacto",
