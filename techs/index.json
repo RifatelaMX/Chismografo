@@ -1347,6 +1347,32 @@
       ]
     },
     {
+      "name": "Widgetic (Maps)",
+      "developer": "Widgetic",
+      "category": "Otros",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://widgetic.com",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "maps-by-widgetic"
+        }
+      ],
+      "logo": {
+        "id": "widgetic-maps.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "maps-by-widgetic|maps[_-]?by[_-]?widgetic",
+          "description": "Script o recurso de integración de Widgetic (Maps) detectado"
+        }
+      ]
+    },
+    {
       "name": "Mercado Pago Antifraude Plus",
       "developer": "Mercado Pago",
       "category": "Seguridad",
