@@ -1,0 +1,26 @@
+{
+	"name": "Subi Subscriptions App",
+	"developer": "Subi",
+	"category": "Suscripciones",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://subi.co",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "subi-subscriptions-memberships"
+		}
+	],
+	"logo": {
+		"id": "subi.co",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "subi-subscriptions-memberships|subi[_-]?subscriptions[_-]?memberships|subi",
+			"description": "Script o recurso de integración de Subi Subscriptions App detectado"
+		}
+	]
+}
