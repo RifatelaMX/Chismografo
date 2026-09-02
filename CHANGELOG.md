@@ -1,3 +1,9 @@
+## [1.11.1](https://github.com/RifatelaMX/Chismografo/compare/v1.11.0...v1.11.1) (2026-09-02)
+
+### 🐛 Corrección de Errores
+
+* **ui:** corregir estilos y distribucion del reporte de resultados ([a046906](https://github.com/RifatelaMX/Chismografo/commit/a046906fed71403dbeff8eda4749e9b21875e800))
+
 ## [1.11.0](https://github.com/RifatelaMX/Chismografo/compare/v1.10.0...v1.11.0) (2026-09-02)
 
 ### ✨ Nuevas Características
