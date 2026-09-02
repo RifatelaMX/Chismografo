@@ -1,24 +1,41 @@
 window.handleLogoError = (img, providedDomain, websiteUrl, provider) => {
-	let domain = providedDomain;
-	if (!domain && websiteUrl) {
+	const state = Number.parseInt(img.dataset.fallbackState || '0', 10);
+
+	// Tier 0: Si es proveedor local, intentar alternar extensión (.png <-> .svg) si aún no se ha probado
+	if (provider === 'local') {
+		const cleanName = (providedDomain || '').replace(/\.(svg|png|jpg|jpeg|gif|webp)$/i, '');
+		if (cleanName && state === 0) {
+			img.dataset.fallbackState = '1';
+			const isPng = (providedDomain || '').toLowerCase().endsWith('.png');
+			img.src = `/brand/logo/apps/${cleanName}${isPng ? '.svg' : '.png'}`;
+			return;
+		}
+	}
+
+	// Obtener dominio web válido para la cascada externa
+	let domain = '';
+	if (websiteUrl) {
 		try {
 			domain = new URL(websiteUrl).hostname.replace(/^www\./i, '');
 		} catch (_e) {}
 	}
 
-	const state = Number.parseInt(img.dataset.fallbackState || '0', 10);
-
-	// Tier 0: Si es proveedor local y falló .svg, intentar con .png
-	if (provider === 'local') {
-		const hasExt = /\.(svg|png|jpg|jpeg|gif)$/i.test(providedDomain);
-		if (!hasExt && state === 0) {
-			img.dataset.fallbackState = '1';
-			img.src = `/brand/logo/apps/${providedDomain}.png`;
-			return;
+	// Si no hay websiteUrl, usar providedDomain solo si parece un dominio de internet y no un archivo
+	if (!domain && providedDomain) {
+		const isFileLike =
+			/\.(svg|png|jpg|jpeg|gif|webp|ico)$/i.test(providedDomain) ||
+			!providedDomain.includes('.') ||
+			provider === 'local';
+		if (!isFileLike) {
+			domain = providedDomain
+				.replace(/^https?:\/\//i, '')
+				.replace(/^www\./i, '')
+				.split('/')[0];
 		}
 	}
 
 	if (!domain) {
+		// Sin dominio web para consultar proveedores externos -> mostrar inicial directamente
 		img.style.display = 'none';
 		if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
 		return;
@@ -35,7 +52,7 @@ window.handleLogoError = (img, providedDomain, websiteUrl, provider) => {
 		: '';
 	const logoToken = window.serverConfig?.logoDevToken || 'pk_MgKPAkEuRMOiYecOkx67wQ';
 
-	// Cascada completa a través de todos los proveedores integrados:
+	// Cascada completa a través de todos los proveedores integrados usando el dominio web real:
 	// 1. Google Favicons V2 HD
 	// 2. DuckDuckGo Favicons
 	// 3. Brandfetch API
@@ -1341,7 +1358,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			: '';
 
 		if (provider === 'local' && domain) {
-			const hasExt = /\.(svg|png|jpg|jpeg|gif)$/i.test(domain);
+			const hasExt = /\.(svg|png|jpg|jpeg|gif|webp)$/i.test(domain);
 			return `/brand/logo/apps/${domain}${hasExt ? '' : '.svg'}`;
 		}
 		if (provider === 'brandicons' && domain && window.serverConfig?.brandiconsApiKey) {
