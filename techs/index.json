@@ -677,6 +677,32 @@
       ]
     },
     {
+      "name": "Colissimo by Common‑Services",
+      "developer": "Colissimo by Common",
+      "category": "Envíos / Pedidos",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://apps.shopify.com/colissimo-1",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "colissimo-1"
+        }
+      ],
+      "logo": {
+        "id": "colissimo-1.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "colissimo-1|colissimo[_-]?1",
+          "description": "Script o recurso de integración de Colissimo by Common‑Services detectado"
+        }
+      ]
+    },
+    {
       "name": "Widgetic (Mosaic Gallery)",
       "developer": "Widgetic",
       "category": "Constructor de Páginas",
