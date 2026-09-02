@@ -1707,6 +1707,32 @@
       ]
     },
     {
+      "name": "Mintt TikTok Feed",
+      "developer": "Mintt",
+      "category": "Analítica / Marketing",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://mintt.co",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "mintt-tiktok-feed"
+        }
+      ],
+      "logo": {
+        "id": "mintt-tiktok-feed.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "mintt-tiktok-feed|mintt[_-]?tiktok[_-]?feed",
+          "description": "Script o recurso de integración de Mintt TikTok Feed detectado"
+        }
+      ]
+    },
+    {
       "name": "Mixpanel",
       "developer": "Mixpanel",
       "category": "Analítica",
