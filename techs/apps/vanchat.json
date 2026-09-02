@@ -1,0 +1,26 @@
+{
+	"name": "VanChat AI Chatbot & Live Chat",
+	"developer": "VanChat",
+	"category": "Soporte / Chat",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://vanchat.io",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "vanchat"
+		}
+	],
+	"logo": {
+		"id": "vanchat.io",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "vanchat",
+			"description": "Script o recurso de integración de VanChat AI Chatbot & Live Chat detectado"
+		}
+	]
+}
