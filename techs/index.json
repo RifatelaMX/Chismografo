@@ -1793,6 +1793,32 @@
       ]
     },
     {
+      "name": "POWR: FAQ Page | Help Center",
+      "developer": "POWR",
+      "category": "Soporte / Chat",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://www.powr.io",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "powr-faq"
+        }
+      ],
+      "logo": {
+        "id": "powr-faq.jpg",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "powr-faq|powr[_-]?faq",
+          "description": "Script o recurso de integración de POWR: FAQ Page | Help Center detectado"
+        }
+      ]
+    },
+    {
       "name": "POWR Contact Form Builder",
       "developer": "POWR",
       "category": "Formularios / Contacto",
