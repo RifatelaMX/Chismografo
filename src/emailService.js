@@ -144,6 +144,7 @@ export function buildReportEmail(data, recipientName = '') {
 		WooCommerce: '#00a8ff',
 		PrestaShop: '#e67e22',
 		VTEX: '#2ecc71',
+		Odoo: '#875a7b',
 	};
 	const platformColor = platformColors[technology] || '#9b59b6';
 

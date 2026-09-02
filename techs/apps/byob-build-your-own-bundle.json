@@ -11,8 +11,8 @@
 		}
 	],
 	"logo": {
-		"id": "ilovebyob.com",
-		"provider": "logodev"
+		"id": "byob-build-your-own-bundles.png",
+		"provider": "local"
 	},
 	"detectionRules": [
 		{

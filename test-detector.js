@@ -192,6 +192,31 @@ const testCases = [
 		expectedPlugins: [],
 	},
 	{
+		name: 'Odoo site (Generator, web assets & template attributes)',
+		html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Odoo E-Commerce Store</title>
+          <meta name="generator" content="Odoo">
+          <link rel="stylesheet" href="/web/assets/1/web.assets_frontend.min.css">
+        </head>
+        <body id="wrapwrap">
+          <div data-oe-model="ir.ui.view">
+            <h1>Odoo Online Shop</h1>
+          </div>
+          <script src="/web/assets/1/web.assets_frontend.min.js"></script>
+        </body>
+      </html>
+    `,
+		headers: {
+			server: 'Werkzeug/2.0.2',
+		},
+		expectedTech: 'Odoo',
+		minConfidence: 0.99,
+		expectedPlugins: [],
+	},
+	{
 		name: 'Generic non-ecommerce site',
 		html: `
       <!DOCTYPE html>
