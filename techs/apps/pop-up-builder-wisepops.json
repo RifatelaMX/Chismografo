@@ -1,0 +1,26 @@
+{
+	"name": "Wisepops: Popup Builder & CRO",
+	"developer": "Wisepops",
+	"category": "Marketing / Popups",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://wisepops.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "pop-up-builder-wisepops"
+		}
+	],
+	"logo": {
+		"id": "wisepops.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "pop-up-builder-wisepops|pop[_-]?up[_-]?builder[_-]?wisepops|wisepops",
+			"description": "Script o recurso de integración de Wisepops: Popup Builder & CRO detectado"
+		}
+	]
+}
