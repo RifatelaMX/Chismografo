@@ -352,7 +352,7 @@ for (const item of items) {
 		}
 	}
 
-	const commitMsg = `feat(api): agregar reglas de deteccion y test para ${name}`;
+	const commitMsg = `feat(techs): agregar plantilla y test para ${name} en apps`;
 	execSync(`git add ${filesToStage.join(' ')}`, {
 		cwd: workspaceDir,
 		stdio: 'pipe',

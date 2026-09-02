@@ -38,6 +38,8 @@ if (!match) {
 		'   Debe cumplir con Conventional Commits en español: \x1b[36m<tipo>(<scope>): <descripción en español>\x1b[0m'
 	);
 	console.error('   Ejemplos válidos:');
+	console.error('     • \x1b[32mfeat(techs): agregar plantilla de hotjar en apps\x1b[0m');
+	console.error('     • \x1b[32mfeat(techs/gateways): agregar pasarela afterpay\x1b[0m');
 	console.error('     • \x1b[32mfeat(cli): agregar flag --json para exportar\x1b[0m');
 	console.error('     • \x1b[32mfix(ui): corregir layout en pantalla móvil\x1b[0m');
 	console.error('     • \x1b[32mfeat(api): soportar nuevo proveedor de capturas\x1b[0m');
