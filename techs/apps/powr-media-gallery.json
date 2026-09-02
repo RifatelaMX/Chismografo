@@ -1,0 +1,26 @@
+{
+	"name": "POWR YouTube Gallery",
+	"developer": "POWR",
+	"category": "Analítica / Marketing",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://www.powr.io",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "powr-media-gallery"
+		}
+	],
+	"logo": {
+		"id": "powr-media-gallery.jpg",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "powr-media-gallery|powr[_-]?media[_-]?gallery",
+			"description": "Script o recurso de integración de POWR YouTube Gallery detectado"
+		}
+	]
+}
