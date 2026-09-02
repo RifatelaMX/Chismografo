@@ -1,0 +1,26 @@
+{
+	"name": "Globo Product Options, Variant",
+	"developer": "Globo Product Options, Variant",
+	"category": "Checkout / Ofertas",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://apps.shopify.com/product-options-pro",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "product-options-pro"
+		}
+	],
+	"logo": {
+		"id": "globo-product-options-variant.jpg",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "product-options-pro|product[_-]?options[_-]?pro",
+			"description": "Script o recurso de integración de Globo Product Options, Variant detectado"
+		}
+	]
+}
