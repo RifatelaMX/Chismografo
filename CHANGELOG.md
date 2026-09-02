@@ -1,3 +1,14 @@
+## [1.14.0](https://github.com/RifatelaMX/Chismografo/compare/v1.13.3...v1.14.0) (2026-09-02)
+
+### ✨ Nuevas Características
+
+* **techs/cms:** agregar soporte para deteccion del cms odoo ([f34d19d](https://github.com/RifatelaMX/Chismografo/commit/f34d19d319fa29924a2ed56711193ac5653b0ad2))
+
+### 🐛 Corrección de Errores
+
+* **api:** corregir errores en imágenes de tecnologías locales ([4b35ebf](https://github.com/RifatelaMX/Chismografo/commit/4b35ebf3498d6cfa28645d9abeacd6214bd76e71))
+* correct typo in privy.json logo ID ([5a34ad5](https://github.com/RifatelaMX/Chismografo/commit/5a34ad5c5f7186e00ca9448e3bc7c250121a9dc9))
+
 ## [1.13.3](https://github.com/RifatelaMX/Chismografo/compare/v1.13.2...v1.13.3) (2026-09-02)
 
 ### 🐛 Corrección de Errores
