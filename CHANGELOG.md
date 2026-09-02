@@ -1,3 +1,9 @@
+## [1.13.1](https://github.com/RifatelaMX/Chismografo/compare/v1.13.0...v1.13.1) (2026-09-02)
+
+### 🐛 Corrección de Errores
+
+* **ui:** corregir apertura de boleta de examenes y pruebas al cargar la aplicacion ([46dce34](https://github.com/RifatelaMX/Chismografo/commit/46dce34c96398990d64d0c5480547cfbb41d3464))
+
 ## [1.13.0](https://github.com/RifatelaMX/Chismografo/compare/v1.12.0...v1.13.0) (2026-09-02)
 
 ### ✨ Nuevas Características
