@@ -1,3 +1,9 @@
+## [1.13.2](https://github.com/RifatelaMX/Chismografo/compare/v1.13.1...v1.13.2) (2026-09-02)
+
+### 🐛 Corrección de Errores
+
+* **ui:** corregir fallback de logos locales y resolucion de dominio web ([466363e](https://github.com/RifatelaMX/Chismografo/commit/466363e1531692b46267976d4697016021175594))
+
 ## [1.13.1](https://github.com/RifatelaMX/Chismografo/compare/v1.13.0...v1.13.1) (2026-09-02)
 
 ### 🐛 Corrección de Errores
