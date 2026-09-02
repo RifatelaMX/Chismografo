@@ -1,0 +1,26 @@
+{
+	"name": "Exit intent popup with coupon",
+	"developer": "Exit intent popup with coupon",
+	"category": "Marketing / Popups",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://apps.shopify.com/exit-intent-popup",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "exit-intent-popup"
+		}
+	],
+	"logo": {
+		"id": "exit-intent-popup.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "exit-intent-popup|exit[_-]?intent[_-]?popup",
+			"description": "Script o recurso de integración de Exit intent popup with coupon detectado"
+		}
+	]
+}
