@@ -1529,6 +1529,32 @@
       ]
     },
     {
+      "name": "USO: Ultimate Special Offers",
+      "developer": "Pixel Union",
+      "category": "Checkout / Ofertas",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://apps.shopify.com/special-offers",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "special-offers"
+        }
+      ],
+      "logo": {
+        "id": "uso-ultimate-special-offers.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "special-offers|special[_-]?offers",
+          "description": "Script o recurso de integración de USO: Ultimate Special Offers detectado"
+        }
+      ]
+    },
+    {
       "name": "Stamped Reviews & Loyalty",
       "developer": "Stamped.io",
       "category": "Reseñas",
