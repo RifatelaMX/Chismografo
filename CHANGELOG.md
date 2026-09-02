@@ -1,3 +1,9 @@
+## [1.9.0](https://github.com/RifatelaMX/Chismografo/compare/v1.8.2...v1.9.0) (2026-09-02)
+
+### ✨ Nuevas Características
+
+* **ui:** consumir logos de json y habilitar modal de resultados de tests para apps ([592146b](https://github.com/RifatelaMX/Chismografo/commit/592146bfa447a50041b327214e1d782749e55593))
+
 ## [1.8.2](https://github.com/RifatelaMX/Chismografo/compare/v1.8.1...v1.8.2) (2026-09-01)
 
 ### 🐛 Corrección de Errores
