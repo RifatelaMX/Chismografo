@@ -1,0 +1,26 @@
+{
+	"name": "Poptin Exit Popup Email Pop Up",
+	"developer": "Poptin Exit Popup Email Pop Up",
+	"category": "Marketing / Popups",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://poptin.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "poptin"
+		}
+	],
+	"logo": {
+		"id": "poptin.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "poptin",
+			"description": "Script o recurso de integración de Poptin Exit Popup Email Pop Up detectado"
+		}
+	]
+}
