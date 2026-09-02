@@ -1793,6 +1793,32 @@
       ]
     },
     {
+      "name": "POWR Lookbook Gallery",
+      "developer": "POWR",
+      "category": "Constructor de Páginas",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://www.powr.io",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "powr-photo-gallery"
+        }
+      ],
+      "logo": {
+        "id": "powr-photo-gallery.jpg",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "powr-photo-gallery|powr[_-]?photo[_-]?gallery",
+          "description": "Script o recurso de integración de POWR Lookbook Gallery detectado"
+        }
+      ]
+    },
+    {
       "name": "POWR Sales Popup, Email Pop up",
       "developer": "POWR",
       "category": "Marketing / Popups",
