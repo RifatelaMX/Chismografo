@@ -1,0 +1,26 @@
+{
+	"name": "Widgetic (FAQ Accordion)",
+	"developer": "Widgetic",
+	"category": "Soporte / Chat",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://widgetic.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "faq-accordion-by-widgetic"
+		}
+	],
+	"logo": {
+		"id": "widgetic-faq-accordion.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "faq-accordion-by-widgetic|faq[_-]?accordion[_-]?by[_-]?widgetic",
+			"description": "Script o recurso de integración de Widgetic (FAQ Accordion) detectado"
+		}
+	]
+}
