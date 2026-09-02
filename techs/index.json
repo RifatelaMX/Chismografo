@@ -418,6 +418,32 @@
       ]
     },
     {
+      "name": "POWR: Background Music Player",
+      "developer": "POWR",
+      "category": "Constructor de Páginas",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://www.powr.io",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "audio-player-by-powr"
+        }
+      ],
+      "logo": {
+        "id": "audio-player-by-powr.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "audio-player-by-powr|audio[_-]?player[_-]?by[_-]?powr",
+          "description": "Script o recurso de integración de POWR: Background Music Player detectado"
+        }
+      ]
+    },
+    {
       "name": "Widgetic (Audio Players)",
       "developer": "Widgetic",
       "category": "Constructor de Páginas",
