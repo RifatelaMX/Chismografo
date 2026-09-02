@@ -2561,6 +2561,32 @@
       ]
     },
     {
+      "name": "POWR: Size Chart Sizing Guide",
+      "developer": "POWR",
+      "category": "Constructor de Páginas",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://www.powr.io",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "size-chart-maker"
+        }
+      ],
+      "logo": {
+        "id": "size-chart-maker.jpeg",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "size-chart-maker|size[_-]?chart[_-]?maker",
+          "description": "Script o recurso de integración de POWR: Size Chart Sizing Guide detectado"
+        }
+      ]
+    },
+    {
       "name": "Smile: Lealtad y Recompensas",
       "developer": "Smile.io",
       "category": "Fidelización / Lealtad",
