@@ -985,42 +985,33 @@ document.addEventListener('DOMContentLoaded', () => {
 		};
 
 		// Helper to merge items by name
-		const mergeItem = (
-			name,
-			category,
-			link,
-			firstSeen,
-			lastSeen,
-			isPremium,
-			shopifyAppIcon,
-			source
-		) => {
+		const mergeItem = (techObj, source = 'Motor Local') => {
+			if (!techObj || !techObj.name) return;
+			const name = techObj.name;
+			const category = techObj.category || 'Otros';
+
 			if (isExcluded(name, category)) return;
 			if (source !== 'Motor Local' && !isIncluded(name, category)) return;
-
-			const _translatedCat = translateCategory(category);
 
 			const key = name.toLowerCase().trim();
 			let existing = allActive.find((item) => item.name.toLowerCase().trim() === key);
 
 			if (!existing) {
 				existing = {
-					name,
-					category,
-					link,
-					firstSeen,
-					lastSeen,
-					isPremium,
-					shopifyAppIcon,
+					...techObj,
 					sources: [source],
 				};
 				allActive.push(existing);
 			} else {
-				if (!existing.link && link) existing.link = link;
-				if (!existing.firstSeen && firstSeen) existing.firstSeen = firstSeen;
-				if (!existing.lastSeen && lastSeen) existing.lastSeen = lastSeen;
-				if (!existing.isPremium && isPremium) existing.isPremium = isPremium;
-				if (!existing.shopifyAppIcon && shopifyAppIcon) existing.shopifyAppIcon = shopifyAppIcon;
+				if (!existing.link && techObj.link) existing.link = techObj.link;
+				if (!existing.web && techObj.web) existing.web = techObj.web;
+				if (!existing.logo && techObj.logo) existing.logo = techObj.logo;
+				if (!existing.developer && techObj.developer) existing.developer = techObj.developer;
+				if (!existing.evidence && techObj.evidence) existing.evidence = techObj.evidence;
+				if (!existing.rules && techObj.rules) existing.rules = techObj.rules;
+				if (!existing.appStores && techObj.appStores) existing.appStores = techObj.appStores;
+				if (!existing.compatibleCMS && techObj.compatibleCMS) existing.compatibleCMS = techObj.compatibleCMS;
+				if (!existing.shopifyAppIcon && techObj.shopifyAppIcon) existing.shopifyAppIcon = techObj.shopifyAppIcon;
 				if (!existing.sources.includes(source)) existing.sources.push(source);
 			}
 		};
@@ -1028,23 +1019,47 @@ document.addEventListener('DOMContentLoaded', () => {
 		// Process from Local Plugins
 		if (data.plugins) {
 			data.plugins.forEach((p) => {
-				mergeItem(
-					p.name,
-					p.category,
-					p.evidence.startsWith('http') ? p.evidence : '',
-					'',
-					'',
-					'',
-					p.shopifyAppIcon,
-					'Motor Local'
-				);
+				mergeItem({
+					name: p.name,
+					category: p.category,
+					developer: p.developer,
+					web: p.web,
+					logo: p.logo,
+					link: p.evidence?.startsWith('http') ? p.evidence : p.web || '',
+					evidence: p.evidence,
+					rules: p.rules,
+					appStores: p.appStores,
+					compatibleCMS: p.compatibleCMS,
+					shopifyAppIcon: p.shopifyAppIcon,
+				}, 'Motor Local');
 			});
 		}
 
 		// Process from Infrastructure Detections
 		if (data.infrastructure) {
 			data.infrastructure.forEach((inf) => {
-				mergeItem(inf.name, inf.category, inf.web, '', '', '', '', 'Motor Local');
+				mergeItem({
+					name: inf.name,
+					category: inf.category,
+					web: inf.web,
+					logo: inf.logo,
+					evidence: inf.evidence,
+					rules: inf.rules,
+				}, 'Motor Local');
+			});
+		}
+
+		// Process from Pixels
+		if (data.pixels) {
+			data.pixels.forEach((px) => {
+				mergeItem({
+					name: px.name,
+					category: px.category,
+					web: px.web,
+					logo: px.logo,
+					evidence: px.evidence,
+					rules: px.rules,
+				}, 'Motor Local');
 			});
 		}
 
@@ -1123,6 +1138,8 @@ document.addEventListener('DOMContentLoaded', () => {
 					const card = document.createElement('div');
 					card.className = 'plugin-card';
 					card.style.padding = '0.75rem';
+					card.style.cursor = 'pointer';
+					card.title = `Haz clic para ver las pruebas y detalles de ${tech.name}`;
 
 					let domain = '';
 					let provider = '';
@@ -1150,11 +1167,13 @@ document.addEventListener('DOMContentLoaded', () => {
 					let infoHtml = '';
 					if (tech.firstSeen) {
 						infoHtml = `<span style="font-size:0.62rem; color:var(--ink-medium); opacity:0.8;">Visto: ${tech.firstSeen}</span>`;
+					} else {
+						infoHtml = `<span style="font-size:0.65rem; color:var(--gel-purple); font-weight:600; display:flex; align-items:center; gap:0.2rem;">Ver pruebas 🔍</span>`;
 					}
 
 					card.innerHTML = `
             <div class="plugin-header" style="display: flex; align-items: center; gap: 0.65rem; margin: 0; width: 100%;">
-              <div class="tech-icon-container-mini" style="position: relative; width: 28px; height: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+              <div class="tech-icon-container-mini" style="position: relative; width: 30px; height: 30px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
                 ${iconHtml}
                 <div class="tech-icon-mini" style="${displayStyle}">${initial}</div>
               </div>
@@ -1169,6 +1188,11 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             </div>
           `;
+
+					card.addEventListener('click', () => {
+						openAppDetailModal(tech);
+					});
+
 					grid.appendChild(card);
 				});
 
@@ -1303,13 +1327,13 @@ document.addEventListener('DOMContentLoaded', () => {
 			const hasExt = /\.(svg|png|jpg|jpeg|gif)$/i.test(domain);
 			return `/brand/logo/apps/${domain}${hasExt ? '' : '.svg'}`;
 		}
-		if (provider === 'brandicons' && domain) {
+		if (provider === 'brandicons' && domain && window.serverConfig?.brandiconsApiKey) {
 			return `https://cdn.brandicons.dev/icons/${domain}${biKey}`;
 		}
-		if (provider === 'brandfetch' && domain) {
+		if (provider === 'brandfetch' && domain && window.serverConfig?.brandfetchApiKey) {
 			return `https://asset.brandfetch.io/${domain}${bfKey}`;
 		}
-		if (provider === 'ninjapear' && domain) {
+		if (provider === 'ninjapear' && domain && window.serverConfig?.ninjapearApiKey) {
 			return `https://logo.ninjapear.com/${domain}${npKey}`;
 		}
 		if (provider === 'duckduckgo' && domain) {
@@ -1843,10 +1867,227 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// Close exams modal on Escape key
 	document.addEventListener('keydown', (e) => {
-		if (e.key === 'Escape' && examsModal && examsModal.style.display === 'flex') {
-			closeExamsModal();
+		if (e.key === 'Escape') {
+			if (examsModal && examsModal.style.display === 'flex') closeExamsModal();
+			if (appDetailModal && appDetailModal.style.display === 'flex') closeAppDetailModal();
 		}
 	});
+
+	// ─── 🔍 Modal de Detalle de App / Tests / Diagnóstico ─────────────────────
+	const appDetailModal = document.getElementById('app-detail-modal');
+	const closeAppModalBtn = document.getElementById('close-app-modal-btn');
+	const closeAppModalBottomBtn = document.getElementById('close-app-modal-bottom-btn');
+	const appModalIconImg = document.getElementById('app-modal-icon-img');
+	const appModalIconInitial = document.getElementById('app-modal-icon-initial');
+	const appModalTitle = document.getElementById('app-modal-title');
+	const appModalSubtitle = document.getElementById('app-modal-subtitle');
+	const appModalTags = document.getElementById('app-modal-tags');
+	const appModalLinks = document.getElementById('app-modal-links');
+	const appModalBody = document.getElementById('app-modal-body');
+
+	function openAppDetailModal(tech) {
+		if (!tech || !appDetailModal) return;
+
+		let domain = '';
+		let provider = '';
+		if (tech.logo && typeof tech.logo === 'object') {
+			domain = tech.logo.id;
+			provider = tech.logo.provider;
+		} else if (tech.logo) {
+			domain = tech.logo;
+		}
+
+		const techWebsite = tech.web || tech.website || tech.link || '';
+		if (!domain && techWebsite) {
+			try {
+				domain = new URL(techWebsite).hostname.replace(/^www\./i, '');
+			} catch (_e) {}
+		}
+
+		const iconUrl = getTechIconUrl(tech);
+		const initial = (tech.name || '').trim().charAt(0).toUpperCase() || '?';
+
+		if (appModalTitle) appModalTitle.textContent = tech.name || 'Aplicación';
+		if (appModalSubtitle) {
+			appModalSubtitle.textContent = `${tech.developer || 'Desarrollador Oficial'} • ${tech.category || 'Aplicación'}`;
+		}
+
+		if (appModalIconImg && appModalIconInitial) {
+			if (iconUrl) {
+				appModalIconImg.style.display = 'block';
+				appModalIconInitial.style.display = 'none';
+				appModalIconImg.src = iconUrl;
+				appModalIconImg.onerror = () => {
+					window.handleLogoError(appModalIconImg, domain, techWebsite, provider);
+				};
+			} else {
+				appModalIconImg.style.display = 'none';
+				appModalIconInitial.style.display = 'flex';
+				appModalIconInitial.textContent = initial;
+			}
+		}
+
+		// Tags
+		if (appModalTags) {
+			appModalTags.innerHTML = '';
+			const catTag = document.createElement('span');
+			catTag.style.cssText = 'font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(138,43,226,0.1); color: var(--gel-purple); border: 1px solid rgba(138,43,226,0.2); font-weight: 600;';
+			catTag.textContent = `Categoría: ${tech.category || 'General'}`;
+			appModalTags.appendChild(catTag);
+
+			if (Array.isArray(tech.compatibleCMS) && tech.compatibleCMS.length > 0) {
+				tech.compatibleCMS.forEach((cms) => {
+					const cmsTag = document.createElement('span');
+					cmsTag.style.cssText = 'font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(0,0,0,0.05); color: var(--ink-dark); border: 1px solid var(--paper-lines); font-weight: 500;';
+					cmsTag.textContent = `CMS: ${cms}`;
+					appModalTags.appendChild(cmsTag);
+				});
+			}
+		}
+
+		// Links
+		if (appModalLinks) {
+			appModalLinks.innerHTML = '';
+			if (tech.web) {
+				const webLink = document.createElement('a');
+				webLink.href = tech.web;
+				webLink.target = '_blank';
+				webLink.rel = 'noopener noreferrer';
+				webLink.style.cssText = 'font-size: 0.75rem; color: var(--gel-blue); text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.25rem;';
+				webLink.innerHTML = `Sitio Web 🌐`;
+				appModalLinks.appendChild(webLink);
+			}
+			if (Array.isArray(tech.appStores) && tech.appStores.length > 0) {
+				tech.appStores.forEach((st) => {
+					if (st.link) {
+						const storeLink = document.createElement('a');
+						storeLink.href = st.link;
+						storeLink.target = '_blank';
+						storeLink.rel = 'noopener noreferrer';
+						storeLink.style.cssText = 'font-size: 0.75rem; color: var(--gel-pink); text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.25rem;';
+						storeLink.innerHTML = `${st.cms || 'App'} Store 🛍️`;
+						appModalLinks.appendChild(storeLink);
+					}
+				});
+			}
+		}
+
+		// Body with Test Results & Evidence
+		if (appModalBody) {
+			appModalBody.innerHTML = '';
+
+			const testsHeader = document.createElement('div');
+			testsHeader.style.cssText = 'display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--paper-lines); padding-bottom: 0.5rem;';
+			testsHeader.innerHTML = `
+				<div style="display: flex; align-items: center; gap: 0.5rem;">
+					<span style="font-size: 1.2rem;">🧪</span>
+					<h4 style="margin: 0; font-family: var(--font-handwritten); font-size: 1.3rem; color: var(--ink-dark);">
+						Resultados de Exámenes y Firmas
+					</h4>
+				</div>
+				<span style="font-size: 0.75rem; color: #27ae60; font-weight: 700; background: rgba(46, 204, 113, 0.12); padding: 0.15rem 0.5rem; border-radius: 4px; border: 1px solid #2ecc71;">
+					✅ Detectada en el sitio
+				</span>
+			`;
+			appModalBody.appendChild(testsHeader);
+
+			if (Array.isArray(tech.rules) && tech.rules.length > 0) {
+				tech.rules.forEach((rule) => {
+					const ruleCard = document.createElement('div');
+					ruleCard.className = `exam-rule-card ${rule.passed ? 'passed' : 'failed'}`;
+					ruleCard.style.cssText = `
+						background: var(--paper-dark);
+						border: 1px solid var(--paper-lines);
+						border-left: 4px solid ${rule.passed ? '#2ecc71' : '#e74c3c'};
+						border-radius: 8px;
+						padding: 0.75rem 1rem;
+						display: flex;
+						flex-direction: column;
+						gap: 0.35rem;
+					`;
+
+					ruleCard.innerHTML = `
+						<div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+							<div style="display: flex; align-items: center; gap: 0.4rem;">
+								<span style="font-size: 0.75rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: 4px; background: ${rule.passed ? 'rgba(46, 204, 113, 0.2)' : 'rgba(231, 76, 60, 0.15)'}; color: ${rule.passed ? '#27ae60' : '#c0392b'};">
+									${rule.passed ? '✅ PASÓ' : '❌ NO DETECTADO'}
+								</span>
+								<span style="font-size: 0.7rem; background: rgba(0,0,0,0.06); padding: 0.1rem 0.4rem; border-radius: 4px; font-family: monospace; color: var(--ink-medium);">
+									&lt;${rule.type || 'script-src'}&gt;
+								</span>
+							</div>
+						</div>
+						<div style="font-size: 0.88rem; font-weight: 600; color: var(--ink-dark); margin-top: 0.2rem;">
+							${escapeHtml(rule.description || 'Firma de detección')}
+						</div>
+						${rule.pattern ? `
+							<div style="font-size: 0.72rem; color: var(--ink-medium);">
+								<strong>Patrón esperado:</strong> <code style="background: rgba(0,0,0,0.05); padding: 0.1rem 0.3rem; border-radius: 3px; font-family: monospace;">${escapeHtml(rule.pattern)}</code>
+							</div>
+						` : ''}
+						${rule.context ? `
+							<div style="margin-top: 0.35rem; background: var(--paper); border: 1px solid var(--paper-lines); border-radius: 6px; padding: 0.5rem 0.75rem; font-family: monospace; font-size: 0.75rem; color: var(--ink-dark); word-break: break-all; max-height: 120px; overflow-y: auto;">
+								<div style="font-size: 0.65rem; color: var(--ink-light); margin-bottom: 0.2rem; font-weight: bold; text-transform: uppercase;">
+									🔍 Evidencia Encontrada:
+								</div>
+								<code>${escapeHtml(rule.context)}</code>
+							</div>
+						` : ''}
+					`;
+					appModalBody.appendChild(ruleCard);
+				});
+			} else if (tech.evidence) {
+				const singleRuleCard = document.createElement('div');
+				singleRuleCard.style.cssText = `
+					background: var(--paper-dark);
+					border: 1px solid var(--paper-lines);
+					border-left: 4px solid #2ecc71;
+					border-radius: 8px;
+					padding: 0.75rem 1rem;
+					display: flex;
+					flex-direction: column;
+					gap: 0.35rem;
+				`;
+				singleRuleCard.innerHTML = `
+					<div style="display: flex; align-items: center; gap: 0.4rem;">
+						<span style="font-size: 0.75rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: 4px; background: rgba(46, 204, 113, 0.2); color: #27ae60;">
+							✅ PASÓ
+						</span>
+						<span style="font-size: 0.7rem; background: rgba(0,0,0,0.06); padding: 0.1rem 0.4rem; border-radius: 4px; font-family: monospace; color: var(--ink-medium);">
+							&lt;firma-detectada&gt;
+						</span>
+					</div>
+					<div style="font-size: 0.88rem; font-weight: 600; color: var(--ink-dark); margin-top: 0.2rem;">
+						Recurso o script de ${escapeHtml(tech.name)} detectado en el sitio.
+					</div>
+					<div style="margin-top: 0.35rem; background: var(--paper); border: 1px solid var(--paper-lines); border-radius: 6px; padding: 0.5rem 0.75rem; font-family: monospace; font-size: 0.75rem; color: var(--ink-dark); word-break: break-all; max-height: 120px; overflow-y: auto;">
+						<div style="font-size: 0.65rem; color: var(--ink-light); margin-bottom: 0.2rem; font-weight: bold; text-transform: uppercase;">
+							🔍 Evidencia Encontrada:
+						</div>
+						<code>${escapeHtml(tech.evidence)}</code>
+					</div>
+				`;
+				appModalBody.appendChild(singleRuleCard);
+			}
+		}
+
+		appDetailModal.style.display = 'flex';
+		lucide.createIcons();
+	}
+
+	function closeAppDetailModal() {
+		if (appDetailModal) {
+			appDetailModal.style.display = 'none';
+		}
+	}
+
+	if (closeAppModalBtn) closeAppModalBtn.addEventListener('click', closeAppDetailModal);
+	if (closeAppModalBottomBtn) closeAppModalBottomBtn.addEventListener('click', closeAppDetailModal);
+	if (appDetailModal) {
+		appDetailModal.addEventListener('click', (e) => {
+			if (e.target === appDetailModal) closeAppDetailModal();
+		});
+	}
 
 	// ─── Email Report Modal Logic ────────────────────────────────────────────
 	const openEmailReportBtn = document.getElementById('open-email-report-btn');

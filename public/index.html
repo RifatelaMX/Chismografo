@@ -266,6 +266,65 @@
           </div>
         </div>
 
+        <!-- 🔍 Modal de Detalle de App / Plugin / Diagnóstico de Tests -->
+        <div id="app-detail-modal" class="custom-modal-backdrop" style="display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.78); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 1rem;">
+          <div class="modal-notebook-card" style="background: var(--paper); border: 2px solid var(--ink-dark); border-radius: 16px; width: 100%; max-width: 640px; max-height: 85vh; display: flex; flex-direction: column; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.5); overflow: hidden;">
+            
+            <!-- Top Gradient Bar -->
+            <div style="height: 6px; background: linear-gradient(90deg, var(--gel-pink), var(--gel-purple), var(--gel-blue), var(--gel-green));"></div>
+
+            <!-- Modal Header -->
+            <div style="padding: 1.25rem 1.5rem 1rem; border-bottom: 2px dashed var(--paper-lines); display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+              <div style="display: flex; align-items: center; gap: 1rem; min-width: 0;">
+                <div id="app-modal-icon-container" style="width: 52px; height: 52px; border-radius: 12px; background: rgba(0,0,0,0.04); border: 1px solid var(--paper-lines); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; padding: 4px;">
+                  <img id="app-modal-icon-img" src="" alt="App Logo" style="width: 100%; height: 100%; object-fit: contain; display: none;">
+                  <div id="app-modal-icon-initial" class="tech-icon-mini" style="width: 44px; height: 44px; font-size: 1.5rem; display: flex;">?</div>
+                </div>
+                <div style="min-width: 0;">
+                  <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                    <h3 id="app-modal-title" style="margin: 0; font-family: var(--font-handwritten); font-size: 1.6rem; font-weight: 700; color: var(--ink-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                      Nombre de la App
+                    </h3>
+                    <span id="app-modal-badge" class="exam-status-badge passed" style="font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 6px; background: rgba(46, 204, 113, 0.15); color: #27ae60; border: 1px solid #2ecc71; font-weight: 700;">✅ Detectada</span>
+                  </div>
+                  <p id="app-modal-subtitle" style="margin: 0.15rem 0 0; font-size: 0.85rem; color: var(--ink-medium);">
+                    Desarrollador / Categoría
+                  </p>
+                </div>
+              </div>
+              <button type="button" id="close-app-modal-btn" aria-label="Cerrar modal" style="background: rgba(0,0,0,0.06); border: 1px solid var(--ink-faint); color: var(--ink-dark); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: bold; transition: var(--transition); flex-shrink: 0;">
+                ✕
+              </button>
+            </div>
+
+            <!-- App Meta Bar -->
+            <div id="app-modal-meta-bar" style="padding: 0.75rem 1.5rem; background: var(--paper-dark); display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; border-bottom: 1px solid var(--paper-lines);">
+              <div id="app-modal-tags" style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+                <!-- Tags rendered dynamically -->
+              </div>
+              <div id="app-modal-links" style="display: flex; align-items: center; gap: 0.5rem;">
+                <!-- Link to App Store / Web -->
+              </div>
+            </div>
+
+            <!-- Modal Body (Tests & Evidence) -->
+            <div id="app-modal-body" style="padding: 1.25rem 1.5rem; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 1rem;">
+              <!-- Tests list rendered dynamically -->
+            </div>
+
+            <!-- Modal Footer -->
+            <div style="padding: 0.75rem 1.5rem; background: var(--paper-dark); border-top: 1px solid var(--paper-lines); display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.78rem; color: var(--ink-light); font-style: italic;">
+                🔍 Evidencias y pruebas analizadas en tiempo real.
+              </span>
+              <button type="button" id="close-app-modal-bottom-btn" style="background: var(--ink-dark); color: var(--paper); border: none; padding: 0.4rem 1rem; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer;">
+                Entendido 👍
+              </button>
+            </div>
+
+          </div>
+        </div>
+
         <!-- ✉️ Email Report Modal -->
         <div id="email-report-modal" style="display: none; position: fixed; inset: 0; z-index: 9999; 
              background: rgba(0,0,0,0.75); backdrop-filter: blur(6px); align-items: center; justify-content: center;">

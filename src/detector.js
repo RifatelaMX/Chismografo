@@ -463,6 +463,7 @@ export function analyze(html, headers) {
 	appRulesList.forEach((app) => {
 		let isAppMatched = false;
 		let matchedEvidence = '';
+		const evaluatedRules = [];
 
 		if (Array.isArray(app.detectionRules)) {
 			for (const rule of app.detectionRules) {
@@ -475,14 +476,24 @@ export function analyze(html, headers) {
 				const matchedLink = links.find((l) => l.href && regex.test(l.href));
 				const matchedDynamicUrl = shopifyDynamicUrls.find((url) => regex.test(url));
 
-				if (matchedScript || matchedLink || matchedDynamicUrl) {
+				const passed = Boolean(matchedScript || matchedLink || matchedDynamicUrl);
+				const evidence = matchedScript
+					? matchedScript.src || 'Script en Línea'
+					: matchedLink
+						? matchedLink.href
+						: matchedDynamicUrl || '';
+
+				evaluatedRules.push({
+					description: rule.description || `Firma de integración detectada para ${app.name}`,
+					type: rule.type || 'script-src',
+					pattern: rule.pattern,
+					passed,
+					context: evidence || undefined,
+				});
+
+				if (passed && !isAppMatched) {
 					isAppMatched = true;
-					matchedEvidence = matchedScript
-						? matchedScript.src || 'Script en Línea'
-						: matchedLink
-							? matchedLink.href
-							: matchedDynamicUrl;
-					break;
+					matchedEvidence = evidence;
 				}
 			}
 		}
@@ -505,6 +516,7 @@ export function analyze(html, headers) {
 					category: app.category,
 					type: 'signature',
 					evidence: matchedEvidence,
+					rules: evaluatedRules,
 				});
 			}
 		}
@@ -517,18 +529,21 @@ export function analyze(html, headers) {
 	infraRulesList.forEach((infra) => {
 		let isInfraMatched = false;
 		let matchedEvidence = '';
+		const evaluatedRules = [];
 
 		if (Array.isArray(infra.detectionRules)) {
 			for (const rule of infra.detectionRules) {
 				const regex = rule.regex;
 				if (!regex) continue;
+				let passed = false;
+				let evidence = '';
 
 				switch (rule.type) {
 					case 'header': {
 						const headerVal = lowerHeaders[rule.key.toLowerCase()];
 						if (headerVal && regex.test(headerVal)) {
-							isInfraMatched = true;
-							matchedEvidence = `${rule.key}: ${headerVal}`;
+							passed = true;
+							evidence = `${rule.key}: ${headerVal}`;
 						}
 						break;
 					}
@@ -536,8 +551,8 @@ export function analyze(html, headers) {
 					case 'script-src': {
 						const matchingScript = scripts.find((s) => s.src && regex.test(s.src));
 						if (matchingScript) {
-							isInfraMatched = true;
-							matchedEvidence = `<script src="${matchingScript.src}">`;
+							passed = true;
+							evidence = `<script src="${matchingScript.src}">`;
 						}
 						break;
 					}
@@ -545,13 +560,25 @@ export function analyze(html, headers) {
 					case 'link-href': {
 						const matchingLink = links.find((l) => regex.test(l.href));
 						if (matchingLink) {
-							isInfraMatched = true;
-							matchedEvidence = `<link href="${matchingLink.href}">`;
+							passed = true;
+							evidence = `<link href="${matchingLink.href}">`;
 						}
 						break;
 					}
 				}
-				if (isInfraMatched) break;
+
+				evaluatedRules.push({
+					description: rule.description || `Regla de infraestructura para ${infra.name}`,
+					type: rule.type,
+					pattern: rule.pattern,
+					passed,
+					context: evidence || undefined,
+				});
+
+				if (passed && !isInfraMatched) {
+					isInfraMatched = true;
+					matchedEvidence = evidence;
+				}
 			}
 		}
 
@@ -562,6 +589,7 @@ export function analyze(html, headers) {
 				web: infra.web || '',
 				logo: infra.logo || '',
 				evidence: matchedEvidence,
+				rules: evaluatedRules,
 			});
 		}
 	});
@@ -573,21 +601,36 @@ export function analyze(html, headers) {
 	pixelRulesList.forEach((px) => {
 		let isPixelMatched = false;
 		let matchedEvidence = '';
+		const evaluatedRules = [];
 
 		if (Array.isArray(px.detectionRules)) {
 			for (const rule of px.detectionRules) {
 				const regex = rule.regex;
 				if (!regex) continue;
+				let passed = false;
+				let evidence = '';
 
 				if (rule.type === 'script-src' || rule.type === 'script-content') {
 					const matchedScript = scripts.find(
 						(s) => (s.src && regex.test(s.src)) || (s.content && regex.test(s.content))
 					);
 					if (matchedScript) {
-						isPixelMatched = true;
-						matchedEvidence = matchedScript.src || 'Script en Línea';
-						break;
+						passed = true;
+						evidence = matchedScript.src || 'Script en Línea';
 					}
+				}
+
+				evaluatedRules.push({
+					description: rule.description || `Firma de píxel para ${px.name}`,
+					type: rule.type,
+					pattern: rule.pattern,
+					passed,
+					context: evidence || undefined,
+				});
+
+				if (passed && !isPixelMatched) {
+					isPixelMatched = true;
+					matchedEvidence = evidence;
 				}
 			}
 		}
@@ -599,6 +642,7 @@ export function analyze(html, headers) {
 				web: px.web || '',
 				logo: px.logo || '',
 				evidence: matchedEvidence,
+				rules: evaluatedRules,
 			});
 		}
 	});
