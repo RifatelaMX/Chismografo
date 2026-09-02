@@ -1767,6 +1767,32 @@
       ]
     },
     {
+      "name": "POWR: Countdown Timer Bar",
+      "developer": "POWR",
+      "category": "Checkout / Ofertas",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://www.powr.io",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "powr-countdown-timer"
+        }
+      ],
+      "logo": {
+        "id": "powr-countdown-timer.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "powr-countdown-timer|powr[_-]?countdown[_-]?timer",
+          "description": "Script o recurso de integración de POWR: Countdown Timer Bar detectado"
+        }
+      ]
+    },
+    {
       "name": "POWR Contact Form Builder",
       "developer": "POWR",
       "category": "Formularios / Contacto",
