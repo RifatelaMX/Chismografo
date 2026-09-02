@@ -1767,6 +1767,32 @@
       ]
     },
     {
+      "name": "POWR: Store Locator Map",
+      "developer": "POWR",
+      "category": "Constructor de Páginas",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://www.powr.io",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "powr-map"
+        }
+      ],
+      "logo": {
+        "id": "powr-maps.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "powr-map|powr[_-]?map",
+          "description": "Script o recurso de integración de POWR: Store Locator Map detectado"
+        }
+      ]
+    },
+    {
       "name": "POWR Sales Popup, Email Pop up",
       "developer": "POWR",
       "category": "Marketing / Popups",
