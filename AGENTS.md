@@ -5,9 +5,10 @@ Todos los commits deben redactarse obligatoriamente **en español** y seguir el 
 - **Idioma**: La descripción y cuerpo del commit deben estar siempre en **español**, en minúsculas y modo imperativo/presente (ej. `feat(api): agregar soporte para...`, `fix(ui): corregir alineación...`).
 - **Tipos**: `feat`, `fix`, `perf`, `refactor`, `style`, `docs`, `test`, `build`, `ci`, `chore`.
 - **Scopes por Componente**:
+  - `(techs)` o `(techs/<categoria>)`: Cambios, creación o actualización de plantillas de tecnologías y sus suites de pruebas (`techs/**`, `test/**`). Se debe especificar la categoría a la que se añade o modifica como información en la descripción o sub-scope (ej. `feat(techs): agregar plantilla para hotjar en apps`, `feat(techs/gateways): agregar pasarela afterpay`, `fix(techs/pixels): corregir patron de linkedin`).
   - `(cli)`: Cambios en el CLI de terminal (`cli/**`).
   - `(ui)` o `(frontend)`: Cambios en la interfaz web pública (`public/**`, `templates/**`).
-  - `(api)` o `(backend)`: Cambios en el servidor o motor de detección (`server.js`, `src/**`, `api/**`, `techs/**`).
+  - `(api)` o `(backend)`: Cambios en el servidor o motor de detección (`server.js`, `src/**`, `api/**`).
   - `(deps)` / `(ci)` / `(repo)`: Configuración general y dependencias.
 
 ## 2. Versionado Semántico Independiente

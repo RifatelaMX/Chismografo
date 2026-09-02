@@ -21,7 +21,7 @@ const COMPONENT_DEFINITIONS = {
 		patterns: [/^public\//, /^templates\/.*\.html$/],
 	},
 	api: {
-		name: 'Backend (API)',
+		name: 'Backend (API & Techs)',
 		scopes: [
 			'api',
 			'backend',
@@ -33,12 +33,15 @@ const COMPONENT_DEFINITIONS = {
 			'email',
 			'routes',
 			'service',
+			'techs',
+			'tech',
 		],
 		patterns: [
 			/^server\.js$/,
 			/^api\//,
 			/^src\//,
 			/^techs\//,
+			/^test\//,
 			/^test-detector\.js$/,
 			/^vercel\.json$/,
 			/^Procfile$/,
@@ -189,7 +192,10 @@ function analyzeCommit(commit) {
 	// Check scope match
 	if (scope) {
 		for (const [compKey, compDef] of Object.entries(COMPONENT_DEFINITIONS)) {
-			if (compDef.scopes.includes(scope)) {
+			if (
+				compDef.scopes.includes(scope) ||
+				compDef.scopes.some((s) => scope.startsWith(`${s}/`))
+			) {
 				affectedComponents.add(compKey);
 			}
 		}
