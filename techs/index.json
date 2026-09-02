@@ -1793,6 +1793,32 @@
       ]
     },
     {
+      "name": "POWR: About Us | Team Profile",
+      "developer": "POWR",
+      "category": "Constructor de Páginas",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://www.powr.io",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "powr-about-us"
+        }
+      ],
+      "logo": {
+        "id": "powr-about-us.jpg",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "powr-about-us|powr[_-]?about[_-]?us",
+          "description": "Script o recurso de integración de POWR: About Us | Team Profile detectado"
+        }
+      ]
+    },
+    {
       "name": "POWR: Countdown Timer Bar",
       "developer": "POWR",
       "category": "Checkout / Ofertas",
