@@ -1068,23 +1068,42 @@ body {
 .method {
 	font-family: var(--font-mono);
 	font-size: 0.85rem;
-	font-weight: 700;
+	font-weight: 800;
 	text-transform: uppercase;
-	padding: 0.2rem 0.6rem;
-	border-radius: 4px;
+	padding: 0.25rem 0.65rem;
+	border-radius: 6px;
 	letter-spacing: 0.5px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 1;
+	color: #ffffff !important;
 }
 
 .method.post {
-	background: var(--sticker-purple);
-	color: var(--gel-purple);
-	border: 1px solid var(--gel-purple);
+	background: var(--gel-purple, #9b59b6) !important;
+	color: #ffffff !important;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .method.get {
-	background: var(--sticker-green);
-	color: #1b8c47;
-	border: 1px solid var(--gel-green);
+	background: #27ae60 !important;
+	color: #ffffff !important;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.method.put {
+	background: #e67e22 !important;
+	color: #ffffff !important;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.method.delete {
+	background: #e74c3c !important;
+	color: #ffffff !important;
+	border: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .path {

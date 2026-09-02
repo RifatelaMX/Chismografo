@@ -47,13 +47,20 @@
     }
     .method {
       font-family: var(--font-mono);
-      font-weight: 700;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      color: white;
+      font-weight: 800;
+      font-size: 0.82rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      color: #ffffff !important;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: 0.5px;
     }
-    .method.post { background: var(--gel-purple); }
-    .method.get { background: var(--gel-blue); }
+    .method.post { background: var(--gel-purple, #9b59b6) !important; color: #ffffff !important; }
+    .method.get { background: #27ae60 !important; color: #ffffff !important; }
+    .method.put { background: #e67e22 !important; color: #ffffff !important; }
+    .method.delete { background: #e74c3c !important; color: #ffffff !important; }
     .path {
       font-family: var(--font-mono);
       font-weight: 700;
