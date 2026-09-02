@@ -1,0 +1,26 @@
+{
+	"name": "Mailmunch Forms for Mailchimp",
+	"developer": "Mailmunch Forms for Mailchimp",
+	"category": "Email Marketing",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://apps.shopify.com/mailchimp-forms",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "mailchimp-forms"
+		}
+	],
+	"logo": {
+		"id": "mailmunch-forms-for-mailchimp.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "mailchimp-forms|mailchimp[_-]?forms",
+			"description": "Script o recurso de integración de Mailmunch Forms for Mailchimp detectado"
+		}
+	]
+}
