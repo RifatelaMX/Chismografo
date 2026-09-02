@@ -1,0 +1,26 @@
+{
+	"name": "Widgetic (Audio Players)",
+	"developer": "Widgetic",
+	"category": "Constructor de Páginas",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://widgetic.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "audio-players-by-widgetic"
+		}
+	],
+	"logo": {
+		"id": "widgetic-audio-players.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "audio-players-by-widgetic|audio[_-]?players[_-]?by[_-]?widgetic",
+			"description": "Script o recurso de integración de Widgetic (Audio Players) detectado"
+		}
+	]
+}
