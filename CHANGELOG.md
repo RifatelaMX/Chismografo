@@ -1,3 +1,9 @@
+## [1.11.0](https://github.com/RifatelaMX/Chismografo/compare/v1.10.0...v1.11.0) (2026-09-02)
+
+### ✨ Nuevas Características
+
+* **api:** agregar reglas de deteccion para 7 nuevas aplicaciones de shopify ([9b77c50](https://github.com/RifatelaMX/Chismografo/commit/9b77c50d3d86fc34a4ae4cf4e742d811af2284b6))
+
 ## [1.10.0](https://github.com/RifatelaMX/Chismografo/compare/v1.9.0...v1.10.0) (2026-09-02)
 
 ### ✨ Nuevas Características
