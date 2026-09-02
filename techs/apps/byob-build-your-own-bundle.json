@@ -1,0 +1,24 @@
+{
+	"name": "BYOB ‑ Build Your Own Bundles",
+	"developer": "ILoveBYOB",
+	"category": "Checkout / Ofertas",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://ilovebyob.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "byob-build-your-own-bundle"
+		}
+	],
+	"logo": {
+		"id": "ilovebyob.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "byob-build-your-own-bundle|ilovebyob|byob-bundle",
+			"description": "Script o recurso de integración de BYOB Build Your Own Bundles detectado"
+		}
+	]
+}

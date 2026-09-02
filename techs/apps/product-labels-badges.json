@@ -1,0 +1,24 @@
+{
+	"name": "Labeler: Product Labels Badges",
+	"developer": "BSS Commerce",
+	"category": "Insignias / Etiquetas",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://bsscommerce.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "product-labels-badges"
+		}
+	],
+	"logo": {
+		"id": "bsscommerce.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "product-labels-badges|bss-labels|bsscommerce.*label|bss-product-label",
+			"description": "Script o recurso de integración de Labeler Product Labels Badges detectado"
+		}
+	]
+}

@@ -1,0 +1,24 @@
+{
+	"name": "EAZE Button",
+	"developer": "EAZE Button",
+	"category": "Soporte / Chat",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://eazebutton.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "eaze-chat-button"
+		}
+	],
+	"logo": {
+		"id": "eazebutton.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "eaze-chat-button|eazebutton|eaze-button",
+			"description": "Script o recurso de integración de EAZE Button detectado"
+		}
+	]
+}

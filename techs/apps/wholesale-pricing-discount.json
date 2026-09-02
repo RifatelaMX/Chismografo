@@ -1,0 +1,24 @@
+{
+	"name": "Wholesale Pricing Discount B2B",
+	"developer": "Wholesale Helper",
+	"category": "B2B / Precios al Mayoreo",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://wholesalehelper.io",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "wholesale-pricing-discount"
+		}
+	],
+	"logo": {
+		"id": "wholesalehelper.io",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "wholesale-pricing-discount|wholesalehelper|wipd-",
+			"description": "Script o recurso de integración de Wholesale Pricing Discount B2B detectado"
+		}
+	]
+}

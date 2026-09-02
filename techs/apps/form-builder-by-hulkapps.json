@@ -1,0 +1,24 @@
+{
+	"name": "Hulk Contact Form Builder",
+	"developer": "HulkApps",
+	"category": "Formularios / Contacto",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.hulkapps.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "form-builder-by-hulkapps"
+		}
+	],
+	"logo": {
+		"id": "hulkapps.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "form-builder-by-hulkapps|hulkapps.*form|formbuilder\\.hulkapps",
+			"description": "Script o recurso de integración de Hulk Contact Form Builder detectado"
+		}
+	]
+}

@@ -1,0 +1,24 @@
+{
+	"name": "COS : Custom Order Status",
+	"developer": "Addify",
+	"category": "Envíos / Pedidos",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://addify.store",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "addify-order-status"
+		}
+	],
+	"logo": {
+		"id": "addify.store",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "addify-order-status|addify.*status|custom-order-status",
+			"description": "Script o recurso de integración de COS Custom Order Status detectado"
+		}
+	]
+}

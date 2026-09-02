@@ -1,0 +1,24 @@
+{
+	"name": "A/B: Product and Price Testing",
+	"developer": "TridentAB",
+	"category": "A/B Testing / Optimización",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://tridentab.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "tridentab"
+		}
+	],
+	"logo": {
+		"id": "tridentab.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "tridentab|trident-ab|trident_ab",
+			"description": "Script o recurso de integración de A/B Product and Price Testing detectado"
+		}
+	]
+}
