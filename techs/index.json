@@ -569,6 +569,32 @@
       ]
     },
     {
+      "name": "Widgetic (Countdown Timer)",
+      "developer": "Widgetic",
+      "category": "Checkout / Ofertas",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://widgetic.com",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "countdown-by-widgetic"
+        }
+      ],
+      "logo": {
+        "id": "widgetic-countdown-timer.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "countdown-by-widgetic|countdown[_-]?by[_-]?widgetic",
+          "description": "Script o recurso de integración de Widgetic (Countdown Timer) detectado"
+        }
+      ]
+    },
+    {
       "name": "Geolocation Redirects Geo:Pro",
       "developer": "Geo:Pro",
       "category": "Otros",
