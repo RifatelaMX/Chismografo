@@ -1,0 +1,26 @@
+{
+	"name": "Shogun ‑ Personalization",
+	"developer": "Shogun Labs Inc.",
+	"category": "A/B Testing / Optimización",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://getshogun.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "shogun-personalization"
+		}
+	],
+	"logo": {
+		"id": "shogun-personalization.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "shogun-personalization|shogun[_-]?personalization",
+			"description": "Script o recurso de integración de Shogun ‑ Personalization detectado"
+		}
+	]
+}
