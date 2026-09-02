@@ -1923,6 +1923,32 @@
       ]
     },
     {
+      "name": "POWR: Video Slider & Carousel",
+      "developer": "POWR",
+      "category": "Constructor de Páginas",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://www.powr.io",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "powr-video-slider"
+        }
+      ],
+      "logo": {
+        "id": "powr-video-slider.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "powr-video-slider|powr[_-]?video[_-]?slider",
+          "description": "Script o recurso de integración de POWR: Video Slider & Carousel detectado"
+        }
+      ]
+    },
+    {
       "name": "Printful",
       "developer": "Printful",
       "category": "Impresión bajo Demanda",
