@@ -1477,6 +1477,32 @@
       ]
     },
     {
+      "name": "Widgetic (News Headlines)",
+      "developer": "Widgetic",
+      "category": "Constructor de Páginas",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://widgetic.com",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "news-sliders-by-widgetic"
+        }
+      ],
+      "logo": {
+        "id": "widgetic-news-headlines.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "news-sliders-by-widgetic|news[_-]?sliders[_-]?by[_-]?widgetic",
+          "description": "Script o recurso de integración de Widgetic (News Headlines) detectado"
+        }
+      ]
+    },
+    {
       "name": "Okendo: Reviews & Loyalty",
       "developer": "Okendo",
       "category": "Reseñas",
