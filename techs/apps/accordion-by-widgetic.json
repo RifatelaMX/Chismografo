@@ -1,0 +1,26 @@
+{
+	"name": "Widgetic (Accordion Gallery)",
+	"developer": "Widgetic",
+	"category": "Constructor de Páginas",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://widgetic.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "accordion-by-widgetic"
+		}
+	],
+	"logo": {
+		"id": "widgetic-accordion-gallery.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "accordion-by-widgetic|accordion[_-]?by[_-]?widgetic",
+			"description": "Script o recurso de integración de Widgetic (Accordion Gallery) detectado"
+		}
+	]
+}
