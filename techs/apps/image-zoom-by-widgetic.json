@@ -1,0 +1,24 @@
+{
+	"name": "Widgetic (Image Zoom)",
+	"developer": "Widgetic",
+	"category": "Constructor de Páginas",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://widgetic.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "image-zoom-by-widgetic"
+		}
+	],
+	"logo": {
+		"id": "widgetic-image-zoom.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "image-zoom-by-widgetic|image[_-]?zoom[_-]?by[_-]?widgetic",
+			"description": "Script o recurso de integración de Widgetic (Image Zoom) detectado"
+		}
+	]
+}

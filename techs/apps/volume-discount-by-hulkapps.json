@@ -1,0 +1,24 @@
+{
+	"name": "Hulk Bundles Quantity Breaks",
+	"developer": "HulkApps",
+	"category": "Checkout / Ofertas",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.hulkapps.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "volume-discount-by-hulkapps"
+		}
+	],
+	"logo": {
+		"id": "volume-discount-by-hulkapps.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "volume-discount-by-hulkapps|volume[_-]?discount[_-]?by[_-]?hulkapps",
+			"description": "Script o recurso de integración de Hulk Bundles Quantity Breaks detectado"
+		}
+	]
+}

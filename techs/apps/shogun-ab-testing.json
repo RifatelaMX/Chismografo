@@ -1,0 +1,24 @@
+{
+	"name": "Shogun ‑ AB Testing",
+	"developer": "Shogun Labs Inc.",
+	"category": "A/B Testing / Optimización",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://getshogun.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "shogun-ab-testing"
+		}
+	],
+	"logo": {
+		"id": "shogun-ab-testing.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "shogun-ab-testing|shogun[_-]?ab[_-]?testing",
+			"description": "Script o recurso de integración de Shogun ‑ AB Testing detectado"
+		}
+	]
+}

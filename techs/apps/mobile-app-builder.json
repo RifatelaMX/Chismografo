@@ -1,0 +1,24 @@
+{
+	"name": "Hulk Mobile App Builder",
+	"developer": "HulkApps",
+	"category": "Constructor de Páginas",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.hulkapps.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "mobile-app-builder"
+		}
+	],
+	"logo": {
+		"id": "mobile-app-builder.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "mobile-app-builder|mobile[_-]?app[_-]?builder",
+			"description": "Script o recurso de integración de Hulk Mobile App Builder detectado"
+		}
+	]
+}

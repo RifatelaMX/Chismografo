@@ -1,0 +1,24 @@
+{
+	"name": "Pushdaddy cookie gdpr alert",
+	"developer": "Pushdaddy",
+	"category": "Marketing / Popups",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://pushdaddy.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "pushdaddy-cookie-gdpr-alert"
+		}
+	],
+	"logo": {
+		"id": "pushdaddy-cookie-gdpr-alert.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "pushdaddy-cookie-gdpr-alert|pushdaddy[_-]?cookie[_-]?gdpr[_-]?alert",
+			"description": "Script o recurso de integración de Pushdaddy cookie gdpr alert detectado"
+		}
+	]
+}

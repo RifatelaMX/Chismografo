@@ -114,6 +114,8 @@
 			"includes": [
 				"test-detector.js",
 				"test-*.js",
+				"test/*.js",
+				"test/**/*.js",
 				"src/**/*.js",
 				"server.js",
 				"cli/**/*.js",

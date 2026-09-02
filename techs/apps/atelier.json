@@ -1,0 +1,24 @@
+{
+	"name": "Atelier | Private Sales",
+	"developer": "Atelier",
+	"category": "Otros",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://apps.shopify.com/atelier",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "atelier"
+		}
+	],
+	"logo": {
+		"id": "atelier.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "atelier",
+			"description": "Script o recurso de integración de Atelier | Private Sales detectado"
+		}
+	]
+}

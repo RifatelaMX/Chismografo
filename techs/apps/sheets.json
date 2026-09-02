@@ -1,0 +1,24 @@
+{
+	"name": "Sheets ‑ Data Connector",
+	"developer": "Sheets Connector",
+	"category": "Inventario / Sincronización",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://apps.shopify.com/sheets",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "sheets"
+		}
+	],
+	"logo": {
+		"id": "sheets.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "sheets",
+			"description": "Script o recurso de integración de Sheets ‑ Data Connector detectado"
+		}
+	]
+}

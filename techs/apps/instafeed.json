@@ -1,0 +1,24 @@
+{
+	"name": "Instafeed ‑ Instagram Feed",
+	"developer": "Instafeed",
+	"category": "Otros",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://apps.shopify.com/instafeed",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "instafeed"
+		}
+	],
+	"logo": {
+		"id": "instafeed.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "instafeed",
+			"description": "Script o recurso de integración de Instafeed ‑ Instagram Feed detectado"
+		}
+	]
+}

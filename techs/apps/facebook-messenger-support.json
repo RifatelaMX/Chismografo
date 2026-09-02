@@ -1,0 +1,24 @@
+{
+	"name": "PD Facebook Messenger Support",
+	"developer": "Pushdaddy",
+	"category": "Soporte / Chat",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://pushdaddy.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "facebook-messenger-support"
+		}
+	],
+	"logo": {
+		"id": "facebook-messenger-support.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "facebook-messenger-support|facebook[_-]?messenger[_-]?support",
+			"description": "Script o recurso de integración de PD Facebook Messenger Support detectado"
+		}
+	]
+}

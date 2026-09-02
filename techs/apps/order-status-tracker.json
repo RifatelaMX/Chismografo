@@ -1,0 +1,24 @@
+{
+	"name": "Hulk Order Tracking & Upsell",
+	"developer": "HulkApps",
+	"category": "Envíos / Pedidos",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.hulkapps.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "order-status-tracker"
+		}
+	],
+	"logo": {
+		"id": "order-status-tracker.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "order-status-tracker|order[_-]?status[_-]?tracker",
+			"description": "Script o recurso de integración de Hulk Order Tracking & Upsell detectado"
+		}
+	]
+}

@@ -1,0 +1,24 @@
+{
+	"name": "Pushdaddy Push Notifications",
+	"developer": "Pushdaddy",
+	"category": "Marketing / Popups",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://pushdaddy.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "pushdaddy-web-push-notification"
+		}
+	],
+	"logo": {
+		"id": "pushdaddy-web-push-notification.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "pushdaddy-web-push-notification|pushdaddy[_-]?web[_-]?push[_-]?notification",
+			"description": "Script o recurso de integración de Pushdaddy Push Notifications detectado"
+		}
+	]
+}

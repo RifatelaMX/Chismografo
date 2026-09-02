@@ -1,0 +1,24 @@
+{
+	"name": "POWR: Low Stock Alert",
+	"developer": "POWR",
+	"category": "Checkout / Ofertas",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.powr.io",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "powr-fomo-nudge"
+		}
+	],
+	"logo": {
+		"id": "powr-fomo-nudge.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "powr-fomo-nudge|powr[_-]?fomo[_-]?nudge",
+			"description": "Script o recurso de integración de POWR: Low Stock Alert detectado"
+		}
+	]
+}

@@ -1,0 +1,24 @@
+{
+	"name": "Widgetic (Video Player)",
+	"developer": "Widgetic",
+	"category": "Constructor de Páginas",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://widgetic.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "video-player-by-widgetic"
+		}
+	],
+	"logo": {
+		"id": "widgetic-video-player.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "video-player-by-widgetic|video[_-]?player[_-]?by[_-]?widgetic",
+			"description": "Script o recurso de integración de Widgetic (Video Player) detectado"
+		}
+	]
+}

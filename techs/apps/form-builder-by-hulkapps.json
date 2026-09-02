@@ -11,13 +11,13 @@
 		}
 	],
 	"logo": {
-		"id": "hulkapps.com",
-		"provider": "logodev"
+		"id": "form-builder-by-hulkapps.png",
+		"provider": "local"
 	},
 	"detectionRules": [
 		{
 			"type": "script-src",
-			"pattern": "form-builder-by-hulkapps|hulkapps.*form|formbuilder\\.hulkapps",
+			"pattern": "form-builder-by-hulkapps|form[_-]?builder[_-]?by[_-]?hulkapps",
 			"description": "Script o recurso de integración de Hulk Contact Form Builder detectado"
 		}
 	]

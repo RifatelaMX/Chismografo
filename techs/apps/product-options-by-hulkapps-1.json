@@ -1,0 +1,24 @@
+{
+	"name": "Hulk Product Options",
+	"developer": "HulkApps",
+	"category": "Checkout / Ofertas",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.hulkapps.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "product-options-by-hulkapps-1"
+		}
+	],
+	"logo": {
+		"id": "product-options-by-hulkapps-1.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "product-options-by-hulkapps-1|product[_-]?options[_-]?by[_-]?hulkapps[_-]?1",
+			"description": "Script o recurso de integración de Hulk Product Options detectado"
+		}
+	]
+}

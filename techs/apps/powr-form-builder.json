@@ -1,0 +1,24 @@
+{
+	"name": "POWR Contact Form Builder",
+	"developer": "POWR",
+	"category": "Formularios / Contacto",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.powr.io",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "powr-form-builder"
+		}
+	],
+	"logo": {
+		"id": "powr-contact-form-builder.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "powr-form-builder|powr[_-]?form[_-]?builder",
+			"description": "Script o recurso de integración de POWR Contact Form Builder detectado"
+		}
+	]
+}

@@ -1,0 +1,24 @@
+{
+	"name": "Zepto Product Personalizer",
+	"developer": "Zepto Product Personalizer",
+	"category": "Checkout / Ofertas",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://productpersonalizer.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "product-personalizer"
+		}
+	],
+	"logo": {
+		"id": "productpersonalizer.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "product-personalizer|product[_-]?personalizer|productpersonalizer",
+			"description": "Script o recurso de integración de Zepto Product Personalizer detectado"
+		}
+	]
+}

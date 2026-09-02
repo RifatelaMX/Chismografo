@@ -1,0 +1,24 @@
+{
+	"name": "Pickware ERP & WMS",
+	"developer": "Pickware",
+	"category": "Inventario / Sincronización",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://pickware.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "pickware"
+		}
+	],
+	"logo": {
+		"id": "pickware.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "pickware",
+			"description": "Script o recurso de integración de Pickware ERP & WMS detectado"
+		}
+	]
+}

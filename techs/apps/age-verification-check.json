@@ -1,0 +1,24 @@
+{
+	"name": "Hulk Age Verification Popup",
+	"developer": "HulkApps",
+	"category": "Seguridad",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.hulkapps.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "age-verification-check"
+		}
+	],
+	"logo": {
+		"id": "age-verification-check.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "age-verification-check|age[_-]?verification[_-]?check",
+			"description": "Script o recurso de integración de Hulk Age Verification Popup detectado"
+		}
+	]
+}

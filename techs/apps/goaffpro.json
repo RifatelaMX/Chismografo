@@ -1,0 +1,24 @@
+{
+	"name": "GOAFFPRO ‑ Affiliate Marketing",
+	"developer": "GoAffPro",
+	"category": "Marketing / Afiliados",
+	"compatibleCMS": ["Shopify", "WooCommerce", "Magento", "PrestaShop", "VTEX"],
+	"web": "https://goaffpro.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "goaffpro"
+		}
+	],
+	"logo": {
+		"id": "goaffpro.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "api\\.goaffpro\\.com|static\\.goaffpro\\.com|goaffpro",
+			"description": "Script o recurso de integración de GOAFFPRO detectado"
+		}
+	]
+}

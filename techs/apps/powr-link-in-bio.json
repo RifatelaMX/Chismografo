@@ -1,0 +1,24 @@
+{
+	"name": "POWR: Link‑in‑Bio",
+	"developer": "POWR",
+	"category": "Constructor de Páginas",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.powr.io",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "powr-link-in-bio"
+		}
+	],
+	"logo": {
+		"id": "powr-link-in-bio.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "powr-link-in-bio|powr[_-]?link[_-]?in[_-]?bio",
+			"description": "Script o recurso de integración de POWR: Link‑in‑Bio detectado"
+		}
+	]
+}

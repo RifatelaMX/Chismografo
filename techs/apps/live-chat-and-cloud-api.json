@@ -1,0 +1,24 @@
+{
+	"name": "Pushdaddy Many Chat ,Cloud API",
+	"developer": "Pushdaddy",
+	"category": "Soporte / Chat",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://pushdaddy.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "live-chat-and-cloud-api"
+		}
+	],
+	"logo": {
+		"id": "live-chat-and-cloud-api.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "live-chat-and-cloud-api|live[_-]?chat[_-]?and[_-]?cloud[_-]?api",
+			"description": "Script o recurso de integración de Pushdaddy Many Chat ,Cloud API detectado"
+		}
+	]
+}

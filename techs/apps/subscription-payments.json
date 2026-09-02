@@ -1,0 +1,24 @@
+{
+	"name": "Recharge Subscriptions App",
+	"developer": "Recharge",
+	"category": "Suscripciones",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://www.rechargepayments.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "subscription-payments"
+		}
+	],
+	"logo": {
+		"id": "getrecharge.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "subscription-payments|subscription[_-]?payments|getrecharge",
+			"description": "Script o recurso de integración de Recharge Subscriptions App detectado"
+		}
+	]
+}

@@ -1,0 +1,24 @@
+{
+	"name": "Pushdaddy Announcement Bar",
+	"developer": "Pushdaddy",
+	"category": "Marketing / Popups",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://pushdaddy.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "powerful-announcement-bar"
+		}
+	],
+	"logo": {
+		"id": "powerful-announcement-bar.jpg",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "powerful-announcement-bar|powerful[_-]?announcement[_-]?bar",
+			"description": "Script o recurso de integración de Pushdaddy Announcement Bar detectado"
+		}
+	]
+}
