@@ -24,9 +24,15 @@ window.handleLogoError = (img, providedDomain, websiteUrl, provider) => {
 		return;
 	}
 
-	const bfKey = window.serverConfig?.brandfetchApiKey ? `?c=${window.serverConfig.brandfetchApiKey}` : '';
-	const biKey = window.serverConfig?.brandiconsApiKey ? `?key=${window.serverConfig.brandiconsApiKey}` : '';
-	const npKey = window.serverConfig?.ninjapearApiKey ? `?key=${window.serverConfig.ninjapearApiKey}` : '';
+	const bfKey = window.serverConfig?.brandfetchApiKey
+		? `?c=${window.serverConfig.brandfetchApiKey}`
+		: '';
+	const biKey = window.serverConfig?.brandiconsApiKey
+		? `?key=${window.serverConfig.brandiconsApiKey}`
+		: '';
+	const npKey = window.serverConfig?.ninjapearApiKey
+		? `?key=${window.serverConfig.ninjapearApiKey}`
+		: '';
 	const logoToken = window.serverConfig?.logoDevToken || 'pk_MgKPAkEuRMOiYecOkx67wQ';
 
 	// Cascada completa a través de todos los proveedores integrados:
@@ -1010,8 +1016,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				if (!existing.evidence && techObj.evidence) existing.evidence = techObj.evidence;
 				if (!existing.rules && techObj.rules) existing.rules = techObj.rules;
 				if (!existing.appStores && techObj.appStores) existing.appStores = techObj.appStores;
-				if (!existing.compatibleCMS && techObj.compatibleCMS) existing.compatibleCMS = techObj.compatibleCMS;
-				if (!existing.shopifyAppIcon && techObj.shopifyAppIcon) existing.shopifyAppIcon = techObj.shopifyAppIcon;
+				if (!existing.compatibleCMS && techObj.compatibleCMS)
+					existing.compatibleCMS = techObj.compatibleCMS;
+				if (!existing.shopifyAppIcon && techObj.shopifyAppIcon)
+					existing.shopifyAppIcon = techObj.shopifyAppIcon;
 				if (!existing.sources.includes(source)) existing.sources.push(source);
 			}
 		};
@@ -1019,47 +1027,56 @@ document.addEventListener('DOMContentLoaded', () => {
 		// Process from Local Plugins
 		if (data.plugins) {
 			data.plugins.forEach((p) => {
-				mergeItem({
-					name: p.name,
-					category: p.category,
-					developer: p.developer,
-					web: p.web,
-					logo: p.logo,
-					link: p.evidence?.startsWith('http') ? p.evidence : p.web || '',
-					evidence: p.evidence,
-					rules: p.rules,
-					appStores: p.appStores,
-					compatibleCMS: p.compatibleCMS,
-					shopifyAppIcon: p.shopifyAppIcon,
-				}, 'Motor Local');
+				mergeItem(
+					{
+						name: p.name,
+						category: p.category,
+						developer: p.developer,
+						web: p.web,
+						logo: p.logo,
+						link: p.evidence?.startsWith('http') ? p.evidence : p.web || '',
+						evidence: p.evidence,
+						rules: p.rules,
+						appStores: p.appStores,
+						compatibleCMS: p.compatibleCMS,
+						shopifyAppIcon: p.shopifyAppIcon,
+					},
+					'Motor Local'
+				);
 			});
 		}
 
 		// Process from Infrastructure Detections
 		if (data.infrastructure) {
 			data.infrastructure.forEach((inf) => {
-				mergeItem({
-					name: inf.name,
-					category: inf.category,
-					web: inf.web,
-					logo: inf.logo,
-					evidence: inf.evidence,
-					rules: inf.rules,
-				}, 'Motor Local');
+				mergeItem(
+					{
+						name: inf.name,
+						category: inf.category,
+						web: inf.web,
+						logo: inf.logo,
+						evidence: inf.evidence,
+						rules: inf.rules,
+					},
+					'Motor Local'
+				);
 			});
 		}
 
 		// Process from Pixels
 		if (data.pixels) {
 			data.pixels.forEach((px) => {
-				mergeItem({
-					name: px.name,
-					category: px.category,
-					web: px.web,
-					logo: px.logo,
-					evidence: px.evidence,
-					rules: px.rules,
-				}, 'Motor Local');
+				mergeItem(
+					{
+						name: px.name,
+						category: px.category,
+						web: px.web,
+						logo: px.logo,
+						evidence: px.evidence,
+						rules: px.rules,
+					},
+					'Motor Local'
+				);
 			});
 		}
 
@@ -1345,7 +1362,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 
 		const nameLower = tech.name ? tech.name.toLowerCase() : '';
-		const isShopifyDomain = domain && (domain.includes('shopify.com') || domain.includes('myshopify.com'));
+		const isShopifyDomain =
+			domain && (domain.includes('shopify.com') || domain.includes('myshopify.com'));
 		const isShopifyPlatform = nameLower === 'shopify';
 
 		// Si tenemos un dominio directo
@@ -1834,8 +1852,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	if (closeExamsModalBtn) closeExamsModalBtn.addEventListener('click', closeExamsModal);
-	if (closeExamsModalBottomBtn)
-		closeExamsModalBottomBtn.addEventListener('click', closeExamsModal);
+	if (closeExamsModalBottomBtn) closeExamsModalBottomBtn.addEventListener('click', closeExamsModal);
 	if (openExamsBtn) {
 		openExamsBtn.addEventListener('click', (e) => {
 			e.stopPropagation();
@@ -1931,14 +1948,16 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (appModalTags) {
 			appModalTags.innerHTML = '';
 			const catTag = document.createElement('span');
-			catTag.style.cssText = 'font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(138,43,226,0.1); color: var(--gel-purple); border: 1px solid rgba(138,43,226,0.2); font-weight: 600;';
+			catTag.style.cssText =
+				'font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(138,43,226,0.1); color: var(--gel-purple); border: 1px solid rgba(138,43,226,0.2); font-weight: 600;';
 			catTag.textContent = `Categoría: ${tech.category || 'General'}`;
 			appModalTags.appendChild(catTag);
 
 			if (Array.isArray(tech.compatibleCMS) && tech.compatibleCMS.length > 0) {
 				tech.compatibleCMS.forEach((cms) => {
 					const cmsTag = document.createElement('span');
-					cmsTag.style.cssText = 'font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(0,0,0,0.05); color: var(--ink-dark); border: 1px solid var(--paper-lines); font-weight: 500;';
+					cmsTag.style.cssText =
+						'font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(0,0,0,0.05); color: var(--ink-dark); border: 1px solid var(--paper-lines); font-weight: 500;';
 					cmsTag.textContent = `CMS: ${cms}`;
 					appModalTags.appendChild(cmsTag);
 				});
@@ -1953,7 +1972,8 @@ document.addEventListener('DOMContentLoaded', () => {
 				webLink.href = tech.web;
 				webLink.target = '_blank';
 				webLink.rel = 'noopener noreferrer';
-				webLink.style.cssText = 'font-size: 0.75rem; color: var(--gel-blue); text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.25rem;';
+				webLink.style.cssText =
+					'font-size: 0.75rem; color: var(--gel-blue); text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.25rem;';
 				webLink.innerHTML = `Sitio Web 🌐`;
 				appModalLinks.appendChild(webLink);
 			}
@@ -1964,7 +1984,8 @@ document.addEventListener('DOMContentLoaded', () => {
 						storeLink.href = st.link;
 						storeLink.target = '_blank';
 						storeLink.rel = 'noopener noreferrer';
-						storeLink.style.cssText = 'font-size: 0.75rem; color: var(--gel-pink); text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.25rem;';
+						storeLink.style.cssText =
+							'font-size: 0.75rem; color: var(--gel-pink); text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.25rem;';
 						storeLink.innerHTML = `${st.cms || 'App'} Store 🛍️`;
 						appModalLinks.appendChild(storeLink);
 					}
@@ -1977,7 +1998,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			appModalBody.innerHTML = '';
 
 			const testsHeader = document.createElement('div');
-			testsHeader.style.cssText = 'display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--paper-lines); padding-bottom: 0.5rem;';
+			testsHeader.style.cssText =
+				'display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--paper-lines); padding-bottom: 0.5rem;';
 			testsHeader.innerHTML = `
 				<div style="display: flex; align-items: center; gap: 0.5rem;">
 					<span style="font-size: 1.2rem;">🧪</span>
@@ -2020,19 +2042,27 @@ document.addEventListener('DOMContentLoaded', () => {
 						<div style="font-size: 0.88rem; font-weight: 600; color: var(--ink-dark); margin-top: 0.2rem;">
 							${escapeHtml(rule.description || 'Firma de detección')}
 						</div>
-						${rule.pattern ? `
+						${
+							rule.pattern
+								? `
 							<div style="font-size: 0.72rem; color: var(--ink-medium);">
 								<strong>Patrón esperado:</strong> <code style="background: rgba(0,0,0,0.05); padding: 0.1rem 0.3rem; border-radius: 3px; font-family: monospace;">${escapeHtml(rule.pattern)}</code>
 							</div>
-						` : ''}
-						${rule.context ? `
+						`
+								: ''
+						}
+						${
+							rule.context
+								? `
 							<div style="margin-top: 0.35rem; background: var(--paper); border: 1px solid var(--paper-lines); border-radius: 6px; padding: 0.5rem 0.75rem; font-family: monospace; font-size: 0.75rem; color: var(--ink-dark); word-break: break-all; max-height: 120px; overflow-y: auto;">
 								<div style="font-size: 0.65rem; color: var(--ink-light); margin-bottom: 0.2rem; font-weight: bold; text-transform: uppercase;">
 									🔍 Evidencia Encontrada:
 								</div>
 								<code>${escapeHtml(rule.context)}</code>
 							</div>
-						` : ''}
+						`
+								: ''
+						}
 					`;
 					appModalBody.appendChild(ruleCard);
 				});
