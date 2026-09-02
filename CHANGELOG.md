@@ -1,3 +1,9 @@
+## [1.10.0](https://github.com/RifatelaMX/Chismografo/compare/v1.9.0...v1.10.0) (2026-09-02)
+
+### ✨ Nuevas Características
+
+* **api:** agregar reglas de deteccion para facturama, infinite clarity y mercado pago antifraude ([8aef011](https://github.com/RifatelaMX/Chismografo/commit/8aef011ce1023b6ace3ee5a10f44bfa7444b5873))
+
 ## [1.9.0](https://github.com/RifatelaMX/Chismografo/compare/v1.8.2...v1.9.0) (2026-09-02)
 
 ### ✨ Nuevas Características
