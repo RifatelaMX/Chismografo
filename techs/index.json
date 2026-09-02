@@ -1629,6 +1629,32 @@
       ]
     },
     {
+      "name": "Magno Upsell Cross Sell Funnel",
+      "developer": "Magno Upsell Cross Sell Funnel",
+      "category": "Otros",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://apps.shopify.com/magno-upsell-cross-sell-funnel",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "magno-upsell-cross-sell-funnel"
+        }
+      ],
+      "logo": {
+        "id": "magno-upsell-cross-sell-funnel.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "magno-upsell-cross-sell-funnel|magno[_-]?upsell[_-]?cross[_-]?sell[_-]?funnel",
+          "description": "Script o recurso de integración de Magno Upsell Cross Sell Funnel detectado"
+        }
+      ]
+    },
+    {
       "name": "Mailmunch Forms for Mailchimp",
       "developer": "Mailmunch Forms for Mailchimp",
       "category": "Email Marketing",
