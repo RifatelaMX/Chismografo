@@ -1,0 +1,24 @@
+{
+	"name": "∞ Microsoft Clarity & Heatmap",
+	"developer": "Infinite Apps",
+	"category": "Analítica",
+	"compatibleCMS": ["Shopify"],
+	"web": "https://clarity.microsoft.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "infinite-microsoft-clarity"
+		}
+	],
+	"logo": {
+		"id": "clarity.microsoft.com",
+		"provider": "google"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "infinite-microsoft-clarity|clarity-infinite|clarity\\.ms\\/tag\\/|clarity\\.js",
+			"description": "Script o recurso de integración de ∞ Microsoft Clarity & Heatmap detectado"
+		}
+	]
+}
