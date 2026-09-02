@@ -1,0 +1,26 @@
+{
+	"name": "Geolocation Redirects Geo:Pro",
+	"developer": "Geo:Pro",
+	"category": "Otros",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://geoproapp.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "easylocation"
+		}
+	],
+	"logo": {
+		"id": "geoproapp.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "easylocation|geoproapp",
+			"description": "Script o recurso de integración de Geolocation Redirects Geo:Pro detectado"
+		}
+	]
+}
