@@ -2951,6 +2951,32 @@
       ]
     },
     {
+      "name": "Reorder Buy Again Repeat Order",
+      "developer": "Reorder Buy Again Repeat Order",
+      "category": "Envíos / Pedidos",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://apps.shopify.com/simple-reorder",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "simple-reorder"
+        }
+      ],
+      "logo": {
+        "id": "simple-reorder.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "simple-reorder|simple[_-]?reorder",
+          "description": "Script o recurso de integración de Reorder Buy Again Repeat Order detectado"
+        }
+      ]
+    },
+    {
       "name": "POWR: Size Chart Sizing Guide",
       "developer": "POWR",
       "category": "Constructor de Páginas",
