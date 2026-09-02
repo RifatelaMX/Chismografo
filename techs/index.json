@@ -1607,6 +1607,32 @@
       ]
     },
     {
+      "name": "POWR Email Popup & Discounts",
+      "developer": "POWR",
+      "category": "Marketing / Popups",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://www.powr.io",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "notification-bar"
+        }
+      ],
+      "logo": {
+        "id": "notification-bar.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "notification-bar|notification[_-]?bar",
+          "description": "Script o recurso de integración de POWR Email Popup & Discounts detectado"
+        }
+      ]
+    },
+    {
       "name": "Okendo: Reviews & Loyalty",
       "developer": "Okendo",
       "category": "Reseñas",
