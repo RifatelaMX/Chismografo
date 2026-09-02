@@ -1,0 +1,26 @@
+{
+	"name": "Hotjar Install",
+	"developer": "Hotjar",
+	"category": "Analítica",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://www.hotjar.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "hotjar"
+		}
+	],
+	"logo": {
+		"id": "hotjar-install.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "hotjar",
+			"description": "Script o recurso de integración de Hotjar Install detectado"
+		}
+	]
+}
