@@ -2105,6 +2105,32 @@
       ]
     },
     {
+      "name": "Hulk NPS Post Purchase Survey",
+      "developer": "HulkApps",
+      "category": "Formularios / Contacto",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://www.hulkapps.com",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "post-purchase-survey"
+        }
+      ],
+      "logo": {
+        "id": "post-purchase-survey.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "post-purchase-survey|post[_-]?purchase[_-]?survey",
+          "description": "Script o recurso de integración de Hulk NPS Post Purchase Survey detectado"
+        }
+      ]
+    },
+    {
       "name": "POWR: About Us | Team Profile",
       "developer": "POWR",
       "category": "Constructor de Páginas",
