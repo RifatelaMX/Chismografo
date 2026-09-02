@@ -621,6 +621,32 @@
       ]
     },
     {
+      "name": "SendWILL Popup Email Marketing",
+      "developer": "SendWILL Popup Email Marketing",
+      "category": "Marketing / Popups",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://cwill.com",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "ecomsend"
+        }
+      ],
+      "logo": {
+        "id": "cwill.com",
+        "provider": "logodev"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "ecomsend|cwill",
+          "description": "Script o recurso de integración de SendWILL Popup Email Marketing detectado"
+        }
+      ]
+    },
+    {
       "name": "Facturama: Facturación CFDI",
       "developer": "Facturama",
       "category": "Facturación / Contabilidad",
