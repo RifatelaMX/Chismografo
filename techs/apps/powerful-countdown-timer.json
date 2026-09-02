@@ -1,0 +1,26 @@
+{
+	"name": "Pushdaddy Countdown Timer",
+	"developer": "Pushdaddy",
+	"category": "Checkout / Ofertas",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://pushdaddy.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "powerful-countdown-timer"
+		}
+	],
+	"logo": {
+		"id": "powerful-countdown-timer.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "powerful-countdown-timer|powerful[_-]?countdown[_-]?timer",
+			"description": "Script o recurso de integración de Pushdaddy Countdown Timer detectado"
+		}
+	]
+}
