@@ -1,3 +1,9 @@
+## [1.13.3](https://github.com/RifatelaMX/Chismografo/compare/v1.13.2...v1.13.3) (2026-09-02)
+
+### 🐛 Corrección de Errores
+
+* **ui:** evitar favicons genericos de globo y optimizar cascada de logos externos ([b2bbac5](https://github.com/RifatelaMX/Chismografo/commit/b2bbac50f0dc86c34cafa98268f8e1602e169f09))
+
 ## [1.13.2](https://github.com/RifatelaMX/Chismografo/compare/v1.13.1...v1.13.2) (2026-09-02)
 
 ### 🐛 Corrección de Errores
