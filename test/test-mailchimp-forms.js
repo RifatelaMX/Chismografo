@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Mailmunch Forms for Mailchimp")) {
-	console.log('✅ PASSED: ' + "Mailmunch Forms for Mailchimp");
+if (detectedNames.includes('Mailmunch Forms for Mailchimp')) {
+	console.log('✅ PASSED: ' + 'Mailmunch Forms for Mailchimp');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Mailmunch Forms for Mailchimp" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Mailmunch Forms for Mailchimp' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

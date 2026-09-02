@@ -2,9 +2,7 @@
 	"name": "SK: WhatsApp Chat Button",
 	"developer": "SK",
 	"category": "Otros",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/whatsapp-chat-button-squadkin",
 	"appStores": [
 		{

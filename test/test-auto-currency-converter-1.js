@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Supernova Currency Converter")) {
-	console.log('✅ PASSED: ' + "Supernova Currency Converter");
+if (detectedNames.includes('Supernova Currency Converter')) {
+	console.log('✅ PASSED: ' + 'Supernova Currency Converter');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Supernova Currency Converter" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Supernova Currency Converter' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

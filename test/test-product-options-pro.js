@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Globo Product Options, Variant")) {
-	console.log('✅ PASSED: ' + "Globo Product Options, Variant");
+if (detectedNames.includes('Globo Product Options, Variant')) {
+	console.log('✅ PASSED: ' + 'Globo Product Options, Variant');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Globo Product Options, Variant" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Globo Product Options, Variant' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

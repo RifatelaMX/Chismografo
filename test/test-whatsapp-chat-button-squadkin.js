@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("SK: WhatsApp Chat Button")) {
-	console.log('✅ PASSED: ' + "SK: WhatsApp Chat Button");
+if (detectedNames.includes('SK: WhatsApp Chat Button')) {
+	console.log('✅ PASSED: ' + 'SK: WhatsApp Chat Button');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "SK: WhatsApp Chat Button" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'SK: WhatsApp Chat Button' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

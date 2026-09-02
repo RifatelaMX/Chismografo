@@ -2,9 +2,7 @@
 	"name": "POWR: Live Weather Forecast",
 	"developer": "POWR",
 	"category": "Constructor de Páginas",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
 	"appStores": [
 		{

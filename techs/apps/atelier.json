@@ -2,9 +2,7 @@
 	"name": "Atelier | Private Sales",
 	"developer": "Atelier",
 	"category": "Otros",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/atelier",
 	"appStores": [
 		{

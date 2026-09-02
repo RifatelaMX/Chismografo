@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Way2Enjoy Image Optimizer")) {
-	console.log('✅ PASSED: ' + "Way2Enjoy Image Optimizer");
+if (detectedNames.includes('Way2Enjoy Image Optimizer')) {
+	console.log('✅ PASSED: ' + 'Way2Enjoy Image Optimizer');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Way2Enjoy Image Optimizer" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Way2Enjoy Image Optimizer' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

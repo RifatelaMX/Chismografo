@@ -2,9 +2,7 @@
 	"name": "Pushdaddy cookie gdpr alert",
 	"developer": "Pushdaddy",
 	"category": "Marketing / Popups",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://pushdaddy.com",
 	"appStores": [
 		{

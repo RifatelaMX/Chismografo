@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Hulk Age Verification Popup")) {
-	console.log('✅ PASSED: ' + "Hulk Age Verification Popup");
+if (detectedNames.includes('Hulk Age Verification Popup')) {
+	console.log('✅ PASSED: ' + 'Hulk Age Verification Popup');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Hulk Age Verification Popup" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Hulk Age Verification Popup' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

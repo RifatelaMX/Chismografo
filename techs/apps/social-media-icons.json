@@ -2,9 +2,7 @@
 	"name": "POWR: Social Media Icons Bar",
 	"developer": "POWR",
 	"category": "Analítica / Marketing",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
 	"appStores": [
 		{

@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Pushdaddy Countdown Timer")) {
-	console.log('✅ PASSED: ' + "Pushdaddy Countdown Timer");
+if (detectedNames.includes('Pushdaddy Countdown Timer')) {
+	console.log('✅ PASSED: ' + 'Pushdaddy Countdown Timer');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Pushdaddy Countdown Timer" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Pushdaddy Countdown Timer' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

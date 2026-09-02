@@ -2,9 +2,7 @@
 	"name": "POWR: About Us | Team Profile",
 	"developer": "POWR",
 	"category": "Constructor de Páginas",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
 	"appStores": [
 		{

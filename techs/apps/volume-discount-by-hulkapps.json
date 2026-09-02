@@ -2,9 +2,7 @@
 	"name": "Hulk Bundles Quantity Breaks",
 	"developer": "HulkApps",
 	"category": "Checkout / Ofertas",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.hulkapps.com",
 	"appStores": [
 		{

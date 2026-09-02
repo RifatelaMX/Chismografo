@@ -2,9 +2,7 @@
 	"name": "Hulk GDPR Cookie Consent Bar",
 	"developer": "HulkApps",
 	"category": "Seguridad",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.hulkapps.com",
 	"appStores": [
 		{

@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("PD Facebook Messenger Support")) {
-	console.log('✅ PASSED: ' + "PD Facebook Messenger Support");
+if (detectedNames.includes('PD Facebook Messenger Support')) {
+	console.log('✅ PASSED: ' + 'PD Facebook Messenger Support');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "PD Facebook Messenger Support" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'PD Facebook Messenger Support' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

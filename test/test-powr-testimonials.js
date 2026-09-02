@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("POWR: Customer Testimonials")) {
-	console.log('✅ PASSED: ' + "POWR: Customer Testimonials");
+if (detectedNames.includes('POWR: Customer Testimonials')) {
+	console.log('✅ PASSED: ' + 'POWR: Customer Testimonials');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "POWR: Customer Testimonials" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'POWR: Customer Testimonials' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

@@ -2,9 +2,7 @@
 	"name": "Pushdaddy Push Notifications",
 	"developer": "Pushdaddy",
 	"category": "Marketing / Popups",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://pushdaddy.com",
 	"appStores": [
 		{

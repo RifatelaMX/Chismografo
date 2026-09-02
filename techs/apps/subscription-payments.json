@@ -2,9 +2,7 @@
 	"name": "Recharge Subscriptions App",
 	"developer": "Recharge",
 	"category": "Suscripciones",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.rechargepayments.com",
 	"appStores": [
 		{

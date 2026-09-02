@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Zepto Product Personalizer")) {
-	console.log('✅ PASSED: ' + "Zepto Product Personalizer");
+if (detectedNames.includes('Zepto Product Personalizer')) {
+	console.log('✅ PASSED: ' + 'Zepto Product Personalizer');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Zepto Product Personalizer" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Zepto Product Personalizer' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

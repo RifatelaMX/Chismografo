@@ -2,9 +2,7 @@
 	"name": "POWR: Low Stock Alert",
 	"developer": "POWR",
 	"category": "Checkout / Ofertas",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
 	"appStores": [
 		{

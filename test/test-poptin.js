@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Poptin Exit Popup Email Pop Up")) {
-	console.log('✅ PASSED: ' + "Poptin Exit Popup Email Pop Up");
+if (detectedNames.includes('Poptin Exit Popup Email Pop Up')) {
+	console.log('✅ PASSED: ' + 'Poptin Exit Popup Email Pop Up');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Poptin Exit Popup Email Pop Up" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Poptin Exit Popup Email Pop Up' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

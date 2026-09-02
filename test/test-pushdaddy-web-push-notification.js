@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Pushdaddy Push Notifications")) {
-	console.log('✅ PASSED: ' + "Pushdaddy Push Notifications");
+if (detectedNames.includes('Pushdaddy Push Notifications')) {
+	console.log('✅ PASSED: ' + 'Pushdaddy Push Notifications');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Pushdaddy Push Notifications" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Pushdaddy Push Notifications' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

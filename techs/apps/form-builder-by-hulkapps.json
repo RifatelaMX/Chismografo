@@ -2,9 +2,7 @@
 	"name": "Hulk Contact Form Builder",
 	"developer": "HulkApps",
 	"category": "Formularios / Contacto",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.hulkapps.com",
 	"appStores": [
 		{

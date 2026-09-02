@@ -2,9 +2,7 @@
 	"name": "Powerful Contact Form Builder",
 	"developer": "Powerful Contact Form Builder",
 	"category": "Otros",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://powerfulform.com",
 	"appStores": [
 		{

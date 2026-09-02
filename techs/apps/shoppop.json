@@ -2,9 +2,7 @@
 	"name": "SalesPop: Order & Sales Popup",
 	"developer": "SalesPop",
 	"category": "Marketing / Popups",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://salespop.com",
 	"appStores": [
 		{

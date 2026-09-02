@@ -2,9 +2,7 @@
 	"name": "Magno Upsell Cross Sell Funnel",
 	"developer": "Magno Upsell Cross Sell Funnel",
 	"category": "Otros",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/magno-upsell-cross-sell-funnel",
 	"appStores": [
 		{

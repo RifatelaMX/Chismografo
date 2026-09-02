@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Fontify: Google & Custom Fonts")) {
-	console.log('✅ PASSED: ' + "Fontify: Google & Custom Fonts");
+if (detectedNames.includes('Fontify: Google & Custom Fonts')) {
+	console.log('✅ PASSED: ' + 'Fontify: Google & Custom Fonts');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Fontify: Google & Custom Fonts" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Fontify: Google & Custom Fonts' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

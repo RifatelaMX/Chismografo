@@ -2,9 +2,7 @@
 	"name": "SendWILL Popup Email Marketing",
 	"developer": "SendWILL Popup Email Marketing",
 	"category": "Marketing / Popups",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://cwill.com",
 	"appStores": [
 		{

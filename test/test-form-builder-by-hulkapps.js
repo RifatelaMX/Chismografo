@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Hulk Contact Form Builder")) {
-	console.log('✅ PASSED: ' + "Hulk Contact Form Builder");
+if (detectedNames.includes('Hulk Contact Form Builder')) {
+	console.log('✅ PASSED: ' + 'Hulk Contact Form Builder');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Hulk Contact Form Builder" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Hulk Contact Form Builder' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

@@ -2,9 +2,7 @@
 	"name": "Yotpo: Loyalty Rewards Program",
 	"developer": "Yotpo",
 	"category": "Otros",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://yotpo.com",
 	"appStores": [
 		{

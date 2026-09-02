@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Mintt TikTok Feed")) {
-	console.log('✅ PASSED: ' + "Mintt TikTok Feed");
+if (detectedNames.includes('Mintt TikTok Feed')) {
+	console.log('✅ PASSED: ' + 'Mintt TikTok Feed');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Mintt TikTok Feed" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Mintt TikTok Feed' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

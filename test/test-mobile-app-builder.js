@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Hulk Mobile App Builder")) {
-	console.log('✅ PASSED: ' + "Hulk Mobile App Builder");
+if (detectedNames.includes('Hulk Mobile App Builder')) {
+	console.log('✅ PASSED: ' + 'Hulk Mobile App Builder');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Hulk Mobile App Builder" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Hulk Mobile App Builder' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

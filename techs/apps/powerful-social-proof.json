@@ -2,9 +2,7 @@
 	"name": "Powerful Social Proof",
 	"developer": "Powerful Social Proof",
 	"category": "Marketing / Popups",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/powerful-social-proof",
 	"appStores": [
 		{

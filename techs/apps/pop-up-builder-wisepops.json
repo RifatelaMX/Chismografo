@@ -2,9 +2,7 @@
 	"name": "Wisepops: Popup Builder & CRO",
 	"developer": "Wisepops",
 	"category": "Marketing / Popups",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://wisepops.com",
 	"appStores": [
 		{

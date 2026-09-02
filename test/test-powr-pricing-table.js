@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("POWR: Pricing Table Comparison")) {
-	console.log('✅ PASSED: ' + "POWR: Pricing Table Comparison");
+if (detectedNames.includes('POWR: Pricing Table Comparison')) {
+	console.log('✅ PASSED: ' + 'POWR: Pricing Table Comparison');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "POWR: Pricing Table Comparison" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'POWR: Pricing Table Comparison' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

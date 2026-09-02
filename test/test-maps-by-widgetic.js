@@ -17,10 +17,12 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Widgetic (Maps)")) {
-	console.log('✅ PASSED: ' + "Widgetic (Maps)");
+if (detectedNames.includes('Widgetic (Maps)')) {
+	console.log('✅ PASSED: ' + 'Widgetic (Maps)');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Widgetic (Maps)" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' + 'Widgetic (Maps)' + ' not detected. Detected: ' + JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

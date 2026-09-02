@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Shogun ‑ AB Testing")) {
-	console.log('✅ PASSED: ' + "Shogun ‑ AB Testing");
+if (detectedNames.includes('Shogun ‑ AB Testing')) {
+	console.log('✅ PASSED: ' + 'Shogun ‑ AB Testing');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Shogun ‑ AB Testing" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Shogun ‑ AB Testing' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

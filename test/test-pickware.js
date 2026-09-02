@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Pickware ERP & WMS")) {
-	console.log('✅ PASSED: ' + "Pickware ERP & WMS");
+if (detectedNames.includes('Pickware ERP & WMS')) {
+	console.log('✅ PASSED: ' + 'Pickware ERP & WMS');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Pickware ERP & WMS" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Pickware ERP & WMS' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

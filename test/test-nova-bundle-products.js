@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Nova Bundle products")) {
-	console.log('✅ PASSED: ' + "Nova Bundle products");
+if (detectedNames.includes('Nova Bundle products')) {
+	console.log('✅ PASSED: ' + 'Nova Bundle products');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Nova Bundle products" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Nova Bundle products' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

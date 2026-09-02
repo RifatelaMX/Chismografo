@@ -2,9 +2,7 @@
 	"name": "Exit intent popup with coupon",
 	"developer": "Exit intent popup with coupon",
 	"category": "Marketing / Popups",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/exit-intent-popup",
 	"appStores": [
 		{

@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("USO: Ultimate Special Offers")) {
-	console.log('✅ PASSED: ' + "USO: Ultimate Special Offers");
+if (detectedNames.includes('USO: Ultimate Special Offers')) {
+	console.log('✅ PASSED: ' + 'USO: Ultimate Special Offers');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "USO: Ultimate Special Offers" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'USO: Ultimate Special Offers' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

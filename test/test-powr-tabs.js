@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("POWR: Accordion Product Tabs")) {
-	console.log('✅ PASSED: ' + "POWR: Accordion Product Tabs");
+if (detectedNames.includes('POWR: Accordion Product Tabs')) {
+	console.log('✅ PASSED: ' + 'POWR: Accordion Product Tabs');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "POWR: Accordion Product Tabs" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'POWR: Accordion Product Tabs' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

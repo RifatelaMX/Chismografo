@@ -2,9 +2,7 @@
 	"name": "Colissimo by Common‑Services",
 	"developer": "Colissimo by Common",
 	"category": "Envíos / Pedidos",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/colissimo-1",
 	"appStores": [
 		{

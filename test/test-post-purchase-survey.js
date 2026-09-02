@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Hulk NPS Post Purchase Survey")) {
-	console.log('✅ PASSED: ' + "Hulk NPS Post Purchase Survey");
+if (detectedNames.includes('Hulk NPS Post Purchase Survey')) {
+	console.log('✅ PASSED: ' + 'Hulk NPS Post Purchase Survey');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Hulk NPS Post Purchase Survey" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Hulk NPS Post Purchase Survey' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

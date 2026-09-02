@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("POWR Contact Form Builder")) {
-	console.log('✅ PASSED: ' + "POWR Contact Form Builder");
+if (detectedNames.includes('POWR Contact Form Builder')) {
+	console.log('✅ PASSED: ' + 'POWR Contact Form Builder');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "POWR Contact Form Builder" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'POWR Contact Form Builder' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

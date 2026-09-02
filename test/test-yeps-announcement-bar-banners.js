@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Yeps Announcement Bar Banner")) {
-	console.log('✅ PASSED: ' + "Yeps Announcement Bar Banner");
+if (detectedNames.includes('Yeps Announcement Bar Banner')) {
+	console.log('✅ PASSED: ' + 'Yeps Announcement Bar Banner');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Yeps Announcement Bar Banner" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Yeps Announcement Bar Banner' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

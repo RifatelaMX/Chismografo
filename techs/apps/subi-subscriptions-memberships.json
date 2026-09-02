@@ -2,9 +2,7 @@
 	"name": "Subi Subscriptions App",
 	"developer": "Subi",
 	"category": "Suscripciones",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://subi.co",
 	"appStores": [
 		{

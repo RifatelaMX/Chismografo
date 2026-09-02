@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Magno Upsell Cross Sell Funnel")) {
-	console.log('✅ PASSED: ' + "Magno Upsell Cross Sell Funnel");
+if (detectedNames.includes('Magno Upsell Cross Sell Funnel')) {
+	console.log('✅ PASSED: ' + 'Magno Upsell Cross Sell Funnel');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Magno Upsell Cross Sell Funnel" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Magno Upsell Cross Sell Funnel' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

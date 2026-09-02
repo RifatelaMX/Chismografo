@@ -2,9 +2,7 @@
 	"name": "Mintt TikTok Feed",
 	"developer": "Mintt",
 	"category": "Analítica / Marketing",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://mintt.co",
 	"appStores": [
 		{

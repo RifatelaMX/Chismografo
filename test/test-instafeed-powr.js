@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("POWR Instagram Feed Instafeed")) {
-	console.log('✅ PASSED: ' + "POWR Instagram Feed Instafeed");
+if (detectedNames.includes('POWR Instagram Feed Instafeed')) {
+	console.log('✅ PASSED: ' + 'POWR Instagram Feed Instafeed');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "POWR Instagram Feed Instafeed" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'POWR Instagram Feed Instafeed' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

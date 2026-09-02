@@ -2,9 +2,7 @@
 	"name": "PD Facebook Messenger Support",
 	"developer": "Pushdaddy",
 	"category": "Soporte / Chat",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://pushdaddy.com",
 	"appStores": [
 		{

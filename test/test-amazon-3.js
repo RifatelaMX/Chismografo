@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("CS Amazon Integration & Sync")) {
-	console.log('✅ PASSED: ' + "CS Amazon Integration & Sync");
+if (detectedNames.includes('CS Amazon Integration & Sync')) {
+	console.log('✅ PASSED: ' + 'CS Amazon Integration & Sync');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "CS Amazon Integration & Sync" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'CS Amazon Integration & Sync' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

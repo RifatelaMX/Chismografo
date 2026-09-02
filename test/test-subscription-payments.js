@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Recharge Subscriptions App")) {
-	console.log('✅ PASSED: ' + "Recharge Subscriptions App");
+if (detectedNames.includes('Recharge Subscriptions App')) {
+	console.log('✅ PASSED: ' + 'Recharge Subscriptions App');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Recharge Subscriptions App" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Recharge Subscriptions App' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

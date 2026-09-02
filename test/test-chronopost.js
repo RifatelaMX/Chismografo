@@ -17,10 +17,12 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Chronopost")) {
-	console.log('✅ PASSED: ' + "Chronopost");
+if (detectedNames.includes('Chronopost')) {
+	console.log('✅ PASSED: ' + 'Chronopost');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Chronopost" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' + 'Chronopost' + ' not detected. Detected: ' + JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

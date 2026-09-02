@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Atelier | Private Sales")) {
-	console.log('✅ PASSED: ' + "Atelier | Private Sales");
+if (detectedNames.includes('Atelier | Private Sales')) {
+	console.log('✅ PASSED: ' + 'Atelier | Private Sales');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Atelier | Private Sales" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Atelier | Private Sales' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

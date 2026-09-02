@@ -2,9 +2,7 @@
 	"name": "Shogun ‑ Personalization",
 	"developer": "Shogun Labs Inc.",
 	"category": "A/B Testing / Optimización",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://getshogun.com",
 	"appStores": [
 		{

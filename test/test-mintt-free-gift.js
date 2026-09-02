@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Mintt Free Gift & BOGO Upsell")) {
-	console.log('✅ PASSED: ' + "Mintt Free Gift & BOGO Upsell");
+if (detectedNames.includes('Mintt Free Gift & BOGO Upsell')) {
+	console.log('✅ PASSED: ' + 'Mintt Free Gift & BOGO Upsell');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Mintt Free Gift & BOGO Upsell" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Mintt Free Gift & BOGO Upsell' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

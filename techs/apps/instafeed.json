@@ -2,9 +2,7 @@
 	"name": "Instafeed ‑ Instagram Feed",
 	"developer": "Instafeed",
 	"category": "Otros",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/instafeed",
 	"appStores": [
 		{

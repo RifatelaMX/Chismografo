@@ -2,9 +2,7 @@
 	"name": "Widgetic (Post It Notes)",
 	"developer": "Widgetic",
 	"category": "Constructor de Páginas",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://widgetic.com",
 	"appStores": [
 		{

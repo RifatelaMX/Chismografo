@@ -2,9 +2,7 @@
 	"name": "POWR: Link‑in‑Bio",
 	"developer": "POWR",
 	"category": "Constructor de Páginas",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
 	"appStores": [
 		{

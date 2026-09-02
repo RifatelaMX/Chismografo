@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Widgetic (Mosaic Gallery)")) {
-	console.log('✅ PASSED: ' + "Widgetic (Mosaic Gallery)");
+if (detectedNames.includes('Widgetic (Mosaic Gallery)')) {
+	console.log('✅ PASSED: ' + 'Widgetic (Mosaic Gallery)');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Widgetic (Mosaic Gallery)" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Widgetic (Mosaic Gallery)' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

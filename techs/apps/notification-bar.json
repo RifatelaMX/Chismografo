@@ -2,9 +2,7 @@
 	"name": "POWR Email Popup & Discounts",
 	"developer": "POWR",
 	"category": "Marketing / Popups",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
 	"appStores": [
 		{

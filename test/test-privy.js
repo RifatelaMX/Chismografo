@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Privy ‑ Email, SMS & Pop Ups")) {
-	console.log('✅ PASSED: ' + "Privy ‑ Email, SMS & Pop Ups");
+if (detectedNames.includes('Privy ‑ Email, SMS & Pop Ups')) {
+	console.log('✅ PASSED: ' + 'Privy ‑ Email, SMS & Pop Ups');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Privy ‑ Email, SMS & Pop Ups" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Privy ‑ Email, SMS & Pop Ups' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

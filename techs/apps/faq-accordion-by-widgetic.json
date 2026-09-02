@@ -2,9 +2,7 @@
 	"name": "Widgetic (FAQ Accordion)",
 	"developer": "Widgetic",
 	"category": "Soporte / Chat",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://widgetic.com",
 	"appStores": [
 		{

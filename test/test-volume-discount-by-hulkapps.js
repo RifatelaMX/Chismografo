@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Hulk Bundles Quantity Breaks")) {
-	console.log('✅ PASSED: ' + "Hulk Bundles Quantity Breaks");
+if (detectedNames.includes('Hulk Bundles Quantity Breaks')) {
+	console.log('✅ PASSED: ' + 'Hulk Bundles Quantity Breaks');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Hulk Bundles Quantity Breaks" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Hulk Bundles Quantity Breaks' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

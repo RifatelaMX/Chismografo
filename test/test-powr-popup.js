@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("POWR Sales Popup, Email Pop up")) {
-	console.log('✅ PASSED: ' + "POWR Sales Popup, Email Pop up");
+if (detectedNames.includes('POWR Sales Popup, Email Pop up')) {
+	console.log('✅ PASSED: ' + 'POWR Sales Popup, Email Pop up');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "POWR Sales Popup, Email Pop up" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'POWR Sales Popup, Email Pop up' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

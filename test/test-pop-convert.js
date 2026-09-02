@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Pop Convert ‑ Pop Ups, Banners")) {
-	console.log('✅ PASSED: ' + "Pop Convert ‑ Pop Ups, Banners");
+if (detectedNames.includes('Pop Convert ‑ Pop Ups, Banners')) {
+	console.log('✅ PASSED: ' + 'Pop Convert ‑ Pop Ups, Banners');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Pop Convert ‑ Pop Ups, Banners" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Pop Convert ‑ Pop Ups, Banners' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("POWR: Video Slider & Carousel")) {
-	console.log('✅ PASSED: ' + "POWR: Video Slider & Carousel");
+if (detectedNames.includes('POWR: Video Slider & Carousel')) {
+	console.log('✅ PASSED: ' + 'POWR: Video Slider & Carousel');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "POWR: Video Slider & Carousel" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'POWR: Video Slider & Carousel' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Powerful Social Proof")) {
-	console.log('✅ PASSED: ' + "Powerful Social Proof");
+if (detectedNames.includes('Powerful Social Proof')) {
+	console.log('✅ PASSED: ' + 'Powerful Social Proof');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Powerful Social Proof" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Powerful Social Proof' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

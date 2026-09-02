@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("SendWILL Popup Email Marketing")) {
-	console.log('✅ PASSED: ' + "SendWILL Popup Email Marketing");
+if (detectedNames.includes('SendWILL Popup Email Marketing')) {
+	console.log('✅ PASSED: ' + 'SendWILL Popup Email Marketing');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "SendWILL Popup Email Marketing" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'SendWILL Popup Email Marketing' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

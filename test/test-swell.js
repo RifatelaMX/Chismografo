@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Yotpo: Loyalty Rewards Program")) {
-	console.log('✅ PASSED: ' + "Yotpo: Loyalty Rewards Program");
+if (detectedNames.includes('Yotpo: Loyalty Rewards Program')) {
+	console.log('✅ PASSED: ' + 'Yotpo: Loyalty Rewards Program');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Yotpo: Loyalty Rewards Program" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Yotpo: Loyalty Rewards Program' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

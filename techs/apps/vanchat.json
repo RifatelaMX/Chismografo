@@ -2,9 +2,7 @@
 	"name": "VanChat AI Chatbot & Live Chat",
 	"developer": "VanChat",
 	"category": "Soporte / Chat",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://vanchat.io",
 	"appStores": [
 		{

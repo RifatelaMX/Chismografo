@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("POWR: Countdown Timer Bar")) {
-	console.log('✅ PASSED: ' + "POWR: Countdown Timer Bar");
+if (detectedNames.includes('POWR: Countdown Timer Bar')) {
+	console.log('✅ PASSED: ' + 'POWR: Countdown Timer Bar');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "POWR: Countdown Timer Bar" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'POWR: Countdown Timer Bar' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

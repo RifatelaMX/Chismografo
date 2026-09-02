@@ -2,9 +2,7 @@
 	"name": "Hulk NPS Post Purchase Survey",
 	"developer": "HulkApps",
 	"category": "Formularios / Contacto",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.hulkapps.com",
 	"appStores": [
 		{

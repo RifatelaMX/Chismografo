@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Subi Subscriptions App")) {
-	console.log('✅ PASSED: ' + "Subi Subscriptions App");
+if (detectedNames.includes('Subi Subscriptions App')) {
+	console.log('✅ PASSED: ' + 'Subi Subscriptions App');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Subi Subscriptions App" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Subi Subscriptions App' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

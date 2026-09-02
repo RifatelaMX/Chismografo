@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("POWR: Store Locator Map")) {
-	console.log('✅ PASSED: ' + "POWR: Store Locator Map");
+if (detectedNames.includes('POWR: Store Locator Map')) {
+	console.log('✅ PASSED: ' + 'POWR: Store Locator Map');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "POWR: Store Locator Map" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'POWR: Store Locator Map' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

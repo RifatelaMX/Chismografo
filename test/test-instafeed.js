@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Instafeed ‑ Instagram Feed")) {
-	console.log('✅ PASSED: ' + "Instafeed ‑ Instagram Feed");
+if (detectedNames.includes('Instafeed ‑ Instagram Feed')) {
+	console.log('✅ PASSED: ' + 'Instafeed ‑ Instagram Feed');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Instafeed ‑ Instagram Feed" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Instafeed ‑ Instagram Feed' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

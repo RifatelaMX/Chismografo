@@ -2,9 +2,7 @@
 	"name": "POWR: FAQ Page | Help Center",
 	"developer": "POWR",
 	"category": "Soporte / Chat",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
 	"appStores": [
 		{

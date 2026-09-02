@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("Widgetic (Video Player)")) {
-	console.log('✅ PASSED: ' + "Widgetic (Video Player)");
+if (detectedNames.includes('Widgetic (Video Player)')) {
+	console.log('✅ PASSED: ' + 'Widgetic (Video Player)');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "Widgetic (Video Player)" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'Widgetic (Video Player)' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

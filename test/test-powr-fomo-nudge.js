@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("POWR: Low Stock Alert")) {
-	console.log('✅ PASSED: ' + "POWR: Low Stock Alert");
+if (detectedNames.includes('POWR: Low Stock Alert')) {
+	console.log('✅ PASSED: ' + 'POWR: Low Stock Alert');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "POWR: Low Stock Alert" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'POWR: Low Stock Alert' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

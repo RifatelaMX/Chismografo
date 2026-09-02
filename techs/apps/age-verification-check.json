@@ -2,9 +2,7 @@
 	"name": "Hulk Age Verification Popup",
 	"developer": "HulkApps",
 	"category": "Seguridad",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.hulkapps.com",
 	"appStores": [
 		{

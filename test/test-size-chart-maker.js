@@ -17,10 +17,15 @@ const html = `
 const result = analyze(html, { 'content-type': 'text/html' });
 const detectedNames = (result.plugins || []).map((p) => p.name);
 
-if (detectedNames.includes("POWR: Size Chart Sizing Guide")) {
-	console.log('✅ PASSED: ' + "POWR: Size Chart Sizing Guide");
+if (detectedNames.includes('POWR: Size Chart Sizing Guide')) {
+	console.log('✅ PASSED: ' + 'POWR: Size Chart Sizing Guide');
 	process.exit(0);
 } else {
-	console.error('❌ FAILED: ' + "POWR: Size Chart Sizing Guide" + ' not detected. Detected: ' + JSON.stringify(detectedNames));
+	console.error(
+		'❌ FAILED: ' +
+			'POWR: Size Chart Sizing Guide' +
+			' not detected. Detected: ' +
+			JSON.stringify(detectedNames)
+	);
 	process.exit(1);
 }

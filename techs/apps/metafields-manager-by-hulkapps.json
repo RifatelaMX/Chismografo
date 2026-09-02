@@ -2,9 +2,7 @@
 	"name": "Hulk Custom Fields Metafields",
 	"developer": "HulkApps",
 	"category": "Seguridad",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.hulkapps.com",
 	"appStores": [
 		{

@@ -2,9 +2,7 @@
 	"name": "Hulk AI Wishlist & Favorites",
 	"developer": "HulkApps",
 	"category": "Fidelización / Lealtad",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.hulkapps.com",
 	"appStores": [
 		{

@@ -2,9 +2,7 @@
 	"name": "Hotjar Install",
 	"developer": "Hotjar",
 	"category": "Analítica",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.hotjar.com",
 	"appStores": [
 		{

@@ -2,9 +2,7 @@
 	"name": "POWR Contact Form Builder",
 	"developer": "POWR",
 	"category": "Formularios / Contacto",
-	"compatibleCMS": [
-		"Shopify"
-	],
+	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
 	"appStores": [
 		{
