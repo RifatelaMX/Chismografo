@@ -1,3 +1,10 @@
+## [1.14.1](https://github.com/RifatelaMX/Chismografo/compare/v1.14.0...v1.14.1) (2026-09-02)
+
+### 🐛 Corrección de Errores
+
+* correct typo in Privy website URL ([0f02301](https://github.com/RifatelaMX/Chismografo/commit/0f02301ae601350a80bb761370e0d9a94f6db329))
+* **techs/apps:** corregir url web de privy en plantilla e indice compilado ([ff4f374](https://github.com/RifatelaMX/Chismografo/commit/ff4f3745b2a2a273a9364e97795c85b2374ce1bd))
+
 ## [1.14.0](https://github.com/RifatelaMX/Chismografo/compare/v1.13.3...v1.14.0) (2026-09-02)
 
 ### ✨ Nuevas Características
