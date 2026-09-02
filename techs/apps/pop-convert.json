@@ -1,0 +1,26 @@
+{
+	"name": "Pop Convert ‑ Pop Ups, Banners",
+	"developer": "Pop Convert",
+	"category": "Marketing / Popups",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://apps.shopify.com/pop-convert",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "pop-convert"
+		}
+	],
+	"logo": {
+		"id": "pop-convert‑pop-ups-banners",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "pop-convert|pop[_-]?convert",
+			"description": "Script o recurso de integración de Pop Convert ‑ Pop Ups, Banners detectado"
+		}
+	]
+}
