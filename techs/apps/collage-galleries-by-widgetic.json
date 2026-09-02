@@ -1,0 +1,26 @@
+{
+	"name": "Widgetic (Mosaic Gallery)",
+	"developer": "Widgetic",
+	"category": "Constructor de Páginas",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://widgetic.com",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "collage-galleries-by-widgetic"
+		}
+	],
+	"logo": {
+		"id": "widgetic-mosaic-gallery.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "collage-galleries-by-widgetic|collage[_-]?galleries[_-]?by[_-]?widgetic",
+			"description": "Script o recurso de integración de Widgetic (Mosaic Gallery) detectado"
+		}
+	]
+}
