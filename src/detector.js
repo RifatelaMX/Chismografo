@@ -1037,8 +1037,8 @@ export async function scrapeProductCount(urlStr, technology, pageHtml = '') {
 		} catch (_err) {}
 	}
 
-	// 4. Magento / PrestaShop / Generic E-Commerce Sitemaps
-	if (['Magento', 'PrestaShop'].includes(technology)) {
+	// 4. Magento / PrestaShop / Odoo / Generic E-Commerce Sitemaps
+	if (['Magento', 'PrestaShop', 'Odoo'].includes(technology)) {
 		const candidateSitemaps = [
 			`${baseUrl}/sitemap.xml`,
 			`${baseUrl}/pub/sitemap.xml`,
@@ -1059,6 +1059,7 @@ export async function scrapeProductCount(urlStr, technology, pageHtml = '') {
 							loc.includes('/product') ||
 							loc.includes('/producto') ||
 							loc.includes('/catalog/') ||
+							loc.includes('/shop/') ||
 							loc.includes('.html')
 						) {
 							productUrlsCount++;

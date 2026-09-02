@@ -858,6 +858,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				WooCommerce: 'woocommerce.com',
 				PrestaShop: 'prestashop.com',
 				VTEX: 'vtex.com',
+				Odoo: 'odoo.com',
 			};
 			const cmsDom = cmsDomains[data.technology];
 			const logoToken = 'pk_MgKPAkEuRMOiYecOkx67wQ';
@@ -961,7 +962,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			signalsContainer.innerHTML = `
         <div style="text-align: center; color: var(--text-dark); padding: 2rem;">
           <i data-lucide="help-circle" style="width: 48px; height: 48px; margin-bottom: 0.5rem; stroke-width:1;"></i>
-          <p>No se encontraron firmas o patrones coincidentes de Shopify, Magento, WooCommerce, PrestaShop o VTEX en este sitio.</p>
+          <p>No se encontraron firmas o patrones coincidentes de Shopify, Magento, WooCommerce, PrestaShop, VTEX u Odoo en este sitio.</p>
         </div>
       `;
 		}
@@ -969,7 +970,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		// Render Comparisons side list
 		if (comparisonContainer) {
 			comparisonContainer.innerHTML = '';
-			const platforms = ['Shopify', 'Magento', 'WooCommerce', 'PrestaShop', 'VTEX'];
+			const platforms = ['Shopify', 'Magento', 'WooCommerce', 'PrestaShop', 'VTEX', 'Odoo'];
 
 			platforms.forEach((p) => {
 				const matchDetails = data.matches?.[p];
@@ -1751,10 +1752,11 @@ document.addEventListener('DOMContentLoaded', () => {
 					WooCommerce: { detected: false, confidence: 0, matchedRules: [], unmatchedRules: [] },
 					PrestaShop: { detected: false, confidence: 0, matchedRules: [], unmatchedRules: [] },
 					VTEX: { detected: false, confidence: 0, matchedRules: [], unmatchedRules: [] },
+					Odoo: { detected: false, confidence: 0, matchedRules: [], unmatchedRules: [] },
 				},
 			};
 
-		const platforms = ['Shopify', 'Magento', 'WooCommerce', 'PrestaShop', 'VTEX'];
+		const platforms = ['Shopify', 'Magento', 'WooCommerce', 'PrestaShop', 'VTEX', 'Odoo'];
 		if (!platforms.includes(currentExamPlatform)) {
 			currentExamPlatform = platforms[0];
 		}
