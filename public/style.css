@@ -543,6 +543,8 @@ body {
    RESULTS LAYOUT — Notebook pages
    ========================================================================== */
 .results-section {
+	width: 100%;
+	display: block;
 	animation: fadeIn 0.4s ease-out;
 }
 
@@ -558,6 +560,12 @@ body {
 }
 
 .result-header-card {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 2rem;
+	flex-wrap: wrap;
+	width: 100%;
 	padding: 1.75rem;
 	background: rgba(255, 255, 255, 0.9) !important;
 	border-radius: var(--radius-md);
@@ -566,6 +574,26 @@ body {
 	box-shadow: 3px 4px 0 rgba(155, 89, 182, 0.2) !important;
 	/* Override inline styles from HTML */
 	color: var(--ink-dark) !important;
+}
+
+.result-headline {
+	flex: 1 1 340px;
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+	min-width: 0;
+}
+
+.unified-dashboard-layout {
+	width: 100%;
+	display: block;
+}
+
+.unified-main-column {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 0;
 }
 
 .result-header-card h2,

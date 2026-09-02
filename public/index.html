@@ -84,8 +84,8 @@
       <section id="results-state" class="results-section hidden">
         
         <!-- Technology Header Card -->
-        <div class="card glass-panel result-header-card" style="display: flex; justify-content: space-between; align-items: center; gap: 2rem;">
-          <div class="result-headline" style="flex: 1; display: flex; align-items: center; gap: 1.5rem;">
+        <div class="card glass-panel result-header-card">
+          <div class="result-headline">
             <div id="tech-icon-container" class="tech-icon-large" style="cursor: pointer;" title="Ver boleta de exámenes y pruebas">
               <i data-lucide="shopping-bag"></i>
             </div>
@@ -148,7 +148,9 @@
                          padding: 9px 18px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
                          letter-spacing: 0.01em;"
                   onmouseover="this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.4)'"
-                  onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.borderColor='rgba(255, 255, 255, 0.2)'">
+                  onfocus="this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.4)'"
+                  onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.borderColor='rgba(255, 255, 255, 0.2)'"
+                  onblur="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.borderColor='rgba(255, 255, 255, 0.2)'">
                   <i data-lucide="link" style="width:15px;height:15px;"></i>
                   Copiar Enlace 🔗
                 </button>
