@@ -1,0 +1,26 @@
+{
+	"name": "POWR: Job Posting Careers Page",
+	"developer": "POWR",
+	"category": "Constructor de Páginas",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://www.powr.io",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "powr-job-posting"
+		}
+	],
+	"logo": {
+		"id": "powr-job-posting.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "powr-job-posting|powr[_-]?job[_-]?posting",
+			"description": "Script o recurso de integración de POWR: Job Posting Careers Page detectado"
+		}
+	]
+}
