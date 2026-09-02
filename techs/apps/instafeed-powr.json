@@ -1,0 +1,26 @@
+{
+	"name": "POWR Instagram Feed Instafeed",
+	"developer": "POWR",
+	"category": "Analítica / Marketing",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://www.powr.io",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "instafeed-powr"
+		}
+	],
+	"logo": {
+		"id": "instafeed-powr.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "instafeed-powr|instafeed[_-]?powr",
+			"description": "Script o recurso de integración de POWR Instagram Feed Instafeed detectado"
+		}
+	]
+}
