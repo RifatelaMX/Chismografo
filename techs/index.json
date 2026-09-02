@@ -2851,6 +2851,32 @@
       ]
     },
     {
+      "name": "Spartoo",
+      "developer": "Spartoo",
+      "category": "Envíos / Pedidos",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://apps.shopify.com/spartoo",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "spartoo"
+        }
+      ],
+      "logo": {
+        "id": "spartoo.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "spartoo",
+          "description": "Script o recurso de integración de Spartoo detectado"
+        }
+      ]
+    },
+    {
       "name": "USO: Ultimate Special Offers",
       "developer": "Pixel Union",
       "category": "Checkout / Ofertas",
