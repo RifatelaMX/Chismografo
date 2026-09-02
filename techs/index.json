@@ -3075,6 +3075,32 @@
       ]
     },
     {
+      "name": "Pushdaddy Resize Image",
+      "developer": "Pushdaddy",
+      "category": "Marketing / Popups",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://pushdaddy.com",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "resize-image-and-optimize"
+        }
+      ],
+      "logo": {
+        "id": "resize-image-and-optimize.png",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "resize-image-and-optimize|resize[_-]?image[_-]?and[_-]?optimize",
+          "description": "Script o recurso de integración de Pushdaddy Resize Image detectado"
+        }
+      ]
+    },
+    {
       "name": "Rivo: Loyalty Program, Rewards",
       "developer": "Rivo",
       "category": "Fidelización / Lealtad",
