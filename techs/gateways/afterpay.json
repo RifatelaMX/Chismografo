@@ -1,0 +1,21 @@
+{
+	"name": "Afterpay",
+	"category": "Pago a Plazos (BNPL)",
+	"web": "https://www.afterpay.com",
+	"logo": {
+		"id": "afterpay.com",
+		"provider": "logodev"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "afterpay\\.com|afterpay-sdk",
+			"description": "Script de integración de Afterpay detectado"
+		},
+		{
+			"type": "html",
+			"pattern": "\\bafterpay\\b",
+			"description": "Clase o marca HTML de Afterpay detectada"
+		}
+	]
+}
