@@ -1,0 +1,26 @@
+{
+	"name": "Powerful Social Proof",
+	"developer": "Powerful Social Proof",
+	"category": "Marketing / Popups",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://apps.shopify.com/powerful-social-proof",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "powerful-social-proof"
+		}
+	],
+	"logo": {
+		"id": "powerful-social-proof.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "powerful-social-proof|powerful[_-]?social[_-]?proof",
+			"description": "Script o recurso de integración de Powerful Social Proof detectado"
+		}
+	]
+}
