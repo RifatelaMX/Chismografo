@@ -2235,6 +2235,32 @@
       ]
     },
     {
+      "name": "POWR: Live Weather Forecast",
+      "developer": "POWR",
+      "category": "Constructor de Páginas",
+      "compatibleCMS": [
+        "Shopify"
+      ],
+      "web": "https://www.powr.io",
+      "appStores": [
+        {
+          "cms": "Shopify",
+          "link": "powr-weather"
+        }
+      ],
+      "logo": {
+        "id": "powr-weather.jpg",
+        "provider": "local"
+      },
+      "detectionRules": [
+        {
+          "type": "script-src",
+          "pattern": "powr-weather|powr[_-]?weather",
+          "description": "Script o recurso de integración de POWR: Live Weather Forecast detectado"
+        }
+      ]
+    },
+    {
       "name": "Printful",
       "developer": "Printful",
       "category": "Impresión bajo Demanda",
