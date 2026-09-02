@@ -9,7 +9,7 @@
 	"detectionRules": [
 		{
 			"type": "script-src",
-			"pattern": "snap\\.licdn\\.com\\/li\\.lms-analytics\\/insight\\.min\\.js",
+			"pattern": "snap\\.licdn\\.com/li\\.lms-analytics/insight\\.min\\.js|licdn\\.com.*insight",
 			"description": "LinkedIn Insight Tag script detectado",
 			"weight": 1
 		},

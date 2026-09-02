@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 const workspaceDir = path.resolve(__dirname, '..');
 const techsDir = path.join(workspaceDir, 'techs');
 const appsDir = path.join(techsDir, 'apps');
-const testDir = path.join(workspaceDir, 'test');
+const testDir = path.join(workspaceDir, 'test', 'apps');
 const indexPath = path.join(techsDir, 'index.json');
 const mdAgregarPath = path.join(workspaceDir, 'md', 'agregar.md');
 const mdAgregadasPath = path.join(workspaceDir, 'md', 'agregadas.md');
@@ -280,7 +280,7 @@ function getAppConfig(item) {
 		],
 	};
 
-	const testJs = `import { analyze } from '../src/detector.js';
+	const testJs = `import { analyze } from '../../src/detector.js';
 
 const html = \`
 <!DOCTYPE html>
@@ -325,7 +325,7 @@ for (const item of items) {
 
 	// Run test
 	try {
-		execSync(`node "test/test-${slug}.js"`, {
+		execSync(`node "test/apps/test-${slug}.js"`, {
 			cwd: workspaceDir,
 			stdio: 'pipe',
 			env: { ...process.env, NODE_ENV: 'test' },
