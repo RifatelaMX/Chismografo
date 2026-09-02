@@ -1,0 +1,26 @@
+{
+	"name": "LPO Live Product Options",
+	"developer": "LPO Live Product Options",
+	"category": "Otros",
+	"compatibleCMS": [
+		"Shopify"
+	],
+	"web": "https://apps.shopify.com/live-product-options",
+	"appStores": [
+		{
+			"cms": "Shopify",
+			"link": "live-product-options"
+		}
+	],
+	"logo": {
+		"id": "lpo-live-product-options.png",
+		"provider": "local"
+	},
+	"detectionRules": [
+		{
+			"type": "script-src",
+			"pattern": "live-product-options|live[_-]?product[_-]?options",
+			"description": "Script o recurso de integración de LPO Live Product Options detectado"
+		}
+	]
+}
