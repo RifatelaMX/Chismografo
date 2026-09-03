@@ -2,20 +2,29 @@
 	"openapi": "3.0.3",
 	"info": {
 		"title": "Chismógrafo API REST 📓",
-		"description": "API REST y widgets incrustables del Chismógrafo para husmear plataformas de e-commerce, pasarelas de pago, aplicaciones de Shopify, geolocalización de servidores y velocidad de carga móvil en cualquier sitio web... ¡Todo sin que se enteren! 🤫",
-		"version": "1.12.1"
+		"description": "API REST y widgets incrustables del Chismógrafo para auditar plataformas de e-commerce, pasarelas de pago, aplicaciones y plugins instalados, infraestructura, píxeles de seguimiento, geolocalización de servidores y velocidad Lighthouse móvil en cualquier sitio web... ¡Todo sin que se enteren! 🤫",
+		"version": "1.12.1",
+		"contact": {
+			"name": "Equipo Rífatela",
+			"url": "https://rifatela.lol"
+		}
 	},
 	"servers": [
 		{
 			"url": "http://localhost:3000",
-			"description": "Servidor local de desarrollo del Chismógrafo"
+			"description": "Servidor local de desarrollo"
+		},
+		{
+			"url": "https://chismografo.rifatela.lol",
+			"description": "Servidor de producción en la nube"
 		}
 	],
 	"paths": {
 		"/api/detect": {
 			"post": {
-				"summary": "Sacarle el chisme a un sitio (POST) 🕵️",
-				"description": "Envía una URL en el cuerpo de la petición para analizar su estructura DOM y detectar firmas de e-commerce, geolocalización de servidor y capturas de pantalla.",
+				"summary": "Sacarle el chisme completo a un sitio (POST) 🕵️",
+				"description": "Envía una URL en el cuerpo JSON para analizar estructura DOM, CMS/tecnología, apps instaladas, pasarelas de pago, píxeles, infraestructura, geolocalización y capturas de pantalla.",
+				"tags": ["Detección"],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -38,7 +47,7 @@
 						}
 					},
 					"400": {
-						"description": "URL faltante o no válida",
+						"description": "URL faltante o formato inválido",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -58,7 +67,7 @@
 						}
 					},
 					"422": {
-						"description": "Error al realizar scraping o conectar con el sitio objetivo",
+						"description": "Error al conectar con el sitio objetivo",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -70,8 +79,9 @@
 				}
 			},
 			"get": {
-				"summary": "Sacarle el chisme a un sitio (GET) 🕵️",
-				"description": "Envía una URL como parámetro de consulta (query) para analizar firmas de e-commerce y geolocalizar el servidor.",
+				"summary": "Sacarle el chisme completo a un sitio (GET) 🕵️",
+				"description": "Envía una URL como parámetro query para analizar firmas de e-commerce, apps, pasarelas, píxeles y geolocalizar el servidor.",
+				"tags": ["Detección"],
 				"parameters": [
 					{
 						"name": "url",
@@ -97,28 +107,168 @@
 						}
 					},
 					"400": {
-						"description": "URL faltante o no válida"
+						"description": "URL faltante o formato inválido",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
 					},
 					"422": {
-						"description": "Error de conexión con el sitio"
+						"description": "Error al conectar con el sitio objetivo"
+					}
+				}
+			}
+		},
+		"/api/rules/test": {
+			"post": {
+				"summary": "Probar lote de reglas dinámicas 🧪",
+				"description": "Evalúa un lote de reglas de detección (detectionRules) personalizadas contra una URL o código HTML en vivo.",
+				"tags": ["Reglas"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RulesTestRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Resultados de evaluación de las reglas",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RulesTestResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Petición inválida: Se requiere URL o HTML y al menos una regla",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/cms": {
+			"get": {
+				"summary": "Detectar plataforma de CMS / E-commerce 🛍️",
+				"description": "Obtiene la plataforma CMS (Shopify, WooCommerce, Magento, etc.), nivel de confianza y tema activo.",
+				"tags": ["Componentes Modulares"],
+				"parameters": [
+					{
+						"$ref": "#/components/parameters/UrlQueryParam"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Plataforma detectada exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CmsResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Detectar plataforma de CMS / E-commerce (POST) 🛍️",
+				"tags": ["Componentes Modulares"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/DetectRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Plataforma detectada exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CmsResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/apps": {
+			"get": {
+				"summary": "Detectar apps y plugins instalados 🔌",
+				"description": "Lista todas las aplicaciones, extensiones y plugins detectados en el sitio web.",
+				"tags": ["Componentes Modulares"],
+				"parameters": [
+					{
+						"$ref": "#/components/parameters/UrlQueryParam"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Apps y plugins detectados",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AppsResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Detectar apps y plugins instalados (POST) 🔌",
+				"tags": ["Componentes Modulares"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/DetectRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Apps y plugins detectados",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/AppsResponse"
+								}
+							}
+						}
 					}
 				}
 			}
 		},
 		"/api/infra": {
 			"get": {
-				"summary": "Obtener pila de infraestructura 🏗️",
-				"description": "Retorna exclusivamente los componentes de infraestructura (CDN, Proxy, Servidor Web) detectados para la URL objetivo.",
+				"summary": "Obtener pila de infraestructura y CDN 🌐",
+				"description": "Retorna los componentes de infraestructura (CDN, Proxy, Servidor Web, Seguridad) detectados.",
+				"tags": ["Componentes Modulares"],
 				"parameters": [
 					{
-						"name": "url",
-						"in": "query",
-						"required": true,
-						"description": "La URL del sitio web a auditar",
-						"schema": {
-							"type": "string",
-							"format": "uri"
-						}
+						"$ref": "#/components/parameters/UrlQueryParam"
 					}
 				],
 				"responses": {
@@ -133,12 +283,10 @@
 						}
 					}
 				}
-			}
-		},
-		"/api/pagespeed": {
+			},
 			"post": {
-				"summary": "Speed test de velocidad Google PageSpeed ⚡",
-				"description": "Realiza una consulta a la API de Google PageSpeed en las categorías de rendimiento, accesibilidad y SEO sobre entorno móvil para ver si vuela o anda de tortuga.",
+				"summary": "Obtener pila de infraestructura y CDN (POST) 🌐",
+				"tags": ["Componentes Modulares"],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -151,7 +299,208 @@
 				},
 				"responses": {
 					"200": {
-						"description": "Resultados de la auditoría Lighthouse móvil",
+						"description": "Infraestructura analizada y listada",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/InfraResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/payment-processors": {
+			"get": {
+				"summary": "Detectar procesadores de pago y pasarelas 💳",
+				"description": "Obtiene la lista de pasarelas de pago encontradas (Stripe, PayPal, Mercado Pago, Conekta, etc.).",
+				"tags": ["Componentes Modulares"],
+				"parameters": [
+					{
+						"$ref": "#/components/parameters/UrlQueryParam"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Pasarelas detectadas exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaymentGatewaysResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Detectar procesadores de pago y pasarelas (POST) 💳",
+				"tags": ["Componentes Modulares"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/DetectRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Pasarelas detectadas exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaymentGatewaysResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/location": {
+			"get": {
+				"summary": "Geolocalización del servidor y DNS 📍",
+				"description": "Resuelve la IP del servidor de la tienda y su ubicación física aproximada (país, ciudad, coordenadas).",
+				"tags": ["Componentes Modulares"],
+				"parameters": [
+					{
+						"$ref": "#/components/parameters/UrlQueryParam"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Ubicación del servidor obtenida",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LocationResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Geolocalización del servidor y DNS (POST) 📍",
+				"tags": ["Componentes Modulares"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/DetectRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Ubicación del servidor obtenida",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LocationResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/latency": {
+			"get": {
+				"summary": "Medir latencia desde México ⏱️",
+				"description": "Calcula el tiempo de respuesta estimado en milisegundos hacia el servidor del sitio.",
+				"tags": ["Componentes Modulares"],
+				"parameters": [
+					{
+						"$ref": "#/components/parameters/UrlQueryParam"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Latencia calculada",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LatencyResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Medir latencia desde México (POST) ⏱️",
+				"tags": ["Componentes Modulares"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/DetectRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Latencia calculada",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LatencyResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/pagespeed": {
+			"get": {
+				"summary": "Auditoría de velocidad Google PageSpeed ⚡",
+				"description": "Consulta métricas de rendimiento, accesibilidad y SEO móvil usando Google Lighthouse.",
+				"tags": ["PageSpeed"],
+				"parameters": [
+					{
+						"$ref": "#/components/parameters/UrlQueryParam"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Métricas Lighthouse",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PageSpeedResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Auditoría de velocidad Google PageSpeed (POST) ⚡",
+				"description": "Consulta métricas de rendimiento, accesibilidad y SEO móvil usando Google Lighthouse.",
+				"tags": ["PageSpeed"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/DetectRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Métricas Lighthouse",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -163,19 +512,204 @@
 				}
 			}
 		},
+		"/api/screenshot": {
+			"get": {
+				"summary": "Generar captura de pantalla de la tienda 📸",
+				"description": "Genera una captura visual en formato desktop o móvil de la página de inicio.",
+				"tags": ["Capturas"],
+				"parameters": [
+					{
+						"$ref": "#/components/parameters/UrlQueryParam"
+					},
+					{
+						"name": "device",
+						"in": "query",
+						"required": false,
+						"description": "Dispositivo para la captura ('desktop' o 'mobile')",
+						"schema": {
+							"type": "string",
+							"enum": ["desktop", "mobile"],
+							"default": "desktop"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "URL o base64 de la captura generada",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ScreenshotResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Generar captura de pantalla de la tienda (POST) 📸",
+				"tags": ["Capturas"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"required": ["url"],
+								"properties": {
+									"url": {
+										"type": "string",
+										"format": "uri"
+									},
+									"device": {
+										"type": "string",
+										"enum": ["desktop", "mobile"],
+										"default": "desktop"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Captura generada exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ScreenshotResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/report": {
+			"post": {
+				"summary": "Enviar reporte chismoso por correo ✉️",
+				"description": "Envía un correo electrónico con el expediente visual completo generado por el Chismógrafo a través del servicio Brevo.",
+				"tags": ["Reportes"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EmailReportRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Reporte enviado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string",
+											"example": "¡Reporte enviado exitosamente! Revisa tu bandeja de entrada."
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Correo inválido o datos incompletos",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/techs": {
+			"get": {
+				"summary": "Obtener catálogo de firmas y tecnologías soportadas 📚",
+				"description": "Retorna el listado completo de CMS, aplicaciones, infraestructuras, pasarelas y píxeles compilados en el motor.",
+				"tags": ["Catálogo"],
+				"responses": {
+					"200": {
+						"description": "Catálogo completo de tecnologías",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"cms": {
+											"type": "array",
+											"items": { "type": "object" }
+										},
+										"apps": {
+											"type": "array",
+											"items": { "type": "object" }
+										},
+										"infra": {
+											"type": "array",
+											"items": { "type": "object" }
+										},
+										"gateways": {
+											"type": "array",
+											"items": { "type": "object" }
+										},
+										"pixels": {
+											"type": "array",
+											"items": { "type": "object" }
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/config": {
+			"get": {
+				"summary": "Obtener configuración pública del cliente ⚙️",
+				"description": "Retorna tokens públicos configurados en el servidor para logos y mapas.",
+				"tags": ["Configuración"],
+				"responses": {
+					"200": {
+						"description": "Configuración pública del cliente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"logoDevToken": {
+											"type": "string"
+										},
+										"maptilerKey": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 		"/widget": {
 			"get": {
 				"summary": "Calcomanía/Sticker de verificación e-commerce 🏷️",
 				"description": "Servicio que genera un badge HTML responsivo diseñado en forma de sticker amarillo/post-it que resume el CMS detectado del sitio solicitado.",
+				"tags": ["Widgets"],
 				"parameters": [
 					{
-						"name": "url",
-						"in": "query",
-						"required": true,
-						"schema": {
-							"type": "string",
-							"format": "uri"
-						}
+						"$ref": "#/components/parameters/UrlQueryParam"
 					}
 				],
 				"responses": {
@@ -195,7 +729,8 @@
 		"/search-widget": {
 			"get": {
 				"summary": "Buscador de chismes compacto (Widget) 🔎",
-				"description": "Página HTML responsiva autocontenida que integra el formulario de búsqueda, barra de carga y panel de resultados simplificado (CMS, Lighthouse y Leaflet) diseñado estilo cuaderno Y2K.",
+				"description": "Página HTML responsiva autocontenida que integra el formulario de búsqueda, barra de carga y panel de resultados simplificado diseñado estilo cuaderno Y2K.",
+				"tags": ["Widgets"],
 				"responses": {
 					"200": {
 						"description": "Documento HTML del buscador incrustable",
@@ -212,6 +747,19 @@
 		}
 	},
 	"components": {
+		"parameters": {
+			"UrlQueryParam": {
+				"name": "url",
+				"in": "query",
+				"required": true,
+				"description": "La dirección URL de la tienda a auditar",
+				"schema": {
+					"type": "string",
+					"format": "uri",
+					"example": "https://tienda-ejemplo.com"
+				}
+			}
+		},
 		"schemas": {
 			"DetectRequest": {
 				"type": "object",
@@ -229,16 +777,20 @@
 				"type": "object",
 				"properties": {
 					"url": {
-						"type": "string"
+						"type": "string",
+						"example": "https://tienda-ejemplo.com"
 					},
 					"resolvedUrl": {
-						"type": "string"
+						"type": "string",
+						"example": "https://tienda-ejemplo.com/"
 					},
 					"success": {
-						"type": "boolean"
+						"type": "boolean",
+						"example": true
 					},
 					"detected": {
-						"type": "boolean"
+						"type": "boolean",
+						"example": true
 					},
 					"technology": {
 						"type": "string",
@@ -255,33 +807,23 @@
 					},
 					"plugins": {
 						"type": "array",
+						"description": "Lista de aplicaciones y plugins detectados",
 						"items": {
-							"type": "object",
-							"properties": {
-								"name": {
-									"type": "string"
-								},
-								"category": {
-									"type": "string"
-								},
-								"evidence": {
-									"type": "string"
-								}
-							}
+							"$ref": "#/components/schemas/TechItem"
 						}
 					},
 					"infrastructure": {
 						"type": "array",
+						"description": "Lista de componentes de infraestructura detectados",
 						"items": {
-							"type": "object",
-							"properties": {
-								"name": {
-									"type": "string"
-								},
-								"category": {
-									"type": "string"
-								}
-							}
+							"$ref": "#/components/schemas/TechItem"
+						}
+					},
+					"pixels": {
+						"type": "array",
+						"description": "Lista de píxeles de rastreo y etiquetas detectadas",
+						"items": {
+							"$ref": "#/components/schemas/TechItem"
 						}
 					},
 					"paymentGateways": {
@@ -292,41 +834,69 @@
 						}
 					},
 					"location": {
-						"type": "object",
-						"properties": {
-							"success": {
-								"type": "boolean"
-							},
-							"ip": {
-								"type": "string"
-							},
-							"country": {
-								"type": "string"
-							},
-							"city": {
-								"type": "string"
-							},
-							"ll": {
-								"type": "array",
-								"items": {
-									"type": "number"
-								},
-								"example": [19.43, -99.13]
-							}
-						}
+						"$ref": "#/components/schemas/LocationData"
+					},
+					"latency": {
+						"$ref": "#/components/schemas/LatencyData"
 					},
 					"screenshots": {
 						"type": "object",
 						"properties": {
 							"desktop": {
 								"type": "string",
-								"description": "URL base64 o de imagen de previsualización desktop"
+								"description": "URL de captura desktop"
 							},
 							"mobile": {
 								"type": "string",
-								"description": "URL base64 o de imagen de previsualización móvil"
+								"description": "URL de captura móvil"
 							}
 						}
+					}
+				}
+			},
+			"TechItem": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"example": "Klaviyo"
+					},
+					"category": {
+						"type": "string",
+						"example": "Email Marketing"
+					},
+					"developer": {
+						"type": "string",
+						"example": "Klaviyo Inc."
+					},
+					"web": {
+						"type": "string",
+						"example": "https://klaviyo.com"
+					},
+					"evidence": {
+						"type": "string",
+						"example": "static.klaviyo.com/onsite/js/klaviyo.js"
+					}
+				}
+			},
+			"CmsResponse": {
+				"type": "object",
+				"properties": {
+					"success": { "type": "boolean" },
+					"url": { "type": "string" },
+					"technology": { "type": "string", "example": "Shopify" },
+					"confidence": { "type": "number", "example": 1 },
+					"theme": { "type": "string", "example": "Dawn" }
+				}
+			},
+			"AppsResponse": {
+				"type": "object",
+				"properties": {
+					"success": { "type": "boolean" },
+					"url": { "type": "string" },
+					"plugins": {
+						"type": "array",
+						"items": { "$ref": "#/components/schemas/TechItem" }
 					}
 				}
 			},
@@ -342,17 +912,58 @@
 					"infrastructure": {
 						"type": "array",
 						"items": {
-							"type": "object",
-							"properties": {
-								"name": {
-									"type": "string"
-								},
-								"category": {
-									"type": "string"
-								}
-							}
+							"$ref": "#/components/schemas/TechItem"
 						}
 					}
+				}
+			},
+			"PaymentGatewaysResponse": {
+				"type": "object",
+				"properties": {
+					"success": { "type": "boolean" },
+					"url": { "type": "string" },
+					"paymentGateways": {
+						"type": "array",
+						"items": { "type": "string", "example": "PayPal" }
+					}
+				}
+			},
+			"LocationData": {
+				"type": "object",
+				"properties": {
+					"success": { "type": "boolean" },
+					"ip": { "type": "string", "example": "23.227.38.65" },
+					"country": { "type": "string", "example": "Canadá" },
+					"city": { "type": "string", "example": "Ottawa" },
+					"ll": {
+						"type": "array",
+						"items": { "type": "number" },
+						"example": [45.42, -75.69]
+					}
+				}
+			},
+			"LocationResponse": {
+				"type": "object",
+				"properties": {
+					"success": { "type": "boolean" },
+					"url": { "type": "string" },
+					"location": { "$ref": "#/components/schemas/LocationData" }
+				}
+			},
+			"LatencyData": {
+				"type": "object",
+				"properties": {
+					"success": { "type": "boolean" },
+					"latencyMs": { "type": "integer", "example": 85 },
+					"description": { "type": "string", "example": "85ms (Rápido)" }
+				}
+			},
+			"LatencyResponse": {
+				"type": "object",
+				"properties": {
+					"success": { "type": "boolean" },
+					"url": { "type": "string" },
+					"latency": { "$ref": "#/components/schemas/LatencyData" }
 				}
 			},
 			"PageSpeedResponse": {
@@ -413,6 +1024,99 @@
 					}
 				}
 			},
+			"ScreenshotResponse": {
+				"type": "object",
+				"properties": {
+					"success": { "type": "boolean" },
+					"device": { "type": "string", "example": "desktop" },
+					"url": { "type": "string" },
+					"screenshotUrl": { "type": "string" }
+				}
+			},
+			"EmailReportRequest": {
+				"type": "object",
+				"required": ["email", "scanData"],
+				"properties": {
+					"email": {
+						"type": "string",
+						"format": "email",
+						"example": "contacto@rifatela.lol"
+					},
+					"name": {
+						"type": "string",
+						"example": "César Ayar"
+					},
+					"scanData": {
+						"$ref": "#/components/schemas/DetectResponse"
+					}
+				}
+			},
+			"RulesTestRequest": {
+				"type": "object",
+				"required": ["detectionRules"],
+				"properties": {
+					"url": {
+						"type": "string",
+						"format": "uri",
+						"example": "https://shopify.com"
+					},
+					"html": {
+						"type": "string",
+						"description": "Código HTML crudo para evaluar las reglas"
+					},
+					"detectionRules": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"required": ["type", "pattern"],
+							"properties": {
+								"type": {
+									"type": "string",
+									"enum": [
+										"script-src",
+										"script-content",
+										"meta",
+										"header",
+										"dom-element",
+										"js-variable"
+									]
+								},
+								"pattern": {
+									"type": "string",
+									"example": "cdn\\.shopify\\.com"
+								},
+								"key": {
+									"type": "string",
+									"example": "generator"
+								},
+								"description": {
+									"type": "string",
+									"example": "Firma de script CDN detectada"
+								}
+							}
+						}
+					}
+				}
+			},
+			"RulesTestResponse": {
+				"type": "object",
+				"properties": {
+					"success": { "type": "boolean" },
+					"matched": { "type": "boolean" },
+					"score": { "type": "number", "example": 1 },
+					"results": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"rule": { "type": "object" },
+								"passed": { "type": "boolean" },
+								"evidence": { "type": "string" }
+							}
+						}
+					}
+				}
+			},
 			"ErrorResponse": {
 				"type": "object",
 				"properties": {
@@ -422,7 +1126,7 @@
 					},
 					"error": {
 						"type": "string",
-						"example": "No permitido por CORS (Origen no autorizado)"
+						"example": "URL inválida o no proporcionada"
 					}
 				}
 			}

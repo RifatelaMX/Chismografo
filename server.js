@@ -26,23 +26,51 @@ const publicPath = path.join(__dirname, 'public');
 // Allowed Origins for CORS and iframe embedding (Loaded from env or fallback to localhost)
 const allowedOrigins = process.env.ALLOWED_ORIGINS
 	? process.env.ALLOWED_ORIGINS.split(',').map((o) => o.trim())
-	: ['http://localhost:3000', 'http://127.0.0.1:3000', 'https://chismografo.rifatela.lol'];
+	: [
+			'http://localhost:3000',
+			'http://127.0.0.1:3000',
+			'https://chismografo.rifatela.lol',
+			'https://rifatela.lol',
+			'https://www.rifatela.lol',
+		];
 
 if (process.env.APP_URL && !allowedOrigins.includes(process.env.APP_URL.trim())) {
 	allowedOrigins.push(process.env.APP_URL.trim());
 }
 
+/**
+ * Valida si un origen o URL referente pertenece a los orígenes autorizados
+ * @param {string} originOrUrl - Origen o URL a comprobar
+ * @returns {boolean}
+ */
+function isOriginAllowed(originOrUrl) {
+	if (!originOrUrl) return true; // Permite llamadas locales o sin cabecera de navegador
+	if (allowedOrigins.includes('*')) return true;
+
+	try {
+		const targetOrigin = new URL(originOrUrl).origin.toLowerCase();
+		return allowedOrigins.some((allowed) => {
+			if (allowed === '*') return true;
+			try {
+				return new URL(allowed).origin.toLowerCase() === targetOrigin;
+			} catch {
+				return (
+					allowed.toLowerCase() === targetOrigin ||
+					allowed.toLowerCase() === originOrUrl.toLowerCase()
+				);
+			}
+		});
+	} catch {
+		return false;
+	}
+}
+
 const corsOptions = {
 	origin: (origin, callback) => {
-		if (!origin) return callback(null, true);
-		const isAllowed = allowedOrigins.some((allowed) => {
-			if (allowed === '*') return true;
-			return origin.startsWith(allowed);
-		});
-		if (isAllowed) {
+		if (!origin || isOriginAllowed(origin)) {
 			callback(null, true);
 		} else {
-			callback(new Error('No permitido por CORS (Origen no autorizado)'));
+			callback(new Error(`No permitido por CORS: El origen '${origin}' no está autorizado.`));
 		}
 	},
 	credentials: true,
@@ -53,10 +81,34 @@ app.use(cors(corsOptions));
 
 // CORS error handler middleware
 app.use((err, _req, res, next) => {
-	if (err?.message.includes('CORS')) {
+	if (err?.message?.includes('CORS') || err?.message?.includes('autorizado')) {
 		return res.status(403).json({ success: false, error: err.message });
 	}
 	next(err);
+});
+
+// Middleware to strictly block API requests from unauthorized origins / referers
+app.use('/api', (req, res, next) => {
+	const origin = req.headers.origin;
+	const referer = req.headers.referer;
+
+	if (origin && !isOriginAllowed(origin)) {
+		console.warn(`[Seguridad] ⛔ Solicitud a API bloqueada por Origin no autorizado: ${origin}`);
+		return res.status(403).json({
+			success: false,
+			error: `No permitido: El origen '${origin}' no está en la lista de dominios autorizados.`,
+		});
+	}
+
+	if (referer && !isOriginAllowed(referer)) {
+		console.warn(`[Seguridad] ⛔ Solicitud a API bloqueada por Referer no autorizado: ${referer}`);
+		return res.status(403).json({
+			success: false,
+			error: `No permitido: El dominio referente no está en la lista de dominios autorizados.`,
+		});
+	}
+
+	next();
 });
 
 // Middleware to restrict iframe embedding (CSP frame-ancestors & legacy X-Frame-Options)
