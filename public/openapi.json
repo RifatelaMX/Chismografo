@@ -3,7 +3,7 @@
 	"info": {
 		"title": "Chismógrafo API REST 📓",
 		"description": "API REST y widgets incrustables del Chismógrafo para auditar plataformas de e-commerce, pasarelas de pago, aplicaciones y plugins instalados, infraestructura, píxeles de seguimiento, geolocalización de servidores y velocidad Lighthouse móvil en cualquier sitio web... ¡Todo sin que se enteren! 🤫",
-		"version": "1.12.1",
+		"version": "1.13.0",
 		"contact": {
 			"name": "Equipo Rífatela",
 			"url": "https://rifatela.lol"
@@ -24,7 +24,9 @@
 			"post": {
 				"summary": "Sacarle el chisme completo a un sitio (POST) 🕵️",
 				"description": "Envía una URL en el cuerpo JSON para analizar estructura DOM, CMS/tecnología, apps instaladas, pasarelas de pago, píxeles, infraestructura, geolocalización y capturas de pantalla.",
-				"tags": ["Detección"],
+				"tags": [
+					"Detección"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -81,7 +83,9 @@
 			"get": {
 				"summary": "Sacarle el chisme completo a un sitio (GET) 🕵️",
 				"description": "Envía una URL como parámetro query para analizar firmas de e-commerce, apps, pasarelas, píxeles y geolocalizar el servidor.",
-				"tags": ["Detección"],
+				"tags": [
+					"Detección"
+				],
 				"parameters": [
 					{
 						"name": "url",
@@ -126,7 +130,9 @@
 			"post": {
 				"summary": "Probar lote de reglas dinámicas 🧪",
 				"description": "Evalúa un lote de reglas de detección (detectionRules) personalizadas contra una URL o código HTML en vivo.",
-				"tags": ["Reglas"],
+				"tags": [
+					"Reglas"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -165,7 +171,9 @@
 			"get": {
 				"summary": "Detectar plataforma de CMS / E-commerce 🛍️",
 				"description": "Obtiene la plataforma CMS (Shopify, WooCommerce, Magento, etc.), nivel de confianza y tema activo.",
-				"tags": ["Componentes Modulares"],
+				"tags": [
+					"Componentes Modulares"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/UrlQueryParam"
@@ -186,7 +194,9 @@
 			},
 			"post": {
 				"summary": "Detectar plataforma de CMS / E-commerce (POST) 🛍️",
-				"tags": ["Componentes Modulares"],
+				"tags": [
+					"Componentes Modulares"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -215,7 +225,9 @@
 			"get": {
 				"summary": "Detectar apps y plugins instalados 🔌",
 				"description": "Lista todas las aplicaciones, extensiones y plugins detectados en el sitio web.",
-				"tags": ["Componentes Modulares"],
+				"tags": [
+					"Componentes Modulares"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/UrlQueryParam"
@@ -236,7 +248,9 @@
 			},
 			"post": {
 				"summary": "Detectar apps y plugins instalados (POST) 🔌",
-				"tags": ["Componentes Modulares"],
+				"tags": [
+					"Componentes Modulares"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -265,7 +279,9 @@
 			"get": {
 				"summary": "Obtener pila de infraestructura y CDN 🌐",
 				"description": "Retorna los componentes de infraestructura (CDN, Proxy, Servidor Web, Seguridad) detectados.",
-				"tags": ["Componentes Modulares"],
+				"tags": [
+					"Componentes Modulares"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/UrlQueryParam"
@@ -286,7 +302,9 @@
 			},
 			"post": {
 				"summary": "Obtener pila de infraestructura y CDN (POST) 🌐",
-				"tags": ["Componentes Modulares"],
+				"tags": [
+					"Componentes Modulares"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -315,7 +333,9 @@
 			"get": {
 				"summary": "Detectar procesadores de pago y pasarelas 💳",
 				"description": "Obtiene la lista de pasarelas de pago encontradas (Stripe, PayPal, Mercado Pago, Conekta, etc.).",
-				"tags": ["Componentes Modulares"],
+				"tags": [
+					"Componentes Modulares"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/UrlQueryParam"
@@ -336,7 +356,9 @@
 			},
 			"post": {
 				"summary": "Detectar procesadores de pago y pasarelas (POST) 💳",
-				"tags": ["Componentes Modulares"],
+				"tags": [
+					"Componentes Modulares"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -365,7 +387,9 @@
 			"get": {
 				"summary": "Geolocalización del servidor y DNS 📍",
 				"description": "Resuelve la IP del servidor de la tienda y su ubicación física aproximada (país, ciudad, coordenadas).",
-				"tags": ["Componentes Modulares"],
+				"tags": [
+					"Componentes Modulares"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/UrlQueryParam"
@@ -386,7 +410,9 @@
 			},
 			"post": {
 				"summary": "Geolocalización del servidor y DNS (POST) 📍",
-				"tags": ["Componentes Modulares"],
+				"tags": [
+					"Componentes Modulares"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -415,7 +441,9 @@
 			"get": {
 				"summary": "Medir latencia desde México ⏱️",
 				"description": "Calcula el tiempo de respuesta estimado en milisegundos hacia el servidor del sitio.",
-				"tags": ["Componentes Modulares"],
+				"tags": [
+					"Componentes Modulares"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/UrlQueryParam"
@@ -436,7 +464,9 @@
 			},
 			"post": {
 				"summary": "Medir latencia desde México (POST) ⏱️",
-				"tags": ["Componentes Modulares"],
+				"tags": [
+					"Componentes Modulares"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -465,7 +495,9 @@
 			"get": {
 				"summary": "Auditoría de velocidad Google PageSpeed ⚡",
 				"description": "Consulta métricas de rendimiento, accesibilidad y SEO móvil usando Google Lighthouse.",
-				"tags": ["PageSpeed"],
+				"tags": [
+					"PageSpeed"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/UrlQueryParam"
@@ -487,7 +519,9 @@
 			"post": {
 				"summary": "Auditoría de velocidad Google PageSpeed (POST) ⚡",
 				"description": "Consulta métricas de rendimiento, accesibilidad y SEO móvil usando Google Lighthouse.",
-				"tags": ["PageSpeed"],
+				"tags": [
+					"PageSpeed"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -516,7 +550,9 @@
 			"get": {
 				"summary": "Generar captura de pantalla de la tienda 📸",
 				"description": "Genera una captura visual en formato desktop o móvil de la página de inicio.",
-				"tags": ["Capturas"],
+				"tags": [
+					"Capturas"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/UrlQueryParam"
@@ -528,7 +564,10 @@
 						"description": "Dispositivo para la captura ('desktop' o 'mobile')",
 						"schema": {
 							"type": "string",
-							"enum": ["desktop", "mobile"],
+							"enum": [
+								"desktop",
+								"mobile"
+							],
 							"default": "desktop"
 						}
 					}
@@ -548,14 +587,18 @@
 			},
 			"post": {
 				"summary": "Generar captura de pantalla de la tienda (POST) 📸",
-				"tags": ["Capturas"],
+				"tags": [
+					"Capturas"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
 								"type": "object",
-								"required": ["url"],
+								"required": [
+									"url"
+								],
 								"properties": {
 									"url": {
 										"type": "string",
@@ -563,7 +606,10 @@
 									},
 									"device": {
 										"type": "string",
-										"enum": ["desktop", "mobile"],
+										"enum": [
+											"desktop",
+											"mobile"
+										],
 										"default": "desktop"
 									}
 								}
@@ -589,7 +635,9 @@
 			"post": {
 				"summary": "Enviar reporte chismoso por correo ✉️",
 				"description": "Envía un correo electrónico con el expediente visual completo generado por el Chismógrafo a través del servicio Brevo.",
-				"tags": ["Reportes"],
+				"tags": [
+					"Reportes"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -638,7 +686,9 @@
 			"get": {
 				"summary": "Obtener catálogo de firmas y tecnologías soportadas 📚",
 				"description": "Retorna el listado completo de CMS, aplicaciones, infraestructuras, pasarelas y píxeles compilados en el motor.",
-				"tags": ["Catálogo"],
+				"tags": [
+					"Catálogo"
+				],
 				"responses": {
 					"200": {
 						"description": "Catálogo completo de tecnologías",
@@ -649,23 +699,33 @@
 									"properties": {
 										"cms": {
 											"type": "array",
-											"items": { "type": "object" }
+											"items": {
+												"type": "object"
+											}
 										},
 										"apps": {
 											"type": "array",
-											"items": { "type": "object" }
+											"items": {
+												"type": "object"
+											}
 										},
 										"infra": {
 											"type": "array",
-											"items": { "type": "object" }
+											"items": {
+												"type": "object"
+											}
 										},
 										"gateways": {
 											"type": "array",
-											"items": { "type": "object" }
+											"items": {
+												"type": "object"
+											}
 										},
 										"pixels": {
 											"type": "array",
-											"items": { "type": "object" }
+											"items": {
+												"type": "object"
+											}
 										}
 									}
 								}
@@ -679,7 +739,9 @@
 			"get": {
 				"summary": "Obtener configuración pública del cliente ⚙️",
 				"description": "Retorna tokens públicos configurados en el servidor para logos y mapas.",
-				"tags": ["Configuración"],
+				"tags": [
+					"Configuración"
+				],
 				"responses": {
 					"200": {
 						"description": "Configuración pública del cliente",
@@ -706,7 +768,9 @@
 			"get": {
 				"summary": "Calcomanía/Sticker de verificación e-commerce 🏷️",
 				"description": "Servicio que genera un badge HTML responsivo diseñado en forma de sticker amarillo/post-it que resume el CMS detectado del sitio solicitado.",
-				"tags": ["Widgets"],
+				"tags": [
+					"Widgets"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/UrlQueryParam"
@@ -730,7 +794,9 @@
 			"get": {
 				"summary": "Buscador de chismes compacto (Widget) 🔎",
 				"description": "Página HTML responsiva autocontenida que integra el formulario de búsqueda, barra de carga y panel de resultados simplificado diseñado estilo cuaderno Y2K.",
-				"tags": ["Widgets"],
+				"tags": [
+					"Widgets"
+				],
 				"responses": {
 					"200": {
 						"description": "Documento HTML del buscador incrustable",
@@ -763,7 +829,9 @@
 		"schemas": {
 			"DetectRequest": {
 				"type": "object",
-				"required": ["url"],
+				"required": [
+					"url"
+				],
 				"properties": {
 					"url": {
 						"type": "string",
@@ -882,21 +950,40 @@
 			"CmsResponse": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"url": { "type": "string" },
-					"technology": { "type": "string", "example": "Shopify" },
-					"confidence": { "type": "number", "example": 1 },
-					"theme": { "type": "string", "example": "Dawn" }
+					"success": {
+						"type": "boolean"
+					},
+					"url": {
+						"type": "string"
+					},
+					"technology": {
+						"type": "string",
+						"example": "Shopify"
+					},
+					"confidence": {
+						"type": "number",
+						"example": 1
+					},
+					"theme": {
+						"type": "string",
+						"example": "Dawn"
+					}
 				}
 			},
 			"AppsResponse": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"url": { "type": "string" },
+					"success": {
+						"type": "boolean"
+					},
+					"url": {
+						"type": "string"
+					},
 					"plugins": {
 						"type": "array",
-						"items": { "$ref": "#/components/schemas/TechItem" }
+						"items": {
+							"$ref": "#/components/schemas/TechItem"
+						}
 					}
 				}
 			},
@@ -920,50 +1007,93 @@
 			"PaymentGatewaysResponse": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"url": { "type": "string" },
+					"success": {
+						"type": "boolean"
+					},
+					"url": {
+						"type": "string"
+					},
 					"paymentGateways": {
 						"type": "array",
-						"items": { "type": "string", "example": "PayPal" }
+						"items": {
+							"type": "string",
+							"example": "PayPal"
+						}
 					}
 				}
 			},
 			"LocationData": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"ip": { "type": "string", "example": "23.227.38.65" },
-					"country": { "type": "string", "example": "Canadá" },
-					"city": { "type": "string", "example": "Ottawa" },
+					"success": {
+						"type": "boolean"
+					},
+					"ip": {
+						"type": "string",
+						"example": "23.227.38.65"
+					},
+					"country": {
+						"type": "string",
+						"example": "Canadá"
+					},
+					"city": {
+						"type": "string",
+						"example": "Ottawa"
+					},
 					"ll": {
 						"type": "array",
-						"items": { "type": "number" },
-						"example": [45.42, -75.69]
+						"items": {
+							"type": "number"
+						},
+						"example": [
+							45.42,
+							-75.69
+						]
 					}
 				}
 			},
 			"LocationResponse": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"url": { "type": "string" },
-					"location": { "$ref": "#/components/schemas/LocationData" }
+					"success": {
+						"type": "boolean"
+					},
+					"url": {
+						"type": "string"
+					},
+					"location": {
+						"$ref": "#/components/schemas/LocationData"
+					}
 				}
 			},
 			"LatencyData": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"latencyMs": { "type": "integer", "example": 85 },
-					"description": { "type": "string", "example": "85ms (Rápido)" }
+					"success": {
+						"type": "boolean"
+					},
+					"latencyMs": {
+						"type": "integer",
+						"example": 85
+					},
+					"description": {
+						"type": "string",
+						"example": "85ms (Rápido)"
+					}
 				}
 			},
 			"LatencyResponse": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"url": { "type": "string" },
-					"latency": { "$ref": "#/components/schemas/LatencyData" }
+					"success": {
+						"type": "boolean"
+					},
+					"url": {
+						"type": "string"
+					},
+					"latency": {
+						"$ref": "#/components/schemas/LatencyData"
+					}
 				}
 			},
 			"PageSpeedResponse": {
@@ -1027,15 +1157,27 @@
 			"ScreenshotResponse": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"device": { "type": "string", "example": "desktop" },
-					"url": { "type": "string" },
-					"screenshotUrl": { "type": "string" }
+					"success": {
+						"type": "boolean"
+					},
+					"device": {
+						"type": "string",
+						"example": "desktop"
+					},
+					"url": {
+						"type": "string"
+					},
+					"screenshotUrl": {
+						"type": "string"
+					}
 				}
 			},
 			"EmailReportRequest": {
 				"type": "object",
-				"required": ["email", "scanData"],
+				"required": [
+					"email",
+					"scanData"
+				],
 				"properties": {
 					"email": {
 						"type": "string",
@@ -1053,7 +1195,9 @@
 			},
 			"RulesTestRequest": {
 				"type": "object",
-				"required": ["detectionRules"],
+				"required": [
+					"detectionRules"
+				],
 				"properties": {
 					"url": {
 						"type": "string",
@@ -1068,7 +1212,10 @@
 						"type": "array",
 						"items": {
 							"type": "object",
-							"required": ["type", "pattern"],
+							"required": [
+								"type",
+								"pattern"
+							],
 							"properties": {
 								"type": {
 									"type": "string",
@@ -1101,17 +1248,30 @@
 			"RulesTestResponse": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"matched": { "type": "boolean" },
-					"score": { "type": "number", "example": 1 },
+					"success": {
+						"type": "boolean"
+					},
+					"matched": {
+						"type": "boolean"
+					},
+					"score": {
+						"type": "number",
+						"example": 1
+					},
 					"results": {
 						"type": "array",
 						"items": {
 							"type": "object",
 							"properties": {
-								"rule": { "type": "object" },
-								"passed": { "type": "boolean" },
-								"evidence": { "type": "string" }
+								"rule": {
+									"type": "object"
+								},
+								"passed": {
+									"type": "boolean"
+								},
+								"evidence": {
+									"type": "string"
+								}
 							}
 						}
 					}

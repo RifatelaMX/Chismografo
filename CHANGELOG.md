@@ -1,3 +1,17 @@
+## [1.15.0](https://github.com/RifatelaMX/Chismografo/compare/v1.14.1...v1.15.0) (2026-09-03)
+
+### ✨ Nuevas Características
+
+* add detection rules for POWR Background Music Player app ([d72f25f](https://github.com/RifatelaMX/Chismografo/commit/d72f25f2c7da00d41153ed07401a19b587bc4c7e))
+* add infinite-microsoft-clarity to tracked apps in index.json ([8def6c0](https://github.com/RifatelaMX/Chismografo/commit/8def6c0d7fb3bfe9d85848f513df34bc3f83d37a))
+* **api:** bloquear solicitudes con origenes no autorizados y actualizar openapi ([3e8c876](https://github.com/RifatelaMX/Chismografo/commit/3e8c8764aee204f9d62af6740df1acc036035407))
+* implement site logo extraction logic in detector and add Microsoft Clarity pixel configuration ([1c551bf](https://github.com/RifatelaMX/Chismografo/commit/1c551bf67aebbe63894e82e6dca37392302d6a00))
+
+### 💄 Estilos
+
+* **ui:** formatear renderizado de avisos vacios en app.js ([ad63107](https://github.com/RifatelaMX/Chismografo/commit/ad6310772e4ca047e851d7d64f8f5b99b90c2867))
+* update API method badges with enhanced styling and add PUT and DELETE support ([1c6e7b7](https://github.com/RifatelaMX/Chismografo/commit/1c6e7b711a361743802bbe7d508e56bd1199a21d))
+
 ## [1.14.1](https://github.com/RifatelaMX/Chismografo/compare/v1.14.0...v1.14.1) (2026-09-02)
 
 ### 🐛 Corrección de Errores
