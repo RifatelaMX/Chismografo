@@ -1218,7 +1218,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				appsGrid.appendChild(pluginsGrid);
 			} else {
 				appsGrid.appendChild(
-					createEmptySectionNotice('package-search', '🤷 No le encontramos apps o plugins instalados... ¡anda bien discreto!')
+					createEmptySectionNotice(
+						'package-search',
+						'🤷 No le encontramos apps o plugins instalados... ¡anda bien discreto!'
+					)
 				);
 			}
 		}
@@ -1241,7 +1244,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				infraGrid.appendChild(pluginsGrid);
 			} else {
 				infraGrid.appendChild(
-					createEmptySectionNotice('shield-alert', '🤷 No se detectó infraestructura conocida ni CDN pública.')
+					createEmptySectionNotice(
+						'shield-alert',
+						'🤷 No se detectó infraestructura conocida ni CDN pública.'
+					)
 				);
 			}
 		}
@@ -1264,7 +1270,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				pixelsGrid.appendChild(pluginsGrid);
 			} else {
 				pixelsGrid.appendChild(
-					createEmptySectionNotice('eye-off', '🤷 No se le encontraron píxeles de seguimiento ni etiquetas de tracking activas.')
+					createEmptySectionNotice(
+						'eye-off',
+						'🤷 No se le encontraron píxeles de seguimiento ni etiquetas de tracking activas.'
+					)
 				);
 			}
 		}
