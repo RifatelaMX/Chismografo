@@ -1,3 +1,15 @@
+## [1.16.0](https://github.com/RifatelaMX/Chismografo/compare/v1.15.0...v1.16.0) (2026-09-04)
+
+### ✨ Nuevas Características
+
+* add CRUD endpoints for apps and infrastructure plus list endpoint for pixels in API documentation ([428e07b](https://github.com/RifatelaMX/Chismografo/commit/428e07b46d07abe131dc9fccd3e031406edc7446))
+* add PATCH support to API endpoints and configure CORS preflight handling ([0b451e0](https://github.com/RifatelaMX/Chismografo/commit/0b451e03fb494b1ece28e2013ca1e5ccebade3ef))
+* **api:** agregar endpoints crud de catalogo, screenshots y estructura de precios ([a3a605e](https://github.com/RifatelaMX/Chismografo/commit/a3a605ec6221326e4fccdbbfc713635181f0cc6d))
+
+### 🔧 Tareas de Mantenimiento
+
+* update tech catalog schema and implement supporting CRUD service and tests ([f2c5605](https://github.com/RifatelaMX/Chismografo/commit/f2c5605792cf4ac02322cdb838558a384177d90c))
+
 ## [1.15.0](https://github.com/RifatelaMX/Chismografo/compare/v1.14.1...v1.15.0) (2026-09-03)
 
 ### ✨ Nuevas Características

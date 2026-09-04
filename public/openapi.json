@@ -3,7 +3,7 @@
 	"info": {
 		"title": "Chismógrafo API REST 📓",
 		"description": "API REST y widgets incrustables del Chismógrafo para auditar plataformas de e-commerce, pasarelas de pago, aplicaciones y plugins instalados, infraestructura, píxeles de seguimiento, geolocalización de servidores y velocidad Lighthouse móvil en cualquier sitio web... ¡Todo sin que se enteren! 🤫",
-		"version": "1.14.1",
+		"version": "1.14.0",
 		"contact": {
 			"name": "Equipo Rífatela",
 			"url": "https://rifatela.lol"
@@ -815,7 +815,9 @@
 			"get": {
 				"summary": "Obtener screenshots (móvil, escritorio o ambas) 📸",
 				"description": "Obtiene las capturas de pantalla de un sitio web. Si se especifica `device=mobile` o `device=desktop`, devuelve esa captura; si se omite, devuelve ambas.",
-				"tags": ["Capturas de Pantalla"],
+				"tags": [
+					"Capturas de Pantalla"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/UrlQueryParam"
@@ -850,14 +852,18 @@
 			"post": {
 				"summary": "Crear screenshots para un dominio 📸",
 				"description": "Genera y almacena capturas de pantalla de la URL especificada (móvil, escritorio o ambas).",
-				"tags": ["Capturas de Pantalla"],
+				"tags": [
+					"Capturas de Pantalla"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
 								"type": "object",
-								"required": ["url"],
+								"required": [
+									"url"
+								],
 								"properties": {
 									"url": {
 										"type": "string",
@@ -866,7 +872,10 @@
 									},
 									"device": {
 										"type": "string",
-										"enum": ["desktop", "mobile"],
+										"enum": [
+											"desktop",
+											"mobile"
+										],
 										"example": "desktop"
 									}
 								}
@@ -890,7 +899,9 @@
 			"put": {
 				"summary": "Actualizar screenshots existentes 🔄",
 				"description": "Fuerza la regeneración y reemplazo de las capturas de pantalla existentes para el dominio indicado.",
-				"tags": ["Capturas de Pantalla"],
+				"tags": [
+					"Capturas de Pantalla"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/UrlQueryParam"
@@ -915,7 +926,9 @@
 			"delete": {
 				"summary": "Eliminar screenshots de un dominio 🗑️",
 				"description": "Elimina del servidor/almacenamiento las capturas de pantalla asociadas a un dominio.",
-				"tags": ["Capturas de Pantalla"],
+				"tags": [
+					"Capturas de Pantalla"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/UrlQueryParam"
@@ -937,7 +950,9 @@
 			"patch": {
 				"summary": "Actualizar screenshots existentes (PATCH) 🔄",
 				"description": "Fuerza la regeneración y reemplazo de las capturas de pantalla existentes.",
-				"tags": ["Capturas de Pantalla"],
+				"tags": [
+					"Capturas de Pantalla"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/UrlQueryParam"
@@ -964,7 +979,9 @@
 			"get": {
 				"summary": "Listar apps con paginación y filtro de categoría 📦",
 				"description": "Obtiene el listado paginado de apps registradas en el catálogo del Chismógrafo. Permite filtrar por categoría y definir la cantidad de elementos por página (por defecto 5).",
-				"tags": ["Catálogo de Apps"],
+				"tags": [
+					"Catálogo de Apps"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/CategoryQueryParam"
@@ -992,7 +1009,9 @@
 			"post": {
 				"summary": "Crear Aplicación con planes de precios ➕",
 				"description": "Registra una nueva tecnología en el catálogo de apps con identificador único y configuración de planes de precios.",
-				"tags": ["Catálogo de Apps"],
+				"tags": [
+					"Catálogo de Apps"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -1031,7 +1050,9 @@
 			"get": {
 				"summary": "Obtener Aplicación por ID 🔍",
 				"description": "Recupera los datos completos de un expediente de Aplicación por su identificador único (slug).",
-				"tags": ["Catálogo de Apps"],
+				"tags": [
+					"Catálogo de Apps"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -1069,7 +1090,9 @@
 			"put": {
 				"summary": "Actualizar Aplicación por ID ✏️",
 				"description": "Actualiza la información, planes de precios o reglas de detección de un Aplicación existente.",
-				"tags": ["Catálogo de Apps"],
+				"tags": [
+					"Catálogo de Apps"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -1117,7 +1140,9 @@
 			"delete": {
 				"summary": "Eliminar Aplicación por ID 🗑️",
 				"description": "Elimina del catálogo y del sistema de archivos el expediente del Aplicación.",
-				"tags": ["Catálogo de Apps"],
+				"tags": [
+					"Catálogo de Apps"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -1164,7 +1189,9 @@
 			"patch": {
 				"summary": "Actualizar parcialmente apps por ID (PATCH) ✏️",
 				"description": "Actualiza campos específicos, planes de precios o reglas de detección de un elemento en apps.",
-				"tags": ["Catálogo de Apps"],
+				"tags": [
+					"Catálogo de Apps"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -1214,7 +1241,9 @@
 			"get": {
 				"summary": "Listar infra con paginación y filtro de categoría 📦",
 				"description": "Obtiene el listado paginado de infra registradas en el catálogo del Chismógrafo. Permite filtrar por categoría y definir la cantidad de elementos por página (por defecto 5).",
-				"tags": ["Catálogo de Infraestructura"],
+				"tags": [
+					"Catálogo de Infraestructura"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/CategoryQueryParam"
@@ -1242,7 +1271,9 @@
 			"post": {
 				"summary": "Crear Infraestructura con planes de precios ➕",
 				"description": "Registra una nueva tecnología en el catálogo de infra con identificador único y configuración de planes de precios.",
-				"tags": ["Catálogo de Infraestructura"],
+				"tags": [
+					"Catálogo de Infraestructura"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -1281,7 +1312,9 @@
 			"get": {
 				"summary": "Obtener Infraestructura por ID 🔍",
 				"description": "Recupera los datos completos de un expediente de Infraestructura por su identificador único (slug).",
-				"tags": ["Catálogo de Infraestructura"],
+				"tags": [
+					"Catálogo de Infraestructura"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -1319,7 +1352,9 @@
 			"put": {
 				"summary": "Actualizar Infraestructura por ID ✏️",
 				"description": "Actualiza la información, planes de precios o reglas de detección de un Infraestructura existente.",
-				"tags": ["Catálogo de Infraestructura"],
+				"tags": [
+					"Catálogo de Infraestructura"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -1367,7 +1402,9 @@
 			"delete": {
 				"summary": "Eliminar Infraestructura por ID 🗑️",
 				"description": "Elimina del catálogo y del sistema de archivos el expediente del Infraestructura.",
-				"tags": ["Catálogo de Infraestructura"],
+				"tags": [
+					"Catálogo de Infraestructura"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -1414,7 +1451,9 @@
 			"patch": {
 				"summary": "Actualizar parcialmente infra por ID (PATCH) ✏️",
 				"description": "Actualiza campos específicos, planes de precios o reglas de detección de un elemento en infra.",
-				"tags": ["Catálogo de Infraestructura"],
+				"tags": [
+					"Catálogo de Infraestructura"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -1464,7 +1503,9 @@
 			"get": {
 				"summary": "Listar pixels con paginación y filtro de categoría 📦",
 				"description": "Obtiene el listado paginado de pixels registradas en el catálogo del Chismógrafo. Permite filtrar por categoría y definir la cantidad de elementos por página (por defecto 5).",
-				"tags": ["Catálogo de Píxeles"],
+				"tags": [
+					"Catálogo de Píxeles"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/CategoryQueryParam"
@@ -1492,7 +1533,9 @@
 			"post": {
 				"summary": "Crear Píxel con planes de precios ➕",
 				"description": "Registra una nueva tecnología en el catálogo de pixels con identificador único y configuración de planes de precios.",
-				"tags": ["Catálogo de Píxeles"],
+				"tags": [
+					"Catálogo de Píxeles"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -1531,7 +1574,9 @@
 			"get": {
 				"summary": "Obtener Píxel por ID 🔍",
 				"description": "Recupera los datos completos de un expediente de Píxel por su identificador único (slug).",
-				"tags": ["Catálogo de Píxeles"],
+				"tags": [
+					"Catálogo de Píxeles"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -1569,7 +1614,9 @@
 			"put": {
 				"summary": "Actualizar Píxel por ID ✏️",
 				"description": "Actualiza la información, planes de precios o reglas de detección de un Píxel existente.",
-				"tags": ["Catálogo de Píxeles"],
+				"tags": [
+					"Catálogo de Píxeles"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -1617,7 +1664,9 @@
 			"delete": {
 				"summary": "Eliminar Píxel por ID 🗑️",
 				"description": "Elimina del catálogo y del sistema de archivos el expediente del Píxel.",
-				"tags": ["Catálogo de Píxeles"],
+				"tags": [
+					"Catálogo de Píxeles"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -1664,7 +1713,9 @@
 			"patch": {
 				"summary": "Actualizar parcialmente pixels por ID (PATCH) ✏️",
 				"description": "Actualiza campos específicos, planes de precios o reglas de detección de un elemento en pixels.",
-				"tags": ["Catálogo de Píxeles"],
+				"tags": [
+					"Catálogo de Píxeles"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -1714,7 +1765,9 @@
 			"get": {
 				"summary": "Listar gateways con paginación y filtro de categoría 📦",
 				"description": "Obtiene el listado paginado de gateways registradas en el catálogo del Chismógrafo. Permite filtrar por categoría y definir la cantidad de elementos por página (por defecto 5).",
-				"tags": ["Catálogo de Pasarelas"],
+				"tags": [
+					"Catálogo de Pasarelas"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/CategoryQueryParam"
@@ -1742,7 +1795,9 @@
 			"post": {
 				"summary": "Crear Pasarela de Pago con planes de precios ➕",
 				"description": "Registra una nueva tecnología en el catálogo de gateways con identificador único y configuración de planes de precios.",
-				"tags": ["Catálogo de Pasarelas"],
+				"tags": [
+					"Catálogo de Pasarelas"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -1781,7 +1836,9 @@
 			"get": {
 				"summary": "Obtener Pasarela de Pago por ID 🔍",
 				"description": "Recupera los datos completos de un expediente de Pasarela de Pago por su identificador único (slug).",
-				"tags": ["Catálogo de Pasarelas"],
+				"tags": [
+					"Catálogo de Pasarelas"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -1819,7 +1876,9 @@
 			"put": {
 				"summary": "Actualizar Pasarela de Pago por ID ✏️",
 				"description": "Actualiza la información, planes de precios o reglas de detección de un Pasarela de Pago existente.",
-				"tags": ["Catálogo de Pasarelas"],
+				"tags": [
+					"Catálogo de Pasarelas"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -1867,7 +1926,9 @@
 			"delete": {
 				"summary": "Eliminar Pasarela de Pago por ID 🗑️",
 				"description": "Elimina del catálogo y del sistema de archivos el expediente del Pasarela de Pago.",
-				"tags": ["Catálogo de Pasarelas"],
+				"tags": [
+					"Catálogo de Pasarelas"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -1914,7 +1975,9 @@
 			"patch": {
 				"summary": "Actualizar parcialmente gateways por ID (PATCH) ✏️",
 				"description": "Actualiza campos específicos, planes de precios o reglas de detección de un elemento en gateways.",
-				"tags": ["Catálogo de Pasarelas"],
+				"tags": [
+					"Catálogo de Pasarelas"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -1964,7 +2027,9 @@
 			"get": {
 				"summary": "Listar cms con paginación y filtro de categoría 📦",
 				"description": "Obtiene el listado paginado de cms registradas en el catálogo del Chismógrafo. Permite filtrar por categoría y definir la cantidad de elementos por página (por defecto 5).",
-				"tags": ["Catálogo de CMS"],
+				"tags": [
+					"Catálogo de CMS"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/CategoryQueryParam"
@@ -1992,7 +2057,9 @@
 			"post": {
 				"summary": "Crear CMS con planes de precios ➕",
 				"description": "Registra una nueva tecnología en el catálogo de cms con identificador único y configuración de planes de precios.",
-				"tags": ["Catálogo de CMS"],
+				"tags": [
+					"Catálogo de CMS"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -2031,7 +2098,9 @@
 			"get": {
 				"summary": "Obtener CMS por ID 🔍",
 				"description": "Recupera los datos completos de un expediente de CMS por su identificador único (slug).",
-				"tags": ["Catálogo de CMS"],
+				"tags": [
+					"Catálogo de CMS"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -2069,7 +2138,9 @@
 			"put": {
 				"summary": "Actualizar CMS por ID ✏️",
 				"description": "Actualiza la información, planes de precios o reglas de detección de un CMS existente.",
-				"tags": ["Catálogo de CMS"],
+				"tags": [
+					"Catálogo de CMS"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -2117,7 +2188,9 @@
 			"delete": {
 				"summary": "Eliminar CMS por ID 🗑️",
 				"description": "Elimina del catálogo y del sistema de archivos el expediente del CMS.",
-				"tags": ["Catálogo de CMS"],
+				"tags": [
+					"Catálogo de CMS"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -2164,7 +2237,9 @@
 			"patch": {
 				"summary": "Actualizar parcialmente cms por ID (PATCH) ✏️",
 				"description": "Actualiza campos específicos, planes de precios o reglas de detección de un elemento en cms.",
-				"tags": ["Catálogo de CMS"],
+				"tags": [
+					"Catálogo de CMS"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -2214,7 +2289,9 @@
 			"get": {
 				"summary": "Obtener Aplicación por ID 🔍",
 				"description": "Recupera los datos completos de un expediente de Aplicación por su identificador único (slug).",
-				"tags": ["Catálogo de Apps"],
+				"tags": [
+					"Catálogo de Apps"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -2252,7 +2329,9 @@
 			"put": {
 				"summary": "Actualizar Aplicación por ID ✏️",
 				"description": "Actualiza la información, planes de precios o reglas de detección de un Aplicación existente.",
-				"tags": ["Catálogo de Apps"],
+				"tags": [
+					"Catálogo de Apps"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -2300,7 +2379,9 @@
 			"delete": {
 				"summary": "Eliminar Aplicación por ID 🗑️",
 				"description": "Elimina del catálogo y del sistema de archivos el expediente del Aplicación.",
-				"tags": ["Catálogo de Apps"],
+				"tags": [
+					"Catálogo de Apps"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -2347,7 +2428,9 @@
 			"patch": {
 				"summary": "Actualizar parcialmente apps por ID (PATCH) ✏️",
 				"description": "Actualiza campos específicos, planes de precios o reglas de detección de un elemento en apps.",
-				"tags": ["Catálogo de Apps"],
+				"tags": [
+					"Catálogo de Apps"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -2398,7 +2481,9 @@
 			"get": {
 				"summary": "Obtener Infraestructura por ID 🔍",
 				"description": "Recupera los datos completos de un expediente de Infraestructura por su identificador único (slug).",
-				"tags": ["Catálogo de Infraestructura"],
+				"tags": [
+					"Catálogo de Infraestructura"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -2436,7 +2521,9 @@
 			"put": {
 				"summary": "Actualizar Infraestructura por ID ✏️",
 				"description": "Actualiza la información, planes de precios o reglas de detección de un Infraestructura existente.",
-				"tags": ["Catálogo de Infraestructura"],
+				"tags": [
+					"Catálogo de Infraestructura"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -2484,7 +2571,9 @@
 			"delete": {
 				"summary": "Eliminar Infraestructura por ID 🗑️",
 				"description": "Elimina del catálogo y del sistema de archivos el expediente del Infraestructura.",
-				"tags": ["Catálogo de Infraestructura"],
+				"tags": [
+					"Catálogo de Infraestructura"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -2531,7 +2620,9 @@
 			"patch": {
 				"summary": "Actualizar parcialmente infra por ID (PATCH) ✏️",
 				"description": "Actualiza campos específicos, planes de precios o reglas de detección de un elemento en infra.",
-				"tags": ["Catálogo de Infraestructura"],
+				"tags": [
+					"Catálogo de Infraestructura"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -2582,7 +2673,9 @@
 			"get": {
 				"summary": "Listar pixels con paginación y filtro de categoría 📦",
 				"description": "Obtiene el listado paginado de pixels registradas en el catálogo del Chismógrafo. Permite filtrar por categoría y definir la cantidad de elementos por página (por defecto 5).",
-				"tags": ["Catálogo de Píxeles"],
+				"tags": [
+					"Catálogo de Píxeles"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/CategoryQueryParam"
@@ -2610,7 +2703,9 @@
 			"post": {
 				"summary": "Crear Píxel con planes de precios ➕",
 				"description": "Registra una nueva tecnología en el catálogo de pixels con identificador único y configuración de planes de precios.",
-				"tags": ["Catálogo de Píxeles"],
+				"tags": [
+					"Catálogo de Píxeles"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -2650,7 +2745,9 @@
 			"get": {
 				"summary": "Obtener Píxel por ID 🔍",
 				"description": "Recupera los datos completos de un expediente de Píxel por su identificador único (slug).",
-				"tags": ["Catálogo de Píxeles"],
+				"tags": [
+					"Catálogo de Píxeles"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -2688,7 +2785,9 @@
 			"put": {
 				"summary": "Actualizar Píxel por ID ✏️",
 				"description": "Actualiza la información, planes de precios o reglas de detección de un Píxel existente.",
-				"tags": ["Catálogo de Píxeles"],
+				"tags": [
+					"Catálogo de Píxeles"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -2736,7 +2835,9 @@
 			"delete": {
 				"summary": "Eliminar Píxel por ID 🗑️",
 				"description": "Elimina del catálogo y del sistema de archivos el expediente del Píxel.",
-				"tags": ["Catálogo de Píxeles"],
+				"tags": [
+					"Catálogo de Píxeles"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -2783,7 +2884,9 @@
 			"patch": {
 				"summary": "Actualizar parcialmente pixels por ID (PATCH) ✏️",
 				"description": "Actualiza campos específicos, planes de precios o reglas de detección de un elemento en pixels.",
-				"tags": ["Catálogo de Píxeles"],
+				"tags": [
+					"Catálogo de Píxeles"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -2834,7 +2937,9 @@
 			"get": {
 				"summary": "Listar gateways con paginación y filtro de categoría 📦",
 				"description": "Obtiene el listado paginado de gateways registradas en el catálogo del Chismógrafo. Permite filtrar por categoría y definir la cantidad de elementos por página (por defecto 5).",
-				"tags": ["Catálogo de Pasarelas"],
+				"tags": [
+					"Catálogo de Pasarelas"
+				],
 				"parameters": [
 					{
 						"$ref": "#/components/parameters/CategoryQueryParam"
@@ -2862,7 +2967,9 @@
 			"post": {
 				"summary": "Crear Pasarela de Pago con planes de precios ➕",
 				"description": "Registra una nueva tecnología en el catálogo de gateways con identificador único y configuración de planes de precios.",
-				"tags": ["Catálogo de Pasarelas"],
+				"tags": [
+					"Catálogo de Pasarelas"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -2902,7 +3009,9 @@
 			"get": {
 				"summary": "Obtener Pasarela de Pago por ID 🔍",
 				"description": "Recupera los datos completos de un expediente de Pasarela de Pago por su identificador único (slug).",
-				"tags": ["Catálogo de Pasarelas"],
+				"tags": [
+					"Catálogo de Pasarelas"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -2940,7 +3049,9 @@
 			"put": {
 				"summary": "Actualizar Pasarela de Pago por ID ✏️",
 				"description": "Actualiza la información, planes de precios o reglas de detección de un Pasarela de Pago existente.",
-				"tags": ["Catálogo de Pasarelas"],
+				"tags": [
+					"Catálogo de Pasarelas"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -2988,7 +3099,9 @@
 			"delete": {
 				"summary": "Eliminar Pasarela de Pago por ID 🗑️",
 				"description": "Elimina del catálogo y del sistema de archivos el expediente del Pasarela de Pago.",
-				"tags": ["Catálogo de Pasarelas"],
+				"tags": [
+					"Catálogo de Pasarelas"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -3035,7 +3148,9 @@
 			"patch": {
 				"summary": "Actualizar parcialmente gateways por ID (PATCH) ✏️",
 				"description": "Actualiza campos específicos, planes de precios o reglas de detección de un elemento en gateways.",
-				"tags": ["Catálogo de Pasarelas"],
+				"tags": [
+					"Catálogo de Pasarelas"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -3086,7 +3201,9 @@
 			"get": {
 				"summary": "Obtener CMS por ID 🔍",
 				"description": "Recupera los datos completos de un expediente de CMS por su identificador único (slug).",
-				"tags": ["Catálogo de CMS"],
+				"tags": [
+					"Catálogo de CMS"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -3124,7 +3241,9 @@
 			"put": {
 				"summary": "Actualizar CMS por ID ✏️",
 				"description": "Actualiza la información, planes de precios o reglas de detección de un CMS existente.",
-				"tags": ["Catálogo de CMS"],
+				"tags": [
+					"Catálogo de CMS"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -3172,7 +3291,9 @@
 			"delete": {
 				"summary": "Eliminar CMS por ID 🗑️",
 				"description": "Elimina del catálogo y del sistema de archivos el expediente del CMS.",
-				"tags": ["Catálogo de CMS"],
+				"tags": [
+					"Catálogo de CMS"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -3219,7 +3340,9 @@
 			"patch": {
 				"summary": "Actualizar parcialmente cms por ID (PATCH) ✏️",
 				"description": "Actualiza campos específicos, planes de precios o reglas de detección de un elemento en cms.",
-				"tags": ["Catálogo de CMS"],
+				"tags": [
+					"Catálogo de CMS"
+				],
 				"parameters": [
 					{
 						"name": "id",
@@ -3318,7 +3441,10 @@
 				"description": "Dispositivo para la captura (desktop, mobile o omitir para ambas)",
 				"schema": {
 					"type": "string",
-					"enum": ["desktop", "mobile"]
+					"enum": [
+						"desktop",
+						"mobile"
+					]
 				}
 			}
 		},
@@ -3420,7 +3546,10 @@
 			},
 			"TechItem": {
 				"type": "object",
-				"required": ["id", "name"],
+				"required": [
+					"id",
+					"name"
+				],
 				"properties": {
 					"id": {
 						"type": "string",
@@ -3443,7 +3572,10 @@
 						"items": {
 							"type": "string"
 						},
-						"example": ["Shopify", "WooCommerce"]
+						"example": [
+							"Shopify",
+							"WooCommerce"
+						]
 					},
 					"web": {
 						"type": "string",
@@ -3605,7 +3737,10 @@
 						"items": {
 							"type": "number"
 						},
-						"example": [45.42, -75.69]
+						"example": [
+							45.42,
+							-75.69
+						]
 					}
 				}
 			},
@@ -3849,7 +3984,12 @@
 			},
 			"PrecioPlan": {
 				"type": "object",
-				"required": ["id", "plan", "precio", "moneda"],
+				"required": [
+					"id",
+					"plan",
+					"precio",
+					"moneda"
+				],
 				"properties": {
 					"id": {
 						"type": "number",
@@ -3871,7 +4011,9 @@
 			},
 			"TechInput": {
 				"type": "object",
-				"required": ["name"],
+				"required": [
+					"name"
+				],
 				"properties": {
 					"id": {
 						"type": "string",
@@ -3895,7 +4037,9 @@
 						"items": {
 							"type": "string"
 						},
-						"example": ["Shopify"]
+						"example": [
+							"Shopify"
+						]
 					},
 					"web": {
 						"type": "string",
@@ -3912,7 +4056,10 @@
 						"type": "array",
 						"items": {
 							"type": "object",
-							"required": ["type", "pattern"],
+							"required": [
+								"type",
+								"pattern"
+							],
 							"properties": {
 								"type": {
 									"type": "string",
@@ -4028,7 +4175,10 @@
 						"items": {
 							"type": "string"
 						},
-						"example": ["desktop-shopify.com.png", "mobile-shopify.com.png"]
+						"example": [
+							"desktop-shopify.com.png",
+							"mobile-shopify.com.png"
+						]
 					}
 				}
 			}
