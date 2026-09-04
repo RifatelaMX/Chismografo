@@ -80,11 +80,15 @@ const corsOptions = {
 			callback(new Error(`No permitido por CORS: El origen '${origin}' no está autorizado.`));
 		}
 	},
+	methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'],
+	allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
 	credentials: true,
+	optionsSuccessStatus: 204,
 };
 
 // Middlewares
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // CORS error handler middleware
 app.use((err, _req, res, next) => {
@@ -96,6 +100,11 @@ app.use((err, _req, res, next) => {
 
 // Middleware to strictly block API requests from unauthorized origins / referers
 app.use('/api', (req, res, next) => {
+	// Permitir preflight OPTIONS
+	if (req.method === 'OPTIONS') {
+		return next();
+	}
+
 	const origin = req.headers.origin;
 	const referer = req.headers.referer;
 
@@ -997,7 +1006,9 @@ app.get('/api/screenshot', validateUrlParam, handleScreenshotGet);
 app.post('/api/screenshots', validateUrlParam, handleScreenshotCreate);
 app.post('/api/screenshot', validateUrlParam, handleScreenshotCreate);
 app.put('/api/screenshots', validateUrlParam, handleScreenshotUpdate);
+app.patch('/api/screenshots', validateUrlParam, handleScreenshotUpdate);
 app.put('/api/screenshot', validateUrlParam, handleScreenshotUpdate);
+app.patch('/api/screenshot', validateUrlParam, handleScreenshotUpdate);
 app.delete('/api/screenshots', validateUrlParam, handleScreenshotDelete);
 app.delete('/api/screenshot', validateUrlParam, handleScreenshotDelete);
 
@@ -1084,6 +1095,7 @@ app.get('/api/techs/cms', cmsCrud.list);
 app.get('/api/techs/cms/:id', cmsCrud.getById);
 app.post('/api/techs/cms', cmsCrud.create);
 app.put('/api/techs/cms/:id', cmsCrud.update);
+app.patch('/api/techs/cms/:id', cmsCrud.update);
 app.delete('/api/techs/cms/:id', cmsCrud.delete);
 
 // Apps Catálogo
@@ -1091,6 +1103,7 @@ app.get('/api/techs/apps', appsCrud.list);
 app.get('/api/techs/apps/:id', appsCrud.getById);
 app.post('/api/techs/apps', appsCrud.create);
 app.put('/api/techs/apps/:id', appsCrud.update);
+app.patch('/api/techs/apps/:id', appsCrud.update);
 app.delete('/api/techs/apps/:id', appsCrud.delete);
 
 // Infraestructura Catálogo
@@ -1098,6 +1111,7 @@ app.get('/api/techs/infra', infraCrud.list);
 app.get('/api/techs/infra/:id', infraCrud.getById);
 app.post('/api/techs/infra', infraCrud.create);
 app.put('/api/techs/infra/:id', infraCrud.update);
+app.patch('/api/techs/infra/:id', infraCrud.update);
 app.delete('/api/techs/infra/:id', infraCrud.delete);
 
 // Píxeles Catálogo
@@ -1105,6 +1119,7 @@ app.get('/api/techs/pixels', pixelsCrud.list);
 app.get('/api/techs/pixels/:id', pixelsCrud.getById);
 app.post('/api/techs/pixels', pixelsCrud.create);
 app.put('/api/techs/pixels/:id', pixelsCrud.update);
+app.patch('/api/techs/pixels/:id', pixelsCrud.update);
 app.delete('/api/techs/pixels/:id', pixelsCrud.delete);
 
 // Pasarelas Catálogo
@@ -1112,6 +1127,7 @@ app.get('/api/techs/gateways', gatewaysCrud.list);
 app.get('/api/techs/gateways/:id', gatewaysCrud.getById);
 app.post('/api/techs/gateways', gatewaysCrud.create);
 app.put('/api/techs/gateways/:id', gatewaysCrud.update);
+app.patch('/api/techs/gateways/:id', gatewaysCrud.update);
 app.delete('/api/techs/gateways/:id', gatewaysCrud.delete);
 
 // ==========================================
@@ -1133,6 +1149,7 @@ app.post('/api/cms', (req, res) => {
 	return cmsCrud.create(req, res);
 });
 app.put('/api/cms/:id', cmsCrud.update);
+app.patch('/api/cms/:id', cmsCrud.update);
 app.delete('/api/cms/:id', cmsCrud.delete);
 
 // Apps (Si lleva "url", escanea en vivo; si no lleva "url", consulta catálogo paginado)
@@ -1150,6 +1167,7 @@ app.post('/api/apps', (req, res) => {
 	return appsCrud.create(req, res);
 });
 app.put('/api/apps/:id', appsCrud.update);
+app.patch('/api/apps/:id', appsCrud.update);
 app.delete('/api/apps/:id', appsCrud.delete);
 
 // Infraestructura (Si lleva "url", escanea; si no, consulta catálogo)
@@ -1167,6 +1185,7 @@ app.post('/api/infra', (req, res) => {
 	return infraCrud.create(req, res);
 });
 app.put('/api/infra/:id', infraCrud.update);
+app.patch('/api/infra/:id', infraCrud.update);
 app.delete('/api/infra/:id', infraCrud.delete);
 
 // Píxeles
@@ -1174,6 +1193,7 @@ app.get('/api/pixels', (req, res) => pixelsCrud.list(req, res));
 app.get('/api/pixels/:id', pixelsCrud.getById);
 app.post('/api/pixels', pixelsCrud.create);
 app.put('/api/pixels/:id', pixelsCrud.update);
+app.patch('/api/pixels/:id', pixelsCrud.update);
 app.delete('/api/pixels/:id', pixelsCrud.delete);
 
 // Pasarelas
@@ -1181,6 +1201,7 @@ app.get('/api/gateways', (req, res) => gatewaysCrud.list(req, res));
 app.get('/api/gateways/:id', gatewaysCrud.getById);
 app.post('/api/gateways', gatewaysCrud.create);
 app.put('/api/gateways/:id', gatewaysCrud.update);
+app.patch('/api/gateways/:id', gatewaysCrud.update);
 app.delete('/api/gateways/:id', gatewaysCrud.delete);
 
 // ==========================================

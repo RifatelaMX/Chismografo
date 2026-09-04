@@ -92,7 +92,19 @@ server.listen(PORT, async () => {
 		assert.strictEqual(resPut.status, 200);
 		assert.strictEqual(resPut.data.data.developer, 'Updated Test Inc');
 		assert.strictEqual(resPut.data.data.precios[0].plan, 'Pro');
-		console.log('✅ [5/9] PUT /api/techs/apps/:id (actualización exitosa)');
+		console.log('✅ [5/12] PUT /api/techs/apps/:id (actualización completa)');
+
+		// 5b. PATCH /api/techs/apps/:id
+		const resPatch = await request('/api/techs/apps/express-http-test-app', {
+			method: 'PATCH',
+			body: {
+				category: 'Buscador / Filtros',
+			},
+		});
+		assert.strictEqual(resPatch.status, 200);
+		assert.strictEqual(resPatch.data.data.category, 'Buscador / Filtros');
+		assert.strictEqual(resPatch.data.data.developer, 'Updated Test Inc');
+		console.log('✅ [6/12] PATCH /api/techs/apps/:id (actualización parcial)');
 
 		// 6. DELETE /api/techs/apps/:id
 		const resDel = await request('/api/techs/apps/express-http-test-app', {
@@ -143,7 +155,19 @@ server.listen(PORT, async () => {
 		const resAliasCms = await request('/api/cms?limit=3');
 		assert.strictEqual(resAliasCms.status, 200);
 		assert.strictEqual(resAliasCms.data.data.length, 3);
-		console.log('✅ [10/10] GET /api/cms (alias catálogo directo sin url)');
+		console.log('✅ [10/11] GET /api/cms (alias catálogo directo sin url)');
+
+		// 11. OPTIONS Preflight en /api/techs/apps
+		const resOptions = await request('/api/techs/apps', {
+			method: 'OPTIONS',
+			headers: {
+				Origin: 'http://localhost:3000',
+				'Access-Control-Request-Method': 'POST',
+				'Access-Control-Request-Headers': 'Content-Type',
+			},
+		});
+		assert.strictEqual(resOptions.status, 204);
+		console.log('✅ [11/11] OPTIONS /api/techs/apps preflight (Status 204)');
 
 		console.log('\n🎉 ¡Todas las pruebas HTTP pasaron con 100% de éxito!');
 		server.close();
