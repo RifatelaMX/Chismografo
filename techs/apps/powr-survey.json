@@ -1,9 +1,11 @@
 {
+	"id": "powr-survey",
 	"name": "POWR: Customer Survey | Poll",
 	"developer": "POWR",
 	"category": "Formularios / Contacto",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

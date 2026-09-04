@@ -1,9 +1,11 @@
 {
+	"id": "social-buttons-by-widgetic",
 	"name": "Widgetic (Social Buttons)",
 	"developer": "Widgetic",
 	"category": "Marketing / Popups",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://widgetic.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

@@ -1,7 +1,9 @@
 {
+	"id": "nginx",
 	"name": "Nginx",
 	"category": "Servidor Web",
 	"web": "https://www.nginx.com",
+	"precios": [],
 	"logo": {
 		"id": "nginx.org",
 		"provider": "logodev"

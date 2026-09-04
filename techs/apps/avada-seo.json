@@ -1,9 +1,11 @@
 {
+	"id": "avada-seo",
 	"name": "Avada SEO",
 	"developer": "Avada SEO",
 	"category": "SEO",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.avada.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

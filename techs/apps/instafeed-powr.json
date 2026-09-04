@@ -1,9 +1,11 @@
 {
+	"id": "instafeed-powr",
 	"name": "POWR Instagram Feed Instafeed",
 	"developer": "POWR",
 	"category": "Analítica / Marketing",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

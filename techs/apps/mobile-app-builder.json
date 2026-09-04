@@ -1,9 +1,11 @@
 {
+	"id": "mobile-app-builder",
 	"name": "Hulk Mobile App Builder",
 	"developer": "HulkApps",
 	"category": "Constructor de Páginas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.hulkapps.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

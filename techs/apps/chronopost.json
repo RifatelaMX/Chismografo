@@ -1,9 +1,11 @@
 {
+	"id": "chronopost",
 	"name": "Chronopost",
 	"developer": "Chronopost",
 	"category": "Envíos / Pedidos",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/chronopost",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

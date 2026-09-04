@@ -1,9 +1,11 @@
 {
+	"id": "powerful-social-proof",
 	"name": "Powerful Social Proof",
 	"developer": "Powerful Social Proof",
 	"category": "Marketing / Popups",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/powerful-social-proof",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

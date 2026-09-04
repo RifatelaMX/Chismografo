@@ -1,7 +1,9 @@
 {
+	"id": "mercado-pago",
 	"name": "Mercado Pago",
 	"category": "Pasarela de Pago",
 	"web": "https://mercadopago.com",
+	"precios": [],
 	"logo": {
 		"id": "mercadopago.com",
 		"provider": "logodev"

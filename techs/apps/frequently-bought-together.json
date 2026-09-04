@@ -1,9 +1,11 @@
 {
+	"id": "frequently-bought-together",
 	"name": "Frequently Bought Together",
 	"developer": "Frequently Bought Together",
 	"category": "Checkout / Ofertas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.frequently-bought-together.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

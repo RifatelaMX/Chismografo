@@ -1,9 +1,11 @@
 {
+	"id": "tiktok-pixel",
 	"name": "TikTok Pixel",
 	"developer": "TikTok Pixel",
 	"category": "Analítica / Marketing",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.tiktok.com",
+	"precios": [],
 	"appStores": [],
 	"logo": "tiktok.com",
 	"detectionRules": [

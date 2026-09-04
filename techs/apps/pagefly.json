@@ -1,9 +1,11 @@
 {
+	"id": "pagefly",
 	"name": "PageFly",
 	"developer": "PageFly",
 	"category": "Constructor de Páginas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.pagefly.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

@@ -1,9 +1,11 @@
 {
+	"id": "addify-order-status",
 	"name": "COS : Custom Order Status",
 	"developer": "Addify",
 	"category": "Envíos / Pedidos",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://addify.store",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

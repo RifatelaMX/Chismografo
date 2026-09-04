@@ -1,9 +1,11 @@
 {
+	"id": "meta-pixel-facebook",
 	"name": "Meta Pixel (Facebook)",
 	"developer": "Meta Pixel (Facebook)",
 	"category": "Analítica / Marketing",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.facebook.com",
+	"precios": [],
 	"appStores": [],
 	"logo": "facebook.com",
 	"detectionRules": [

@@ -1,7 +1,9 @@
 {
+	"id": "kueski-pay",
 	"name": "Kueski Pay",
 	"category": "Pago a Plazos (BNPL)",
 	"web": "https://kueskipay.com",
+	"precios": [],
 	"logo": {
 		"id": "kueskipay.com",
 		"provider": "logodev"

@@ -1,9 +1,11 @@
 {
+	"id": "product-options-pro",
 	"name": "Globo Product Options, Variant",
 	"developer": "Globo Product Options, Variant",
 	"category": "Checkout / Ofertas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/product-options-pro",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

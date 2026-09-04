@@ -1,9 +1,11 @@
 {
+	"id": "wholesale-pricing-discount",
 	"name": "Wholesale Pricing Discount B2B",
 	"developer": "Wholesale Helper",
 	"category": "B2B / Precios al Mayoreo",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://wholesalehelper.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

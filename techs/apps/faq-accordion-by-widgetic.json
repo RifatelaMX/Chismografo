@@ -1,9 +1,11 @@
 {
+	"id": "faq-accordion-by-widgetic",
 	"name": "Widgetic (FAQ Accordion)",
 	"developer": "Widgetic",
 	"category": "Soporte / Chat",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://widgetic.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

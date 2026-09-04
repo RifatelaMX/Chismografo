@@ -1,9 +1,11 @@
 {
+	"id": "poptin",
 	"name": "Poptin Exit Popup Email Pop Up",
 	"developer": "Poptin Exit Popup Email Pop Up",
 	"category": "Marketing / Popups",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://poptin.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

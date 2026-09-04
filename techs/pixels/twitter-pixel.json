@@ -1,7 +1,9 @@
 {
+	"id": "twitter-pixel",
 	"name": "Twitter / X Pixel",
 	"category": "Redes Sociales",
 	"web": "https://business.twitter.com/en/help/campaign-measurement-and-analytics/pixel-for-website-tracking.html",
+	"precios": [],
 	"logo": {
 		"id": "x.com",
 		"provider": "logodev"

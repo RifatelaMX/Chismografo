@@ -1,9 +1,11 @@
 {
+	"id": "powr-job-posting",
 	"name": "POWR: Job Posting Careers Page",
 	"developer": "POWR",
 	"category": "Constructor de Páginas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

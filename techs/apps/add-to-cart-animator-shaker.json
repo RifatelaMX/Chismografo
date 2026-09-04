@@ -1,9 +1,11 @@
 {
+	"id": "add-to-cart-animator-shaker",
 	"name": "Pushdaddy Add to Cart Animator",
 	"developer": "Pushdaddy",
 	"category": "Checkout / Ofertas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://pushdaddy.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

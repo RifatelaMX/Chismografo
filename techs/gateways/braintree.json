@@ -1,7 +1,9 @@
 {
+	"id": "braintree",
 	"name": "Braintree",
 	"category": "Pasarela de Pago",
 	"web": "https://braintreepayments.com",
+	"precios": [],
 	"logo": {
 		"id": "braintreepayments.com",
 		"provider": "logodev"

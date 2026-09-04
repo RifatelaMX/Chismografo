@@ -1,6 +1,8 @@
 {
+	"id": "shopify",
 	"name": "Shopify",
 	"web": "https://www.shopify.com",
+	"precios": [],
 	"logo": {
 		"id": "shopify.com",
 		"provider": "logodev"

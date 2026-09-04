@@ -1,9 +1,11 @@
 {
+	"id": "post-purchase-survey",
 	"name": "Hulk NPS Post Purchase Survey",
 	"developer": "HulkApps",
 	"category": "Formularios / Contacto",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.hulkapps.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

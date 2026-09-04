@@ -1,9 +1,11 @@
 {
+	"id": "powerful-countdown-timer",
 	"name": "Pushdaddy Countdown Timer",
 	"developer": "Pushdaddy",
 	"category": "Checkout / Ofertas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://pushdaddy.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

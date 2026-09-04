@@ -1,9 +1,11 @@
 {
+	"id": "lucky-orange",
 	"name": "Lucky Orange Heatmaps & Replay",
 	"developer": "Lucky Orange LLC",
 	"category": "Analítica",
 	"compatibleCMS": ["Shopify", "WooCommerce", "Magento", "PrestaShop", "VTEX"],
 	"web": "https://www.luckyorange.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

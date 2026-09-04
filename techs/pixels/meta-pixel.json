@@ -1,7 +1,9 @@
 {
+	"id": "meta-pixel",
 	"name": "Meta Pixel",
 	"category": "Redes Sociales",
 	"web": "https://www.facebook.com/business/tools/meta-pixel",
+	"precios": [],
 	"logo": {
 		"id": "facebook.com",
 		"provider": "logodev"

@@ -1,7 +1,9 @@
 {
+	"id": "fastly",
 	"name": "Fastly",
 	"category": "CDN / Proxy",
 	"web": "https://www.fastly.com",
+	"precios": [],
 	"logo": {
 		"id": "fastly.com",
 		"provider": "logodev"

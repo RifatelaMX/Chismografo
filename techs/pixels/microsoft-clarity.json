@@ -1,7 +1,9 @@
 {
+	"id": "microsoft-clarity",
 	"name": "Microsoft Clarity",
 	"category": "Analítica",
 	"web": "https://clarity.microsoft.com",
+	"precios": [],
 	"logo": {
 		"id": "clarity.microsoft.com",
 		"provider": "brandicons"

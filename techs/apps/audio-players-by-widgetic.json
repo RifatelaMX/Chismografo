@@ -1,9 +1,11 @@
 {
+	"id": "audio-players-by-widgetic",
 	"name": "Widgetic (Audio Players)",
 	"developer": "Widgetic",
 	"category": "Constructor de Páginas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://widgetic.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

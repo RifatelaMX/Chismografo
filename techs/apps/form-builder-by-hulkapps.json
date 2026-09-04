@@ -1,9 +1,11 @@
 {
+	"id": "form-builder-by-hulkapps",
 	"name": "Hulk Contact Form Builder",
 	"developer": "HulkApps",
 	"category": "Formularios / Contacto",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.hulkapps.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

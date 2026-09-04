@@ -1,9 +1,11 @@
 {
+	"id": "goaffpro",
 	"name": "GOAFFPRO ‑ Affiliate Marketing",
 	"developer": "GoAffPro",
 	"category": "Marketing / Afiliados",
 	"compatibleCMS": ["Shopify", "WooCommerce", "Magento", "PrestaShop", "VTEX"],
 	"web": "https://goaffpro.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

@@ -1,9 +1,11 @@
 {
+	"id": "omnisend",
 	"name": "Omnisend",
 	"developer": "Omnisend",
 	"category": "Email Marketing",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.omnisend.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

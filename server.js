@@ -12,6 +12,13 @@ import screenshotmachine from 'screenshotmachine';
 import { detectTechnology, evaluateCustomRules, fetchPage, normalizeUrl } from './src/detector.js';
 import { sendReportEmail } from './src/emailService.js';
 import { getDomainLocation } from './src/location.js';
+import {
+	createTech,
+	deleteTech,
+	getTechById,
+	listTechs,
+	updateTech,
+} from './src/techCatalogService.js';
 
 // Configuration
 dotenv.config();
@@ -73,11 +80,15 @@ const corsOptions = {
 			callback(new Error(`No permitido por CORS: El origen '${origin}' no está autorizado.`));
 		}
 	},
+	methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH', 'HEAD'],
+	allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
 	credentials: true,
+	optionsSuccessStatus: 204,
 };
 
 // Middlewares
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // CORS error handler middleware
 app.use((err, _req, res, next) => {
@@ -89,6 +100,11 @@ app.use((err, _req, res, next) => {
 
 // Middleware to strictly block API requests from unauthorized origins / referers
 app.use('/api', (req, res, next) => {
+	// Permitir preflight OPTIONS
+	if (req.method === 'OPTIONS') {
+		return next();
+	}
+
 	const origin = req.headers.origin;
 	const referer = req.headers.referer;
 
@@ -809,49 +825,390 @@ function inferPaymentMethods(gateways) {
 	return Array.from(methods);
 }
 
-// 1. Screenshot Endpoint (Obtener capturas del dominio)
-const handleScreenshot = async (req, res) => {
-	const domain = req.normalizedUrl
+// ==========================================
+// 1. SCREENSHOTS ENDPOINTS (CRUD & CAPTURA)
+// ==========================================
+
+const getDomainFromReq = (req) => {
+	const rawUrl = req.body?.url || req.query?.url || req.normalizedUrl || '';
+	if (!rawUrl) return '';
+	return rawUrl
 		.replace(/^https?:\/\//i, '')
 		.replace(/^www\./i, '')
 		.split('/')[0]
 		.trim();
-	const device = req.body.device || req.query.device || 'desktop';
+};
 
+/**
+ * Obtener screenshots (móvil, escritorio o ambas)
+ */
+const handleScreenshotGet = async (req, res) => {
+	const domain = getDomainFromReq(req);
+	if (!domain) {
+		return res.status(400).json({
+			success: false,
+			error: 'El parámetro "url" es obligatorio.',
+		});
+	}
+
+	const device = (req.query.device || req.body?.device || '').toLowerCase().trim();
 	const extraParams = { ...req.query, ...req.body };
 	delete extraParams.url;
 	delete extraParams.device;
 
-	console.log(
-		`[API Captura] 📸 Solicitud directa de captura para: ${req.normalizedUrl} (Dispositivo: ${device})`
-	);
-
 	try {
-		const screenshotUrl = await getScreenshot(domain, device, extraParams);
-		console.log(
-			`[API Captura] ✅ Captura entregada exitosamente para ${domain} [${device}]: ${screenshotUrl}`
-		);
-		res.json({
+		if (device === 'mobile' || device === 'desktop') {
+			const screenshotUrl = await getScreenshot(domain, device, extraParams);
+			return res.json({
+				success: true,
+				url: req.normalizedUrl || `https://${domain}`,
+				device,
+				screenshot: screenshotUrl,
+			});
+		}
+
+		// Si no lleva parámetro de dispositivo, obtener ambas (desktop y mobile)
+		const [desktopUrl, mobileUrl] = await Promise.all([
+			getScreenshot(domain, 'desktop', extraParams).catch(() => ''),
+			getScreenshot(domain, 'mobile', extraParams).catch(() => ''),
+		]);
+
+		return res.json({
 			success: true,
-			url: req.normalizedUrl,
-			device,
-			screenshot: screenshotUrl,
+			url: req.normalizedUrl || `https://${domain}`,
+			screenshots: {
+				desktop: desktopUrl,
+				mobile: mobileUrl,
+			},
 		});
 	} catch (err) {
-		console.error(
-			`[API Captura] ❌ Error al procesar captura para ${domain} [${device}]: ${err.message}`,
-			err
-		);
-		res.status(500).json({
+		console.error(`[API Captura] ❌ Error al obtener captura para ${domain}: ${err.message}`, err);
+		return res.status(500).json({
 			success: false,
-			error: `Error al generar la captura: ${err.message}`,
+			error: `Error al generar las capturas: ${err.message}`,
 		});
 	}
 };
-app.get('/api/screenshot', validateUrlParam, handleScreenshot);
-app.post('/api/screenshot', validateUrlParam, handleScreenshot);
 
-// 2. CMS Endpoint (Obtener cms)
+/**
+ * Crear screenshots
+ */
+const handleScreenshotCreate = async (req, res) => {
+	return handleScreenshotGet(req, res);
+};
+
+/**
+ * Actualizar screenshots (fuerza regeneración y reemplaza capturas existentes)
+ */
+const handleScreenshotUpdate = async (req, res) => {
+	const domain = getDomainFromReq(req);
+	if (!domain) {
+		return res.status(400).json({
+			success: false,
+			error: 'El parámetro "url" es obligatorio para actualizar las capturas.',
+		});
+	}
+
+	const device = (req.query.device || req.body?.device || '').toLowerCase().trim();
+	const extraParams = { ...req.query, ...req.body };
+	delete extraParams.url;
+	delete extraParams.device;
+
+	try {
+		console.log(`[API Captura] 🔄 Forzando actualización y reemplazo de capturas para: ${domain}`);
+
+		if (device === 'mobile' || device === 'desktop') {
+			const screenshotUrl = await getScreenshot(domain, device, extraParams);
+			return res.json({
+				success: true,
+				message: `Captura [${device}] actualizada exitosamente`,
+				url: req.normalizedUrl || `https://${domain}`,
+				device,
+				screenshot: screenshotUrl,
+			});
+		}
+
+		const [desktopUrl, mobileUrl] = await Promise.all([
+			getScreenshot(domain, 'desktop', extraParams).catch(() => ''),
+			getScreenshot(domain, 'mobile', extraParams).catch(() => ''),
+		]);
+
+		return res.json({
+			success: true,
+			message: 'Capturas (desktop y mobile) actualizadas exitosamente',
+			url: req.normalizedUrl || `https://${domain}`,
+			screenshots: {
+				desktop: desktopUrl,
+				mobile: mobileUrl,
+			},
+		});
+	} catch (err) {
+		console.error(
+			`[API Captura] ❌ Error al actualizar capturas para ${domain}: ${err.message}`,
+			err
+		);
+		return res.status(500).json({
+			success: false,
+			error: `Error al actualizar las capturas: ${err.message}`,
+		});
+	}
+};
+
+/**
+ * Eliminar screenshots de un dominio
+ */
+const handleScreenshotDelete = async (req, res) => {
+	const domain = getDomainFromReq(req);
+	if (!domain) {
+		return res.status(400).json({
+			success: false,
+			error: 'El parámetro "url" o dominio es obligatorio para eliminar las capturas.',
+		});
+	}
+
+	try {
+		const deletedFiles = [];
+		const filesToDelete = [`desktop-${domain}.png`, `mobile-${domain}.png`];
+
+		for (const filename of filesToDelete) {
+			const filePath = path.join(screenshotsDir, filename);
+			if (fs.existsSync(filePath)) {
+				fs.unlinkSync(filePath);
+				deletedFiles.push(filename);
+			}
+		}
+
+		console.log(`[API Captura] 🗑️ Capturas eliminadas para ${domain}:`, deletedFiles);
+		return res.json({
+			success: true,
+			message:
+				deletedFiles.length > 0
+					? `Se eliminaron ${deletedFiles.length} capturas para ${domain}.`
+					: `No se encontraron archivos de captura para el dominio ${domain}.`,
+			domain,
+			deletedFiles,
+		});
+	} catch (err) {
+		console.error(
+			`[API Captura] ❌ Error al eliminar capturas para ${domain}: ${err.message}`,
+			err
+		);
+		return res.status(500).json({
+			success: false,
+			error: `Error al eliminar las capturas: ${err.message}`,
+		});
+	}
+};
+
+// Rutas de Screenshots
+app.get('/api/screenshots', validateUrlParam, handleScreenshotGet);
+app.get('/api/screenshot', validateUrlParam, handleScreenshotGet);
+app.post('/api/screenshots', validateUrlParam, handleScreenshotCreate);
+app.post('/api/screenshot', validateUrlParam, handleScreenshotCreate);
+app.put('/api/screenshots', validateUrlParam, handleScreenshotUpdate);
+app.patch('/api/screenshots', validateUrlParam, handleScreenshotUpdate);
+app.put('/api/screenshot', validateUrlParam, handleScreenshotUpdate);
+app.patch('/api/screenshot', validateUrlParam, handleScreenshotUpdate);
+app.delete('/api/screenshots', validateUrlParam, handleScreenshotDelete);
+app.delete('/api/screenshot', validateUrlParam, handleScreenshotDelete);
+
+// ==========================================
+// 2. HELPER REST CRUD PARA CATÁLOGO DE TECHS
+// ==========================================
+
+const createCatalogRouter = (collectionName, singularName) => {
+	return {
+		list: (req, res) => {
+			try {
+				const result = listTechs(collectionName, req.query);
+				res.json(result);
+			} catch (err) {
+				res.status(500).json({ success: false, error: err.message });
+			}
+		},
+		getById: (req, res) => {
+			try {
+				const item = getTechById(collectionName, req.params.id);
+				if (!item) {
+					return res.status(404).json({
+						success: false,
+						error: `No se encontró ${singularName} con el ID "${req.params.id}".`,
+					});
+				}
+				res.json({ success: true, data: item });
+			} catch (err) {
+				res.status(500).json({ success: false, error: err.message });
+			}
+		},
+		create: (req, res) => {
+			try {
+				const created = createTech(collectionName, req.body);
+				res.status(201).json({
+					success: true,
+					message: `${singularName} creado exitosamente`,
+					data: created,
+				});
+			} catch (err) {
+				res.status(400).json({ success: false, error: err.message });
+			}
+		},
+		update: (req, res) => {
+			try {
+				const updated = updateTech(collectionName, req.params.id, req.body);
+				res.json({
+					success: true,
+					message: `${singularName} actualizado exitosamente`,
+					data: updated,
+				});
+			} catch (err) {
+				const status = err.message.includes('No se encontró') ? 404 : 400;
+				res.status(status).json({ success: false, error: err.message });
+			}
+		},
+		delete: (req, res) => {
+			try {
+				deleteTech(collectionName, req.params.id);
+				res.json({
+					success: true,
+					message: `${singularName} con ID "${req.params.id}" eliminado exitosamente`,
+				});
+			} catch (err) {
+				const status = err.message.includes('No se encontró') ? 404 : 400;
+				res.status(status).json({ success: false, error: err.message });
+			}
+		},
+	};
+};
+
+const appsCrud = createCatalogRouter('apps', 'Aplicación');
+const infraCrud = createCatalogRouter('infra', 'Infraestructura');
+const pixelsCrud = createCatalogRouter('pixels', 'Píxel');
+const gatewaysCrud = createCatalogRouter('gateways', 'Pasarela de pago');
+const cmsCrud = createCatalogRouter('cms', 'CMS');
+
+// ==========================================
+// 3. RUTAS CRUD DE CATÁLOGO (/api/techs/...)
+// ==========================================
+
+// CMS Catálogo
+app.get('/api/techs/cms', cmsCrud.list);
+app.get('/api/techs/cms/:id', cmsCrud.getById);
+app.post('/api/techs/cms', cmsCrud.create);
+app.put('/api/techs/cms/:id', cmsCrud.update);
+app.patch('/api/techs/cms/:id', cmsCrud.update);
+app.delete('/api/techs/cms/:id', cmsCrud.delete);
+
+// Apps Catálogo
+app.get('/api/techs/apps', appsCrud.list);
+app.get('/api/techs/apps/:id', appsCrud.getById);
+app.post('/api/techs/apps', appsCrud.create);
+app.put('/api/techs/apps/:id', appsCrud.update);
+app.patch('/api/techs/apps/:id', appsCrud.update);
+app.delete('/api/techs/apps/:id', appsCrud.delete);
+
+// Infraestructura Catálogo
+app.get('/api/techs/infra', infraCrud.list);
+app.get('/api/techs/infra/:id', infraCrud.getById);
+app.post('/api/techs/infra', infraCrud.create);
+app.put('/api/techs/infra/:id', infraCrud.update);
+app.patch('/api/techs/infra/:id', infraCrud.update);
+app.delete('/api/techs/infra/:id', infraCrud.delete);
+
+// Píxeles Catálogo
+app.get('/api/techs/pixels', pixelsCrud.list);
+app.get('/api/techs/pixels/:id', pixelsCrud.getById);
+app.post('/api/techs/pixels', pixelsCrud.create);
+app.put('/api/techs/pixels/:id', pixelsCrud.update);
+app.patch('/api/techs/pixels/:id', pixelsCrud.update);
+app.delete('/api/techs/pixels/:id', pixelsCrud.delete);
+
+// Pasarelas Catálogo
+app.get('/api/techs/gateways', gatewaysCrud.list);
+app.get('/api/techs/gateways/:id', gatewaysCrud.getById);
+app.post('/api/techs/gateways', gatewaysCrud.create);
+app.put('/api/techs/gateways/:id', gatewaysCrud.update);
+app.patch('/api/techs/gateways/:id', gatewaysCrud.update);
+app.delete('/api/techs/gateways/:id', gatewaysCrud.delete);
+
+// ==========================================
+// 4. RUTAS DIRECTAS / ALIASES COMPATIBLES
+// ==========================================
+
+// CMS (Si lleva "url", escanea en vivo; si no lleva "url", consulta catálogo paginado)
+app.get('/api/cms', (req, res, next) => {
+	if (req.query?.url || req.body?.url) {
+		return validateUrlParam(req, res, () => handleCMS(req, res));
+	}
+	return cmsCrud.list(req, res);
+});
+app.get('/api/cms/:id', cmsCrud.getById);
+app.post('/api/cms', (req, res) => {
+	if (req.body?.url) {
+		return validateUrlParam(req, res, () => handleCMS(req, res));
+	}
+	return cmsCrud.create(req, res);
+});
+app.put('/api/cms/:id', cmsCrud.update);
+app.patch('/api/cms/:id', cmsCrud.update);
+app.delete('/api/cms/:id', cmsCrud.delete);
+
+// Apps (Si lleva "url", escanea en vivo; si no lleva "url", consulta catálogo paginado)
+app.get('/api/apps', (req, res, next) => {
+	if (req.query?.url || req.body?.url) {
+		return validateUrlParam(req, res, () => handleApps(req, res));
+	}
+	return appsCrud.list(req, res);
+});
+app.get('/api/apps/:id', appsCrud.getById);
+app.post('/api/apps', (req, res) => {
+	if (req.body?.url) {
+		return validateUrlParam(req, res, () => handleApps(req, res));
+	}
+	return appsCrud.create(req, res);
+});
+app.put('/api/apps/:id', appsCrud.update);
+app.patch('/api/apps/:id', appsCrud.update);
+app.delete('/api/apps/:id', appsCrud.delete);
+
+// Infraestructura (Si lleva "url", escanea; si no, consulta catálogo)
+app.get('/api/infra', (req, res, next) => {
+	if (req.query?.url || req.body?.url) {
+		return validateUrlParam(req, res, () => handleInfra(req, res));
+	}
+	return infraCrud.list(req, res);
+});
+app.get('/api/infra/:id', infraCrud.getById);
+app.post('/api/infra', (req, res) => {
+	if (req.body?.url) {
+		return validateUrlParam(req, res, () => handleInfra(req, res));
+	}
+	return infraCrud.create(req, res);
+});
+app.put('/api/infra/:id', infraCrud.update);
+app.patch('/api/infra/:id', infraCrud.update);
+app.delete('/api/infra/:id', infraCrud.delete);
+
+// Píxeles
+app.get('/api/pixels', (req, res) => pixelsCrud.list(req, res));
+app.get('/api/pixels/:id', pixelsCrud.getById);
+app.post('/api/pixels', pixelsCrud.create);
+app.put('/api/pixels/:id', pixelsCrud.update);
+app.patch('/api/pixels/:id', pixelsCrud.update);
+app.delete('/api/pixels/:id', pixelsCrud.delete);
+
+// Pasarelas
+app.get('/api/gateways', (req, res) => gatewaysCrud.list(req, res));
+app.get('/api/gateways/:id', gatewaysCrud.getById);
+app.post('/api/gateways', gatewaysCrud.create);
+app.put('/api/gateways/:id', gatewaysCrud.update);
+app.patch('/api/gateways/:id', gatewaysCrud.update);
+app.delete('/api/gateways/:id', gatewaysCrud.delete);
+
+// ==========================================
+// 5. DETECCIÓN Y ESCANEO EN VIVO
+// ==========================================
+
+// CMS Endpoint Handler
 const handleCMS = async (req, res) => {
 	const result = await detectTechnology(req.normalizedUrl);
 	if (result.success) {
@@ -866,10 +1223,8 @@ const handleCMS = async (req, res) => {
 		res.status(422).json({ success: false, error: result.error });
 	}
 };
-app.get('/api/cms', validateUrlParam, handleCMS);
-app.post('/api/cms', validateUrlParam, handleCMS);
 
-// 3. Apps/Plugins Endpoint (Obtener apps)
+// Apps Detección Handler
 const handleApps = async (req, res) => {
 	const result = await detectTechnology(req.normalizedUrl);
 	if (result.success) {
@@ -883,10 +1238,8 @@ const handleApps = async (req, res) => {
 		res.status(422).json({ success: false, error: result.error });
 	}
 };
-app.get('/api/apps', validateUrlParam, handleApps);
-app.post('/api/apps', validateUrlParam, handleApps);
 
-// 4. Location Endpoint (Obtener ubicación)
+// Location Endpoint
 const handleLocation = async (req, res) => {
 	const location = await getDomainLocation(req.normalizedUrl);
 	res.json(location);
@@ -894,7 +1247,7 @@ const handleLocation = async (req, res) => {
 app.get('/api/location', validateUrlParam, handleLocation);
 app.post('/api/location', validateUrlParam, handleLocation);
 
-// 5. Latency Endpoint (Obtener latencia)
+// Latency Endpoint
 const handleLatency = async (req, res) => {
 	const location = await getDomainLocation(req.normalizedUrl);
 	if (location.success && location.ll) {
@@ -916,7 +1269,7 @@ const handleLatency = async (req, res) => {
 app.get('/api/latency', validateUrlParam, handleLatency);
 app.post('/api/latency', validateUrlParam, handleLatency);
 
-// 6. Products Endpoint (Obtener productos)
+// Products Endpoint
 const handleProducts = async (req, res) => {
 	const result = await detectTechnology(req.normalizedUrl);
 	if (result.success) {
@@ -932,7 +1285,7 @@ const handleProducts = async (req, res) => {
 app.get('/api/products', validateUrlParam, handleProducts);
 app.post('/api/products', validateUrlParam, handleProducts);
 
-// 7. Theme/Template Endpoint (Obtener plantilla)
+// Theme Endpoint
 const handleTheme = async (req, res) => {
 	const result = await detectTechnology(req.normalizedUrl);
 	if (result.success) {
@@ -949,7 +1302,7 @@ const handleTheme = async (req, res) => {
 app.get('/api/theme', validateUrlParam, handleTheme);
 app.post('/api/theme', validateUrlParam, handleTheme);
 
-// 8. Payment Processors Endpoint (Obtener procesador de pago)
+// Payment Processors Endpoint
 const handlePaymentProcessors = async (req, res) => {
 	const result = await detectTechnology(req.normalizedUrl);
 	if (result.success) {
@@ -965,7 +1318,7 @@ const handlePaymentProcessors = async (req, res) => {
 app.get('/api/payment-processors', validateUrlParam, handlePaymentProcessors);
 app.post('/api/payment-processors', validateUrlParam, handlePaymentProcessors);
 
-// 9. Payment Methods Endpoint (Obtener métodos de pago)
+// Payment Methods Endpoint
 const handlePaymentMethods = async (req, res) => {
 	const result = await detectTechnology(req.normalizedUrl);
 	if (result.success) {
@@ -982,7 +1335,7 @@ const handlePaymentMethods = async (req, res) => {
 app.get('/api/payment-methods', validateUrlParam, handlePaymentMethods);
 app.post('/api/payment-methods', validateUrlParam, handlePaymentMethods);
 
-// 10. Infrastructure Endpoint (Obtener infra)
+// Infrastructure Detection Handler
 const handleInfra = async (req, res) => {
 	const result = await detectTechnology(req.normalizedUrl);
 	if (result.success) {
@@ -995,7 +1348,6 @@ const handleInfra = async (req, res) => {
 		res.status(422).json({ success: false, error: result.error });
 	}
 };
-app.get('/api/infra', validateUrlParam, handleInfra);
 // 11. PageSpeed Insights Endpoint
 const pageSpeedCache = new Map();
 const PAGESPEED_CACHE_TTL = 60 * 60 * 1000; // 1 hora de caché
@@ -1324,7 +1676,7 @@ app.get('*', (_req, res) => {
 });
 
 // Iniciar Servidor
-if (!process.env.VERCEL) {
+if (!process.env.VERCEL && process.env.NODE_ENV !== 'test') {
 	app.listen(PORT, () => {
 		console.log('=================================================');
 		console.log('🚀 Servidor API Chismógrafo en ejecución');

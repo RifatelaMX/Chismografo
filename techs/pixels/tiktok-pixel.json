@@ -1,7 +1,9 @@
 {
+	"id": "tiktok-pixel",
 	"name": "TikTok Pixel",
 	"category": "Redes Sociales",
 	"web": "https://ads.tiktok.com/help/article/tiktok-pixel",
+	"precios": [],
 	"logo": {
 		"id": "tiktok.com",
 		"provider": "logodev"

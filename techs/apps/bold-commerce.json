@@ -1,9 +1,11 @@
 {
+	"id": "bold-commerce",
 	"name": "Bold Commerce",
 	"developer": "Bold Commerce",
 	"category": "Checkout / Ofertas",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.bold-commerce.com",
+	"precios": [],
 	"appStores": [],
 	"logo": {
 		"id": "bold-commerce.com",

@@ -1,9 +1,11 @@
 {
+	"id": "video-player-by-widgetic",
 	"name": "Widgetic (Video Player)",
 	"developer": "Widgetic",
 	"category": "Constructor de Páginas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://widgetic.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

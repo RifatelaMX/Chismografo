@@ -1,9 +1,11 @@
 {
+	"id": "product-options-by-hulkapps-1",
 	"name": "Hulk Product Options",
 	"developer": "HulkApps",
 	"category": "Checkout / Ofertas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.hulkapps.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

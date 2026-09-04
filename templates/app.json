@@ -1,9 +1,11 @@
 {
+	"id": "{{slug}}",
 	"name": "{{name}}",
 	"developer": "{{developer}}",
 	"category": "{{category}}",
 	"compatibleCMS": "{{compatibleCMS}}",
 	"web": "{{web}}",
+	"precios": [],
 	"appStores": "{{appStores}}",
 	"logo": {
 		"id": "{{id_logo}}",

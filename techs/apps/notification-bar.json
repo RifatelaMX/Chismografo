@@ -1,9 +1,11 @@
 {
+	"id": "notification-bar",
 	"name": "POWR Email Popup & Discounts",
 	"developer": "POWR",
 	"category": "Marketing / Popups",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

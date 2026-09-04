@@ -1,9 +1,11 @@
 {
+	"id": "age-verification-check",
 	"name": "Hulk Age Verification Popup",
 	"developer": "HulkApps",
 	"category": "Seguridad",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.hulkapps.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

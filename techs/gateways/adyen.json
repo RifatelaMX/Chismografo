@@ -1,7 +1,9 @@
 {
+	"id": "adyen",
 	"name": "Adyen",
 	"category": "Pasarela de Pago",
 	"web": "https://adyen.com",
+	"precios": [],
 	"logo": {
 		"id": "adyen.com",
 		"provider": "logodev"

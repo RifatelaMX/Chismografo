@@ -1,9 +1,11 @@
 {
+	"id": "klaviyo",
 	"name": "Klaviyo",
 	"developer": "Klaviyo",
 	"category": "Email Marketing",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.klaviyo.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

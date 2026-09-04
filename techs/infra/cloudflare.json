@@ -1,7 +1,9 @@
 {
+	"id": "cloudflare",
 	"name": "Cloudflare",
 	"category": "CDN / Proxy",
 	"web": "https://www.cloudflare.com",
+	"precios": [],
 	"logo": {
 		"id": "cloudflare.com",
 		"provider": "logodev"

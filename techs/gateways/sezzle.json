@@ -1,9 +1,11 @@
 {
+	"id": "sezzle",
 	"name": "Sezzle",
 	"developer": "Sezzle",
 	"category": "Pago a Plazos (BNPL)",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.sezzle.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

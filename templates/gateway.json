@@ -1,7 +1,9 @@
 {
+	"id": "{{slug}}",
 	"name": "{{name}}",
-	"category": "Payment Gateway",
+	"category": "Pasarela de Pago",
 	"web": "{{web}}",
+	"precios": [],
 	"logo": {
 		"id": "{{id_logo}}",
 		"provider": "{{provider_logo}}"

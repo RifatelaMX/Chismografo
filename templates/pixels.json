@@ -1,7 +1,9 @@
 {
+	"id": "{{slug}}",
 	"name": "{{name}}",
 	"category": "Píxeles / Tracking",
 	"web": "{{web}}",
+	"precios": [],
 	"logo": {
 		"id": "{{id_logo}}",
 		"provider": "{{provider_logo}}"

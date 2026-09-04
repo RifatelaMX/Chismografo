@@ -1,9 +1,11 @@
 {
+	"id": "mintt-free-gift",
 	"name": "Mintt Free Gift & BOGO Upsell",
 	"developer": "Mintt",
 	"category": "Checkout / Ofertas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://mintt.co",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

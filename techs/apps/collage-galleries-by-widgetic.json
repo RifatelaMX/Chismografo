@@ -1,9 +1,11 @@
 {
+	"id": "collage-galleries-by-widgetic",
 	"name": "Widgetic (Mosaic Gallery)",
 	"developer": "Widgetic",
 	"category": "Constructor de Páginas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://widgetic.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

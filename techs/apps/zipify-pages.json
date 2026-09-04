@@ -1,9 +1,11 @@
 {
+	"id": "zipify-pages",
 	"name": "Zipify Landing Page Builder",
 	"developer": "Zipify Apps",
 	"category": "Constructor de Páginas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.zipify-pages.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

@@ -1,9 +1,11 @@
 {
+	"id": "seo-manager",
 	"name": "SEO Manager",
 	"developer": "SEO Manager",
 	"category": "SEO",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.seo-manager.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

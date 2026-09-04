@@ -1,9 +1,11 @@
 {
+	"id": "gempages",
 	"name": "GemPages",
 	"developer": "GemPages",
 	"category": "Constructor de Páginas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.gempages.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

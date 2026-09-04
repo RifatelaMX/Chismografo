@@ -1,7 +1,9 @@
 {
+	"id": "webpay",
 	"name": "Webpay",
 	"category": "Pasarela de Pago",
 	"web": "https://www.transbank.cl",
+	"precios": [],
 	"logo": {
 		"id": "webpay.cl",
 		"provider": "brandicons"

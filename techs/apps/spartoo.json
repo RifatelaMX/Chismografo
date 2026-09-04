@@ -1,9 +1,11 @@
 {
+	"id": "spartoo",
 	"name": "Spartoo",
 	"developer": "Spartoo",
 	"category": "Envíos / Pedidos",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/spartoo",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

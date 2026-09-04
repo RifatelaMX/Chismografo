@@ -1,7 +1,9 @@
 {
+	"id": "openpay",
 	"name": "Openpay",
 	"category": "Pasarela de Pago",
 	"web": "https://openpay.mx",
+	"precios": [],
 	"logo": {
 		"id": "openpay.mx",
 		"provider": "logodev"

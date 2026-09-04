@@ -361,55 +361,223 @@ chismografo add-infra</code></pre>
       <!-- =================================================================== -->
       <section id="tab-api" class="tab-content-section">
         <section class="card glass-panel api-doc-section">
-          <div class="card-header">
-            <i data-lucide="globe"></i>
-            <h2>🌐 API REST</h2>
+          <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <i data-lucide="globe"></i>
+              <h2 style="margin: 0;">🌐 API REST del Chismógrafo</h2>
+            </div>
+            <a href="/openapi.json" target="_blank" class="btn-primary" style="font-size: 0.85rem; text-decoration: none; padding: 0.45rem 0.9rem;">
+              <i data-lucide="file-json"></i>
+              <span>Descargar OpenAPI Spec (v3.0.3)</span>
+            </a>
           </div>
-          <p class="section-desc">Endpoints para conectar con el motor de escaneo.</p>
+          <p class="section-desc">Documentación completa de los endpoints de detección en tiempo real, gestión de capturas de pantalla y catálogo CRUD de tecnologías con soporte para planes de precios.</p>
+
+          <!-- 1. CAPTURAS DE PANTALLA -->
+          <h3 style="font-family: var(--font-handwritten); font-size: 1.6rem; color: var(--gel-purple); border-bottom: 2px dashed var(--paper-lines); padding-bottom: 0.35rem; margin: 1.5rem 0 1rem;">
+            📸 Capturas de Pantalla (Screenshots)
+          </h3>
 
           <div class="endpoint-block" style="margin-bottom:1rem;">
-              <div class="endpoint-header">
-                <span class="method post">POST</span>
-                <span class="path">/api/rules/test</span>
-              </div>
-              <p>Probar lote de reglas dinámicas (<code>detectionRules</code>) contra URL o HTML.</p>
-              <div class="code-wrapper">
-                <pre><code class="language-bash">curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com", "detectionRules": [{"type": "meta", "key": "generator", "pattern": "shopify"}]}' http://localhost:3000/api/rules/test</code></pre>
-              </div>
+            <div class="endpoint-header">
+              <span class="method get">GET</span>
+              <span class="path">/api/screenshots</span>
+            </div>
+            <p>Obtiene las capturas de un sitio web. Parámetro <code>device=desktop</code> o <code>device=mobile</code> opcional; si se omite, devuelve ambas capturas en un objeto.</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash"># Obtener ambas capturas (Desktop y Móvil)
+curl "http://localhost:3000/api/screenshots?url=shopify.com"
+
+# Obtener únicamente versión móvil
+curl "http://localhost:3000/api/screenshots?url=shopify.com&device=mobile"</code></pre>
+            </div>
           </div>
 
           <div class="endpoint-block" style="margin-bottom:1rem;">
-              <div class="endpoint-header">
-                <span class="method post">POST</span>
-                <span class="path">/api/detect</span>
-              </div>
-              <p>Escanear sitio completo (Cuerpo JSON).</p>
-              <div class="code-wrapper">
-                <pre><code class="language-bash">curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com"}' http://localhost:3000/api/detect</code></pre>
-              </div>
+            <div class="endpoint-header">
+              <span class="method post">POST</span>
+              <span class="path">/api/screenshots</span>
+            </div>
+            <p>Genera y guarda nuevas capturas de pantalla para una URL.</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash">curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com", "device": "desktop"}' http://localhost:3000/api/screenshots</code></pre>
+            </div>
           </div>
 
           <div class="endpoint-block" style="margin-bottom:1rem;">
-              <div class="endpoint-header">
-                <span class="method get">GET</span>
-                <span class="path">/api/detect</span>
-              </div>
-              <p>Escanear sitio completo (Query param).</p>
-              <div class="code-wrapper">
-                <pre><code class="language-bash">curl "http://localhost:3000/api/detect?url=shopify.com"</code></pre>
-              </div>
+            <div class="endpoint-header">
+              <span class="method put">PUT</span>
+              <span class="method" style="background:#8e44ad !important;">PATCH</span>
+              <span class="path">/api/screenshots</span>
+            </div>
+            <p>Fuerza la regeneración y reemplazo de las capturas existentes de un dominio.</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash">curl -X PUT -H "Content-Type: application/json" -d '{"url": "shopify.com"}' http://localhost:3000/api/screenshots</code></pre>
+            </div>
           </div>
-          
+
+          <div class="endpoint-block" style="margin-bottom:1.5rem;">
+            <div class="endpoint-header">
+              <span class="method delete">DELETE</span>
+              <span class="path">/api/screenshots</span>
+            </div>
+            <p>Elimina del servidor los archivos de captura asociados al dominio.</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash">curl -X DELETE "http://localhost:3000/api/screenshots?url=shopify.com"</code></pre>
+            </div>
+          </div>
+
+          <!-- 2. CATÁLOGO CRUD DE TECNOLOGÍAS -->
+          <h3 style="font-family: var(--font-handwritten); font-size: 1.6rem; color: var(--gel-purple); border-bottom: 2px dashed var(--paper-lines); padding-bottom: 0.35rem; margin: 1.5rem 0 1rem;">
+            📦 Catálogo de Tecnologías (CRUD & Planes de Precios)
+          </h3>
+          <p style="font-size: 0.88rem; color: var(--ink-medium); margin-bottom: 1rem;">
+            Endpoints disponibles para las colecciones: <code>/api/techs/apps</code>, <code>/api/techs/cms</code>, <code>/api/techs/infra</code>, <code>/api/techs/pixels</code> y <code>/api/techs/gateways</code>.
+          </p>
+
           <div class="endpoint-block" style="margin-bottom:1rem;">
-              <div class="endpoint-header">
-                <span class="method post">POST</span>
-                <span class="path">/api/pagespeed</span>
-              </div>
-              <p>Lanzar speed test de Google PageSpeed.</p>
-              <div class="code-wrapper">
-                <pre><code class="language-bash">curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com"}' http://localhost:3000/api/pagespeed</code></pre>
-              </div>
+            <div class="endpoint-header">
+              <span class="method get">GET</span>
+              <span class="path">/api/techs/{apps|cms|infra|pixels|gateways}</span>
+            </div>
+            <p>Listar elementos con soporte de filtrado por categoría y paginación (por defecto 5 elementos por página).</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash"># Listar primeras 5 aplicaciones (página 1 por defecto)
+curl "http://localhost:3000/api/techs/apps?limit=5&page=1"
+
+# Filtrar por categoría
+curl "http://localhost:3000/api/techs/apps?category=Anal%C3%ADtica&limit=10"</code></pre>
+            </div>
           </div>
+
+          <div class="endpoint-block" style="margin-bottom:1rem;">
+            <div class="endpoint-header">
+              <span class="method get">GET</span>
+              <span class="path">/api/techs/{coleccion}/{id}</span>
+            </div>
+            <p>Obtiene el expediente completo de una tecnología mediante su ID único en formato slug (kebab-case).</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash">curl "http://localhost:3000/api/techs/apps/microsoft-clarity"
+curl "http://localhost:3000/api/techs/cms/shopify"</code></pre>
+            </div>
+          </div>
+
+          <div class="endpoint-block" style="margin-bottom:1rem;">
+            <div class="endpoint-header">
+              <span class="method post">POST</span>
+              <span class="path">/api/techs/{coleccion}</span>
+            </div>
+            <p>Crea una nueva tecnología en el catálogo incluyendo identificador único, planes de precios múltiples y reglas de detección.</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash">curl -X POST -H "Content-Type: application/json" -d '{
+  "name": "Mi App Nueva",
+  "developer": "Mi Empresa",
+  "category": "Analítica",
+  "precios": [
+    {
+      "id": 1,
+      "plan": "Demo",
+      "precio": 1.00,
+      "moneda": "USD"
+    },
+    {
+      "id": 2,
+      "plan": "Pro",
+      "precio": 29.00,
+      "moneda": "USD"
+    }
+  ],
+  "detectionRules": [
+    {
+      "type": "script-src",
+      "pattern": "mi-app\\.js",
+      "description": "Script detectado"
+    }
+  ]
+}' http://localhost:3000/api/techs/apps</code></pre>
+            </div>
+          </div>
+
+          <div class="endpoint-block" style="margin-bottom:1rem;">
+            <div class="endpoint-header">
+              <span class="method put">PUT</span>
+              <span class="method" style="background:#8e44ad !important;">PATCH</span>
+              <span class="path">/api/techs/{coleccion}/{id}</span>
+            </div>
+            <p>Actualiza de forma completa (<code>PUT</code>) o parcial (<code>PATCH</code>) la información, precios o reglas de una tecnología.</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash">curl -X PATCH -H "Content-Type: application/json" -d '{
+  "precios": [
+    {
+      "id": 1,
+      "plan": "Free Tier",
+      "precio": 0.00,
+      "moneda": "USD"
+    }
+  ]
+}' http://localhost:3000/api/techs/apps/mi-app-nueva</code></pre>
+            </div>
+          </div>
+
+          <div class="endpoint-block" style="margin-bottom:1.5rem;">
+            <div class="endpoint-header">
+              <span class="method delete">DELETE</span>
+              <span class="path">/api/techs/{coleccion}/{id}</span>
+            </div>
+            <p>Elimina la tecnología del catálogo y del sistema de archivos, sincronizando el índice en caliente.</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash">curl -X DELETE "http://localhost:3000/api/techs/apps/mi-app-nueva"</code></pre>
+            </div>
+          </div>
+
+          <!-- 3. DETECCIÓN Y UTILIDADES -->
+          <h3 style="font-family: var(--font-handwritten); font-size: 1.6rem; color: var(--gel-purple); border-bottom: 2px dashed var(--paper-lines); padding-bottom: 0.35rem; margin: 1.5rem 0 1rem;">
+            🕵️ Detección en Tiempo Real & Reglas
+          </h3>
+
+          <div class="endpoint-block" style="margin-bottom:1rem;">
+            <div class="endpoint-header">
+              <span class="method post">POST</span>
+              <span class="method get">GET</span>
+              <span class="path">/api/detect</span>
+            </div>
+            <p>Escanea un sitio web completo identificando CMS, plugins, pasarelas, píxeles, CDN, geolocalización y velocidad Lighthouse.</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash">curl "http://localhost:3000/api/detect?url=shopify.com"
+curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com"}' http://localhost:3000/api/detect</code></pre>
+            </div>
+          </div>
+
+          <div class="endpoint-block" style="margin-bottom:1rem;">
+            <div class="endpoint-header">
+              <span class="method post">POST</span>
+              <span class="path">/api/rules/test</span>
+            </div>
+            <p>Evalúa un lote de reglas de detección (<code>detectionRules</code>) contra una URL o código HTML en vivo.</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash">curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com", "detectionRules": [{"type": "meta", "key": "generator", "pattern": "shopify"}]}' http://localhost:3000/api/rules/test</code></pre>
+            </div>
+          </div>
+
+          <div class="endpoint-block" style="margin-bottom:1rem;">
+            <div class="endpoint-header">
+              <span class="method post">POST</span>
+              <span class="path">/api/pagespeed</span>
+            </div>
+            <p>Lanza auditoría móvil de velocidad, accesibilidad y SEO vía Google PageSpeed Insights.</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash">curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com"}' http://localhost:3000/api/pagespeed</code></pre>
+            </div>
+          </div>
+
+          <div class="endpoint-block" style="margin-bottom:1rem;">
+            <div class="endpoint-header">
+              <span class="method" style="background: #16a085 !important;">OPTIONS</span>
+              <span class="path">/api/*</span>
+            </div>
+            <p>Respuesta preflight CORS automática con código HTTP 204 y cabeceras permitidas (<code>GET, POST, PUT, DELETE, OPTIONS, PATCH, HEAD</code>).</p>
+          </div>
+
         </section>
       </section>
 

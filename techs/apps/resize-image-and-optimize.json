@@ -1,9 +1,11 @@
 {
+	"id": "resize-image-and-optimize",
 	"name": "Pushdaddy Resize Image",
 	"developer": "Pushdaddy",
 	"category": "Marketing / Popups",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://pushdaddy.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

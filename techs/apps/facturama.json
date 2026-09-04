@@ -1,9 +1,11 @@
 {
+	"id": "facturama",
 	"name": "Facturama: Facturación CFDI",
 	"developer": "Facturama",
 	"category": "Facturación / Contabilidad",
 	"compatibleCMS": ["Shopify", "WooCommerce", "Magento", "PrestaShop", "VTEX"],
 	"web": "https://www.facturama.mx",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

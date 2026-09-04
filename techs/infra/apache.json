@@ -1,7 +1,9 @@
 {
+	"id": "apache",
 	"name": "Apache",
 	"category": "Servidor Web",
 	"web": "https://httpd.apache.org",
+	"precios": [],
 	"logo": {
 		"id": "apache.org",
 		"provider": "logodev"

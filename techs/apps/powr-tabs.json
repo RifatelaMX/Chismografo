@@ -1,9 +1,11 @@
 {
+	"id": "powr-tabs",
 	"name": "POWR: Accordion Product Tabs",
 	"developer": "POWR",
 	"category": "Constructor de Páginas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",
