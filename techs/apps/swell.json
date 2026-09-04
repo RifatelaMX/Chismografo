@@ -1,9 +1,11 @@
 {
+	"id": "swell",
 	"name": "Yotpo: Loyalty Rewards Program",
 	"developer": "Yotpo",
 	"category": "Otros",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://yotpo.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

@@ -1,9 +1,11 @@
 {
+	"id": "powr-countdown-timer",
 	"name": "POWR: Countdown Timer Bar",
 	"developer": "POWR",
 	"category": "Checkout / Ofertas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

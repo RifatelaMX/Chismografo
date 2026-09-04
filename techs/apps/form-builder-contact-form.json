@@ -1,9 +1,11 @@
 {
+	"id": "form-builder-contact-form",
 	"name": "Powerful Contact Form Builder",
 	"developer": "Powerful Contact Form Builder",
 	"category": "Otros",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://powerfulform.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

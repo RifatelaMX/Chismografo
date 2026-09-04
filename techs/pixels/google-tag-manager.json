@@ -1,9 +1,11 @@
 {
+	"id": "google-tag-manager",
 	"name": "Google Tag Manager",
 	"developer": "Google Tag Manager",
 	"category": "Analítica",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.google.com",
+	"precios": [],
 	"appStores": [],
 	"logo": {
 		"id": "google.com",

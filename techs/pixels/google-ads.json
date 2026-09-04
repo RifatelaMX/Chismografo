@@ -1,7 +1,9 @@
 {
+	"id": "google-ads",
 	"name": "Google Ads",
 	"category": "Píxeles / Tracking",
 	"web": "https://ads.google.com/",
+	"precios": [],
 	"logo": {
 		"id": "ads.google.com",
 		"provider": "logodev"

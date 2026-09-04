@@ -1,9 +1,11 @@
 {
+	"id": "easylocation",
 	"name": "Geolocation Redirects Geo:Pro",
 	"developer": "Geo:Pro",
 	"category": "Otros",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://geoproapp.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

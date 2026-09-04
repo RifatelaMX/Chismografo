@@ -1,9 +1,11 @@
 {
+	"id": "simple-reorder",
 	"name": "Reorder Buy Again Repeat Order",
 	"developer": "Reorder Buy Again Repeat Order",
 	"category": "Envíos / Pedidos",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/simple-reorder",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

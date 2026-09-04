@@ -1,9 +1,11 @@
 {
+	"id": "tidio",
 	"name": "Tidio: AI Chatbot & Live Chat",
 	"developer": "Tidio",
 	"category": "Soporte / Chat",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.tidio.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

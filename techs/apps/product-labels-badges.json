@@ -1,9 +1,11 @@
 {
+	"id": "product-labels-badges",
 	"name": "Labeler: Product Labels Badges",
 	"developer": "BSS Commerce",
 	"category": "Insignias / Etiquetas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://bsscommerce.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

@@ -1,9 +1,11 @@
 {
+	"id": "powr-popup",
 	"name": "POWR Sales Popup, Email Pop up",
 	"developer": "POWR",
 	"category": "Marketing / Popups",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

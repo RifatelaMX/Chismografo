@@ -1,9 +1,11 @@
 {
+	"id": "special-offers",
 	"name": "USO: Ultimate Special Offers",
 	"developer": "Pixel Union",
 	"category": "Checkout / Ofertas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/special-offers",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

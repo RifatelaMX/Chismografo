@@ -1,9 +1,11 @@
 {
+	"id": "powerful-announcement-bar",
 	"name": "Pushdaddy Announcement Bar",
 	"developer": "Pushdaddy",
 	"category": "Marketing / Popups",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://pushdaddy.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

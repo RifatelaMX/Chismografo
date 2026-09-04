@@ -1,9 +1,11 @@
 {
+	"id": "microsoft-clarity",
 	"name": "Microsoft Clarity: AI Insights",
 	"developer": "Microsoft Clarity",
 	"category": "Analítica",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.microsoft.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

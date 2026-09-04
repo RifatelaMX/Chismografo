@@ -1,9 +1,11 @@
 {
+	"id": "way2enjoy-image-optimizer",
 	"name": "Way2Enjoy Image Optimizer",
 	"developer": "Way2Enjoy",
 	"category": "SEO",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/way2enjoy-image-optimizer",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

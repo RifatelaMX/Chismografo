@@ -1,7 +1,9 @@
 {
+	"id": "varnish",
 	"name": "Varnish",
 	"category": "CDN / Proxy",
 	"web": "https://varnish-cache.org",
+	"precios": [],
 	"logo": {
 		"id": "varnish-cache.org",
 		"provider": "logodev"

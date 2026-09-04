@@ -1,9 +1,11 @@
 {
+	"id": "gorgias",
 	"name": "Gorgias: AI, Helpdesk & Chat",
 	"developer": "Gorgias Inc.",
 	"category": "Soporte / Chat",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.gorgias.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

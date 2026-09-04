@@ -649,23 +649,33 @@
 									"properties": {
 										"cms": {
 											"type": "array",
-											"items": { "type": "object" }
+											"items": {
+												"type": "object"
+											}
 										},
 										"apps": {
 											"type": "array",
-											"items": { "type": "object" }
+											"items": {
+												"type": "object"
+											}
 										},
 										"infra": {
 											"type": "array",
-											"items": { "type": "object" }
+											"items": {
+												"type": "object"
+											}
 										},
 										"gateways": {
 											"type": "array",
-											"items": { "type": "object" }
+											"items": {
+												"type": "object"
+											}
 										},
 										"pixels": {
 											"type": "array",
-											"items": { "type": "object" }
+											"items": {
+												"type": "object"
+											}
 										}
 									}
 								}
@@ -744,6 +754,1140 @@
 					}
 				}
 			}
+		},
+		"/api/screenshots": {
+			"get": {
+				"summary": "Obtener screenshots (móvil, escritorio o ambas) 📸",
+				"description": "Obtiene las capturas de pantalla de un sitio web. Si se especifica `device=mobile` o `device=desktop`, devuelve esa captura; si se omite, devuelve ambas.",
+				"tags": ["Capturas de Pantalla"],
+				"parameters": [
+					{
+						"$ref": "#/components/parameters/UrlQueryParam"
+					},
+					{
+						"$ref": "#/components/parameters/DeviceQueryParam"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Capturas obtenidas exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ScreenshotsFullResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Parámetro URL faltante o inválido",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Crear screenshots para un dominio 📸",
+				"description": "Genera y almacena capturas de pantalla de la URL especificada (móvil, escritorio o ambas).",
+				"tags": ["Capturas de Pantalla"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"required": ["url"],
+								"properties": {
+									"url": {
+										"type": "string",
+										"format": "uri",
+										"example": "https://shopify.com"
+									},
+									"device": {
+										"type": "string",
+										"enum": ["desktop", "mobile"],
+										"example": "desktop"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Captura creada exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ScreenshotsFullResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "Actualizar screenshots existentes 🔄",
+				"description": "Fuerza la regeneración y reemplazo de las capturas de pantalla existentes para el dominio indicado.",
+				"tags": ["Capturas de Pantalla"],
+				"parameters": [
+					{
+						"$ref": "#/components/parameters/UrlQueryParam"
+					},
+					{
+						"$ref": "#/components/parameters/DeviceQueryParam"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Capturas actualizadas y reemplazadas exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ScreenshotsFullResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Eliminar screenshots de un dominio 🗑️",
+				"description": "Elimina del servidor/almacenamiento las capturas de pantalla asociadas a un dominio.",
+				"tags": ["Capturas de Pantalla"],
+				"parameters": [
+					{
+						"$ref": "#/components/parameters/UrlQueryParam"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Capturas eliminadas exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ScreenshotsDeleteResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/techs/apps": {
+			"get": {
+				"summary": "Listar apps con paginación y filtro de categoría 📦",
+				"description": "Obtiene el listado paginado de apps registradas en el catálogo del Chismógrafo. Permite filtrar por categoría y definir la cantidad de elementos por página (por defecto 5).",
+				"tags": ["Catálogo de Apps"],
+				"parameters": [
+					{
+						"$ref": "#/components/parameters/CategoryQueryParam"
+					},
+					{
+						"$ref": "#/components/parameters/PageQueryParam"
+					},
+					{
+						"$ref": "#/components/parameters/LimitQueryParam"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Listado de apps paginado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedTechResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Crear Aplicación con planes de precios ➕",
+				"description": "Registra una nueva tecnología en el catálogo de apps con identificador único y configuración de planes de precios.",
+				"tags": ["Catálogo de Apps"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Aplicación creado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Datos inválidos o ID duplicado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/techs/apps/{id}": {
+			"get": {
+				"summary": "Obtener Aplicación por ID 🔍",
+				"description": "Recupera los datos completos de un expediente de Aplicación por su identificador único (slug).",
+				"tags": ["Catálogo de Apps"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug de la tecnología (ej. microsoft-clarity)",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Aplicación encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "Actualizar Aplicación por ID ✏️",
+				"description": "Actualiza la información, planes de precios o reglas de detección de un Aplicación existente.",
+				"tags": ["Catálogo de Apps"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a actualizar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Aplicación actualizado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Eliminar Aplicación por ID 🗑️",
+				"description": "Elimina del catálogo y del sistema de archivos el expediente del Aplicación.",
+				"tags": ["Catálogo de Apps"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a eliminar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Aplicación eliminado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/techs/infra": {
+			"get": {
+				"summary": "Listar infra con paginación y filtro de categoría 📦",
+				"description": "Obtiene el listado paginado de infra registradas en el catálogo del Chismógrafo. Permite filtrar por categoría y definir la cantidad de elementos por página (por defecto 5).",
+				"tags": ["Catálogo de Infraestructura"],
+				"parameters": [
+					{
+						"$ref": "#/components/parameters/CategoryQueryParam"
+					},
+					{
+						"$ref": "#/components/parameters/PageQueryParam"
+					},
+					{
+						"$ref": "#/components/parameters/LimitQueryParam"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Listado de infra paginado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedTechResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Crear Infraestructura con planes de precios ➕",
+				"description": "Registra una nueva tecnología en el catálogo de infra con identificador único y configuración de planes de precios.",
+				"tags": ["Catálogo de Infraestructura"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Infraestructura creado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Datos inválidos o ID duplicado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/techs/infra/{id}": {
+			"get": {
+				"summary": "Obtener Infraestructura por ID 🔍",
+				"description": "Recupera los datos completos de un expediente de Infraestructura por su identificador único (slug).",
+				"tags": ["Catálogo de Infraestructura"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug de la tecnología (ej. microsoft-clarity)",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Infraestructura encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "Actualizar Infraestructura por ID ✏️",
+				"description": "Actualiza la información, planes de precios o reglas de detección de un Infraestructura existente.",
+				"tags": ["Catálogo de Infraestructura"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a actualizar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Infraestructura actualizado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Eliminar Infraestructura por ID 🗑️",
+				"description": "Elimina del catálogo y del sistema de archivos el expediente del Infraestructura.",
+				"tags": ["Catálogo de Infraestructura"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a eliminar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Infraestructura eliminado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/techs/pixels": {
+			"get": {
+				"summary": "Listar pixels con paginación y filtro de categoría 📦",
+				"description": "Obtiene el listado paginado de pixels registradas en el catálogo del Chismógrafo. Permite filtrar por categoría y definir la cantidad de elementos por página (por defecto 5).",
+				"tags": ["Catálogo de Píxeles"],
+				"parameters": [
+					{
+						"$ref": "#/components/parameters/CategoryQueryParam"
+					},
+					{
+						"$ref": "#/components/parameters/PageQueryParam"
+					},
+					{
+						"$ref": "#/components/parameters/LimitQueryParam"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Listado de pixels paginado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedTechResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Crear Píxel con planes de precios ➕",
+				"description": "Registra una nueva tecnología en el catálogo de pixels con identificador único y configuración de planes de precios.",
+				"tags": ["Catálogo de Píxeles"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Píxel creado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Datos inválidos o ID duplicado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/techs/pixels/{id}": {
+			"get": {
+				"summary": "Obtener Píxel por ID 🔍",
+				"description": "Recupera los datos completos de un expediente de Píxel por su identificador único (slug).",
+				"tags": ["Catálogo de Píxeles"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug de la tecnología (ej. microsoft-clarity)",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Píxel encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "Actualizar Píxel por ID ✏️",
+				"description": "Actualiza la información, planes de precios o reglas de detección de un Píxel existente.",
+				"tags": ["Catálogo de Píxeles"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a actualizar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Píxel actualizado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Eliminar Píxel por ID 🗑️",
+				"description": "Elimina del catálogo y del sistema de archivos el expediente del Píxel.",
+				"tags": ["Catálogo de Píxeles"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a eliminar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Píxel eliminado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/techs/gateways": {
+			"get": {
+				"summary": "Listar gateways con paginación y filtro de categoría 📦",
+				"description": "Obtiene el listado paginado de gateways registradas en el catálogo del Chismógrafo. Permite filtrar por categoría y definir la cantidad de elementos por página (por defecto 5).",
+				"tags": ["Catálogo de Pasarelas"],
+				"parameters": [
+					{
+						"$ref": "#/components/parameters/CategoryQueryParam"
+					},
+					{
+						"$ref": "#/components/parameters/PageQueryParam"
+					},
+					{
+						"$ref": "#/components/parameters/LimitQueryParam"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Listado de gateways paginado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedTechResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Crear Pasarela de Pago con planes de precios ➕",
+				"description": "Registra una nueva tecnología en el catálogo de gateways con identificador único y configuración de planes de precios.",
+				"tags": ["Catálogo de Pasarelas"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Pasarela de Pago creado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Datos inválidos o ID duplicado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/techs/gateways/{id}": {
+			"get": {
+				"summary": "Obtener Pasarela de Pago por ID 🔍",
+				"description": "Recupera los datos completos de un expediente de Pasarela de Pago por su identificador único (slug).",
+				"tags": ["Catálogo de Pasarelas"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug de la tecnología (ej. microsoft-clarity)",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Pasarela de Pago encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "Actualizar Pasarela de Pago por ID ✏️",
+				"description": "Actualiza la información, planes de precios o reglas de detección de un Pasarela de Pago existente.",
+				"tags": ["Catálogo de Pasarelas"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a actualizar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Pasarela de Pago actualizado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Eliminar Pasarela de Pago por ID 🗑️",
+				"description": "Elimina del catálogo y del sistema de archivos el expediente del Pasarela de Pago.",
+				"tags": ["Catálogo de Pasarelas"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a eliminar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Pasarela de Pago eliminado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/techs/cms": {
+			"get": {
+				"summary": "Listar cms con paginación y filtro de categoría 📦",
+				"description": "Obtiene el listado paginado de cms registradas en el catálogo del Chismógrafo. Permite filtrar por categoría y definir la cantidad de elementos por página (por defecto 5).",
+				"tags": ["Catálogo de CMS"],
+				"parameters": [
+					{
+						"$ref": "#/components/parameters/CategoryQueryParam"
+					},
+					{
+						"$ref": "#/components/parameters/PageQueryParam"
+					},
+					{
+						"$ref": "#/components/parameters/LimitQueryParam"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Listado de cms paginado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedTechResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Crear CMS con planes de precios ➕",
+				"description": "Registra una nueva tecnología en el catálogo de cms con identificador único y configuración de planes de precios.",
+				"tags": ["Catálogo de CMS"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "CMS creado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Datos inválidos o ID duplicado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/techs/cms/{id}": {
+			"get": {
+				"summary": "Obtener CMS por ID 🔍",
+				"description": "Recupera los datos completos de un expediente de CMS por su identificador único (slug).",
+				"tags": ["Catálogo de CMS"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug de la tecnología (ej. shopify)",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "CMS encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "Actualizar CMS por ID ✏️",
+				"description": "Actualiza la información, planes de precios o reglas de detección de un CMS existente.",
+				"tags": ["Catálogo de CMS"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a actualizar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "CMS actualizado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Eliminar CMS por ID 🗑️",
+				"description": "Elimina del catálogo y del sistema de archivos el expediente del CMS.",
+				"tags": ["Catálogo de CMS"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a eliminar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "CMS eliminado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 	"components": {
@@ -757,6 +1901,47 @@
 					"type": "string",
 					"format": "uri",
 					"example": "https://tienda-ejemplo.com"
+				}
+			},
+			"CategoryQueryParam": {
+				"name": "category",
+				"in": "query",
+				"required": false,
+				"description": "Filtrar por categoría (ej. Analítica, Pasarela de Pago)",
+				"schema": {
+					"type": "string"
+				}
+			},
+			"PageQueryParam": {
+				"name": "page",
+				"in": "query",
+				"required": false,
+				"description": "Número de página a consultar (por defecto 1)",
+				"schema": {
+					"type": "integer",
+					"default": 1,
+					"minimum": 1
+				}
+			},
+			"LimitQueryParam": {
+				"name": "limit",
+				"in": "query",
+				"required": false,
+				"description": "Cantidad de elementos por página (por defecto 5)",
+				"schema": {
+					"type": "integer",
+					"default": 5,
+					"minimum": 1
+				}
+			},
+			"DeviceQueryParam": {
+				"name": "device",
+				"in": "query",
+				"required": false,
+				"description": "Dispositivo para la captura (desktop, mobile o omitir para ambas)",
+				"schema": {
+					"type": "string",
+					"enum": ["desktop", "mobile"]
 				}
 			}
 		},
@@ -856,47 +2041,130 @@
 			},
 			"TechItem": {
 				"type": "object",
+				"required": ["id", "name"],
 				"properties": {
+					"id": {
+						"type": "string",
+						"example": "microsoft-clarity"
+					},
 					"name": {
 						"type": "string",
-						"example": "Klaviyo"
-					},
-					"category": {
-						"type": "string",
-						"example": "Email Marketing"
+						"example": "Microsoft Clarity: AI Insights"
 					},
 					"developer": {
 						"type": "string",
-						"example": "Klaviyo Inc."
+						"example": "Microsoft Clarity"
+					},
+					"category": {
+						"type": "string",
+						"example": "Analítica"
+					},
+					"compatibleCMS": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"example": ["Shopify", "WooCommerce"]
 					},
 					"web": {
 						"type": "string",
-						"example": "https://klaviyo.com"
+						"format": "uri",
+						"example": "https://www.microsoft.com"
 					},
-					"evidence": {
-						"type": "string",
-						"example": "static.klaviyo.com/onsite/js/klaviyo.js"
+					"precios": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/PrecioPlan"
+						}
+					},
+					"appStores": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"cms": {
+									"type": "string",
+									"example": "Shopify"
+								},
+								"link": {
+									"type": "string",
+									"example": "microsoft-clarity"
+								}
+							}
+						}
+					},
+					"logo": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string",
+								"example": "clarity.microsoft.com"
+							},
+							"provider": {
+								"type": "string",
+								"example": "brandicons"
+							}
+						}
+					},
+					"detectionRules": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"type": {
+									"type": "string",
+									"example": "script-src"
+								},
+								"pattern": {
+									"type": "string",
+									"example": "clarity\\.ms\\/tag\\/|clarity\\.js"
+								},
+								"description": {
+									"type": "string",
+									"example": "Script de Microsoft Clarity detectado"
+								}
+							}
+						}
 					}
 				}
 			},
 			"CmsResponse": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"url": { "type": "string" },
-					"technology": { "type": "string", "example": "Shopify" },
-					"confidence": { "type": "number", "example": 1 },
-					"theme": { "type": "string", "example": "Dawn" }
+					"success": {
+						"type": "boolean"
+					},
+					"url": {
+						"type": "string"
+					},
+					"technology": {
+						"type": "string",
+						"example": "Shopify"
+					},
+					"confidence": {
+						"type": "number",
+						"example": 1
+					},
+					"theme": {
+						"type": "string",
+						"example": "Dawn"
+					}
 				}
 			},
 			"AppsResponse": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"url": { "type": "string" },
+					"success": {
+						"type": "boolean"
+					},
+					"url": {
+						"type": "string"
+					},
 					"plugins": {
 						"type": "array",
-						"items": { "$ref": "#/components/schemas/TechItem" }
+						"items": {
+							"$ref": "#/components/schemas/TechItem"
+						}
 					}
 				}
 			},
@@ -920,24 +2188,44 @@
 			"PaymentGatewaysResponse": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"url": { "type": "string" },
+					"success": {
+						"type": "boolean"
+					},
+					"url": {
+						"type": "string"
+					},
 					"paymentGateways": {
 						"type": "array",
-						"items": { "type": "string", "example": "PayPal" }
+						"items": {
+							"type": "string",
+							"example": "PayPal"
+						}
 					}
 				}
 			},
 			"LocationData": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"ip": { "type": "string", "example": "23.227.38.65" },
-					"country": { "type": "string", "example": "Canadá" },
-					"city": { "type": "string", "example": "Ottawa" },
+					"success": {
+						"type": "boolean"
+					},
+					"ip": {
+						"type": "string",
+						"example": "23.227.38.65"
+					},
+					"country": {
+						"type": "string",
+						"example": "Canadá"
+					},
+					"city": {
+						"type": "string",
+						"example": "Ottawa"
+					},
 					"ll": {
 						"type": "array",
-						"items": { "type": "number" },
+						"items": {
+							"type": "number"
+						},
 						"example": [45.42, -75.69]
 					}
 				}
@@ -945,25 +2233,45 @@
 			"LocationResponse": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"url": { "type": "string" },
-					"location": { "$ref": "#/components/schemas/LocationData" }
+					"success": {
+						"type": "boolean"
+					},
+					"url": {
+						"type": "string"
+					},
+					"location": {
+						"$ref": "#/components/schemas/LocationData"
+					}
 				}
 			},
 			"LatencyData": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"latencyMs": { "type": "integer", "example": 85 },
-					"description": { "type": "string", "example": "85ms (Rápido)" }
+					"success": {
+						"type": "boolean"
+					},
+					"latencyMs": {
+						"type": "integer",
+						"example": 85
+					},
+					"description": {
+						"type": "string",
+						"example": "85ms (Rápido)"
+					}
 				}
 			},
 			"LatencyResponse": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"url": { "type": "string" },
-					"latency": { "$ref": "#/components/schemas/LatencyData" }
+					"success": {
+						"type": "boolean"
+					},
+					"url": {
+						"type": "string"
+					},
+					"latency": {
+						"$ref": "#/components/schemas/LatencyData"
+					}
 				}
 			},
 			"PageSpeedResponse": {
@@ -1027,10 +2335,19 @@
 			"ScreenshotResponse": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"device": { "type": "string", "example": "desktop" },
-					"url": { "type": "string" },
-					"screenshotUrl": { "type": "string" }
+					"success": {
+						"type": "boolean"
+					},
+					"device": {
+						"type": "string",
+						"example": "desktop"
+					},
+					"url": {
+						"type": "string"
+					},
+					"screenshotUrl": {
+						"type": "string"
+					}
 				}
 			},
 			"EmailReportRequest": {
@@ -1101,17 +2418,30 @@
 			"RulesTestResponse": {
 				"type": "object",
 				"properties": {
-					"success": { "type": "boolean" },
-					"matched": { "type": "boolean" },
-					"score": { "type": "number", "example": 1 },
+					"success": {
+						"type": "boolean"
+					},
+					"matched": {
+						"type": "boolean"
+					},
+					"score": {
+						"type": "number",
+						"example": 1
+					},
 					"results": {
 						"type": "array",
 						"items": {
 							"type": "object",
 							"properties": {
-								"rule": { "type": "object" },
-								"passed": { "type": "boolean" },
-								"evidence": { "type": "string" }
+								"rule": {
+									"type": "object"
+								},
+								"passed": {
+									"type": "boolean"
+								},
+								"evidence": {
+									"type": "string"
+								}
 							}
 						}
 					}
@@ -1127,6 +2457,191 @@
 					"error": {
 						"type": "string",
 						"example": "URL inválida o no proporcionada"
+					}
+				}
+			},
+			"PrecioPlan": {
+				"type": "object",
+				"required": ["id", "plan", "precio", "moneda"],
+				"properties": {
+					"id": {
+						"type": "number",
+						"example": 1
+					},
+					"plan": {
+						"type": "string",
+						"example": "Demo"
+					},
+					"precio": {
+						"type": "number",
+						"example": 1
+					},
+					"moneda": {
+						"type": "string",
+						"example": "USD"
+					}
+				}
+			},
+			"TechInput": {
+				"type": "object",
+				"required": ["name"],
+				"properties": {
+					"id": {
+						"type": "string",
+						"description": "Identificador único en slug kebab-case (opcional, se autogenera si se omite)",
+						"example": "mi-app-nueva"
+					},
+					"name": {
+						"type": "string",
+						"example": "Mi App Nueva"
+					},
+					"developer": {
+						"type": "string",
+						"example": "Desarrollador"
+					},
+					"category": {
+						"type": "string",
+						"example": "Analítica"
+					},
+					"compatibleCMS": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"example": ["Shopify"]
+					},
+					"web": {
+						"type": "string",
+						"format": "uri",
+						"example": "https://ejemplo.com"
+					},
+					"precios": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/PrecioPlan"
+						}
+					},
+					"detectionRules": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"required": ["type", "pattern"],
+							"properties": {
+								"type": {
+									"type": "string",
+									"example": "script-src"
+								},
+								"pattern": {
+									"type": "string",
+									"example": "mi-app\\.js"
+								},
+								"description": {
+									"type": "string",
+									"example": "Script detectado"
+								}
+							}
+						}
+					}
+				}
+			},
+			"PaginatedTechResponse": {
+				"type": "object",
+				"properties": {
+					"success": {
+						"type": "boolean",
+						"example": true
+					},
+					"total": {
+						"type": "integer",
+						"example": 143
+					},
+					"page": {
+						"type": "integer",
+						"example": 1
+					},
+					"limit": {
+						"type": "integer",
+						"example": 5
+					},
+					"totalPages": {
+						"type": "integer",
+						"example": 29
+					},
+					"data": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/TechItem"
+						}
+					}
+				}
+			},
+			"TechSingleResponse": {
+				"type": "object",
+				"properties": {
+					"success": {
+						"type": "boolean",
+						"example": true
+					},
+					"data": {
+						"$ref": "#/components/schemas/TechItem"
+					}
+				}
+			},
+			"ScreenshotsFullResponse": {
+				"type": "object",
+				"properties": {
+					"success": {
+						"type": "boolean",
+						"example": true
+					},
+					"url": {
+						"type": "string",
+						"example": "https://shopify.com"
+					},
+					"device": {
+						"type": "string",
+						"example": "desktop"
+					},
+					"screenshot": {
+						"type": "string",
+						"example": "/screenshots/desktop-shopify.com.png?v=12345"
+					},
+					"screenshots": {
+						"type": "object",
+						"properties": {
+							"desktop": {
+								"type": "string",
+								"example": "/screenshots/desktop-shopify.com.png?v=12345"
+							},
+							"mobile": {
+								"type": "string",
+								"example": "/screenshots/mobile-shopify.com.png?v=12345"
+							}
+						}
+					}
+				}
+			},
+			"ScreenshotsDeleteResponse": {
+				"type": "object",
+				"properties": {
+					"success": {
+						"type": "boolean",
+						"example": true
+					},
+					"message": {
+						"type": "string",
+						"example": "Se eliminaron 2 capturas para shopify.com."
+					},
+					"domain": {
+						"type": "string",
+						"example": "shopify.com"
+					},
+					"deletedFiles": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"example": ["desktop-shopify.com.png", "mobile-shopify.com.png"]
 					}
 				}
 			}

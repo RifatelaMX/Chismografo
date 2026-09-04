@@ -1,7 +1,9 @@
 {
+	"id": "aplazo",
 	"name": "Aplazo",
 	"category": "Pago a Plazos (BNPL)",
 	"web": "https://aplazo.mx",
+	"precios": [],
 	"logo": {
 		"id": "aplazo.mx",
 		"provider": "logodev"

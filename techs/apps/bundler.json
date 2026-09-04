@@ -1,9 +1,11 @@
 {
+	"id": "bundler",
 	"name": "Bundler",
 	"developer": "Bundler",
 	"category": "Checkout / Ofertas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.bundler.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

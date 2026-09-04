@@ -1,9 +1,11 @@
 {
+	"id": "shoppop",
 	"name": "SalesPop: Order & Sales Popup",
 	"developer": "SalesPop",
 	"category": "Marketing / Popups",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://salespop.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

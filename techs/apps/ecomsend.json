@@ -1,9 +1,11 @@
 {
+	"id": "ecomsend",
 	"name": "SendWILL Popup Email Marketing",
 	"developer": "SendWILL Popup Email Marketing",
 	"category": "Marketing / Popups",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://cwill.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

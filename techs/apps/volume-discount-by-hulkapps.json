@@ -1,9 +1,11 @@
 {
+	"id": "volume-discount-by-hulkapps",
 	"name": "Hulk Bundles Quantity Breaks",
 	"developer": "HulkApps",
 	"category": "Checkout / Ofertas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.hulkapps.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

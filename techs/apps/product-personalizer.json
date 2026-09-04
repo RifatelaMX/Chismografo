@@ -1,9 +1,11 @@
 {
+	"id": "product-personalizer",
 	"name": "Zepto Product Personalizer",
 	"developer": "Zepto Product Personalizer",
 	"category": "Checkout / Ofertas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://productpersonalizer.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

@@ -1,9 +1,11 @@
 {
+	"id": "boost-commerce",
 	"name": "Boost Commerce",
 	"developer": "Boost Commerce",
 	"category": "Buscador / Filtros",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.boost-commerce.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

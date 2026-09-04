@@ -1,9 +1,11 @@
 {
+	"id": "mixpanel",
 	"name": "Mixpanel",
 	"developer": "Mixpanel",
 	"category": "Analítica",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.mixpanel.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

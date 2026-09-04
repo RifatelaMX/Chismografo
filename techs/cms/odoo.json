@@ -1,6 +1,8 @@
 {
+	"id": "odoo",
 	"name": "Odoo",
 	"web": "https://www.odoo.com",
+	"precios": [],
 	"logo": {
 		"id": "odoo.com",
 		"provider": "logodev"

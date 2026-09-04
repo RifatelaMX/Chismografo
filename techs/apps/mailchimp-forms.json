@@ -1,9 +1,11 @@
 {
+	"id": "mailchimp-forms",
 	"name": "Mailmunch Forms for Mailchimp",
 	"developer": "Mailmunch Forms for Mailchimp",
 	"category": "Email Marketing",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/mailchimp-forms",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

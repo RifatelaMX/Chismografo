@@ -1,7 +1,9 @@
 {
+	"id": "afterpay",
 	"name": "Afterpay",
 	"category": "Pago a Plazos (BNPL)",
 	"web": "https://www.afterpay.com",
+	"precios": [],
 	"logo": {
 		"id": "afterpay.com",
 		"provider": "logodev"

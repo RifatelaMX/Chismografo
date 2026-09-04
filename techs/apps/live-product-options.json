@@ -1,9 +1,11 @@
 {
+	"id": "live-product-options",
 	"name": "LPO Live Product Options",
 	"developer": "LPO Live Product Options",
 	"category": "Otros",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/live-product-options",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

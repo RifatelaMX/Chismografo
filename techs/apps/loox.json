@@ -1,9 +1,11 @@
 {
+	"id": "loox",
 	"name": "Loox",
 	"developer": "Loox",
 	"category": "Reseñas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.loox.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

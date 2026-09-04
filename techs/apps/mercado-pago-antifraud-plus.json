@@ -1,9 +1,11 @@
 {
+	"id": "mercado-pago-antifraud-plus",
 	"name": "Mercado Pago Antifraude Plus",
 	"developer": "Mercado Pago",
 	"category": "Seguridad",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.mercadopago.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

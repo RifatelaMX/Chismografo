@@ -1,9 +1,11 @@
 {
+	"id": "pop-convert",
 	"name": "Pop Convert ‑ Pop Ups, Banners",
 	"developer": "Pop Convert",
 	"category": "Marketing / Popups",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/pop-convert",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

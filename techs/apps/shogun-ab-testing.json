@@ -1,9 +1,11 @@
 {
+	"id": "shogun-ab-testing",
 	"name": "Shogun ‑ AB Testing",
 	"developer": "Shogun Labs Inc.",
 	"category": "A/B Testing / Optimización",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://getshogun.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

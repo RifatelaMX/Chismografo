@@ -1,9 +1,11 @@
 {
+	"id": "powr-pricing-table",
 	"name": "POWR: Pricing Table Comparison",
 	"developer": "POWR",
 	"category": "Checkout / Ofertas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

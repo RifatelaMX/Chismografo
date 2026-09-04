@@ -1,6 +1,8 @@
 {
+	"id": "woocommerce",
 	"name": "WooCommerce",
 	"web": "https://woocommerce.com",
+	"precios": [],
 	"logo": {
 		"id": "woocommerce.com",
 		"provider": "logodev"

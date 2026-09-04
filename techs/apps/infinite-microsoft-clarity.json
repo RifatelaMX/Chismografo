@@ -1,9 +1,11 @@
 {
+	"id": "infinite-microsoft-clarity",
 	"name": "∞ Microsoft Clarity & Heatmap",
 	"developer": "Infinite Apps",
 	"category": "Analítica",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://clarity.microsoft.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

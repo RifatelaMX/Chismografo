@@ -1,9 +1,11 @@
 {
+	"id": "appstle",
 	"name": "Appstle",
 	"developer": "Appstle",
 	"category": "Suscripciones",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.appstle.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

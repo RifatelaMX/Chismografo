@@ -1,7 +1,9 @@
 {
+	"id": "conekta",
 	"name": "Conekta",
 	"category": "Pasarela de Pago",
 	"web": "https://conekta.com",
+	"precios": [],
 	"logo": {
 		"id": "conekta.com",
 		"provider": "logodev"

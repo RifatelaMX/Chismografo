@@ -1,9 +1,11 @@
 {
+	"id": "stamped-io",
 	"name": "Stamped Reviews & Loyalty",
 	"developer": "Stamped.io",
 	"category": "Reseñas",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.stamped.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

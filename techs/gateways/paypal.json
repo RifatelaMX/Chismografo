@@ -1,7 +1,9 @@
 {
+	"id": "paypal",
 	"name": "PayPal",
 	"category": "Pasarela de Pago",
 	"web": "https://paypal.com",
+	"precios": [],
 	"logo": {
 		"id": "paypal.com",
 		"provider": "logodev"

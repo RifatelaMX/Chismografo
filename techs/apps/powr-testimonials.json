@@ -1,9 +1,11 @@
 {
+	"id": "powr-testimonials",
 	"name": "POWR: Customer Testimonials",
 	"developer": "POWR",
 	"category": "Reseñas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

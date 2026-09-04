@@ -1,9 +1,11 @@
 {
+	"id": "subi-subscriptions-memberships",
 	"name": "Subi Subscriptions App",
 	"developer": "Subi",
 	"category": "Suscripciones",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://subi.co",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

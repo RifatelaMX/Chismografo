@@ -256,11 +256,13 @@ function getAppConfig(item) {
 	const pattern = Array.from(patternParts).join('|');
 
 	const appJson = {
+		id: slug,
 		name,
 		developer,
 		category,
 		compatibleCMS: ['Shopify'],
 		web,
+		precios: [],
 		appStores: [
 			{
 				cms: 'Shopify',

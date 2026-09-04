@@ -1,9 +1,11 @@
 {
+	"id": "image-zoom-by-widgetic",
 	"name": "Widgetic (Image Zoom)",
 	"developer": "Widgetic",
 	"category": "Constructor de Páginas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://widgetic.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

@@ -1,9 +1,11 @@
 {
+	"id": "sheets",
 	"name": "Sheets ‑ Data Connector",
 	"developer": "Sheets Connector",
 	"category": "Inventario / Sincronización",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/sheets",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

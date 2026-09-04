@@ -1,9 +1,11 @@
 {
+	"id": "before-and-after-by-widgetic",
 	"name": "Widgetic (Before and After)",
 	"developer": "Widgetic",
 	"category": "Constructor de Páginas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://widgetic.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

@@ -1,9 +1,11 @@
 {
+	"id": "rivo",
 	"name": "Rivo: Loyalty Program, Rewards",
 	"developer": "Rivo",
 	"category": "Fidelización / Lealtad",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.rivo.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

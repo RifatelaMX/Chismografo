@@ -1,9 +1,11 @@
 {
+	"id": "audio-player-by-powr",
 	"name": "POWR: Background Music Player",
 	"developer": "POWR",
 	"category": "Constructor de Páginas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

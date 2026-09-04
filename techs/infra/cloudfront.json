@@ -1,7 +1,9 @@
 {
+	"id": "cloudfront",
 	"name": "Amazon CloudFront",
 	"category": "CDN / Proxy",
 	"web": "https://aws.amazon.com/cloudfront",
+	"precios": [],
 	"logo": {
 		"id": "aws.amazon.com",
 		"provider": "logodev"

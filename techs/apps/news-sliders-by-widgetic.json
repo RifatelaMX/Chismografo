@@ -1,9 +1,11 @@
 {
+	"id": "news-sliders-by-widgetic",
 	"name": "Widgetic (News Headlines)",
 	"developer": "Widgetic",
 	"category": "Constructor de Páginas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://widgetic.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

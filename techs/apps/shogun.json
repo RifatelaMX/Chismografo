@@ -1,9 +1,11 @@
 {
+	"id": "shogun",
 	"name": "Shogun - Landing Page Builder",
 	"developer": "Shogun Labs Inc.",
 	"category": "Constructor de Páginas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.getshogun.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

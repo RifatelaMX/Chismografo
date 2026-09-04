@@ -1,9 +1,11 @@
 {
+	"id": "hotjar",
 	"name": "Hotjar",
 	"developer": "Hotjar",
 	"category": "Analítica",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.hotjar.com",
+	"precios": [],
 	"appStores": [],
 	"logo": {
 		"id": "hotjar.com",

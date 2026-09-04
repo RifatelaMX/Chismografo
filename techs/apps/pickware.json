@@ -1,9 +1,11 @@
 {
+	"id": "pickware",
 	"name": "Pickware ERP & WMS",
 	"developer": "Pickware",
 	"category": "Inventario / Sincronización",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://pickware.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

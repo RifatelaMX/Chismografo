@@ -1,9 +1,11 @@
 {
+	"id": "yeps-announcement-bar-banners",
 	"name": "Yeps Announcement Bar Banner",
 	"developer": "Yeps",
 	"category": "Marketing / Popups",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://yeps.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

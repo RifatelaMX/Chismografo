@@ -1,6 +1,8 @@
 {
+	"id": "{{slug}}",
 	"name": "{{name}}",
 	"web": "{{web}}",
+	"precios": [],
 	"logo": {
 		"id": "{{id_logo}}",
 		"provider": "{{provider_logo}}"

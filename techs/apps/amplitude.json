@@ -1,9 +1,11 @@
 {
+	"id": "amplitude",
 	"name": "Amplitude: Customer Analytics",
 	"developer": "Amplitude",
 	"category": "Analítica",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.amplitude.com",
+	"precios": [],
 	"appStores": [],
 	"logo": {
 		"id": "amplitude.com",

@@ -1,9 +1,11 @@
 {
+	"id": "byob-build-your-own-bundle",
 	"name": "BYOB ‑ Build Your Own Bundles",
 	"developer": "ILoveBYOB",
 	"category": "Checkout / Ofertas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://ilovebyob.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

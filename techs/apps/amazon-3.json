@@ -1,9 +1,11 @@
 {
+	"id": "amazon-3",
 	"name": "CS Amazon Integration & Sync",
 	"developer": "CS Amazon Integration & Sync",
 	"category": "Envíos / Pedidos",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/amazon-3",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

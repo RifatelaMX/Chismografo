@@ -1,9 +1,11 @@
 {
+	"id": "eaze-chat-button",
 	"name": "EAZE Button",
 	"developer": "EAZE Button",
 	"category": "Soporte / Chat",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://eazebutton.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

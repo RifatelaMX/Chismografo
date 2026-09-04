@@ -1,7 +1,9 @@
 {
+	"id": "klarna",
 	"name": "Klarna",
 	"category": "Pago a Plazos (BNPL)",
 	"web": "https://klarna.com",
+	"precios": [],
 	"logo": {
 		"id": "klarna.com",
 		"provider": "logodev"

@@ -1,9 +1,11 @@
 {
+	"id": "loyaltylion",
 	"name": "LoyaltyLion Loyalty Program",
 	"developer": "LoyaltyLion",
 	"category": "Fidelización / Lealtad",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.loyaltylion.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

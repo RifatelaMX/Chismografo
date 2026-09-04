@@ -1,6 +1,8 @@
 {
+	"id": "vtex",
 	"name": "VTEX",
 	"web": "https://vtex.com",
+	"precios": [],
 	"logo": {
 		"id": "vtex.com",
 		"provider": "logodev"

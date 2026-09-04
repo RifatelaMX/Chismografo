@@ -1,9 +1,11 @@
 {
+	"id": "mailchimp",
 	"name": "Mailchimp: Email & SMS",
 	"developer": "Mailchimp",
 	"category": "Email Marketing",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.mailchimp.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

@@ -1,7 +1,9 @@
 {
+	"id": "google-analytics",
 	"name": "Google Analytics",
 	"category": "Analítica",
 	"web": "https://analytics.google.com/",
+	"precios": [],
 	"logo": {
 		"id": "googleanalytics4.com",
 		"provider": "logodev"

@@ -1,9 +1,11 @@
 {
+	"id": "my-wishlist-share-remind",
 	"name": "Hulk AI Wishlist & Favorites",
 	"developer": "HulkApps",
 	"category": "Fidelización / Lealtad",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.hulkapps.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

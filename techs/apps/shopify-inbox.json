@@ -1,9 +1,11 @@
 {
+	"id": "shopify-inbox",
 	"name": "Shopify Inbox",
 	"developer": "Shopify",
 	"category": "Soporte / Chat",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.shopify-inbox.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

@@ -1,9 +1,11 @@
 {
+	"id": "judge-me",
 	"name": "Judge.me",
 	"developer": "Judge.me",
 	"category": "Reseñas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.judge.me",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

@@ -1,9 +1,11 @@
 {
+	"id": "loop-subscriptions",
 	"name": "Loop Subscriptions",
 	"developer": "Loop Solutions Inc.",
 	"category": "Suscripciones",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.loop-subscriptions.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

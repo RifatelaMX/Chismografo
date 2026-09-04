@@ -1,9 +1,11 @@
 {
+	"id": "order-status-tracker",
 	"name": "Hulk Order Tracking & Upsell",
 	"developer": "HulkApps",
 	"category": "Envíos / Pedidos",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.hulkapps.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

@@ -1,9 +1,11 @@
 {
+	"id": "test-cli",
 	"name": "Test CLI",
 	"developer": "Test CLI",
 	"category": "Otros",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.test-cli.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

@@ -1,9 +1,11 @@
 {
+	"id": "smile-io",
 	"name": "Smile: Lealtad y Recompensas",
 	"developer": "Smile.io",
 	"category": "Fidelización / Lealtad",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.smile.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

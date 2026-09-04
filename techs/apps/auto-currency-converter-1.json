@@ -1,9 +1,11 @@
 {
+	"id": "auto-currency-converter-1",
 	"name": "Supernova Currency Converter",
 	"developer": "Supernova Currency Converter",
 	"category": "Otros",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/auto-currency-converter-1",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

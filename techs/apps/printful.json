@@ -1,9 +1,11 @@
 {
+	"id": "printful",
 	"name": "Printful",
 	"developer": "Printful",
 	"category": "Impresión bajo Demanda",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.printful.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

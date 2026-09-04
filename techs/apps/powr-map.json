@@ -1,9 +1,11 @@
 {
+	"id": "powr-map",
 	"name": "POWR: Store Locator Map",
 	"developer": "POWR",
 	"category": "Constructor de Páginas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

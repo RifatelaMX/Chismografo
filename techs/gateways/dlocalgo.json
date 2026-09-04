@@ -1,7 +1,9 @@
 {
+	"id": "dlocalgo",
 	"name": "dLocal Go",
 	"category": "Pasarela de Pago",
 	"web": "https://dlocalgo.com",
+	"precios": [],
 	"logo": {
 		"id": "dlocalgo.com",
 		"provider": "logodev"

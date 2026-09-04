@@ -1,9 +1,11 @@
 {
+	"id": "maps-by-widgetic",
 	"name": "Widgetic (Maps)",
 	"developer": "Widgetic",
 	"category": "Otros",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://widgetic.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

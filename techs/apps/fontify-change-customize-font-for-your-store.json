@@ -1,9 +1,11 @@
 {
+	"id": "fontify-change-customize-font-for-your-store",
 	"name": "Fontify: Google & Custom Fonts",
 	"developer": "Fontify",
 	"category": "Constructor de Páginas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://apps.shopify.com/fontify-change-customize-font-for-your-store",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

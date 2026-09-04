@@ -1,9 +1,11 @@
 {
+	"id": "image-hotspots-by-widgetic",
 	"name": "Widgetic (Image Hotspots)",
 	"developer": "Widgetic",
 	"category": "Constructor de Páginas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://widgetic.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

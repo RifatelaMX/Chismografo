@@ -1,7 +1,9 @@
 {
+	"id": "linkedin-pixel",
 	"name": "LinkedIn Insight Tag",
 	"category": "Redes Sociales",
 	"web": "https://business.linkedin.com/marketing-solutions/insight-tag",
+	"precios": [],
 	"logo": {
 		"id": "linkedin.com",
 		"provider": "logodev"

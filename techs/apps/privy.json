@@ -1,9 +1,11 @@
 {
+	"id": "privy",
 	"name": "Privy ‑ Email, SMS & Pop Ups",
 	"developer": "Privy",
 	"category": "Marketing / Popups",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://privy.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

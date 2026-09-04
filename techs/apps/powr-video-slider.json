@@ -1,9 +1,11 @@
 {
+	"id": "powr-video-slider",
 	"name": "POWR: Video Slider & Carousel",
 	"developer": "POWR",
 	"category": "Constructor de Páginas",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://www.powr.io",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

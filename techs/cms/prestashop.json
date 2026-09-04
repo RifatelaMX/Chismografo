@@ -1,6 +1,8 @@
 {
+	"id": "prestashop",
 	"name": "PrestaShop",
 	"web": "https://www.prestashop.com",
+	"precios": [],
 	"logo": {
 		"id": "prestashop.com",
 		"provider": "logodev"

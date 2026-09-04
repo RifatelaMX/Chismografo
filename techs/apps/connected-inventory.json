@@ -1,9 +1,11 @@
 {
+	"id": "connected-inventory",
 	"name": "NASP Connected Inventory",
 	"developer": "Not A Side Project",
 	"category": "Inventario / Sincronización",
 	"compatibleCMS": ["Shopify"],
 	"web": "https://notasideproject.com",
+	"precios": [],
 	"appStores": [
 		{
 			"cms": "Shopify",

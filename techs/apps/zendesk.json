@@ -1,9 +1,11 @@
 {
+	"id": "zendesk",
 	"name": "Zendesk",
 	"developer": "Zendesk",
 	"category": "Soporte / Chat",
 	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
 	"web": "https://www.zendesk.com",
+	"precios": [],
 	"appStores": [],
 	"logo": {
 		"id": "zendesk.com",
