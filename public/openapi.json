@@ -3,7 +3,7 @@
 	"info": {
 		"title": "Chismógrafo API REST 📓",
 		"description": "API REST y widgets incrustables del Chismógrafo para auditar plataformas de e-commerce, pasarelas de pago, aplicaciones y plugins instalados, infraestructura, píxeles de seguimiento, geolocalización de servidores y velocidad Lighthouse móvil en cualquier sitio web... ¡Todo sin que se enteren! 🤫",
-		"version": "1.12.1",
+		"version": "1.14.1",
 		"contact": {
 			"name": "Equipo Rífatela",
 			"url": "https://rifatela.lol"
@@ -2153,6 +2153,1062 @@
 					}
 				}
 			}
+		},
+		"/api/apps/{id}": {
+			"get": {
+				"summary": "Obtener Aplicación por ID 🔍",
+				"description": "Recupera los datos completos de un expediente de Aplicación por su identificador único (slug).",
+				"tags": ["Catálogo de Apps"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug de la tecnología (ej. microsoft-clarity)",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Aplicación encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "Actualizar Aplicación por ID ✏️",
+				"description": "Actualiza la información, planes de precios o reglas de detección de un Aplicación existente.",
+				"tags": ["Catálogo de Apps"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a actualizar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Aplicación actualizado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Eliminar Aplicación por ID 🗑️",
+				"description": "Elimina del catálogo y del sistema de archivos el expediente del Aplicación.",
+				"tags": ["Catálogo de Apps"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a eliminar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Aplicación eliminado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"patch": {
+				"summary": "Actualizar parcialmente apps por ID (PATCH) ✏️",
+				"description": "Actualiza campos específicos, planes de precios o reglas de detección de un elemento en apps.",
+				"tags": ["Catálogo de Apps"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a actualizar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Aplicación actualizado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"summary": "Alias directo para apps por ID"
+		},
+		"/api/infra/{id}": {
+			"get": {
+				"summary": "Obtener Infraestructura por ID 🔍",
+				"description": "Recupera los datos completos de un expediente de Infraestructura por su identificador único (slug).",
+				"tags": ["Catálogo de Infraestructura"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug de la tecnología (ej. microsoft-clarity)",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Infraestructura encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "Actualizar Infraestructura por ID ✏️",
+				"description": "Actualiza la información, planes de precios o reglas de detección de un Infraestructura existente.",
+				"tags": ["Catálogo de Infraestructura"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a actualizar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Infraestructura actualizado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Eliminar Infraestructura por ID 🗑️",
+				"description": "Elimina del catálogo y del sistema de archivos el expediente del Infraestructura.",
+				"tags": ["Catálogo de Infraestructura"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a eliminar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Infraestructura eliminado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"patch": {
+				"summary": "Actualizar parcialmente infra por ID (PATCH) ✏️",
+				"description": "Actualiza campos específicos, planes de precios o reglas de detección de un elemento en infra.",
+				"tags": ["Catálogo de Infraestructura"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a actualizar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Infraestructura actualizado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"summary": "Alias directo para infra por ID"
+		},
+		"/api/pixels": {
+			"get": {
+				"summary": "Listar pixels con paginación y filtro de categoría 📦",
+				"description": "Obtiene el listado paginado de pixels registradas en el catálogo del Chismógrafo. Permite filtrar por categoría y definir la cantidad de elementos por página (por defecto 5).",
+				"tags": ["Catálogo de Píxeles"],
+				"parameters": [
+					{
+						"$ref": "#/components/parameters/CategoryQueryParam"
+					},
+					{
+						"$ref": "#/components/parameters/PageQueryParam"
+					},
+					{
+						"$ref": "#/components/parameters/LimitQueryParam"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Listado de pixels paginado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedTechResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Crear Píxel con planes de precios ➕",
+				"description": "Registra una nueva tecnología en el catálogo de pixels con identificador único y configuración de planes de precios.",
+				"tags": ["Catálogo de Píxeles"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Píxel creado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Datos inválidos o ID duplicado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"summary": "Alias directo para pixels"
+		},
+		"/api/pixels/{id}": {
+			"get": {
+				"summary": "Obtener Píxel por ID 🔍",
+				"description": "Recupera los datos completos de un expediente de Píxel por su identificador único (slug).",
+				"tags": ["Catálogo de Píxeles"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug de la tecnología (ej. microsoft-clarity)",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Píxel encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "Actualizar Píxel por ID ✏️",
+				"description": "Actualiza la información, planes de precios o reglas de detección de un Píxel existente.",
+				"tags": ["Catálogo de Píxeles"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a actualizar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Píxel actualizado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Eliminar Píxel por ID 🗑️",
+				"description": "Elimina del catálogo y del sistema de archivos el expediente del Píxel.",
+				"tags": ["Catálogo de Píxeles"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a eliminar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Píxel eliminado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"patch": {
+				"summary": "Actualizar parcialmente pixels por ID (PATCH) ✏️",
+				"description": "Actualiza campos específicos, planes de precios o reglas de detección de un elemento en pixels.",
+				"tags": ["Catálogo de Píxeles"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a actualizar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Píxel actualizado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"summary": "Alias directo para pixels por ID"
+		},
+		"/api/gateways": {
+			"get": {
+				"summary": "Listar gateways con paginación y filtro de categoría 📦",
+				"description": "Obtiene el listado paginado de gateways registradas en el catálogo del Chismógrafo. Permite filtrar por categoría y definir la cantidad de elementos por página (por defecto 5).",
+				"tags": ["Catálogo de Pasarelas"],
+				"parameters": [
+					{
+						"$ref": "#/components/parameters/CategoryQueryParam"
+					},
+					{
+						"$ref": "#/components/parameters/PageQueryParam"
+					},
+					{
+						"$ref": "#/components/parameters/LimitQueryParam"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Listado de gateways paginado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedTechResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Crear Pasarela de Pago con planes de precios ➕",
+				"description": "Registra una nueva tecnología en el catálogo de gateways con identificador único y configuración de planes de precios.",
+				"tags": ["Catálogo de Pasarelas"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Pasarela de Pago creado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Datos inválidos o ID duplicado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"summary": "Alias directo para gateways"
+		},
+		"/api/gateways/{id}": {
+			"get": {
+				"summary": "Obtener Pasarela de Pago por ID 🔍",
+				"description": "Recupera los datos completos de un expediente de Pasarela de Pago por su identificador único (slug).",
+				"tags": ["Catálogo de Pasarelas"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug de la tecnología (ej. microsoft-clarity)",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Pasarela de Pago encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "Actualizar Pasarela de Pago por ID ✏️",
+				"description": "Actualiza la información, planes de precios o reglas de detección de un Pasarela de Pago existente.",
+				"tags": ["Catálogo de Pasarelas"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a actualizar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Pasarela de Pago actualizado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Eliminar Pasarela de Pago por ID 🗑️",
+				"description": "Elimina del catálogo y del sistema de archivos el expediente del Pasarela de Pago.",
+				"tags": ["Catálogo de Pasarelas"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a eliminar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Pasarela de Pago eliminado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"patch": {
+				"summary": "Actualizar parcialmente gateways por ID (PATCH) ✏️",
+				"description": "Actualiza campos específicos, planes de precios o reglas de detección de un elemento en gateways.",
+				"tags": ["Catálogo de Pasarelas"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a actualizar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Pasarela de Pago actualizado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"summary": "Alias directo para gateways por ID"
+		},
+		"/api/cms/{id}": {
+			"get": {
+				"summary": "Obtener CMS por ID 🔍",
+				"description": "Recupera los datos completos de un expediente de CMS por su identificador único (slug).",
+				"tags": ["Catálogo de CMS"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug de la tecnología (ej. shopify)",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "CMS encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "Actualizar CMS por ID ✏️",
+				"description": "Actualiza la información, planes de precios o reglas de detección de un CMS existente.",
+				"tags": ["Catálogo de CMS"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a actualizar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "CMS actualizado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Eliminar CMS por ID 🗑️",
+				"description": "Elimina del catálogo y del sistema de archivos el expediente del CMS.",
+				"tags": ["Catálogo de CMS"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a eliminar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "CMS eliminado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"patch": {
+				"summary": "Actualizar parcialmente cms por ID (PATCH) ✏️",
+				"description": "Actualiza campos específicos, planes de precios o reglas de detección de un elemento en cms.",
+				"tags": ["Catálogo de CMS"],
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"description": "ID único / slug a actualizar",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TechInput"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "CMS actualizado exitosamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TechSingleResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No encontrado",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"summary": "Alias directo para cms por ID"
 		}
 	},
 	"components": {
