@@ -1,3 +1,9 @@
+## [1.17.0](https://github.com/RifatelaMX/Chismografo/compare/v1.16.0...v1.17.0) (2026-09-11)
+
+### ✨ Nuevas Características
+
+* **api:** implementar proxy de iconos con soporte multiproveedor y regla estricta ([bbef310](https://github.com/RifatelaMX/Chismografo/commit/bbef3103065d86f814a1c3ff87d70625e622a23e))
+
 ## [1.16.0](https://github.com/RifatelaMX/Chismografo/compare/v1.15.0...v1.16.0) (2026-09-04)
 
 ### ✨ Nuevas Características
