@@ -1,12 +1,6 @@
 window.handleLogoLoad = (img, providedDomain, websiteUrl, provider) => {
 	// Si el proveedor devolvió un favicon genérico diminuto (16x16 o menor) o imagen vacía
-	if (
-		img.naturalWidth <= 16 &&
-		(img.src.includes('google.com') ||
-			img.src.includes('gstatic.com') ||
-			img.src.includes('duckduckgo.com') ||
-			img.src.includes('logo.dev'))
-	) {
+	if (img.naturalWidth <= 16 && (img.src.includes('logo.dev') || img.src.includes('/api/icon'))) {
 		window.handleLogoError(img, providedDomain, websiteUrl, provider);
 	}
 };
@@ -20,7 +14,7 @@ window.handleLogoError = (img, providedDomain, websiteUrl, provider) => {
 		if (cleanName && state === 0) {
 			img.dataset.fallbackState = '1';
 			const isPng = (providedDomain || '').toLowerCase().endsWith('.png');
-			img.src = `/brand/logo/apps/${cleanName}${isPng ? '.svg' : '.png'}`;
+			img.src = `/api/icon?provider=local&id=${encodeURIComponent(cleanName + (isPng ? '.svg' : '.png'))}`;
 			return;
 		}
 	}
@@ -54,55 +48,24 @@ window.handleLogoError = (img, providedDomain, websiteUrl, provider) => {
 		return;
 	}
 
-	const bfKey = window.serverConfig?.brandfetchApiKey
-		? `?c=${window.serverConfig.brandfetchApiKey}`
-		: '';
-	const biKey = window.serverConfig?.brandiconsApiKey
-		? `?key=${window.serverConfig.brandiconsApiKey}`
-		: '';
-	const npKey = window.serverConfig?.ninjapearApiKey
-		? `?key=${window.serverConfig.ninjapearApiKey}`
-		: '';
-	const logoToken = window.serverConfig?.logoDevToken || 'pk_MgKPAkEuRMOiYecOkx67wQ';
-
-	// Cascada sin globos genéricos:
-	// 1. Logo.dev HD
-	// 2. DuckDuckGo Favicons
-	// 3. Google Favicons HD
-	// 4. Brandfetch API
-	// 5. BrandIcons.dev
-	// 6. NinjaPear API
-	// 7. Fallback a inicial estilizada
+	// Cascada sin google ni duckduckgo:
+	// 1. Logo.dev vía proxy
+	// 2. Brandfetch vía proxy
+	// 3. BrandIcons vía proxy
+	// 4. NinjaPear vía proxy
+	// 5. Fallback a inicial estilizada
 	if (state === 0 || state === 1) {
 		img.dataset.fallbackState = '2';
-		img.src = `https://img.logo.dev/${domain}?token=${logoToken}&size=64`;
+		img.src = `/api/icon?provider=logodev&id=${encodeURIComponent(domain)}&size=64`;
 	} else if (state === 2) {
 		img.dataset.fallbackState = '3';
-		img.src = `https://icons.duckduckgo.com/ip3/${domain}.ico`;
+		img.src = `/api/icon?provider=brandfetch&id=${encodeURIComponent(domain)}`;
 	} else if (state === 3) {
 		img.dataset.fallbackState = '4';
-		img.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+		img.src = `/api/icon?provider=brandicons&id=${encodeURIComponent(domain)}`;
 	} else if (state === 4) {
 		img.dataset.fallbackState = '5';
-		if (window.serverConfig?.brandfetchApiKey) {
-			img.src = `https://asset.brandfetch.io/${domain}${bfKey}`;
-		} else {
-			window.handleLogoError(img, providedDomain, websiteUrl, provider);
-		}
-	} else if (state === 5) {
-		img.dataset.fallbackState = '6';
-		if (window.serverConfig?.brandiconsApiKey) {
-			img.src = `https://cdn.brandicons.dev/icons/${domain}${biKey}`;
-		} else {
-			window.handleLogoError(img, providedDomain, websiteUrl, provider);
-		}
-	} else if (state === 6) {
-		img.dataset.fallbackState = '7';
-		if (window.serverConfig?.ninjapearApiKey) {
-			img.src = `https://logo.ninjapear.com/${domain}${npKey}`;
-		} else {
-			window.handleLogoError(img, providedDomain, websiteUrl, provider);
-		}
+		img.src = `/api/icon?provider=ninjapear&id=${encodeURIComponent(domain)}`;
 	} else {
 		// Todas las fuentes externas agotadas o sin logo -> mostrar inicial estilizada
 		img.style.display = 'none';
@@ -822,10 +785,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				};
 				siteLogoImg.onerror = () => {
 					const fallbackUrl = siteDomain
-						? `https://www.google.com/s2/favicons?domain=${siteDomain}&sz=128`
+						? `/api/icon?provider=logodev&id=${encodeURIComponent(siteDomain)}&size=128`
 						: '';
 					if (fallbackUrl && siteLogoImg.src !== fallbackUrl) {
-						siteLogoImg.crossOrigin = 'anonymous';
 						siteLogoImg.src = fallbackUrl;
 					} else {
 						siteLogoImg.style.display = 'none';
@@ -1398,24 +1360,11 @@ document.addEventListener('DOMContentLoaded', () => {
 			: '';
 
 		if (provider === 'local' && domain) {
-			const hasExt = /\.(svg|png|jpg|jpeg|gif|webp)$/i.test(domain);
-			return `/brand/logo/apps/${domain}${hasExt ? '' : '.svg'}`;
+			const hasExt = /\.(svg|png|jpg|jpeg|gif|webp|ico)$/i.test(domain);
+			return `/api/icon?provider=local&id=${encodeURIComponent(domain + (hasExt ? '' : '.svg'))}`;
 		}
-		if (provider === 'brandicons' && domain && window.serverConfig?.brandiconsApiKey) {
-			return `https://cdn.brandicons.dev/icons/${domain}${biKey}`;
-		}
-		if (provider === 'brandfetch' && domain && window.serverConfig?.brandfetchApiKey) {
-			return `https://asset.brandfetch.io/${domain}${bfKey}`;
-		}
-		if (provider === 'ninjapear' && domain && window.serverConfig?.ninjapearApiKey) {
-			return `https://logo.ninjapear.com/${domain}${npKey}`;
-		}
-		if (provider === 'duckduckgo' && domain) {
-			return `https://icons.duckduckgo.com/ip3/${domain}.ico`;
-		}
-		if (provider === 'logodev' && domain && window.serverConfig?.logoDevToken) {
-			const logoToken = window.serverConfig.logoDevToken;
-			return `https://img.logo.dev/${domain}?token=${logoToken}&size=64`;
+		if (provider && domain) {
+			return `/api/icon?provider=${encodeURIComponent(provider)}&id=${encodeURIComponent(domain)}`;
 		}
 
 		const nameLower = tech.name ? tech.name.toLowerCase() : '';
@@ -1433,8 +1382,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			!domain.includes('trends.builtwith.com') &&
 			(!isShopifyDomain || isShopifyPlatform)
 		) {
-			const logoToken = window.serverConfig?.logoDevToken || 'pk_MgKPAkEuRMOiYecOkx67wQ';
-			return `https://img.logo.dev/${domain}?token=${logoToken}&size=64`;
+			return `/api/icon?provider=logodev&id=${encodeURIComponent(domain)}&size=64`;
 		}
 
 		// Predefined domain mapping based on name
@@ -1448,7 +1396,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		else if (nameLower.includes('stripe')) fallbackDomain = 'stripe.com';
 		else if (nameLower.includes('paypal')) fallbackDomain = 'paypal.com';
 		else if (nameLower.includes('facebook')) fallbackDomain = 'facebook.com';
-		else if (nameLower.includes('google')) fallbackDomain = 'google.com';
 		else if (nameLower.includes('cloudflare')) fallbackDomain = 'cloudflare.com';
 		else if (nameLower.includes('jquery')) fallbackDomain = 'jquery.com';
 		else if (nameLower.includes('conekta')) fallbackDomain = 'conekta.com';
@@ -1466,7 +1413,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		else if (nameLower.includes('mailchimp')) fallbackDomain = 'mailchimp.com';
 
 		if (fallbackDomain) {
-			return `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://${fallbackDomain}&size=64`;
+			return `/api/icon?provider=logodev&id=${encodeURIComponent(fallbackDomain)}&size=64`;
+		}
+
+		if (tech.id) {
+			return `/api/icon?id=${encodeURIComponent(tech.id)}&size=64`;
 		}
 
 		return '';

@@ -530,6 +530,25 @@ curl "http://localhost:3000/api/techs/cms/shopify"</code></pre>
             </div>
           </div>
 
+          <div class="endpoint-block" style="margin-bottom:1rem;">
+            <div class="endpoint-header">
+              <span class="method get">GET</span>
+              <span class="path">/api/icon</span>
+              <span class="path">/api/techs/{coleccion}/{id}/icon</span>
+            </div>
+            <p>Funje como proxy y entrega el archivo estático del ícono o logo de una tecnología según el proveedor configurado (<code>local</code>, <code>logodev</code>, <code>brandicons</code>, <code>brandfetch</code>, <code>ninjapear</code> o <code>shopify</code>) con almacenamiento en caché HTTP y fallback SVG.</p>
+            <div class="code-wrapper">
+              <pre><code class="language-bash"># Consultar ícono por tecnología de catálogo
+curl "http://localhost:3000/api/techs/apps/infinite-microsoft-clarity/icon"
+
+# Consultar ícono local por archivo
+curl "http://localhost:3000/api/icon?provider=local&id=infinite-microsoft-clarity.png"
+
+# Consultar ícono por proveedor remoto (ej. logodev)
+curl "http://localhost:3000/api/icon?provider=logodev&id=shopify.com&size=64"</code></pre>
+            </div>
+          </div>
+
           <!-- 3. DETECCIÓN Y UTILIDADES -->
           <h3 style="font-family: var(--font-handwritten); font-size: 1.6rem; color: var(--gel-purple); border-bottom: 2px dashed var(--paper-lines); padding-bottom: 0.35rem; margin: 1.5rem 0 1rem;">
             🕵️ Detección en Tiempo Real & Reglas
@@ -1360,9 +1379,11 @@ curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com"}' htt
             ${sortedTools.map(tool => {
               const encodedTool = encodeURIComponent(JSON.stringify({...tool, category: categoryNames[key] || key.toUpperCase()})).replace(/'/g, "%27");
               const logoId = (typeof tool.logo === 'object' && tool.logo !== null) ? tool.logo.id : tool.logo;
+              const logoProvider = (typeof tool.logo === 'object' && tool.logo !== null) ? (tool.logo.provider || '') : '';
+              const iconSrc = `/api/icon?${logoProvider ? `provider=${encodeURIComponent(logoProvider)}&` : ''}id=${encodeURIComponent(logoId || tool.id || tool.name)}&size=64`;
               return `
                 <div class="card glass-panel" style="cursor: pointer; display: flex; align-items: center; gap: 0.75rem; padding: 1rem; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'" onclick="openToolModal('${encodedTool}')">
-                  <img src="https://icon.horse/icon/${logoId || 'example.com'}" alt="${tool.name} logo" style="width: 32px; height: 32px; border-radius: 4px; object-fit: contain;">
+                  <img src="${iconSrc}" alt="${tool.name} logo" style="width: 32px; height: 32px; border-radius: 4px; object-fit: contain;">
                   <span style="font-weight: 600; color: var(--ink-dark);">${tool.name}</span>
                 </div>
               `;
@@ -1384,7 +1405,8 @@ curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com"}' htt
       document.getElementById('modal-tool-name').textContent = tool.name;
       document.getElementById('modal-tool-category').textContent = tool.category;
       const logoId = (typeof tool.logo === 'object' && tool.logo !== null) ? tool.logo.id : tool.logo;
-      document.getElementById('modal-tool-logo').src = `https://icon.horse/icon/${logoId || 'example.com'}`;
+      const logoProvider = (typeof tool.logo === 'object' && tool.logo !== null) ? (tool.logo.provider || '') : '';
+      document.getElementById('modal-tool-logo').src = `/api/icon?${logoProvider ? `provider=${encodeURIComponent(logoProvider)}&` : ''}id=${encodeURIComponent(logoId || tool.id || tool.name)}&size=64`;
       
       const sortedRules = [...currentToolRules].sort((a, b) => {
         const weightA = typeof a.weight === 'number' ? a.weight : parseFloat(a.weight || 0.5);

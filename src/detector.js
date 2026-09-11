@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
+import { getProxyLogoUrl } from './iconProxyService.js';
 import {
 	getAppRules,
 	getCmsRules,
@@ -513,7 +514,7 @@ export function analyze(html, headers = {}, baseUrl = '') {
 						}
 						return store;
 					}),
-					logo: app.logo || '',
+					logo: getProxyLogoUrl(app, 'apps'),
 					category: app.category,
 					type: 'signature',
 					evidence: matchedEvidence,
@@ -588,7 +589,7 @@ export function analyze(html, headers = {}, baseUrl = '') {
 				name: infra.name,
 				category: infra.category || 'Infraestructura',
 				web: infra.web || '',
-				logo: infra.logo || '',
+				logo: getProxyLogoUrl(infra, 'infra'),
 				evidence: matchedEvidence,
 				rules: evaluatedRules,
 			});
@@ -641,7 +642,7 @@ export function analyze(html, headers = {}, baseUrl = '') {
 				name: px.name,
 				category: px.category || 'Píxeles / Tracking',
 				web: px.web || '',
-				logo: px.logo || '',
+				logo: getProxyLogoUrl(px, 'pixels'),
 				evidence: matchedEvidence,
 				rules: evaluatedRules,
 			});
@@ -671,6 +672,7 @@ export function analyze(html, headers = {}, baseUrl = '') {
 			name: formatName(slug),
 			platform: 'WooCommerce',
 			category: 'Plugin de WordPress',
+			logo: getProxyLogoUrl(slug, 'apps'),
 			type: 'dynamic-path',
 			evidence: `/wp-content/plugins/${slug}/`,
 		});
@@ -705,6 +707,7 @@ export function analyze(html, headers = {}, baseUrl = '') {
 			name: formatName(slug),
 			platform: 'PrestaShop',
 			category: 'Módulo de PrestaShop',
+			logo: getProxyLogoUrl(slug, 'apps'),
 			type: 'dynamic-path',
 			evidence: `/modules/${slug}/`,
 		});
@@ -733,6 +736,7 @@ export function analyze(html, headers = {}, baseUrl = '') {
 			name: moduleName.replace('_', ' '),
 			platform: 'Magento',
 			category: 'Módulo de Magento',
+			logo: getProxyLogoUrl(moduleName, 'apps'),
 			type: 'dynamic-path',
 			evidence: moduleName,
 		});
@@ -794,10 +798,23 @@ export function analyze(html, headers = {}, baseUrl = '') {
 	const paymentGateways = detectPaymentGateways(html, scripts, links);
 	const siteLogo = scrapeSiteLogo(html, baseUrl);
 
+	const cmsDomains = {
+		Shopify: 'shopify.com',
+		Magento: 'magento.com',
+		WooCommerce: 'woocommerce.com',
+		PrestaShop: 'prestashop.com',
+		VTEX: 'vtex.com',
+		Odoo: 'odoo.com',
+	};
+	const cmsLogo = primaryTech
+		? getProxyLogoUrl(cmsDomains[primaryTech] || `${primaryTech.toLowerCase()}.com`, 'cms')
+		: null;
+
 	return {
 		detected: primaryTech !== null,
 		technology: primaryTech,
 		confidence: highestConfidence,
+		cmsLogo: cmsLogo,
 		siteLogo: siteLogo,
 		matches: results,
 		matchedRules: primaryTech && results[primaryTech] ? results[primaryTech].matchedRules : [],
@@ -1059,13 +1076,13 @@ export function scrapeSiteLogo(html, baseUrl = '') {
 		if (resolved && !isFalsePositiveLogo(resolved)) return resolved;
 	}
 
-	// 7. Domain fallback favicon if baseUrl provided
+	// 7. Domain fallback if baseUrl provided
 	if (baseUrl) {
 		try {
 			const parsed = new URL(baseUrl);
 			const domain = parsed.hostname.replace(/^www\./i, '');
 			if (domain && domain.includes('.')) {
-				return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+				return `https://img.logo.dev/${domain}?token=${process.env.LOGODEV_PUBLISHABLE_KEY || 'pk_MgKPAkEuRMOiYecOkx67wQ'}&size=128`;
 			}
 		} catch (_e) {}
 	}

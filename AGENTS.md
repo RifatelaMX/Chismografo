@@ -22,3 +22,14 @@ Todos los commits deben redactarse obligatoriamente **en español** y seguir el 
 - `npm run versions`: Analiza los commits recientes y muestra el estado proyectado de versiones por componente.
 - `npm run versions:dry`: Simula el cálculo de versiones sin modificar archivos.
 - `node cli/bin/index.js version`: Muestra las versiones actuales de CLI, Interfaz (UI) y API REST.
+
+## 4. Regla Estricta de Proveedores de Íconos y Logos
+Únicamente se permiten y utilizan los proveedores instalados y soportados oficialmente por el sistema:
+- `local`: Archivos estáticos almacenados en `public/brand/logo/apps/` o `public/brand/logo/`.
+- `logodev`: Servicio API de Logo.dev (`https://img.logo.dev/`).
+- `brandicons`: Servicio API de BrandIcons (`https://cdn.brandicons.dev/`).
+- `brandfetch`: Servicio API de Brandfetch (`https://asset.brandfetch.io/`).
+- `ninjapear`: Servicio API de NinjaPear (`https://logo.ninjapear.com/`).
+- `shopify`: Extracción y logos de la Shopify App Store.
+
+**Quedan estrictamente prohibidos y eliminados** proveedores no funcionales o no autorizados como `icon.horse` / `icon horse`, `google` / `google favicons` y `duckduckgo`. Todas las solicitudes de íconos deben canalizarse exclusivamente a través del proxy de la API (`/api/icon`).

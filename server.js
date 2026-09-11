@@ -11,6 +11,12 @@ import cron from 'node-cron';
 import screenshotmachine from 'screenshotmachine';
 import { detectTechnology, evaluateCustomRules, fetchPage, normalizeUrl } from './src/detector.js';
 import { sendReportEmail } from './src/emailService.js';
+import {
+	enrichReportWithProxyLogos,
+	fetchIconProxy,
+	generateFallbackSvg,
+	getTechIcon,
+} from './src/iconProxyService.js';
 import { getDomainLocation } from './src/location.js';
 import {
 	createTech,
@@ -524,6 +530,74 @@ app.get('/api/techs', (_req, res) => {
 });
 
 /**
+ * Handler principal para el proxy de íconos/logos según el proveedor
+ */
+const handleIconProxy = async (req, res) => {
+	const id =
+		req.query.id || req.query.domain || req.query.slug || req.params.id || req.params.slug || '';
+	const provider = (req.query.provider || req.params.provider || '').toLowerCase();
+	const collection = (req.query.collection || req.params.collection || '').toLowerCase();
+	const size = req.query.size || req.params.size || 64;
+
+	if (!id && !collection) {
+		return res.status(400).json({
+			success: false,
+			error:
+				'Se requiere el parámetro "id" o "collection" con un identificador válido para consultar el ícono.',
+		});
+	}
+
+	try {
+		let iconResult;
+		if (collection && id) {
+			iconResult = await getTechIcon(collection, id, size);
+		} else {
+			iconResult = await fetchIconProxy({ id, provider, size });
+		}
+
+		res.setHeader('Content-Type', iconResult.contentType || 'image/png');
+		res.setHeader(
+			'Cache-Control',
+			'public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800'
+		);
+		res.setHeader('X-Icon-Source', iconResult.source || 'proxy');
+		if (iconResult.cached) {
+			res.setHeader('X-Icon-Cached', 'HIT');
+		}
+		return res.send(iconResult.buffer);
+	} catch (err) {
+		console.error(`[IconProxy] Error al procesar solicitud de ícono (${id}):`, err.message);
+		const fallback = generateFallbackSvg(id || 'A');
+		res.setHeader('Content-Type', 'image/svg+xml');
+		res.setHeader('Cache-Control', 'public, max-age=3600');
+		return res.send(fallback);
+	}
+};
+
+const handleIconProxyWithParams = (req, res) => {
+	const param1 = (req.params.collection || req.params.provider || '').toLowerCase();
+	const validCollections = ['apps', 'infra', 'pixels', 'gateways', 'cms'];
+	const validProviders = ['local', 'logodev', 'brandicons', 'brandfetch', 'ninjapear', 'shopify'];
+
+	if (validCollections.includes(param1)) {
+		req.params.collection = param1;
+		req.params.provider = '';
+	} else if (validProviders.includes(param1)) {
+		req.params.provider = param1;
+		req.params.collection = '';
+	}
+
+	return handleIconProxy(req, res);
+};
+
+// Rutas del Proxy de Íconos
+app.get('/api/icon', handleIconProxy);
+app.get('/api/icons', handleIconProxy);
+app.get('/api/icon/:collection/:id', handleIconProxyWithParams);
+app.get('/api/icon/:provider/:id', handleIconProxyWithParams);
+app.get('/api/techs/:collection/:id/icon', (req, res) => handleIconProxy(req, res));
+
+/**
  * @api {get} /api/cron/cleanup Cron endpoint to trigger cleanup on Vercel
  */
 app.get('/api/cron/cleanup', (req, res) => {
@@ -597,7 +671,8 @@ app.post('/api/report', async (req, res) => {
 
 	try {
 		console.log(`[Correo] 📬 Procesando envío de reporte hacia "${email}"...`);
-		const result = await sendReportEmail(email, name, data);
+		const enrichedData = enrichReportWithProxyLogos(data);
+		const result = await sendReportEmail(email, name, enrichedData);
 		console.log(
 			`[Correo] ✅ Reporte enviado exitosamente a ${email} — ID de mensaje: ${result.messageId}`
 		);
@@ -1141,6 +1216,10 @@ app.get('/api/cms', (req, res, next) => {
 	}
 	return cmsCrud.list(req, res);
 });
+app.get('/api/cms/:id/icon', (req, res) => {
+	req.params.collection = 'cms';
+	return handleIconProxy(req, res);
+});
 app.get('/api/cms/:id', cmsCrud.getById);
 app.post('/api/cms', (req, res) => {
 	if (req.body?.url) {
@@ -1158,6 +1237,10 @@ app.get('/api/apps', (req, res, next) => {
 		return validateUrlParam(req, res, () => handleApps(req, res));
 	}
 	return appsCrud.list(req, res);
+});
+app.get('/api/apps/:id/icon', (req, res) => {
+	req.params.collection = 'apps';
+	return handleIconProxy(req, res);
 });
 app.get('/api/apps/:id', appsCrud.getById);
 app.post('/api/apps', (req, res) => {
@@ -1177,6 +1260,10 @@ app.get('/api/infra', (req, res, next) => {
 	}
 	return infraCrud.list(req, res);
 });
+app.get('/api/infra/:id/icon', (req, res) => {
+	req.params.collection = 'infra';
+	return handleIconProxy(req, res);
+});
 app.get('/api/infra/:id', infraCrud.getById);
 app.post('/api/infra', (req, res) => {
 	if (req.body?.url) {
@@ -1190,6 +1277,10 @@ app.delete('/api/infra/:id', infraCrud.delete);
 
 // Píxeles
 app.get('/api/pixels', (req, res) => pixelsCrud.list(req, res));
+app.get('/api/pixels/:id/icon', (req, res) => {
+	req.params.collection = 'pixels';
+	return handleIconProxy(req, res);
+});
 app.get('/api/pixels/:id', pixelsCrud.getById);
 app.post('/api/pixels', pixelsCrud.create);
 app.put('/api/pixels/:id', pixelsCrud.update);
@@ -1198,6 +1289,10 @@ app.delete('/api/pixels/:id', pixelsCrud.delete);
 
 // Pasarelas
 app.get('/api/gateways', (req, res) => gatewaysCrud.list(req, res));
+app.get('/api/gateways/:id/icon', (req, res) => {
+	req.params.collection = 'gateways';
+	return handleIconProxy(req, res);
+});
 app.get('/api/gateways/:id', gatewaysCrud.getById);
 app.post('/api/gateways', gatewaysCrud.create);
 app.put('/api/gateways/:id', gatewaysCrud.update);
@@ -1652,10 +1747,11 @@ app.get('/search-widget', (_req, res) => {
  */
 app.post('/api/save-report', express.json({ limit: '10mb' }), (req, res) => {
 	try {
-		const data = req.body;
-		if (!data || !data.url) {
+		let data = req.body;
+		if (!data || (!data.url && !data.resolvedUrl)) {
 			return res.status(400).json({ success: false, error: 'Datos inválidos' });
 		}
+		data = enrichReportWithProxyLogos(data);
 
 		// Generar ID único corto (fecha + random)
 		const reportId = Date.now().toString(36) + Math.random().toString(36).substring(2, 7);

@@ -157,14 +157,19 @@ export function buildReportEmail(data, recipientName = '') {
 	const pluginsHtml =
 		plugins.length > 0
 			? plugins
-					.map(
-						(p) => `
+					.map((p) => {
+						const logoUrl = p.logo
+							? p.logo.startsWith('http')
+								? p.logo
+								: `${appUrl}${p.logo.startsWith('/') ? '' : '/'}${p.logo}`
+							: `${appUrl}/api/icon?id=${encodeURIComponent(p.name)}&size=24`;
+						return `
         <tr>
           <td style="padding: 10px 0; border-bottom: 1px dashed #b8d4e3;">
             <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
               <tr>
                 <td style="padding-right: 12px; width: 24px;">
-                  <img src="https://img.logo.dev/${p.logo || domain}?token=${process.env.LOGODEV_PUBLISHABLE_KEY || ''}&size=24" 
+                  <img src="${logoUrl}" 
                        width="20" height="20" alt="${p.name}" 
                        style="border-radius: 4px; vertical-align: middle; display: block; border: 1px solid #2b2523;"
                        onerror="this.style.display='none'">
@@ -176,8 +181,8 @@ export function buildReportEmail(data, recipientName = '') {
               </tr>
             </table>
           </td>
-        </tr>`
-					)
+        </tr>`;
+					})
 					.join('')
 			: '<tr><td style="color: #5c5654; font-size: 13px; padding: 12px 0; font-family: \'Comic Sans MS\', sans-serif; font-style: italic;">🤷 No le hallamos apps o plugins instalados.</td></tr>';
 
@@ -385,7 +390,7 @@ export function buildReportEmail(data, recipientName = '') {
                           <table role="presentation" cellpadding="0" cellspacing="0" border="0">
                             <tr>
                               <td style="padding-right: 12px; vertical-align: middle;">
-                                <img src="https://img.logo.dev/${technology.toLowerCase()}.com?token=${process.env.LOGODEV_PUBLISHABLE_KEY || ''}&size=40"
+                                <img src="${data.cmsLogo ? (data.cmsLogo.startsWith('http') ? data.cmsLogo : `${appUrl}${data.cmsLogo.startsWith('/') ? '' : '/'}${data.cmsLogo}`) : `${appUrl}/api/icon?provider=logodev&id=${encodeURIComponent(technology.toLowerCase())}.com&size=40`}"
                                      width="36" height="36" alt="${technology}"
                                      style="border-radius: 8px; display: block; border: 1.5px solid #2b2523;"
                                      onerror="this.style.display='none'">
