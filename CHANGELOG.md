@@ -1,3 +1,10 @@
+## [1.18.0](https://github.com/RifatelaMX/Chismografo/compare/v1.17.0...v1.18.0) (2026-09-14)
+
+### ✨ Nuevas Características
+
+* **api:** agregar scraper de shopify app store y optimizador de logos webp ([eae14cc](https://github.com/RifatelaMX/Chismografo/commit/eae14cc067b36573a5806a7c574f92f71aadd8c3))
+* **techs:** migrar catalogo a esquema v2 e integrar logos locales webp ([c6f8c50](https://github.com/RifatelaMX/Chismografo/commit/c6f8c5028626fb2993b304c334f65821b8409513))
+
 ## [1.17.0](https://github.com/RifatelaMX/Chismografo/compare/v1.16.0...v1.17.0) (2026-09-11)
 
 ### ✨ Nuevas Características
