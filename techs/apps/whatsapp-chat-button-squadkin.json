@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "whatsapp-chat-button-squadkin",
-	"name": "SK: WhatsApp Chat Button",
-	"developer": "SK",
-	"category": "Otros",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://apps.shopify.com/whatsapp-chat-button-squadkin",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "whatsapp-chat-button-squadkin"
-		}
-	],
-	"logo": {
-		"id": "sk-whatsapp-chat-button",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "whatsapp-chat-button-squadkin|whatsapp[_-]?chat[_-]?button[_-]?squadkin",
-			"description": "Script o recurso de integración de SK: WhatsApp Chat Button detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "SK: WhatsApp Chat Button",
+			"desarrollador": "SK",
+			"web": "https://apps.shopify.com/whatsapp-chat-button-squadkin",
+			"categoria": "Otros",
+			"logo": {
+				"id": "sk-whatsapp-chat-button.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "whatsapp-chat-button-squadkin",
+				"enlace": "whatsapp-chat-button-squadkin"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "whatsapp-chat-button-squadkin|whatsapp[_-]?chat[_-]?button[_-]?squadkin",
+				"descripcion": "Script o recurso de integración de SK: WhatsApp Chat Button detectado"
+			}
+		]
+	}
 }

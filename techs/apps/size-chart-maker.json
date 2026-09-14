@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "size-chart-maker",
-	"name": "POWR: Size Chart Sizing Guide",
-	"developer": "POWR",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.powr.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "size-chart-maker"
-		}
-	],
-	"logo": {
-		"id": "size-chart-maker.jpeg",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "size-chart-maker|size[_-]?chart[_-]?maker",
-			"description": "Script o recurso de integración de POWR: Size Chart Sizing Guide detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "POWR: Size Chart Sizing Guide",
+			"desarrollador": "POWR",
+			"web": "https://www.powr.io",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "size-chart-maker.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "size-chart-maker",
+				"enlace": "size-chart-maker"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "size-chart-maker|size[_-]?chart[_-]?maker",
+				"descripcion": "Script o recurso de integración de POWR: Size Chart Sizing Guide detectado"
+			}
+		]
+	}
 }

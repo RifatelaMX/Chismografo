@@ -1,25 +1,39 @@
 {
+	"$schema": "../../schemas/pixel-v2.schema.json",
 	"id": "tiktok-pixel",
-	"name": "TikTok Pixel",
-	"category": "Redes Sociales",
-	"web": "https://ads.tiktok.com/help/article/tiktok-pixel",
-	"precios": [],
-	"logo": {
-		"id": "tiktok.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 5,
+		"version": "1.0.0",
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 2
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "analytics\\.tiktok\\.com\\/i18n\\/pixel",
-			"description": "TikTok Pixel script detectado",
-			"weight": 1
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "TikTok Pixel",
+			"web": "https://ads.tiktok.com/help/article/tiktok-pixel",
+			"categoria": "Redes Sociales",
+			"logo": {
+				"id": "tiktok.com",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"type": "script-content",
-			"pattern": "ttq\\.load\\(",
-			"description": "TikTok Pixel initialization detectado",
-			"weight": 0.8
-		}
-	]
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "analytics\\.tiktok\\.com\\/i18n\\/pixel",
+				"descripcion": "TikTok Pixel script detectado",
+				"peso": 1
+			},
+			{
+				"tipo": "script-content",
+				"patron": "ttq\\.load\\(",
+				"descripcion": "TikTok Pixel initialization detectado",
+				"peso": 0.8
+			}
+		]
+	}
 }

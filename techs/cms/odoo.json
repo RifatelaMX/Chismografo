@@ -1,65 +1,79 @@
 {
+	"$schema": "../../schemas/cms-v2.schema.json",
 	"id": "odoo",
-	"name": "Odoo",
-	"web": "https://www.odoo.com",
-	"precios": [],
-	"logo": {
-		"id": "odoo.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 2,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"id": "odoo-meta-generator",
-			"type": "meta",
-			"key": "generator",
-			"pattern": "odoo",
-			"description": "Meta generator contains \"Odoo\"",
-			"weight": 1
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Odoo",
+			"web": "https://www.odoo.com",
+			"logo": {
+				"id": "odoo.com",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"id": "odoo-web-assets-script",
-			"type": "script-src",
-			"pattern": "\\/web\\/assets\\/|\\/web\\/content\\/|\\/web\\/static\\/|\\/web_editor\\/static\\/",
-			"description": "Scripts loaded from Odoo /web/ structure",
-			"weight": 0.95
-		},
-		{
-			"id": "odoo-web-assets-style",
-			"type": "link-href",
-			"pattern": "\\/web\\/assets\\/|\\/web\\/content\\/|\\/web\\/static\\/|web\\.assets_frontend",
-			"description": "Stylesheets loaded from Odoo assets pipeline",
-			"weight": 0.95
-		},
-		{
-			"id": "odoo-js-object",
-			"type": "script-content",
-			"pattern": "(?:window\\.)?odoo\\.(?:define|__DEBUG__|session_info)|var odoo\\s*=",
-			"description": "Odoo JavaScript framework or session info defined",
-			"weight": 0.95
-		},
-		{
-			"id": "odoo-data-oe-attribute",
-			"type": "html-attribute",
-			"attribute": "data-oe-model",
-			"pattern": ".+",
-			"description": "Odoo template engine data-oe-model attribute present",
-			"weight": 0.95
-		},
-		{
-			"id": "odoo-html-wrapwrap",
-			"type": "html-attribute",
-			"attribute": "id",
-			"pattern": "^wrapwrap$",
-			"description": "Odoo standard root container #wrapwrap",
-			"weight": 0.7
-		},
-		{
-			"id": "odoo-header-server",
-			"type": "header",
-			"key": "server",
-			"pattern": "werkzeug|odoo",
-			"description": "Server header indicates Werkzeug/Odoo backend",
-			"weight": 0.6
-		}
-	]
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"id": "odoo-meta-generator",
+				"tipo": "meta",
+				"llave": "generator",
+				"patron": "odoo",
+				"descripcion": "Meta generator contains \"Odoo\"",
+				"peso": 1
+			},
+			{
+				"id": "odoo-web-assets-script",
+				"tipo": "script-src",
+				"patron": "\\/web\\/assets\\/|\\/web\\/content\\/|\\/web\\/static\\/|\\/web_editor\\/static\\/",
+				"descripcion": "Scripts loaded from Odoo /web/ structure",
+				"peso": 0.95
+			},
+			{
+				"id": "odoo-web-assets-style",
+				"tipo": "link-href",
+				"patron": "\\/web\\/assets\\/|\\/web\\/content\\/|\\/web\\/static\\/|web\\.assets_frontend",
+				"descripcion": "Stylesheets loaded from Odoo assets pipeline",
+				"peso": 0.95
+			},
+			{
+				"id": "odoo-js-object",
+				"tipo": "script-content",
+				"patron": "(?:window\\.)?odoo\\.(?:define|__DEBUG__|session_info)|var odoo\\s*=",
+				"descripcion": "Odoo JavaScript framework or session info defined",
+				"peso": 0.95
+			},
+			{
+				"id": "odoo-data-oe-attribute",
+				"tipo": "html-attribute",
+				"atributo": "data-oe-model",
+				"patron": ".+",
+				"descripcion": "Odoo template engine data-oe-model attribute present",
+				"peso": 0.95
+			},
+			{
+				"id": "odoo-html-wrapwrap",
+				"tipo": "html-attribute",
+				"atributo": "id",
+				"patron": "^wrapwrap$",
+				"descripcion": "Odoo standard root container #wrapwrap",
+				"peso": 0.7
+			},
+			{
+				"id": "odoo-header-server",
+				"tipo": "header",
+				"llave": "server",
+				"patron": "werkzeug|odoo",
+				"descripcion": "Server header indicates Werkzeug/Odoo backend",
+				"peso": 0.6
+			}
+		]
+	}
 }

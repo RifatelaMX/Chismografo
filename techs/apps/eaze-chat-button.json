@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "eaze-chat-button",
-	"name": "EAZE Button",
-	"developer": "EAZE Button",
-	"category": "Soporte / Chat",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://eazebutton.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "eaze-chat-button"
-		}
-	],
-	"logo": {
-		"id": "eazebutton.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "eaze-chat-button|eazebutton|eaze-button",
-			"description": "Script o recurso de integración de EAZE Button detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "EAZE Button",
+			"desarrollador": "EAZE Button",
+			"web": "https://eazebutton.com",
+			"categoria": "Soporte / Chat",
+			"logo": {
+				"id": "eaze-button.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "eaze-chat-button",
+				"enlace": "eaze-chat-button"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "eaze-chat-button|eazebutton|eaze-button",
+				"descripcion": "Script o recurso de integración de EAZE Button detectado"
+			}
+		]
+	}
 }

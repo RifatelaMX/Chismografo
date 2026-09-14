@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "collage-galleries-by-widgetic",
-	"name": "Widgetic (Mosaic Gallery)",
-	"developer": "Widgetic",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://widgetic.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "collage-galleries-by-widgetic"
-		}
-	],
-	"logo": {
-		"id": "widgetic-mosaic-gallery.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "collage-galleries-by-widgetic|collage[_-]?galleries[_-]?by[_-]?widgetic",
-			"description": "Script o recurso de integración de Widgetic (Mosaic Gallery) detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Widgetic (Mosaic Gallery)",
+			"desarrollador": "Widgetic",
+			"web": "https://widgetic.com",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "widgetic-mosaic-gallery.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "collage-galleries-by-widgetic",
+				"enlace": "collage-galleries-by-widgetic"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "collage-galleries-by-widgetic|collage[_-]?galleries[_-]?by[_-]?widgetic",
+				"descripcion": "Script o recurso de integración de Widgetic (Mosaic Gallery) detectado"
+			}
+		]
+	}
 }

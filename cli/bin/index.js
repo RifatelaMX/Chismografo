@@ -5,6 +5,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import readline from 'node:readline';
 import { fileURLToPath } from 'node:url';
+import { optimizeAllLogos } from '../../src/logoOptimizer.js';
+import { buildAppV2Json, saveScrapedApp, scrapeShopifyApp } from '../../src/shopifyAppScraper.js';
 
 function askQuestion(query) {
 	const rl = readline.createInterface({
@@ -253,7 +255,11 @@ const helpText = `
 \x1b[1m\x1b[33m🗂  Comandos para armar el catálogo de chismes:\x1b[0m
   \x1b[1m\x1b[36mbuild-index\x1b[0m                               Empaqueta todo el catálogo de chismes en index.json.
     \x1b[90m--category <categoria>                Filtra por categoría de chisme.
-    \x1b[90m--cms <cms>                           Filtra las apps compatibles con este CMS.\x1b[0m
+    \x1b[90m--cms <cms>                           Filtra las apps compatibles con este CMS.
+    \x1b[90m--optimize-logos                      Comprime y convierte todos los logos a WebP.\x1b[0m
+
+  \x1b[1m\x1b[36moptimize-logos\x1b[0m                            Comprime y convierte todos los logos a formato WebP y actualiza el catálogo.
+    \x1b[90m--delete-original                     Elimina los archivos PNG/JPG originales tras convertirlos.\x1b[0m
 
   \x1b[1m\x1b[36mvalidate-index\x1b[0m                            Revisa que index.json no tenga chismes rotos o inventados.
   \x1b[1m\x1b[36mcheck-tech\x1b[0m \x1b[33m<ruta_archivo>\x1b[0m                 Audita que una firma JSON esté bien armada.
@@ -268,7 +274,14 @@ const helpText = `
     \x1b[90m--cms <cms>                           CMS compatibles (separados por comas).
     \x1b[90m--links <links>                       Links de la tienda de apps.
     \x1b[90m--web <url>                           URL oficial de la app.
-    \x1b[90m--logo <logo>                         Logo de la app (ej. loox.app).\x1b[0m
+    \x1b[90m--logo <logo>                         Logo de la app (ej. loox.app).
+    \x1b[90m--from-shopify <slug>                 Rellena y extrae los datos en vivo desde Shopify App Store.\x1b[0m
+
+  \x1b[1m\x1b[36mscrape-app\x1b[0m \x1b[33m<slug_o_url> [opciones]\x1b[0m        Extrae datos completos en vivo de una app en Shopify App Store.
+    \x1b[90m--category <categoria>                Categoría a asignar.
+    \x1b[90m--save                                Guarda/actualiza el JSON y descarga su logo en WebP.\x1b[0m
+
+
 
   \x1b[1m\x1b[36madd-infra\x1b[0m \x1b[33m<nombre> [opciones]\x1b[0m            Ficha un nuevo elemento de infraestructura.
     \x1b[90m--category <categoria>                Categoría del elemento (Por defecto: CDN / Proxy).
@@ -401,6 +414,34 @@ if (command === 'dev') {
 else if (command === 'build-index') {
 	const categoryFilter = getOption('--category');
 	const cmsFilter = getOption('--cms');
+	const shouldOptimizeLogos =
+		args.includes('--optimize-logos') ||
+		args.includes('--webp') ||
+		Boolean(getOption('--optimize-logos'));
+
+	if (shouldOptimizeLogos) {
+		console.log(
+			'\x1b[36m%s\x1b[0m',
+			'🖼️  El Chismógrafo está optimizando y convirtiendo los logos a WebP...'
+		);
+		try {
+			const deleteOriginal = !args.includes('--keep-original');
+			const optResults = await optimizeAllLogos({ deleteOriginal });
+			console.log(
+				'\x1b[32m%s\x1b[0m',
+				`✓ ¡Logos procesados! ${optResults.converted} convertidos/optimizados a WebP, ${optResults.updatedConfigs} firmas JSON sincronizadas.`
+			);
+			if (optResults.originalBytes > 0) {
+				const savedKb = ((optResults.originalBytes - optResults.optimizedBytes) / 1024).toFixed(1);
+				console.log(`  💾 Ahorro estimado de almacenamiento: ${savedKb} KB\n`);
+			}
+		} catch (optErr) {
+			console.warn(
+				'\x1b[33m%s\x1b[0m',
+				`⚠️ No se pudieron optimizar los logos por completo: ${optErr.message}`
+			);
+		}
+	}
 
 	console.log(
 		'\x1b[36m%s\x1b[0m',
@@ -461,12 +502,65 @@ else if (command === 'build-index') {
 		console.log(
 			`  📊 Resumen del cotilleo: ${cms.length} CMS, ${apps.length} Apps, ${infra.length} Infraestructuras, ${gateways.length} Pasarelas y ${(indexData.pixels || []).length} Píxeles fichados.`
 		);
+		process.exit(0);
 	} catch (err) {
 		console.error(
 			'\x1b[31m%s\x1b[0m',
 			'✗ ¡Chisme fallido! Error al compilar index.json:',
 			err.message
 		);
+		process.exit(1);
+	}
+}
+
+// 2b. Command: optimize-logos
+else if (command === 'optimize-logos') {
+	console.log(
+		'\x1b[36m%s\x1b[0m',
+		'🖼️  El Chismógrafo inicia la compresión y conversión de logos a WebP...'
+	);
+	try {
+		const deleteOriginal = !args.includes('--keep-original');
+		const optResults = await optimizeAllLogos({ deleteOriginal });
+		console.log(
+			'\x1b[32m%s\x1b[0m',
+			`✓ ¡Logos procesados! ${optResults.converted} convertidos/optimizados a WebP, ${optResults.updatedConfigs} firmas JSON sincronizadas.`
+		);
+		if (optResults.originalBytes > 0) {
+			const savedKb = ((optResults.originalBytes - optResults.optimizedBytes) / 1024).toFixed(1);
+			console.log(`  💾 Ahorro total de almacenamiento: ${savedKb} KB`);
+		}
+
+		// Rebuild index
+		console.log('\n🤫 Reconstruyendo index.json con las nuevas referencias...');
+		const loadFolder = (folderName) => {
+			const folderPath = path.join(techsDir, folderName);
+			const items = [];
+			if (fs.existsSync(folderPath)) {
+				fs.readdirSync(folderPath).forEach((file) => {
+					if (file.endsWith('.json')) {
+						const content = fs.readFileSync(path.join(folderPath, file), 'utf-8');
+						items.push(JSON.parse(content));
+					}
+				});
+			}
+			return items;
+		};
+
+		const cms = loadFolder('cms');
+		const apps = loadFolder('apps');
+		const infra = loadFolder('infra');
+		const gateways = loadFolder('gateways');
+		const pixels = loadFolder('pixels');
+		const indexData = { cms, apps, infra, gateways, pixels };
+		fs.writeFileSync(indexPath, JSON.stringify(indexData), 'utf-8');
+		console.log(
+			'\x1b[32m%s\x1b[0m',
+			`✓ ¡Expediente unificado index.json actualizado exitosamente!`
+		);
+		process.exit(0);
+	} catch (err) {
+		console.error('\x1b[31m%s\x1b[0m', '✗ Error al optimizar logos:', err.message);
 		process.exit(1);
 	}
 }
@@ -540,26 +634,29 @@ else if (command === 'check-tech') {
 		const stackMatch = path.relative(techsDir, absolutePath).match(/^([^/]+)/);
 		const stack = stackMatch ? stackMatch[1] : null;
 
-		if (typeof app.name !== 'string' || !app.name)
-			errors.push('Falta o es inválido: "name" (string)');
+		const nombre = app.nombre || app.name;
+		if (typeof nombre !== 'string' || !nombre)
+			errors.push('Falta o es inválido: "nombre" (string)');
 
 		if (stack && stack !== 'cms') {
 			const validCategories = loadCategories(stack);
-			if (typeof app.category !== 'string' || !app.category) {
-				errors.push('Falta o es inválido: "category" (string)');
-			} else if (!validCategories.includes(app.category)) {
+			const categoria = app.categoria || app.category;
+			if (typeof categoria !== 'string' || !categoria) {
+				errors.push('Falta o es inválido: "categoria" (string)');
+			} else if (!validCategories.includes(categoria)) {
 				errors.push(
-					`Categoría inválida: "${app.category}". Valores permitidos para ${stack}: ${validCategories.join(', ')}`
+					`Categoría inválida: "${categoria}". Valores permitidos para ${stack}: ${validCategories.join(', ')}`
 				);
 			}
 		}
 
-		if (!Array.isArray(app.detectionRules) || app.detectionRules.length === 0) {
-			errors.push('Falta o es vacío: "detectionRules" (array)');
+		const reglas = app.reglasDeteccion || app.detectionRules;
+		if (!Array.isArray(reglas) || reglas.length === 0) {
+			errors.push('Falta o es vacío: "reglasDeteccion" (array)');
 		} else {
-			app.detectionRules.forEach((rule, idx) => {
-				if (!rule.type) errors.push(`Regla #${idx}: Falta "type"`);
-				if (!rule.pattern) errors.push(`Regla #${idx}: Falta "pattern"`);
+			reglas.forEach((rule, idx) => {
+				if (!rule.tipo && !rule.type) errors.push(`Regla #${idx}: Falta "tipo"`);
+				if (!rule.patron && !rule.pattern) errors.push(`Regla #${idx}: Falta "patron"`);
 			});
 		}
 
@@ -601,27 +698,19 @@ else if (command === 'add-app') {
 			process.exit(1);
 		}
 		const tempSlug = toSlug(name);
-		category = await askCategoryInteractive('apps', 'Otros');
-		cmsInput = await askCmsMultiSelect();
+		category = await askCategoryInteractive('apps', 'Marketing / Popups');
+		cmsInput =
+			(await askQuestion('3. CMS Compatibles separados por coma [Shopify]: ')) || 'Shopify';
 		webVal =
 			(await askQuestion(`4. URL de la Web [https://www.${tempSlug}.com]: `)) ||
 			`https://www.${tempSlug}.com`;
-
-		const selectedCmsList = cmsInput.split(',').map((c) => c.trim());
-		const linksArray = [];
-		console.log('\n🔗 Configurando enlaces de App Stores para cada CMS seleccionado:');
-		for (const cmsName of selectedCmsList) {
-			const link = await askQuestion(
-				`   - Enlace para la tienda de ${cmsName} (deja vacío si no tiene): `
-			);
-			linksArray.push(link);
-		}
-		linksInput = linksArray.join(',');
-
 		logoVal =
-			(await askQuestion(`6. Identificador de Logo [${tempSlug}.com]: `)) || `${tempSlug}.com`;
+			(await askQuestion(`5. Identificador de Logo [${tempSlug}.com]: `)) || `${tempSlug}.com`;
+		linksInput = await askQuestion(
+			'6. Slugs de App Store en el mismo orden que los CMS (opcional, ej. app-shopify, app-woo): '
+		);
 	} else {
-		category = category || 'Otros';
+		category = category || 'Marketing / Popups';
 		cmsInput = cmsInput || 'Shopify';
 		const tempSlug = toSlug(name);
 		webVal = webVal || `https://www.${tempSlug}.com`;
@@ -630,32 +719,49 @@ else if (command === 'add-app') {
 	}
 
 	const slug = toSlug(name);
-	const cmsList = cmsInput.split(',').map((c) => c.trim());
-	const linksList = linksInput ? linksInput.split(',').map((l) => l.trim()) : [];
 	const targetPath = path.join(techsDir, 'apps', `${slug}.json`);
 
 	console.log('\x1b[36m%s\x1b[0m', `📝 El Chismógrafo está fichando la App: ${name}...`);
 
-	const compatibleCMS = cmsList;
-	const appStores = cmsList.map((cmsName, idx) => {
-		const link = linksList[idx] || '';
-		return { cms: cmsName, link };
+	const compatibleCMS = cmsInput
+		.split(',')
+		.map((s) => s.trim())
+		.filter(Boolean);
+
+	const linksList = linksInput
+		? linksInput
+				.split(',')
+				.map((s) => s.trim())
+				.filter(Boolean)
+		: [];
+	const cmsList = compatibleCMS.length > 0 ? compatibleCMS : ['shopify'];
+	const cmsCompatibles = cmsList.map((cmsName, idx) => {
+		const slugPart = linksList[idx] || slug;
+		return { id: cmsName.toLowerCase(), slug: slugPart };
 	});
 
 	const templatePath = path.join(templatesDir, 'app.json');
 	try {
+		const today = new Date().toISOString().split('T')[0];
 		let templateStr = fs.readFileSync(templatePath, 'utf-8');
 		templateStr = templateStr
+			.replace(/\{\{nombre\}\}/g, name)
 			.replace(/\{\{name\}\}/g, name)
+			.replace(/\{\{desarrollador\}\}/g, name)
 			.replace(/\{\{developer\}\}/g, name)
+			.replace(/\{\{categoria\}\}/g, category)
 			.replace(/\{\{category\}\}/g, category)
 			.replace(/\{\{slug\}\}/g, slug)
 			.replace(/\{\{web\}\}/g, webVal)
-			.replace(/\{\{logo\}\}/g, logoVal)
-			.replace(/"\{\{compatibleCMS\}\}"/g, JSON.stringify(compatibleCMS))
-			.replace(/"\{\{appStores\}\}"/g, JSON.stringify(appStores));
+			.replace(/\{\{id_logo\}\}/g, logoVal || `${slug}.png`)
+			.replace(/\{\{proveedor_logo\}\}/g, 'local')
+			.replace(/\{\{provider_logo\}\}/g, 'local')
+			.replace(/\{\{fechaActualizacion\}\}/g, today)
+			.replace(/\{\{revision\}\}/g, '0')
+			.replace(/"\{\{cmsCompatibles\}\}"/g, JSON.stringify(cmsCompatibles));
 
 		const template = JSON.parse(templateStr);
+		template.$schema = '../../schemas/app-v2.schema.json';
 
 		fs.mkdirSync(path.dirname(targetPath), { recursive: true });
 		fs.writeFileSync(targetPath, JSON.stringify(template, null, 2), 'utf-8');
@@ -665,6 +771,119 @@ else if (command === 'add-app') {
 		);
 	} catch (err) {
 		console.error('\x1b[31m%s\x1b[0m', '✗ ¡Chisme fallido! Error al fichar la app:', err.message);
+		process.exit(1);
+	}
+}
+
+// 5b. Command: scrape-app
+else if (command === 'scrape-app') {
+	const targetSlugOrUrl = args[1] || getOption('--from-shopify');
+	const category = getOption('--category') || 'Otros';
+	const shouldSave = args.includes('--save') || Boolean(getOption('--save'));
+
+	if (!targetSlugOrUrl) {
+		console.error(
+			'\x1b[31m%s\x1b[0m',
+			'✗ Debe especificar el slug o la URL de la app en Shopify App Store. Ejemplo: chismografo scrape-app smile-io'
+		);
+		process.exit(1);
+	}
+
+	try {
+		console.log(
+			'\x1b[36m%s\x1b[0m',
+			`🕵️  El Chismógrafo está investigando "${targetSlugOrUrl}" en la Shopify App Store...`
+		);
+		const scraped = await scrapeShopifyApp(targetSlugOrUrl);
+
+		console.log('\n\x1b[35m%s\x1b[0m', '╔══════════════════════════════════════════════════╗');
+		console.log('\x1b[35m\x1b[1m%s\x1b[0m', `║ 🛍️  APP STORE SHOPIFY: ${scraped.nombre}`);
+		console.log('\x1b[35m%s\x1b[0m', '╚══════════════════════════════════════════════════╝\n');
+
+		console.log('\x1b[36m\x1b[1m%s\x1b[0m %s', '🏷️  Slug:', scraped.slug);
+		console.log(
+			'\x1b[36m\x1b[1m%s\x1b[0m %s',
+			'👨‍💻 Desarrollador:',
+			scraped.desarrollador || 'No especificado'
+		);
+		console.log('\x1b[36m\x1b[1m%s\x1b[0m %s', '🌐 Sitio Web:', scraped.web);
+		console.log('\x1b[36m\x1b[1m%s\x1b[0m %s', '🖼️  Logo CDN:', scraped.logoUrl || 'No encontrado');
+
+		if (scraped.calificacion) {
+			console.log(
+				'\x1b[36m\x1b[1m%s\x1b[0m ⭐ %s/5 (%s reseñas)',
+				'⭐ Calificación:',
+				scraped.calificacion.puntaje,
+				scraped.calificacion.resenas.toLocaleString()
+			);
+		}
+
+		console.log('\n\x1b[36m\x1b[1m%s\x1b[0m', '💳 Planes y Precios:');
+		if (scraped.precios.length > 0) {
+			scraped.precios.forEach((p, idx) => {
+				const priceLabel =
+					p.precio.monto === 0
+						? 'Gratis'
+						: `$${p.precio.monto} ${p.precio.moneda} / ${p.frecuencia}`;
+				console.log(`   [${idx + 1}] \x1b[1m${p.plan}\x1b[0m (${priceLabel})`);
+				if (p.features && p.features.length > 0) {
+					p.features.forEach((f) => {
+						console.log(`       • ${f}`);
+					});
+				}
+			});
+		} else {
+			console.log('   (No se detectaron planes estructurados)');
+		}
+
+		if (shouldSave) {
+			const saveResult = await saveScrapedApp(scraped, { categoria: category });
+			console.log(
+				'\n\x1b[32m%s\x1b[0m',
+				`✓ ¡Expediente v2 guardado con éxito en: ${saveResult.filePath}`
+			);
+			if (saveResult.logoPath) {
+				console.log(
+					'\x1b[32m%s\x1b[0m',
+					`🖼️  Logo descargado y convertido a WebP en: ${saveResult.logoPath}`
+				);
+			}
+
+			// Actualizar index.json
+			console.log('🤫 Actualizando índice unificado index.json...');
+			const loadFolder = (folderName) => {
+				const folderPath = path.join(techsDir, folderName);
+				const items = [];
+				if (fs.existsSync(folderPath)) {
+					fs.readdirSync(folderPath).forEach((file) => {
+						if (file.endsWith('.json')) {
+							const content = fs.readFileSync(path.join(folderPath, file), 'utf-8');
+							items.push(JSON.parse(content));
+						}
+					});
+				}
+				return items;
+			};
+			const cms = loadFolder('cms');
+			const apps = loadFolder('apps');
+			const infra = loadFolder('infra');
+			const gateways = loadFolder('gateways');
+			const pixels = loadFolder('pixels');
+			fs.writeFileSync(indexPath, JSON.stringify({ cms, apps, infra, gateways, pixels }), 'utf-8');
+			process.exit(0);
+		} else {
+			console.log(
+				'\n\x1b[90m%s\x1b[0m',
+				'💡 Agregue el flag --save para guardar el JSON y descargar el logo en WebP automáticamente.'
+			);
+			process.exit(0);
+		}
+	} catch (err) {
+		console.error(
+			'\x1b[31m%s\x1b[0m',
+			'✗ ¡Error al extraer información de Shopify App Store:',
+			err.message
+		);
 		process.exit(1);
 	}
 }
@@ -710,15 +929,23 @@ else if (command === 'add-infra') {
 
 	const templatePath = path.join(templatesDir, 'infra.json');
 	try {
+		const today = new Date().toISOString().split('T')[0];
 		let templateStr = fs.readFileSync(templatePath, 'utf-8');
 		templateStr = templateStr
+			.replace(/\{\{nombre\}\}/g, name)
 			.replace(/\{\{name\}\}/g, name)
+			.replace(/\{\{categoria\}\}/g, category)
 			.replace(/\{\{category\}\}/g, category)
 			.replace(/\{\{slug\}\}/g, slug)
 			.replace(/\{\{web\}\}/g, webVal)
-			.replace(/\{\{logo\}\}/g, logoVal);
+			.replace(/\{\{id_logo\}\}/g, logoVal || `${slug}.png`)
+			.replace(/\{\{proveedor_logo\}\}/g, 'local')
+			.replace(/\{\{provider_logo\}\}/g, 'local')
+			.replace(/\{\{fechaActualizacion\}\}/g, today)
+			.replace(/\{\{revision\}\}/g, '0');
 
 		const template = JSON.parse(templateStr);
+		template.$schema = '../../schemas/infra-v2.schema.json';
 
 		fs.mkdirSync(path.dirname(targetPath), { recursive: true });
 		fs.writeFileSync(targetPath, JSON.stringify(template, null, 2), 'utf-8');
@@ -771,14 +998,21 @@ else if (command === 'add-cms') {
 
 	const templatePath = path.join(templatesDir, 'cms.json');
 	try {
+		const today = new Date().toISOString().split('T')[0];
 		let templateStr = fs.readFileSync(templatePath, 'utf-8');
 		templateStr = templateStr
+			.replace(/\{\{nombre\}\}/g, name)
 			.replace(/\{\{name\}\}/g, name)
 			.replace(/\{\{slug\}\}/g, slug)
 			.replace(/\{\{web\}\}/g, webVal)
-			.replace(/\{\{logo\}\}/g, logoVal);
+			.replace(/\{\{id_logo\}\}/g, logoVal || `${slug}.png`)
+			.replace(/\{\{proveedor_logo\}\}/g, 'local')
+			.replace(/\{\{provider_logo\}\}/g, 'local')
+			.replace(/\{\{fechaActualizacion\}\}/g, today)
+			.replace(/\{\{revision\}\}/g, '0');
 
 		const template = JSON.parse(templateStr);
+		template.$schema = '../../schemas/cms-v2.schema.json';
 
 		fs.mkdirSync(path.dirname(targetPath), { recursive: true });
 		fs.writeFileSync(targetPath, JSON.stringify(template, null, 2), 'utf-8');
@@ -797,6 +1031,7 @@ else if (command === 'add-gateway') {
 	let name = args[1];
 	let webVal = getOption('--web');
 	let logoVal = getOption('--logo');
+	const categoriaVal = getOption('--categoria') || getOption('--category') || 'Pasarela de Pago';
 
 	if (!name) {
 		console.log(
@@ -830,16 +1065,27 @@ else if (command === 'add-gateway') {
 
 	const templatePath = path.join(templatesDir, 'gateway.json');
 	try {
+		const today = new Date().toISOString().split('T')[0];
 		let templateStr = fs.readFileSync(templatePath, 'utf-8');
 		templateStr = templateStr
+			.replace(/\{\{nombre\}\}/g, name)
 			.replace(/\{\{name\}\}/g, name)
+			.replace(/\{\{desarrollador\}\}/g, name)
+			.replace(/\{\{developer\}\}/g, name)
+			.replace(/\{\{categoria\}\}/g, categoriaVal)
+			.replace(/\{\{category\}\}/g, categoriaVal)
 			.replace(/\{\{slug\}\}/g, slug)
 			.replace(/\{\{web\}\}/g, webVal)
-			.replace(/\{\{logo\}\}/g, logoVal)
+			.replace(/\{\{id_logo\}\}/g, logoVal || `${slug}.png`)
+			.replace(/\{\{proveedor_logo\}\}/g, 'local')
+			.replace(/\{\{provider_logo\}\}/g, 'local')
+			.replace(/\{\{fechaActualizacion\}\}/g, today)
+			.replace(/\{\{revision\}\}/g, '0')
 			.replace(/\{\{scriptPattern\}\}/g, `${slug}\\\\.js`)
 			.replace(/\{\{htmlPattern\}\}/g, `\\\\b${slug}\\\\b`);
 
 		const template = JSON.parse(templateStr);
+		template.$schema = '../../schemas/gateway-v2.schema.json';
 
 		fs.mkdirSync(path.dirname(targetPath), { recursive: true });
 		fs.writeFileSync(targetPath, JSON.stringify(template, null, 2), 'utf-8');
@@ -892,14 +1138,23 @@ else if (command === 'add-pixel') {
 
 	const templatePath = path.join(templatesDir, 'pixels.json');
 	try {
+		const today = new Date().toISOString().split('T')[0];
 		let templateStr = fs.readFileSync(templatePath, 'utf-8');
 		templateStr = templateStr
+			.replace(/\{\{nombre\}\}/g, name)
 			.replace(/\{\{name\}\}/g, name)
+			.replace(/\{\{desarrollador\}\}/g, name)
+			.replace(/\{\{developer\}\}/g, name)
 			.replace(/\{\{slug\}\}/g, slug)
 			.replace(/\{\{web\}\}/g, webVal)
-			.replace(/\{\{logo\}\}/g, logoVal);
+			.replace(/\{\{id_logo\}\}/g, logoVal || `${slug}.png`)
+			.replace(/\{\{proveedor_logo\}\}/g, 'local')
+			.replace(/\{\{provider_logo\}\}/g, 'local')
+			.replace(/\{\{fechaActualizacion\}\}/g, today)
+			.replace(/\{\{revision\}\}/g, '0');
 
 		const template = JSON.parse(templateStr);
+		template.$schema = '../../schemas/pixel-v2.schema.json';
 
 		fs.mkdirSync(path.dirname(targetPath), { recursive: true });
 		fs.writeFileSync(targetPath, JSON.stringify(template, null, 2), 'utf-8');

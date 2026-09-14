@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "hotjar",
-	"name": "Hotjar Install",
-	"developer": "Hotjar",
-	"category": "Analítica",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.hotjar.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "hotjar"
-		}
-	],
-	"logo": {
-		"id": "hotjar-install.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "hotjar",
-			"description": "Script o recurso de integración de Hotjar Install detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Hotjar Install",
+			"desarrollador": "Hotjar",
+			"web": "https://www.hotjar.com",
+			"categoria": "Analítica",
+			"logo": {
+				"id": "hotjar-install.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "hotjar",
+				"enlace": "hotjar"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "hotjar",
+				"descripcion": "Script o recurso de integración de Hotjar Install detectado"
+			}
+		]
+	}
 }

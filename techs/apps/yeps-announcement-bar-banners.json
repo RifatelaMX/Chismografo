@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "yeps-announcement-bar-banners",
-	"name": "Yeps Announcement Bar Banner",
-	"developer": "Yeps",
-	"category": "Marketing / Popups",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://yeps.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "yeps-announcement-bar-banners"
-		}
-	],
-	"logo": {
-		"id": "yeps.io",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "yeps-announcement-bar-banners|yeps[_-]?announcement[_-]?bar[_-]?banners|yeps",
-			"description": "Script o recurso de integración de Yeps Announcement Bar Banner detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Yeps Announcement Bar Banner",
+			"desarrollador": "Yeps",
+			"web": "https://yeps.io",
+			"categoria": "Marketing / Popups",
+			"logo": {
+				"id": "yeps.io",
+				"proveedor": "logodev"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "yeps-announcement-bar-banners",
+				"enlace": "yeps-announcement-bar-banners"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "yeps-announcement-bar-banners|yeps[_-]?announcement[_-]?bar[_-]?banners|yeps",
+				"descripcion": "Script o recurso de integración de Yeps Announcement Bar Banner detectado"
+			}
+		]
+	}
 }

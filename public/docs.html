@@ -1104,21 +1104,60 @@ curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com"}' htt
 
     function updateJSONPreview() {
       const cleanRules = state.rules.map(r => {
-        const item = { type: r.type };
-        if (r.type === "meta" || r.type === "header") item.key = r.key || "";
-        if (r.type === "html-attribute") item.attribute = r.attribute || "";
-        item.pattern = r.pattern || "";
-        if (r.description) item.description = r.description;
-        item.weight = typeof r.weight === "number" ? r.weight : parseFloat(r.weight) || 0.5;
+        const item = { tipo: r.tipo || r.type || "script-src" };
+        const key = r.llave || r.clave || r.key;
+        const attr = r.atributo || r.attribute;
+        if (key) item.llave = key;
+        if (attr) item.atributo = attr;
+        item.patron = r.patron || r.pattern || "";
+        if (r.descripcion || r.description) item.descripcion = r.descripcion || r.description;
+        const weight = r.peso !== undefined ? r.peso : r.weight;
+        if (weight !== undefined) item.peso = typeof weight === "number" ? weight : parseFloat(weight) || 1.0;
         return item;
       });
 
+      const slug = (state.name || "nueva-herramienta").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      const today = new Date().toISOString().split("T")[0];
+      const category = state.category || "apps";
+      let schemaPath = "../../schemas/app-v2.schema.json";
+      let tipoNum = 1;
+      if (category === "cms") { schemaPath = "../../schemas/cms-v2.schema.json"; tipoNum = 2; }
+      else if (category === "gateways") { schemaPath = "../../schemas/gateway-v2.schema.json"; tipoNum = 3; }
+      else if (category === "infra") { schemaPath = "../../schemas/infra-v2.schema.json"; tipoNum = 4; }
+      else if (category === "pixels") { schemaPath = "../../schemas/pixel-v2.schema.json"; tipoNum = 5; }
+
       const fullSignature = {
-        name: state.name || "Sin Nombre",
-        category: state.category || "",
-        web: state.web || "",
-        logo: state.logo || "",
-        detectionRules: cleanRules
+        $schema: schemaPath,
+        id: slug,
+        chismografo: {
+          tipo: tipoNum,
+          version: "1.0.0",
+          ultimaActualizacion: today,
+          revision: 0,
+          entorno: 2
+        },
+        acercaDe: {
+          detallesGenerales: {
+            nombre: state.name || "Sin Nombre",
+            desarrollador: state.developer || state.name || "Desarrollador Oficial",
+            web: state.web || "",
+            categoria: state.categoryName || state.category || "General",
+            logo: {
+              id: state.logo || `${slug}.png`,
+              proveedor: "local"
+            }
+          },
+          cmsCompatibles: [
+            {
+              id: "shopify",
+              slug: slug
+            }
+          ],
+          precios: []
+        },
+        herramienta: {
+          reglasDeteccion: cleanRules
+        }
       };
 
       document.getElementById("json-output-code").textContent = JSON.stringify(fullSignature, null, 2);
@@ -1163,11 +1202,29 @@ curl -X POST -H "Content-Type: application/json" -d '{"url": "shopify.com"}' htt
       try {
         const val = document.getElementById("import-json-textarea").value;
         const parsed = JSON.parse(val);
-        if (parsed.name) state.name = parsed.name;
-        if (parsed.web) state.web = parsed.web;
-        if (parsed.logo) state.logo = parsed.logo;
-        if (Array.isArray(parsed.detectionRules) && parsed.detectionRules.length > 0) {
-          state.rules = parsed.detectionRules;
+        const name = parsed.acercaDe?.detallesGenerales?.nombre || parsed.nombre || parsed.name;
+        const web = parsed.acercaDe?.detallesGenerales?.web || parsed.web;
+        const logo = parsed.acercaDe?.detallesGenerales?.logo?.id || parsed.logo?.id || parsed.logo;
+        const rules = parsed.herramienta?.reglasDeteccion || parsed.reglasDeteccion || parsed.detectionRules;
+
+        if (name) state.name = name;
+        if (web) state.web = web;
+        if (logo) state.logo = typeof logo === 'string' ? logo : '';
+        if (Array.isArray(rules) && rules.length > 0) {
+          state.rules = rules.map(r => ({
+            tipo: r.tipo || r.type || 'script-src',
+            type: r.tipo || r.type || 'script-src',
+            patron: r.patron || r.pattern || '',
+            pattern: r.patron || r.pattern || '',
+            descripcion: r.descripcion || r.description || '',
+            description: r.descripcion || r.description || '',
+            llave: r.llave || r.clave || r.key || '',
+            key: r.llave || r.clave || r.key || '',
+            atributo: r.atributo || r.attribute || '',
+            attribute: r.atributo || r.attribute || '',
+            peso: r.peso !== undefined ? r.peso : r.weight || 1.0,
+            weight: r.peso !== undefined ? r.peso : r.weight || 1.0
+          }));
         }
         renderStudio();
         closeImportModal();

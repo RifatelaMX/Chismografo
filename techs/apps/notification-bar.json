@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "notification-bar",
-	"name": "POWR Email Popup & Discounts",
-	"developer": "POWR",
-	"category": "Marketing / Popups",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.powr.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "notification-bar"
-		}
-	],
-	"logo": {
-		"id": "notification-bar.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "notification-bar|notification[_-]?bar",
-			"description": "Script o recurso de integración de POWR Email Popup & Discounts detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "POWR Email Popup & Discounts",
+			"desarrollador": "POWR",
+			"web": "https://www.powr.io",
+			"categoria": "Marketing / Popups",
+			"logo": {
+				"id": "notification-bar.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "notification-bar",
+				"enlace": "notification-bar"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "notification-bar|notification[_-]?bar",
+				"descripcion": "Script o recurso de integración de POWR Email Popup & Discounts detectado"
+			}
+		]
+	}
 }

@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "microsoft-clarity",
-	"name": "Microsoft Clarity: AI Insights",
-	"developer": "Microsoft Clarity",
-	"category": "Analítica",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.microsoft.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "microsoft-clarity"
-		}
-	],
-	"logo": {
-		"id": "clarity.microsoft.com",
-		"provider": "brandicons"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "clarity\\.ms\\/tag\\/|clarity\\.js",
-			"description": "Microsoft Clarity integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Microsoft Clarity: AI Insights",
+			"desarrollador": "Microsoft Clarity",
+			"web": "https://www.microsoft.com",
+			"categoria": "Analítica",
+			"logo": {
+				"id": "microsoft-clarity.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "microsoft-clarity",
+				"enlace": "microsoft-clarity"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "clarity\\.ms\\/tag\\/|clarity\\.js",
+				"descripcion": "Microsoft Clarity integration script or resource detected"
+			}
+		]
+	}
 }

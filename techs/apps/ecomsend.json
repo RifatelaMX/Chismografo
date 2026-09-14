@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "ecomsend",
-	"name": "SendWILL Popup Email Marketing",
-	"developer": "SendWILL Popup Email Marketing",
-	"category": "Marketing / Popups",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://cwill.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "ecomsend"
-		}
-	],
-	"logo": {
-		"id": "cwill.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "ecomsend|cwill",
-			"description": "Script o recurso de integración de SendWILL Popup Email Marketing detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "SendWILL Popup Email Marketing",
+			"desarrollador": "SendWILL Popup Email Marketing",
+			"web": "https://cwill.com",
+			"categoria": "Marketing / Popups",
+			"logo": {
+				"id": "ecomsend.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "ecomsend",
+				"enlace": "ecomsend"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "ecomsend|cwill",
+				"descripcion": "Script o recurso de integración de SendWILL Popup Email Marketing detectado"
+			}
+		]
+	}
 }

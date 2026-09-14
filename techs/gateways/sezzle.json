@@ -1,27 +1,61 @@
 {
+	"$schema": "../../schemas/gateway-v2.schema.json",
 	"id": "sezzle",
-	"name": "Sezzle",
-	"developer": "Sezzle",
-	"category": "Pago a Plazos (BNPL)",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.sezzle.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "sezzle-widget"
-		}
-	],
-	"logo": {
-		"id": "sezzle.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 3,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "sezzle\\.com",
-			"description": "Integración o recurso de Sezzle detectado",
-			"weight": 1
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Sezzle",
+			"empresaResponsable": "Sezzle",
+			"web": "https://www.sezzle.com",
+			"categoria": "Pago a Plazos (BNPL)",
+			"logo": {
+				"id": "sezzle.com",
+				"proveedor": "logodev"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "shopify",
+				"comisionMinima": 2,
+				"comisionMaxima": 4.5
+			},
+			{
+				"id": "magento",
+				"comisionMinima": 2,
+				"comisionMaxima": 4.5
+			},
+			{
+				"id": "woocommerce",
+				"comisionMinima": 2,
+				"comisionMaxima": 4.5
+			},
+			{
+				"id": "prestashop",
+				"comisionMinima": 2,
+				"comisionMaxima": 4.5
+			},
+			{
+				"id": "vtex",
+				"comisionMinima": 2,
+				"comisionMaxima": 4.5
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "sezzle\\.com",
+				"descripcion": "Integración o recurso de Sezzle detectado",
+				"peso": 1
+			}
+		]
+	}
 }

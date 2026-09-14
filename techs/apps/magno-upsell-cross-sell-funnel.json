@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "magno-upsell-cross-sell-funnel",
-	"name": "Magno Upsell Cross Sell Funnel",
-	"developer": "Magno Upsell Cross Sell Funnel",
-	"category": "Otros",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://apps.shopify.com/magno-upsell-cross-sell-funnel",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "magno-upsell-cross-sell-funnel"
-		}
-	],
-	"logo": {
-		"id": "magno-upsell-cross-sell-funnel.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "magno-upsell-cross-sell-funnel|magno[_-]?upsell[_-]?cross[_-]?sell[_-]?funnel",
-			"description": "Script o recurso de integración de Magno Upsell Cross Sell Funnel detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Magno Upsell Cross Sell Funnel",
+			"desarrollador": "Magno Upsell Cross Sell Funnel",
+			"web": "https://apps.shopify.com/magno-upsell-cross-sell-funnel",
+			"categoria": "Otros",
+			"logo": {
+				"id": "magno-upsell-cross-sell-funnel.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "magno-upsell-cross-sell-funnel",
+				"enlace": "magno-upsell-cross-sell-funnel"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "magno-upsell-cross-sell-funnel|magno[_-]?upsell[_-]?cross[_-]?sell[_-]?funnel",
+				"descripcion": "Script o recurso de integración de Magno Upsell Cross Sell Funnel detectado"
+			}
+		]
+	}
 }

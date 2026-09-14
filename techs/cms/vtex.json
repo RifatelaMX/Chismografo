@@ -1,72 +1,86 @@
 {
+	"$schema": "../../schemas/cms-v2.schema.json",
 	"id": "vtex",
-	"name": "VTEX",
-	"web": "https://vtex.com",
-	"precios": [],
-	"logo": {
-		"id": "vtex.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 2,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"id": "vtex-meta-generator",
-			"type": "meta",
-			"key": "generator",
-			"pattern": "vtex",
-			"description": "Meta generator contains \"VTEX\"",
-			"weight": 1
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "VTEX",
+			"web": "https://vtex.com",
+			"logo": {
+				"id": "vtex.com",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"id": "vtex-script-src-cdn",
-			"type": "script-src",
-			"pattern": "vteximg\\.com\\.br|vtex-assets|vtex\\.com",
-			"description": "Scripts loaded from VTEX domains",
-			"weight": 0.95
-		},
-		{
-			"id": "vtex-link-href-cdn",
-			"type": "link-href",
-			"pattern": "vteximg\\.com\\.br|vtex-assets|vtex\\.com",
-			"description": "Styles loaded from VTEX domains",
-			"weight": 0.95
-		},
-		{
-			"id": "vtex-header-server",
-			"type": "header",
-			"key": "server",
-			"pattern": "vtex",
-			"description": "Server response header contains \"VTEX\"",
-			"weight": 0.9
-		},
-		{
-			"id": "vtex-header-powered-by",
-			"type": "header",
-			"key": "x-powered-by",
-			"pattern": "vtex",
-			"description": "x-powered-by header contains \"VTEX\"",
-			"weight": 0.9
-		},
-		{
-			"id": "vtex-header-api",
-			"type": "header",
-			"key": "x-vtex-api",
-			"pattern": ".*",
-			"description": "VTEX API response header present",
-			"weight": 0.95
-		},
-		{
-			"id": "vtex-js-object",
-			"type": "script-content",
-			"pattern": "vtexjs|vtex-commerce-env|vtex\\.js",
-			"description": "VTEX JavaScript objects or environment variables",
-			"weight": 0.95
-		},
-		{
-			"id": "vtex-html-classes",
-			"type": "html-class",
-			"pattern": "\\bvtex-",
-			"description": "HTML elements with VTEX components namespace classes",
-			"weight": 0.9
-		}
-	]
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"id": "vtex-meta-generator",
+				"tipo": "meta",
+				"llave": "generator",
+				"patron": "vtex",
+				"descripcion": "Meta generator contains \"VTEX\"",
+				"peso": 1
+			},
+			{
+				"id": "vtex-script-src-cdn",
+				"tipo": "script-src",
+				"patron": "vteximg\\.com\\.br|vtex-assets|vtex\\.com",
+				"descripcion": "Scripts loaded from VTEX domains",
+				"peso": 0.95
+			},
+			{
+				"id": "vtex-link-href-cdn",
+				"tipo": "link-href",
+				"patron": "vteximg\\.com\\.br|vtex-assets|vtex\\.com",
+				"descripcion": "Styles loaded from VTEX domains",
+				"peso": 0.95
+			},
+			{
+				"id": "vtex-header-server",
+				"tipo": "header",
+				"llave": "server",
+				"patron": "vtex",
+				"descripcion": "Server response header contains \"VTEX\"",
+				"peso": 0.9
+			},
+			{
+				"id": "vtex-header-powered-by",
+				"tipo": "header",
+				"llave": "x-powered-by",
+				"patron": "vtex",
+				"descripcion": "x-powered-by header contains \"VTEX\"",
+				"peso": 0.9
+			},
+			{
+				"id": "vtex-header-api",
+				"tipo": "header",
+				"llave": "x-vtex-api",
+				"patron": ".*",
+				"descripcion": "VTEX API response header present",
+				"peso": 0.95
+			},
+			{
+				"id": "vtex-js-object",
+				"tipo": "script-content",
+				"patron": "vtexjs|vtex-commerce-env|vtex\\.js",
+				"descripcion": "VTEX JavaScript objects or environment variables",
+				"peso": 0.95
+			},
+			{
+				"id": "vtex-html-classes",
+				"tipo": "html-class",
+				"patron": "\\bvtex-",
+				"descripcion": "HTML elements with VTEX components namespace classes",
+				"peso": 0.9
+			}
+		]
+	}
 }

@@ -1,27 +1,41 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "zipify-pages",
-	"name": "Zipify Landing Page Builder",
-	"developer": "Zipify Apps",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.zipify-pages.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "zipifypages"
-		}
-	],
-	"logo": {
-		"id": "zipify.com",
-		"provider": "brandicons"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "zipify",
-			"description": "Integración o recurso de Zipify Pages detectado",
-			"weight": 1
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Zipify Landing Page Builder",
+			"desarrollador": "Zipify Apps",
+			"web": "https://www.zipify-pages.com",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "zipify.com",
+				"proveedor": "brandicons"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "zipifypages",
+				"enlace": "zipifypages"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "zipify",
+				"descripcion": "Integración o recurso de Zipify Pages detectado",
+				"peso": 1
+			}
+		]
+	}
 }

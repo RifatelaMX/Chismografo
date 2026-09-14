@@ -1,21 +1,33 @@
 {
+	"$schema": "../../schemas/pixel-v2.schema.json",
 	"id": "hotjar",
-	"name": "Hotjar",
-	"developer": "Hotjar",
-	"category": "Analítica",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.hotjar.com",
-	"precios": [],
-	"appStores": [],
-	"logo": {
-		"id": "hotjar.com",
-		"provider": ""
+	"chismografo": {
+		"tipo": 5,
+		"version": "1.0.0",
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 2
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "hotjar\\.com|static\\.hotjar\\.com",
-			"description": "Hotjar integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Hotjar",
+			"desarrollador": "Hotjar",
+			"web": "https://www.hotjar.com",
+			"categoria": "Analítica",
+			"logo": {
+				"id": "hotjar.com",
+				"proveedor": "local"
+			}
+		},
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "hotjar\\.com|static\\.hotjar\\.com",
+				"descripcion": "Hotjar integration script or resource detected"
+			}
+		]
+	}
 }

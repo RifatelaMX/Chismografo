@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "order-status-tracker",
-	"name": "Hulk Order Tracking & Upsell",
-	"developer": "HulkApps",
-	"category": "Envíos / Pedidos",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.hulkapps.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "order-status-tracker"
-		}
-	],
-	"logo": {
-		"id": "order-status-tracker.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "order-status-tracker|order[_-]?status[_-]?tracker",
-			"description": "Script o recurso de integración de Hulk Order Tracking & Upsell detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Hulk Order Tracking & Upsell",
+			"desarrollador": "HulkApps",
+			"web": "https://www.hulkapps.com",
+			"categoria": "Envíos / Pedidos",
+			"logo": {
+				"id": "order-status-tracker.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "order-status-tracker",
+				"enlace": "order-status-tracker"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "order-status-tracker|order[_-]?status[_-]?tracker",
+				"descripcion": "Script o recurso de integración de Hulk Order Tracking & Upsell detectado"
+			}
+		]
+	}
 }

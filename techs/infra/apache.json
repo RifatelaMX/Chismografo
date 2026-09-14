@@ -1,19 +1,33 @@
 {
+	"$schema": "../../schemas/infra-v2.schema.json",
 	"id": "apache",
-	"name": "Apache",
-	"category": "Servidor Web",
-	"web": "https://httpd.apache.org",
-	"precios": [],
-	"logo": {
-		"id": "apache.org",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 4,
+		"version": "1.0.0",
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 2
 	},
-	"detectionRules": [
-		{
-			"type": "header",
-			"key": "server",
-			"pattern": "apache",
-			"description": "Server header contains 'apache'"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Apache",
+			"web": "https://httpd.apache.org",
+			"categoria": "Servidor Web",
+			"logo": {
+				"id": "apache.org",
+				"proveedor": "logodev"
+			}
+		},
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "header",
+				"llave": "server",
+				"patron": "apache",
+				"descripcion": "Server header contains 'apache'"
+			}
+		]
+	}
 }

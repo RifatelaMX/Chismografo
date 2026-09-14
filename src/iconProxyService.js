@@ -352,17 +352,22 @@ export async function getTechIcon(collection, id, size = 64) {
 	let iconId = '';
 	let provider = '';
 
-	if (tech.logo && typeof tech.logo === 'object') {
-		iconId = tech.logo.id || '';
-		provider = tech.logo.provider || '';
-	} else if (typeof tech.logo === 'string') {
-		iconId = tech.logo;
+	const rawLogo = tech.acercaDe?.detallesGenerales?.logo || tech.logo;
+	const techWeb = tech.acercaDe?.detallesGenerales?.web || tech.web;
+	const techNombre =
+		tech.acercaDe?.detallesGenerales?.nombre || tech.nombre || tech.name || tech.id || id;
+
+	if (rawLogo && typeof rawLogo === 'object') {
+		iconId = rawLogo.id || '';
+		provider = rawLogo.proveedor || rawLogo.provider || '';
+	} else if (typeof rawLogo === 'string') {
+		iconId = rawLogo;
 	}
 
 	if (!iconId) {
-		if (tech.web) {
+		if (techWeb) {
 			try {
-				iconId = new URL(tech.web).hostname.replace(/^www\./i, '');
+				iconId = new URL(techWeb).hostname.replace(/^www\./i, '');
 			} catch (_e) {
 				iconId = tech.id || id;
 			}
@@ -375,7 +380,7 @@ export async function getTechIcon(collection, id, size = 64) {
 		id: iconId,
 		provider: provider || 'local',
 		size,
-		name: tech.name || tech.id || id,
+		name: techNombre,
 	});
 }
 
@@ -405,12 +410,17 @@ export function getProxyLogoUrl(techOrLogo, collection = '') {
 	let id = '';
 	let provider = '';
 
-	if (techOrLogo.logo) {
-		if (typeof techOrLogo.logo === 'object') {
-			id = techOrLogo.logo.id || '';
-			provider = techOrLogo.logo.provider || '';
-		} else if (typeof techOrLogo.logo === 'string') {
-			id = techOrLogo.logo;
+	const rawLogo = techOrLogo.acercaDe?.detallesGenerales?.logo || techOrLogo.logo;
+	const techWeb = techOrLogo.acercaDe?.detallesGenerales?.web || techOrLogo.web;
+	const techNombre =
+		techOrLogo.acercaDe?.detallesGenerales?.nombre || techOrLogo.nombre || techOrLogo.name;
+
+	if (rawLogo) {
+		if (typeof rawLogo === 'object') {
+			id = rawLogo.id || '';
+			provider = rawLogo.proveedor || rawLogo.provider || '';
+		} else if (typeof rawLogo === 'string') {
+			id = rawLogo;
 		}
 	}
 
@@ -418,15 +428,15 @@ export function getProxyLogoUrl(techOrLogo, collection = '') {
 		id = techOrLogo.id;
 	}
 
-	if (!id && techOrLogo.web) {
+	if (!id && techWeb) {
 		try {
-			id = new URL(techOrLogo.web).hostname.replace(/^www\./i, '');
+			id = new URL(techWeb).hostname.replace(/^www\./i, '');
 			if (!provider) provider = 'logodev';
 		} catch (_e) {}
 	}
 
-	if (!id && techOrLogo.name) {
-		id = techOrLogo.name;
+	if (!id && techNombre) {
+		id = techNombre;
 	}
 
 	if (!id) return '';

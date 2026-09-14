@@ -1,27 +1,41 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "yotpo-social-reviews",
-	"name": "Yotpo",
-	"developer": "Yotpo",
-	"category": "Reseñas",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.yotpo.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "yotpo-social-reviews"
-		}
-	],
-	"logo": {
-		"id": "yotpo.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "yotpo\\.js|static\\.yotpo\\.com",
-			"description": "Integración o recurso de Yotpo detectado",
-			"weight": 1
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Yotpo",
+			"desarrollador": "Yotpo",
+			"web": "https://www.yotpo.com",
+			"categoria": "Reseñas",
+			"logo": {
+				"id": "yotpo.com",
+				"proveedor": "logodev"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "yotpo-social-reviews",
+				"enlace": "yotpo-social-reviews"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "yotpo\\.js|static\\.yotpo\\.com",
+				"descripcion": "Integración o recurso de Yotpo detectado",
+				"peso": 1
+			}
+		]
+	}
 }

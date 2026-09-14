@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "goaffpro",
-	"name": "GOAFFPRO ‑ Affiliate Marketing",
-	"developer": "GoAffPro",
-	"category": "Marketing / Afiliados",
-	"compatibleCMS": ["Shopify", "WooCommerce", "Magento", "PrestaShop", "VTEX"],
-	"web": "https://goaffpro.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "goaffpro"
-		}
-	],
-	"logo": {
-		"id": "goaffpro.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "api\\.goaffpro\\.com|static\\.goaffpro\\.com|goaffpro",
-			"description": "Script o recurso de integración de GOAFFPRO detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "GOAFFPRO ‑ Affiliate Marketing",
+			"desarrollador": "GoAffPro",
+			"web": "https://goaffpro.com",
+			"categoria": "Marketing / Afiliados",
+			"logo": {
+				"id": "goaffpro.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "goaffpro",
+				"enlace": "goaffpro"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "api\\.goaffpro\\.com|static\\.goaffpro\\.com|goaffpro",
+				"descripcion": "Script o recurso de integración de GOAFFPRO detectado"
+			}
+		]
+	}
 }

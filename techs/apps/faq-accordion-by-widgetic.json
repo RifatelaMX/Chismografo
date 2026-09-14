@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "faq-accordion-by-widgetic",
-	"name": "Widgetic (FAQ Accordion)",
-	"developer": "Widgetic",
-	"category": "Soporte / Chat",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://widgetic.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "faq-accordion-by-widgetic"
-		}
-	],
-	"logo": {
-		"id": "widgetic-faq-accordion.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "faq-accordion-by-widgetic|faq[_-]?accordion[_-]?by[_-]?widgetic",
-			"description": "Script o recurso de integración de Widgetic (FAQ Accordion) detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Widgetic (FAQ Accordion)",
+			"desarrollador": "Widgetic",
+			"web": "https://widgetic.com",
+			"categoria": "Soporte / Chat",
+			"logo": {
+				"id": "widgetic-faq-accordion.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "faq-accordion-by-widgetic",
+				"enlace": "faq-accordion-by-widgetic"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "faq-accordion-by-widgetic|faq[_-]?accordion[_-]?by[_-]?widgetic",
+				"descripcion": "Script o recurso de integración de Widgetic (FAQ Accordion) detectado"
+			}
+		]
+	}
 }

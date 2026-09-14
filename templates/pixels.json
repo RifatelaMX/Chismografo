@@ -1,25 +1,40 @@
 {
+	"$schema": "../schemas/pixel-v2.schema.json",
 	"id": "{{slug}}",
-	"name": "{{name}}",
-	"category": "Píxeles / Tracking",
-	"web": "{{web}}",
-	"precios": [],
-	"logo": {
-		"id": "{{id_logo}}",
-		"provider": "{{provider_logo}}"
+	"chismografo": {
+		"tipo": 5,
+		"version": 1.0,
+		"ultimaActualizacion": "{{fechaActualizacion}}",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "{{slug}}",
-			"description": "Script de {{name}} detectado",
-			"weight": 1.0
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "{{nombre}}",
+			"desarrollador": "{{desarrollador}}",
+			"categoria": "Píxeles / Tracking",
+			"web": "{{web}}",
+			"logo": {
+				"id": "{{id_logo}}",
+				"proveedor": "local"
+			}
 		},
-		{
-			"type": "script-content",
-			"pattern": "{{slug}}",
-			"description": "Configuración en línea de {{name}} detectada",
-			"weight": 0.8
-		}
-	]
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "{{slug}}",
+				"descripcion": "Script de {{nombre}} detectado",
+				"peso": 1.0
+			},
+			{
+				"tipo": "script-content",
+				"patron": "{{slug}}",
+				"descripcion": "Configuración en línea de {{nombre}} detectada",
+				"peso": 0.8
+			}
+		]
+	}
 }

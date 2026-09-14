@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "sheets",
-	"name": "Sheets ‑ Data Connector",
-	"developer": "Sheets Connector",
-	"category": "Inventario / Sincronización",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://apps.shopify.com/sheets",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "sheets"
-		}
-	],
-	"logo": {
-		"id": "sheets.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "sheets",
-			"description": "Script o recurso de integración de Sheets ‑ Data Connector detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Sheets ‑ Data Connector",
+			"desarrollador": "Sheets Connector",
+			"web": "https://apps.shopify.com/sheets",
+			"categoria": "Inventario / Sincronización",
+			"logo": {
+				"id": "sheets.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "sheets",
+				"enlace": "sheets"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "sheets",
+				"descripcion": "Script o recurso de integración de Sheets ‑ Data Connector detectado"
+			}
+		]
+	}
 }

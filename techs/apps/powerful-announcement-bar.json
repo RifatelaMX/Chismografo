@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "powerful-announcement-bar",
-	"name": "Pushdaddy Announcement Bar",
-	"developer": "Pushdaddy",
-	"category": "Marketing / Popups",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://pushdaddy.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "powerful-announcement-bar"
-		}
-	],
-	"logo": {
-		"id": "powerful-announcement-bar.jpg",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "powerful-announcement-bar|powerful[_-]?announcement[_-]?bar",
-			"description": "Script o recurso de integración de Pushdaddy Announcement Bar detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Pushdaddy Announcement Bar",
+			"desarrollador": "Pushdaddy",
+			"web": "https://pushdaddy.com",
+			"categoria": "Marketing / Popups",
+			"logo": {
+				"id": "powerful-announcement-bar.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "powerful-announcement-bar",
+				"enlace": "powerful-announcement-bar"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "powerful-announcement-bar|powerful[_-]?announcement[_-]?bar",
+				"descripcion": "Script o recurso de integración de Pushdaddy Announcement Bar detectado"
+			}
+		]
+	}
 }

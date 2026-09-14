@@ -1,21 +1,55 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "amplitude",
-	"name": "Amplitude: Customer Analytics",
-	"developer": "Amplitude",
-	"category": "Analítica",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.amplitude.com",
-	"precios": [],
-	"appStores": [],
-	"logo": {
-		"id": "amplitude.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "cdn\\.amplitude\\.com",
-			"description": "Amplitude integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Amplitude: Customer Analytics",
+			"desarrollador": "Amplitude",
+			"web": "https://www.amplitude.com",
+			"categoria": "Analítica",
+			"logo": {
+				"id": "amplitude.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "shopify",
+				"slug": "amplitude"
+			},
+			{
+				"id": "magento",
+				"slug": "amplitude"
+			},
+			{
+				"id": "woocommerce",
+				"slug": "amplitude"
+			},
+			{
+				"id": "prestashop",
+				"slug": "amplitude"
+			},
+			{
+				"id": "vtex",
+				"slug": "amplitude"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "cdn\\.amplitude\\.com",
+				"descripcion": "Amplitude integration script or resource detected"
+			}
+		]
+	}
 }

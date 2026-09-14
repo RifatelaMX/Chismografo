@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "appstle",
-	"name": "Appstle",
-	"developer": "Appstle",
-	"category": "Suscripciones",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.appstle.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "appstle"
-		}
-	],
-	"logo": {
-		"id": "appstle.com",
-		"provider": ""
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "appstle",
-			"description": "Appstle integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Appstle",
+			"desarrollador": "Appstle",
+			"web": "https://www.appstle.com",
+			"categoria": "Suscripciones",
+			"logo": {
+				"id": "appstle.com",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "appstle",
+				"enlace": "appstle"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "appstle",
+				"descripcion": "Appstle integration script or resource detected"
+			}
+		]
+	}
 }

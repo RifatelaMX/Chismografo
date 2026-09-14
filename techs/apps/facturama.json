@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "facturama",
-	"name": "Facturama: Facturación CFDI",
-	"developer": "Facturama",
-	"category": "Facturación / Contabilidad",
-	"compatibleCMS": ["Shopify", "WooCommerce", "Magento", "PrestaShop", "VTEX"],
-	"web": "https://www.facturama.mx",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "facturama"
-		}
-	],
-	"logo": {
-		"id": "facturama.mx",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "facturama\\.mx|facturama-shopify|api\\.facturama\\.com\\.mx|facturama\\.js",
-			"description": "Script o recurso de integración de Facturama detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Facturama: Facturación CFDI",
+			"desarrollador": "Facturama",
+			"web": "https://www.facturama.mx",
+			"categoria": "Facturación / Contabilidad",
+			"logo": {
+				"id": "facturama.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "facturama",
+				"enlace": "facturama"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "facturama\\.mx|facturama-shopify|api\\.facturama\\.com\\.mx|facturama\\.js",
+				"descripcion": "Script o recurso de integración de Facturama detectado"
+			}
+		]
+	}
 }

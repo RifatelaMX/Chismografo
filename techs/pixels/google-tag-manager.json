@@ -1,21 +1,33 @@
 {
+	"$schema": "../../schemas/pixel-v2.schema.json",
 	"id": "google-tag-manager",
-	"name": "Google Tag Manager",
-	"developer": "Google Tag Manager",
-	"category": "Analítica",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.google.com",
-	"precios": [],
-	"appStores": [],
-	"logo": {
-		"id": "google.com",
-		"provider": ""
+	"chismografo": {
+		"tipo": 5,
+		"version": "1.0.0",
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 2
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "googletagmanager\\.com\\/gtm\\.js",
-			"description": "Google Tag Manager integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Google Tag Manager",
+			"desarrollador": "Google Tag Manager",
+			"web": "https://www.google.com",
+			"categoria": "Analítica",
+			"logo": {
+				"id": "google.com",
+				"proveedor": "local"
+			}
+		},
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "googletagmanager\\.com\\/gtm\\.js",
+				"descripcion": "Google Tag Manager integration script or resource detected"
+			}
+		]
+	}
 }

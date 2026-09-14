@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "powerful-social-proof",
-	"name": "Powerful Social Proof",
-	"developer": "Powerful Social Proof",
-	"category": "Marketing / Popups",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://apps.shopify.com/powerful-social-proof",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "powerful-social-proof"
-		}
-	],
-	"logo": {
-		"id": "powerful-social-proof.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "powerful-social-proof|powerful[_-]?social[_-]?proof",
-			"description": "Script o recurso de integración de Powerful Social Proof detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Powerful Social Proof",
+			"desarrollador": "Powerful Social Proof",
+			"web": "https://apps.shopify.com/powerful-social-proof",
+			"categoria": "Marketing / Popups",
+			"logo": {
+				"id": "powerful-social-proof.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "powerful-social-proof",
+				"enlace": "powerful-social-proof"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "powerful-social-proof|powerful[_-]?social[_-]?proof",
+				"descripcion": "Script o recurso de integración de Powerful Social Proof detectado"
+			}
+		]
+	}
 }

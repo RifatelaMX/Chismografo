@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "video-player-by-widgetic",
-	"name": "Widgetic (Video Player)",
-	"developer": "Widgetic",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://widgetic.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "video-player-by-widgetic"
-		}
-	],
-	"logo": {
-		"id": "widgetic-video-player.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "video-player-by-widgetic|video[_-]?player[_-]?by[_-]?widgetic",
-			"description": "Script o recurso de integración de Widgetic (Video Player) detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Widgetic (Video Player)",
+			"desarrollador": "Widgetic",
+			"web": "https://widgetic.com",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "widgetic-video-player.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "video-player-by-widgetic",
+				"enlace": "video-player-by-widgetic"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "video-player-by-widgetic|video[_-]?player[_-]?by[_-]?widgetic",
+				"descripcion": "Script o recurso de integración de Widgetic (Video Player) detectado"
+			}
+		]
+	}
 }

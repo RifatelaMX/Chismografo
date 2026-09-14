@@ -1,25 +1,39 @@
 {
+	"$schema": "../../schemas/infra-v2.schema.json",
 	"id": "cloudflare",
-	"name": "Cloudflare",
-	"category": "CDN / Proxy",
-	"web": "https://www.cloudflare.com",
-	"precios": [],
-	"logo": {
-		"id": "cloudflare.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 4,
+		"version": "1.0.0",
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 2
 	},
-	"detectionRules": [
-		{
-			"type": "header",
-			"key": "server",
-			"pattern": "cloudflare",
-			"description": "Server header contains 'cloudflare'"
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Cloudflare",
+			"web": "https://www.cloudflare.com",
+			"categoria": "CDN / Proxy",
+			"logo": {
+				"id": "cloudflare.com",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"type": "header",
-			"key": "cf-ray",
-			"pattern": ".*",
-			"description": "Cloudflare Ray ID header present"
-		}
-	]
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "header",
+				"llave": "server",
+				"patron": "cloudflare",
+				"descripcion": "Server header contains 'cloudflare'"
+			},
+			{
+				"tipo": "header",
+				"llave": "cf-ray",
+				"patron": ".*",
+				"descripcion": "Cloudflare Ray ID header present"
+			}
+		]
+	}
 }

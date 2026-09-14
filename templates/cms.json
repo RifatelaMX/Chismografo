@@ -1,20 +1,34 @@
 {
+	"$schema": "../schemas/cms-v2.schema.json",
 	"id": "{{slug}}",
-	"name": "{{name}}",
-	"web": "{{web}}",
-	"precios": [],
-	"logo": {
-		"id": "{{id_logo}}",
-		"provider": "{{provider_logo}}"
+	"chismografo": {
+		"tipo": 2,
+		"version": 1.0,
+		"ultimaActualizacion": "{{fechaActualizacion}}",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"id": "{{slug}}-meta-generator",
-			"type": "meta",
-			"key": "generator",
-			"pattern": "{{slug}}",
-			"description": "Meta generador que contiene {{name}}",
-			"weight": 1.0
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "{{nombre}}",
+			"web": "{{web}}",
+			"logo": {
+				"id": "{{id_logo}}",
+				"proveedor": "local"
+			}
+		},
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"id": "{{slug}}-meta-generator",
+				"tipo": "meta",
+				"llave": "generator",
+				"patron": "{{slug}}",
+				"descripcion": "Meta generador que contiene {{nombre}}",
+				"peso": 1.0
+			}
+		]
+	}
 }

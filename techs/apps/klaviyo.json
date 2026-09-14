@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "klaviyo",
-	"name": "Klaviyo",
-	"developer": "Klaviyo",
-	"category": "Email Marketing",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.klaviyo.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "klaviyo-email-marketing"
-		}
-	],
-	"logo": {
-		"id": "klaviyo.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "klaviyo\\.js|static\\.klaviyo\\.com",
-			"description": "Klaviyo integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Klaviyo",
+			"desarrollador": "Klaviyo",
+			"web": "https://www.klaviyo.com",
+			"categoria": "Email Marketing",
+			"logo": {
+				"id": "klaviyo.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "shopify",
+				"slug": "klaviyo-email-marketing",
+				"enlace": "klaviyo-email-marketing"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "klaviyo\\.js|static\\.klaviyo\\.com",
+				"descripcion": "Klaviyo integration script or resource detected"
+			}
+		]
+	}
 }

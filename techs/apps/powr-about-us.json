@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "powr-about-us",
-	"name": "POWR: About Us | Team Profile",
-	"developer": "POWR",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.powr.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "powr-about-us"
-		}
-	],
-	"logo": {
-		"id": "powr-about-us.jpg",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "powr-about-us|powr[_-]?about[_-]?us",
-			"description": "Script o recurso de integración de POWR: About Us | Team Profile detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "POWR: About Us | Team Profile",
+			"desarrollador": "POWR",
+			"web": "https://www.powr.io",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "powr-about-us.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "powr-about-us",
+				"enlace": "powr-about-us"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "powr-about-us|powr[_-]?about[_-]?us",
+				"descripcion": "Script o recurso de integración de POWR: About Us | Team Profile detectado"
+			}
+		]
+	}
 }

@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "shopify-inbox",
-	"name": "Shopify Inbox",
-	"developer": "Shopify",
-	"category": "Soporte / Chat",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.shopify-inbox.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "shopify-inbox"
-		}
-	],
-	"logo": {
-		"id": "shopify-inbox",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "shopify-chat|shopify-inbox",
-			"description": "Shopify Inbox integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Shopify Inbox",
+			"desarrollador": "Shopify",
+			"web": "https://www.shopify-inbox.com",
+			"categoria": "Soporte / Chat",
+			"logo": {
+				"id": "shopify-inbox.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "shopify-inbox",
+				"enlace": "shopify-inbox"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "shopify-chat|shopify-inbox",
+				"descripcion": "Shopify Inbox integration script or resource detected"
+			}
+		]
+	}
 }

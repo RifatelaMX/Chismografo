@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "live-product-options",
-	"name": "LPO Live Product Options",
-	"developer": "LPO Live Product Options",
-	"category": "Otros",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://apps.shopify.com/live-product-options",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "live-product-options"
-		}
-	],
-	"logo": {
-		"id": "lpo-live-product-options.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "live-product-options|live[_-]?product[_-]?options",
-			"description": "Script o recurso de integración de LPO Live Product Options detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "LPO Live Product Options",
+			"desarrollador": "LPO Live Product Options",
+			"web": "https://apps.shopify.com/live-product-options",
+			"categoria": "Otros",
+			"logo": {
+				"id": "lpo-live-product-options.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "live-product-options",
+				"enlace": "live-product-options"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "live-product-options|live[_-]?product[_-]?options",
+				"descripcion": "Script o recurso de integración de LPO Live Product Options detectado"
+			}
+		]
+	}
 }

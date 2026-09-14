@@ -1093,18 +1093,40 @@ document.addEventListener('DOMContentLoaded', () => {
 		card.className = 'plugin-card';
 		card.style.padding = '0.75rem';
 		card.style.cursor = 'pointer';
-		card.title = `Haz clic para ver las pruebas y detalles de ${tech.name}`;
+
+		const techName =
+			tech.nombre || tech.name || tech.acercaDe?.detallesGenerales?.nombre || 'Tecnología';
+		const techCat =
+			tech.categoria ||
+			tech.category ||
+			tech.acercaDe?.detallesGenerales?.categoria ||
+			defaultCategory;
+		const techDev =
+			tech.desarrollador ||
+			tech.developer ||
+			tech.acercaDe?.detallesGenerales?.desarrollador ||
+			tech.acercaDe?.detallesGenerales?.empresaResponsable ||
+			'';
+		const prices = Array.isArray(tech.precios)
+			? tech.precios
+			: Array.isArray(tech.acercaDe?.precios)
+				? tech.acercaDe.precios
+				: [];
+
+		card.title = `Haz clic para ver las pruebas y detalles de ${techName}`;
 
 		let domain = '';
 		let provider = '';
-		if (tech.logo && typeof tech.logo === 'object') {
-			domain = tech.logo.id;
-			provider = tech.logo.provider;
-		} else if (tech.logo) {
-			domain = tech.logo;
+		const rawLogo = tech.logo || tech.acercaDe?.detallesGenerales?.logo;
+		if (rawLogo && typeof rawLogo === 'object') {
+			domain = rawLogo.id;
+			provider = rawLogo.proveedor || rawLogo.provider;
+		} else if (typeof rawLogo === 'string') {
+			domain = rawLogo;
 		}
 
-		const techWebsite = tech.web || tech.website || tech.link || '';
+		const techWebsite =
+			tech.web || tech.website || tech.link || tech.acercaDe?.detallesGenerales?.web || '';
 		if (!domain && techWebsite) {
 			try {
 				domain = new URL(techWebsite).hostname.replace(/^www\./i, '');
@@ -1112,17 +1134,33 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 
 		const iconUrl = getTechIconUrl(tech);
-		const initial = (tech.name || '').trim().charAt(0).toUpperCase() || '?';
+		const initial = (techName || '').trim().charAt(0).toUpperCase() || '?';
 		const iconHtml = iconUrl
 			? `<img src="${iconUrl}" class="tech-icon-img" onload="window.handleLogoLoad(this, '${domain || ''}', '${techWebsite}', '${provider || ''}')" onerror="window.handleLogoError(this, '${domain || ''}', '${techWebsite}', '${provider || ''}')" />`
 			: '';
 		const displayStyle = iconUrl ? 'display: none;' : 'display: flex;';
 
 		let infoHtml = '';
-		if (tech.firstSeen) {
+		if (prices.length > 0) {
+			const freePlan = prices.find(
+				(p) =>
+					(p.plan || '').toLowerCase().includes('free') || p.precio?.monto === 0 || p.precio === 0
+			);
+			const priceBadgeText = freePlan ? 'Gratis / Freemium 🏷️' : 'Planes de Pago 💳';
+			infoHtml = `<span style="font-size:0.62rem; color:var(--gel-green); font-weight:700; background:rgba(46,204,113,0.12); padding:0.1rem 0.35rem; border-radius:4px; border:1px solid rgba(46,204,113,0.3);">${priceBadgeText}</span>`;
+		} else if (tech.firstSeen) {
 			infoHtml = `<span style="font-size:0.62rem; color:var(--ink-medium); opacity:0.8;">Visto: ${tech.firstSeen}</span>`;
 		} else {
 			infoHtml = `<span style="font-size:0.65rem; color:var(--gel-purple); font-weight:600; display:flex; align-items:center; gap:0.2rem;">Ver pruebas 🔍</span>`;
+		}
+
+		const calificacion = tech.calificacion || tech.acercaDe?.calificacion;
+		let califBadgeHtml = '';
+		if (calificacion) {
+			const puntaje = typeof calificacion === 'object' ? calificacion.puntaje : calificacion;
+			if (puntaje) {
+				califBadgeHtml = `<span style="font-size:0.62rem; color:#b78103; font-weight:700; background:rgba(255,193,7,0.12); padding:0.1rem 0.35rem; border-radius:4px; border:1px solid rgba(255,193,7,0.3); margin-right: 0.3rem;">⭐ ${puntaje}</span>`;
+			}
 		}
 
 		card.innerHTML = `
@@ -1133,11 +1171,11 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="plugin-title-info" style="display: flex; flex-direction: column; flex-grow: 1; min-width: 0;">
           <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; width: 100%;">
-            <h4 style="margin: 0; font-size: 0.88rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(tech.name)}</h4>
-            <span class="plugin-category" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px;">${escapeHtml(tech.category || defaultCategory)}</span>
+            <h4 style="margin: 0; font-size: 0.88rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(techName)}</h4>
+            <span class="plugin-category" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px;">${escapeHtml(techCat)}</span>
           </div>
           <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 0.15rem; font-size: 0.62rem;">
-            ${infoHtml}
+            ${califBadgeHtml}${infoHtml}
           </div>
         </div>
       </div>
@@ -1333,31 +1371,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// Helper to extract domain and build logo URL for all providers
 	function getTechIconUrl(tech) {
+		if (!tech) return '';
+		if (typeof tech === 'string') {
+			if (tech.startsWith('/api/icon') || tech.startsWith('http')) return tech;
+			return `/api/icon?id=${encodeURIComponent(tech)}&size=64`;
+		}
+
+		if (
+			typeof tech.logo === 'string' &&
+			(tech.logo.startsWith('/api/icon') || tech.logo.startsWith('http'))
+		) {
+			return tech.logo;
+		}
+
 		let domain = '';
 		let provider = '';
 
-		if (tech.logo && typeof tech.logo === 'object') {
-			domain = tech.logo.id;
-			provider = tech.logo.provider;
-		} else if (tech.logo) {
-			domain = tech.logo;
+		const rawLogo = tech.logo || tech.acercaDe?.detallesGenerales?.logo;
+		if (rawLogo && typeof rawLogo === 'object') {
+			domain = rawLogo.id;
+			provider = rawLogo.proveedor || rawLogo.provider;
+		} else if (typeof rawLogo === 'string') {
+			domain = rawLogo;
 		}
 
-		if (!domain && (tech.web || tech.website || tech.link)) {
+		const techWebsite =
+			tech.web || tech.website || tech.link || tech.acercaDe?.detallesGenerales?.web || '';
+		if (!domain && techWebsite) {
 			try {
-				domain = new URL(tech.web || tech.website || tech.link).hostname.replace(/^www\./i, '');
+				domain = new URL(techWebsite).hostname.replace(/^www\./i, '');
 			} catch (_e) {}
 		}
-
-		const bfKey = window.serverConfig?.brandfetchApiKey
-			? `?c=${window.serverConfig.brandfetchApiKey}`
-			: '';
-		const biKey = window.serverConfig?.brandiconsApiKey
-			? `?key=${window.serverConfig.brandiconsApiKey}`
-			: '';
-		const npKey = window.serverConfig?.ninjapearApiKey
-			? `?key=${window.serverConfig.ninjapearApiKey}`
-			: '';
 
 		if (provider === 'local' && domain) {
 			const hasExt = /\.(svg|png|jpg|jpeg|gif|webp|ico)$/i.test(domain);
@@ -1634,16 +1678,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
 			// Plugins
 			if (Array.isArray(data.plugins)) {
-				const pluginsStr = data.plugins.map((p) => `${p.name} (${p.category || ''})`).join('; ');
+				const pluginsStr = data.plugins
+					.map((p) => `${p.nombre || p.name} (${p.categoria || p.category || ''})`)
+					.join('; ');
 				csvRows.push(`${esc('Plugins/Apps Detectados')},${esc(pluginsStr)}`);
 			}
 
 			// Infrastructure
 			if (Array.isArray(data.infrastructure)) {
 				const infraStr = data.infrastructure
-					.map((i) => `${i.name} (${i.category || ''})`)
+					.map((i) => `${i.nombre || i.name} (${i.categoria || i.category || ''})`)
 					.join('; ');
 				csvRows.push(`${esc('Infraestructura')},${esc(infraStr)}`);
+			}
+
+			// Pixels
+			if (Array.isArray(data.pixels)) {
+				const pixelsStr = data.pixels
+					.map((px) => `${px.nombre || px.name} (${px.categoria || px.category || ''})`)
+					.join('; ');
+				csvRows.push(`${esc('Píxeles / Tracking')},${esc(pixelsStr)}`);
 			}
 
 			// Payment Gateways
@@ -1719,21 +1773,23 @@ document.addEventListener('DOMContentLoaded', () => {
 				Array.isArray(data.plugins) && data.plugins.length > 0
 					? data.plugins
 							.map((p) => {
-								const initial = (p.name || 'P').trim().charAt(0).toUpperCase();
+								const pName = p.nombre || p.name || 'App';
+								const pCat = p.categoria || p.category || 'App';
+								const initial = (pName || 'P').trim().charAt(0).toUpperCase();
 								const iconUrl = getTechIconUrl(p);
 								return `
               <div class="pdf-plugin-item" style="display: flex; align-items: center; gap: 8px; padding: 4px 0; border-bottom: 1px dashed #f0f0f0;">
                 <div class="pdf-plugin-icon" style="width: 22px; height: 22px; border-radius: 5px; background: #f8f9fa; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;">
                   ${
 										iconUrl
-											? `<img src="${iconUrl}" alt="${p.name}" crossorigin="anonymous" style="width: 100%; height: 100%; object-fit: contain; display: block;" onload="this.style.display='block'; if(this.nextElementSibling) this.nextElementSibling.style.display='none';" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';" />
+											? `<img src="${iconUrl}" alt="${pName}" crossorigin="anonymous" style="width: 100%; height: 100%; object-fit: contain; display: block;" onload="this.style.display='block'; if(this.nextElementSibling) this.nextElementSibling.style.display='none';" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';" />
                          <div class="pdf-icon-fallback" style="display:none; font-size: 11px; font-weight: 700; color: #9b59b6;">${initial}</div>`
 											: `<div class="pdf-icon-fallback" style="font-size: 11px; font-weight: 700; color: #9b59b6;">${initial}</div>`
 									}
                 </div>
                 <div class="pdf-plugin-info" style="display: flex; align-items: baseline; gap: 4px; min-width: 0;">
-                  <span class="pdf-plugin-name" style="font-size: 0.8rem; font-weight: 700; color: #2c1810; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(p.name)}</span>
-                  <span class="pdf-plugin-cat" style="font-size: 0.68rem; color: #8b7d6b; white-space: nowrap;">(${escapeHtml(p.category || 'App')})</span>
+                  <span class="pdf-plugin-name" style="font-size: 0.8rem; font-weight: 700; color: #2c1810; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(pName)}</span>
+                  <span class="pdf-plugin-cat" style="font-size: 0.68rem; color: #8b7d6b; white-space: nowrap;">(${escapeHtml(pCat)})</span>
                 </div>
               </div>
             `;
@@ -2321,28 +2377,47 @@ document.addEventListener('DOMContentLoaded', () => {
 	function openAppDetailModal(tech) {
 		if (!tech || !appDetailModal) return;
 
+		const techName =
+			tech.nombre || tech.name || tech.acercaDe?.detallesGenerales?.nombre || 'Tecnología';
+		const techDev =
+			tech.desarrollador ||
+			tech.developer ||
+			tech.acercaDe?.detallesGenerales?.desarrollador ||
+			tech.acercaDe?.detallesGenerales?.empresaResponsable ||
+			'Desarrollador Oficial';
+		const techCat =
+			tech.categoria || tech.category || tech.acercaDe?.detallesGenerales?.categoria || 'General';
+		const techWeb =
+			tech.web || tech.website || tech.link || tech.acercaDe?.detallesGenerales?.web || '';
+		const prices = Array.isArray(tech.precios)
+			? tech.precios
+			: Array.isArray(tech.acercaDe?.precios)
+				? tech.acercaDe.precios
+				: [];
+		const chismografo = tech.chismografo || tech.toolData || null;
+
 		let domain = '';
 		let provider = '';
-		if (tech.logo && typeof tech.logo === 'object') {
-			domain = tech.logo.id;
-			provider = tech.logo.provider;
-		} else if (tech.logo) {
-			domain = tech.logo;
+		const rawLogo = tech.logo || tech.acercaDe?.detallesGenerales?.logo;
+		if (rawLogo && typeof rawLogo === 'object') {
+			domain = rawLogo.id;
+			provider = rawLogo.proveedor || rawLogo.provider;
+		} else if (typeof rawLogo === 'string') {
+			domain = rawLogo;
 		}
 
-		const techWebsite = tech.web || tech.website || tech.link || '';
-		if (!domain && techWebsite) {
+		if (!domain && techWeb) {
 			try {
-				domain = new URL(techWebsite).hostname.replace(/^www\./i, '');
+				domain = new URL(techWeb).hostname.replace(/^www\./i, '');
 			} catch (_e) {}
 		}
 
 		const iconUrl = getTechIconUrl(tech);
-		const initial = (tech.name || '').trim().charAt(0).toUpperCase() || '?';
+		const initial = (techName || '').trim().charAt(0).toUpperCase() || '?';
 
-		if (appModalTitle) appModalTitle.textContent = tech.name || 'Aplicación';
+		if (appModalTitle) appModalTitle.textContent = techName;
 		if (appModalSubtitle) {
-			appModalSubtitle.textContent = `${tech.developer || 'Desarrollador Oficial'} • ${tech.category || 'Aplicación'}`;
+			appModalSubtitle.textContent = `${techDev} • ${techCat}`;
 		}
 
 		if (appModalIconImg && appModalIconInitial) {
@@ -2351,10 +2426,10 @@ document.addEventListener('DOMContentLoaded', () => {
 				appModalIconImg.style.display = 'block';
 				appModalIconInitial.style.display = 'none';
 				appModalIconImg.onload = () => {
-					window.handleLogoLoad(appModalIconImg, domain, techWebsite, provider);
+					window.handleLogoLoad(appModalIconImg, domain, techWeb, provider);
 				};
 				appModalIconImg.onerror = () => {
-					window.handleLogoError(appModalIconImg, domain, techWebsite, provider);
+					window.handleLogoError(appModalIconImg, domain, techWeb, provider);
 				};
 				appModalIconImg.src = iconUrl;
 			} else {
@@ -2364,32 +2439,72 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		}
 
-		// Tags
+		// Tags & Metadatos
 		if (appModalTags) {
 			appModalTags.innerHTML = '';
 			const catTag = document.createElement('span');
 			catTag.style.cssText =
 				'font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(138,43,226,0.1); color: var(--gel-purple); border: 1px solid rgba(138,43,226,0.2); font-weight: 600;';
-			catTag.textContent = `Categoría: ${tech.category || 'General'}`;
+			catTag.textContent = `Categoría: ${techCat}`;
 			appModalTags.appendChild(catTag);
 
-			if (Array.isArray(tech.compatibleCMS) && tech.compatibleCMS.length > 0) {
-				tech.compatibleCMS.forEach((cms) => {
+			const rawCms =
+				tech.cmsCompatibles || tech.compatibleCMS || tech.acercaDe?.cmsCompatibles || [];
+			if (Array.isArray(rawCms) && rawCms.length > 0) {
+				rawCms.forEach((cms) => {
+					const cmsName = typeof cms === 'string' ? cms : cms.id || cms.cms || cms.slug || 'CMS';
 					const cmsTag = document.createElement('span');
 					cmsTag.style.cssText =
 						'font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(0,0,0,0.05); color: var(--ink-dark); border: 1px solid var(--paper-lines); font-weight: 500;';
-					cmsTag.textContent = `CMS: ${cms}`;
+					cmsTag.textContent = `CMS: ${cmsName}`;
 					appModalTags.appendChild(cmsTag);
 				});
+			}
+
+			if (chismografo) {
+				const revVal = chismografo.revision;
+				let revLabel = '🤖 IA';
+				if (revVal === 1 || revVal === 'manual') revLabel = '✍️ Manual';
+				if (revVal === 2 || revVal === 'ambos') revLabel = '👥 Mixta';
+
+				const revTag = document.createElement('span');
+				revTag.style.cssText =
+					'font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(0,242,254,0.1); color: var(--gel-blue, #0088cc); border: 1px solid rgba(0,242,254,0.3); font-weight: 600;';
+				revTag.textContent = `Rev: ${revLabel}`;
+				appModalTags.appendChild(revTag);
+
+				if (chismografo.version) {
+					const verTag = document.createElement('span');
+					verTag.style.cssText =
+						'font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(0,0,0,0.04); color: var(--ink-medium); border: 1px solid var(--paper-lines); font-family: monospace;';
+					verTag.textContent = `v${chismografo.version}`;
+					appModalTags.appendChild(verTag);
+				}
+			}
+
+			const calificacion = tech.calificacion || tech.acercaDe?.calificacion;
+			if (calificacion) {
+				const ratingTag = document.createElement('span');
+				ratingTag.style.cssText =
+					'font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 4px; background: rgba(255, 193, 7, 0.15); color: #b78103; border: 1px solid rgba(255, 193, 7, 0.4); font-weight: 700; display: inline-flex; align-items: center; gap: 0.2rem;';
+				if (typeof calificacion === 'object' && calificacion.puntaje !== undefined) {
+					const resenasText = calificacion.resenas
+						? ` (${calificacion.resenas.toLocaleString()} reseñas)`
+						: '';
+					ratingTag.textContent = `⭐ ${calificacion.puntaje}/5${resenasText}`;
+				} else {
+					ratingTag.textContent = `⭐ ${calificacion}/5`;
+				}
+				appModalTags.appendChild(ratingTag);
 			}
 		}
 
 		// Links
 		if (appModalLinks) {
 			appModalLinks.innerHTML = '';
-			if (tech.web) {
+			if (techWeb) {
 				const webLink = document.createElement('a');
-				webLink.href = tech.web;
+				webLink.href = techWeb;
 				webLink.target = '_blank';
 				webLink.rel = 'noopener noreferrer';
 				webLink.style.cssText =
@@ -2397,26 +2512,105 @@ document.addEventListener('DOMContentLoaded', () => {
 				webLink.innerHTML = `Sitio Web 🌐`;
 				appModalLinks.appendChild(webLink);
 			}
-			if (Array.isArray(tech.appStores) && tech.appStores.length > 0) {
-				tech.appStores.forEach((st) => {
-					if (st.link) {
+
+			const rawStores =
+				tech.tiendasApp ||
+				tech.appStores ||
+				tech.cmsCompatibles ||
+				tech.acercaDe?.cmsCompatibles ||
+				[];
+			if (Array.isArray(rawStores) && rawStores.length > 0) {
+				rawStores.forEach((st) => {
+					const storeLinkUrl =
+						st.enlace ||
+						st.link ||
+						(st.slug && st.id?.toLowerCase() === 'shopify'
+							? `https://apps.shopify.com/${st.slug}`
+							: '');
+					if (storeLinkUrl) {
 						const storeLink = document.createElement('a');
-						storeLink.href = st.link;
+						storeLink.href = storeLinkUrl.startsWith('http')
+							? storeLinkUrl
+							: `https://apps.shopify.com/${storeLinkUrl}`;
 						storeLink.target = '_blank';
 						storeLink.rel = 'noopener noreferrer';
 						storeLink.style.cssText =
 							'font-size: 0.75rem; color: var(--gel-pink); text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.25rem;';
-						storeLink.innerHTML = `${st.cms || 'App'} Store 🛍️`;
+						storeLink.innerHTML = `${st.cms || st.id || 'App'} Store 🛍️`;
 						appModalLinks.appendChild(storeLink);
 					}
 				});
 			}
 		}
 
-		// Body with Test Results & Evidence
+		// Body with Pricing Plans & Test Results
 		if (appModalBody) {
 			appModalBody.innerHTML = '';
 
+			// 1. Sección de Precios (si están definidos)
+			if (prices.length > 0) {
+				const pricingSection = document.createElement('div');
+				pricingSection.style.cssText =
+					'background: rgba(255, 255, 255, 0.6); border: 1px solid var(--paper-lines); border-radius: 10px; padding: 0.85rem 1rem; margin-bottom: 0.75rem;';
+
+				let plansHtml = '';
+				prices.forEach((plan) => {
+					const planName = plan.plan || plan.nombre || 'Plan';
+					let priceDisplay = 'Gratis';
+					if (plan.precio && typeof plan.precio === 'object') {
+						priceDisplay = `$${plan.precio.monto || 0} ${plan.precio.moneda || 'USD'}`;
+					} else if (typeof plan.precio === 'number') {
+						priceDisplay = `$${plan.precio} USD`;
+					} else if (plan.precio) {
+						priceDisplay = String(plan.precio);
+					}
+
+					let freqDisplay = '';
+					if (plan.frecuencia === 1) freqDisplay = '/mes';
+					else if (plan.frecuencia === 2) freqDisplay = '/año';
+					else if (plan.frecuencia) freqDisplay = ` (${plan.frecuencia})`;
+
+					const planFeatures = plan.features || plan.caracteristicas || [];
+					let featuresHtml = '';
+					if (Array.isArray(planFeatures) && planFeatures.length > 0) {
+						featuresHtml = `
+							<ul style="margin: 0.4rem 0 0 0; padding-left: 1rem; font-size: 0.74rem; color: var(--ink-medium); list-style-type: disc; line-height: 1.35;">
+								${planFeatures
+									.slice(0, 6)
+									.map((f) => `<li style="margin-bottom: 0.15rem;">${escapeHtml(f)}</li>`)
+									.join('')}
+								${planFeatures.length > 6 ? `<li style="font-style: italic; color: var(--ink-light, #888);">+${planFeatures.length - 6} más...</li>` : ''}
+							</ul>
+						`;
+					}
+
+					plansHtml += `
+						<div style="display: flex; flex-direction: column; justify-content: flex-start; padding: 0.5rem 0.65rem; border-radius: 6px; background: var(--paper-dark); border: 1px solid var(--paper-lines); font-size: 0.82rem;">
+							<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: ${featuresHtml ? '1px dashed var(--paper-lines)' : 'none'}; padding-bottom: ${featuresHtml ? '0.35rem' : '0'};">
+								<span style="font-weight: 700; color: var(--ink-dark);">${escapeHtml(planName)}</span>
+								<span style="font-weight: 800; color: var(--gel-purple);">${escapeHtml(priceDisplay)}<small style="font-size:0.7rem; color:var(--ink-medium); font-weight:normal;">${escapeHtml(freqDisplay)}</small></span>
+							</div>
+							${featuresHtml}
+						</div>
+					`;
+				});
+
+				pricingSection.innerHTML = `
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+						<div style="display: flex; align-items: center; gap: 0.4rem;">
+							<span style="font-size: 1.1rem;">💳</span>
+							<h5 style="margin: 0; font-family: var(--font-handwritten); font-size: 1.2rem; color: var(--ink-dark);">Planes y Precios</h5>
+						</div>
+						<span style="font-size: 0.7rem; color: var(--ink-medium);">${prices.length} plan(es)</span>
+					</div>
+					<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 0.5rem;">
+						${plansHtml}
+					</div>
+				`;
+				appModalBody.appendChild(pricingSection);
+			}
+
+			// 2. Sección de Firmas y Evidencias
 			const testsHeader = document.createElement('div');
 			testsHeader.style.cssText =
 				'display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--paper-lines); padding-bottom: 0.5rem;';
@@ -2433,14 +2627,28 @@ document.addEventListener('DOMContentLoaded', () => {
 			`;
 			appModalBody.appendChild(testsHeader);
 
-			if (Array.isArray(tech.rules) && tech.rules.length > 0) {
-				tech.rules.forEach((rule) => {
+			const evaluatedRules =
+				tech.rules ||
+				tech.reglas ||
+				tech.herramienta?.reglasDeteccion ||
+				tech.reglasDeteccion ||
+				tech.detectionRules ||
+				[];
+
+			if (Array.isArray(evaluatedRules) && evaluatedRules.length > 0) {
+				evaluatedRules.forEach((rule) => {
+					const rulePassed = rule.passed !== undefined ? rule.passed : true;
+					const ruleType = rule.tipo || rule.type || 'script-src';
+					const rulePattern = rule.patron || rule.pattern || '';
+					const ruleDesc = rule.descripcion || rule.description || 'Firma de detección';
+					const ruleContext = rule.context || rule.evidencia || rule.contexto || '';
+
 					const ruleCard = document.createElement('div');
-					ruleCard.className = `exam-rule-card ${rule.passed ? 'passed' : 'failed'}`;
+					ruleCard.className = `exam-rule-card ${rulePassed ? 'passed' : 'failed'}`;
 					ruleCard.style.cssText = `
 						background: var(--paper-dark);
 						border: 1px solid var(--paper-lines);
-						border-left: 4px solid ${rule.passed ? '#2ecc71' : '#e74c3c'};
+						border-left: 4px solid ${rulePassed ? '#2ecc71' : '#e74c3c'};
 						border-radius: 8px;
 						padding: 0.75rem 1rem;
 						display: flex;
@@ -2451,34 +2659,34 @@ document.addEventListener('DOMContentLoaded', () => {
 					ruleCard.innerHTML = `
 						<div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
 							<div style="display: flex; align-items: center; gap: 0.4rem;">
-								<span style="font-size: 0.75rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: 4px; background: ${rule.passed ? 'rgba(46, 204, 113, 0.2)' : 'rgba(231, 76, 60, 0.15)'}; color: ${rule.passed ? '#27ae60' : '#c0392b'};">
-									${rule.passed ? '✅ PASÓ' : '❌ NO DETECTADO'}
+								<span style="font-size: 0.75rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: 4px; background: ${rulePassed ? 'rgba(46, 204, 113, 0.2)' : 'rgba(231, 76, 60, 0.15)'}; color: ${rulePassed ? '#27ae60' : '#c0392b'};">
+									${rulePassed ? '✅ PASÓ' : '❌ NO DETECTADO'}
 								</span>
 								<span style="font-size: 0.7rem; background: rgba(0,0,0,0.06); padding: 0.1rem 0.4rem; border-radius: 4px; font-family: monospace; color: var(--ink-medium);">
-									&lt;${rule.type || 'script-src'}&gt;
+									&lt;${escapeHtml(ruleType)}&gt;
 								</span>
 							</div>
 						</div>
 						<div style="font-size: 0.88rem; font-weight: 600; color: var(--ink-dark); margin-top: 0.2rem;">
-							${escapeHtml(rule.description || 'Firma de detección')}
+							${escapeHtml(ruleDesc)}
 						</div>
 						${
-							rule.pattern
+							rulePattern
 								? `
 							<div style="font-size: 0.72rem; color: var(--ink-medium);">
-								<strong>Patrón esperado:</strong> <code style="background: rgba(0,0,0,0.05); padding: 0.1rem 0.3rem; border-radius: 3px; font-family: monospace;">${escapeHtml(rule.pattern)}</code>
+								<strong>Patrón esperado:</strong> <code style="background: rgba(0,0,0,0.05); padding: 0.1rem 0.3rem; border-radius: 3px; font-family: monospace;">${escapeHtml(rulePattern)}</code>
 							</div>
 						`
 								: ''
 						}
 						${
-							rule.context
+							ruleContext
 								? `
 							<div style="margin-top: 0.35rem; background: var(--paper); border: 1px solid var(--paper-lines); border-radius: 6px; padding: 0.5rem 0.75rem; font-family: monospace; font-size: 0.75rem; color: var(--ink-dark); word-break: break-all; max-height: 120px; overflow-y: auto;">
 								<div style="font-size: 0.65rem; color: var(--ink-light); margin-bottom: 0.2rem; font-weight: bold; text-transform: uppercase;">
 									🔍 Evidencia Encontrada:
 								</div>
-								<code>${escapeHtml(rule.context)}</code>
+								<code>${escapeHtml(ruleContext)}</code>
 							</div>
 						`
 								: ''
@@ -2508,7 +2716,7 @@ document.addEventListener('DOMContentLoaded', () => {
 						</span>
 					</div>
 					<div style="font-size: 0.88rem; font-weight: 600; color: var(--ink-dark); margin-top: 0.2rem;">
-						Recurso o script de ${escapeHtml(tech.name)} detectado en el sitio.
+						Recurso o script de ${escapeHtml(techName)} detectado en el sitio.
 					</div>
 					<div style="margin-top: 0.35rem; background: var(--paper); border: 1px solid var(--paper-lines); border-radius: 6px; padding: 0.5rem 0.75rem; font-family: monospace; font-size: 0.75rem; color: var(--ink-dark); word-break: break-all; max-height: 120px; overflow-y: auto;">
 						<div style="font-size: 0.65rem; color: var(--ink-light); margin-bottom: 0.2rem; font-weight: bold; text-transform: uppercase;">

@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "gdpr-cookie-notice",
-	"name": "Hulk GDPR Cookie Consent Bar",
-	"developer": "HulkApps",
-	"category": "Seguridad",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.hulkapps.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "gdpr-cookie-notice"
-		}
-	],
-	"logo": {
-		"id": "gdpr-cookie-notice.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "gdpr-cookie-notice|gdpr[_-]?cookie[_-]?notice",
-			"description": "Script o recurso de integración de Hulk GDPR Cookie Consent Bar detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Hulk GDPR Cookie Consent Bar",
+			"desarrollador": "HulkApps",
+			"web": "https://www.hulkapps.com",
+			"categoria": "Seguridad",
+			"logo": {
+				"id": "gdpr-cookie-notice.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "gdpr-cookie-notice",
+				"enlace": "gdpr-cookie-notice"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "gdpr-cookie-notice|gdpr[_-]?cookie[_-]?notice",
+				"descripcion": "Script o recurso de integración de Hulk GDPR Cookie Consent Bar detectado"
+			}
+		]
+	}
 }

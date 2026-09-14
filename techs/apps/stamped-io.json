@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "stamped-io",
-	"name": "Stamped Reviews & Loyalty",
-	"developer": "Stamped.io",
-	"category": "Reseñas",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.stamped.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "stamped-reviews-addon"
-		}
-	],
-	"logo": {
-		"id": "stamped.io",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "stamped\\.io",
-			"description": "Stamped.io integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Stamped Reviews & Loyalty",
+			"desarrollador": "Stamped.io",
+			"web": "https://www.stamped.io",
+			"categoria": "Reseñas",
+			"logo": {
+				"id": "stamped.io",
+				"proveedor": "logodev"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "stamped-reviews-addon",
+				"enlace": "stamped-reviews-addon"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "stamped\\.io",
+				"descripcion": "Stamped.io integration script or resource detected"
+			}
+		]
+	}
 }

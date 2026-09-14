@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "addify-order-status",
-	"name": "COS : Custom Order Status",
-	"developer": "Addify",
-	"category": "Envíos / Pedidos",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://addify.store",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "addify-order-status"
-		}
-	],
-	"logo": {
-		"id": "addify.store",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "addify-order-status|addify.*status|custom-order-status",
-			"description": "Script o recurso de integración de COS Custom Order Status detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "COS : Custom Order Status",
+			"desarrollador": "Addify",
+			"web": "https://addify.store",
+			"categoria": "Envíos / Pedidos",
+			"logo": {
+				"id": "addify-custom-order-status.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "addify-order-status",
+				"enlace": "addify-order-status"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "addify-order-status|addify.*status|custom-order-status",
+				"descripcion": "Script o recurso de integración de COS Custom Order Status detectado"
+			}
+		]
+	}
 }

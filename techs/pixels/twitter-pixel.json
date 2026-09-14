@@ -1,25 +1,39 @@
 {
+	"$schema": "../../schemas/pixel-v2.schema.json",
 	"id": "twitter-pixel",
-	"name": "Twitter / X Pixel",
-	"category": "Redes Sociales",
-	"web": "https://business.twitter.com/en/help/campaign-measurement-and-analytics/pixel-for-website-tracking.html",
-	"precios": [],
-	"logo": {
-		"id": "x.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 5,
+		"version": "1.0.0",
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 2
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "static\\.ads-twitter\\.com\\/uwt\\.js",
-			"description": "X (Twitter) Pixel script detectado",
-			"weight": 1
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Twitter / X Pixel",
+			"web": "https://business.twitter.com/en/help/campaign-measurement-and-analytics/pixel-for-website-tracking.html",
+			"categoria": "Redes Sociales",
+			"logo": {
+				"id": "x.com",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"type": "script-content",
-			"pattern": "twq\\('init'",
-			"description": "X (Twitter) Pixel initialization detectado",
-			"weight": 0.8
-		}
-	]
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "static\\.ads-twitter\\.com\\/uwt\\.js",
+				"descripcion": "X (Twitter) Pixel script detectado",
+				"peso": 1
+			},
+			{
+				"tipo": "script-content",
+				"patron": "twq\\('init'",
+				"descripcion": "X (Twitter) Pixel initialization detectado",
+				"peso": 0.8
+			}
+		]
+	}
 }

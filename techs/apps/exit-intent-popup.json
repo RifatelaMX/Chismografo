@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "exit-intent-popup",
-	"name": "Exit intent popup with coupon",
-	"developer": "Exit intent popup with coupon",
-	"category": "Marketing / Popups",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://apps.shopify.com/exit-intent-popup",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "exit-intent-popup"
-		}
-	],
-	"logo": {
-		"id": "exit-intent-popup.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "exit-intent-popup|exit[_-]?intent[_-]?popup",
-			"description": "Script o recurso de integración de Exit intent popup with coupon detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Exit intent popup with coupon",
+			"desarrollador": "Exit intent popup with coupon",
+			"web": "https://apps.shopify.com/exit-intent-popup",
+			"categoria": "Marketing / Popups",
+			"logo": {
+				"id": "exit-intent-popup.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "exit-intent-popup",
+				"enlace": "exit-intent-popup"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "exit-intent-popup|exit[_-]?intent[_-]?popup",
+				"descripcion": "Script o recurso de integración de Exit intent popup with coupon detectado"
+			}
+		]
+	}
 }

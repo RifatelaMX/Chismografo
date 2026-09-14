@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "printful",
-	"name": "Printful",
-	"developer": "Printful",
-	"category": "Impresión bajo Demanda",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.printful.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "printful"
-		}
-	],
-	"logo": {
-		"id": "printful.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "printful\\.com",
-			"description": "Printful integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Printful",
+			"desarrollador": "Printful",
+			"web": "https://www.printful.com",
+			"categoria": "Impresión bajo Demanda",
+			"logo": {
+				"id": "printful.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "printful",
+				"enlace": "printful"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "printful\\.com",
+				"descripcion": "Printful integration script or resource detected"
+			}
+		]
+	}
 }

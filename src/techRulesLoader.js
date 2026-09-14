@@ -22,7 +22,7 @@ function loadFolderJson(folderName) {
 	if (fs.existsSync(folderPath)) {
 		const files = fs.readdirSync(folderPath);
 		files.forEach((file) => {
-			if (file.endsWith('.json')) {
+			if (file.endsWith('.json') && !file.includes('sample') && !file.startsWith('_')) {
 				try {
 					const content = fs.readFileSync(path.join(folderPath, file), 'utf-8');
 					const data = JSON.parse(content);
@@ -82,60 +82,27 @@ export function loadAllTechRules() {
 	gatewaysList = indexData.gateways || [];
 	pixelsList = indexData.pixels || [];
 
-	// Compile regex patterns for cms
-	cmsList.forEach((cms) => {
-		if (Array.isArray(cms.detectionRules)) {
-			cms.detectionRules.forEach((rule) => {
-				if (rule.pattern) {
-					rule.regex = new RegExp(rule.pattern, 'i');
-				}
-			});
-		}
-	});
+	// Helper para compilar reglas de detección
+	const compileRules = (list) => {
+		list.forEach((item) => {
+			const rules =
+				item.herramienta?.reglasDeteccion || item.reglasDeteccion || item.detectionRules;
+			if (Array.isArray(rules)) {
+				rules.forEach((rule) => {
+					const pattern = rule.patron || rule.pattern;
+					if (pattern) {
+						rule.regex = new RegExp(pattern, 'i');
+					}
+				});
+			}
+		});
+	};
 
-	// Compile regex patterns for apps
-	appsList.forEach((app) => {
-		if (Array.isArray(app.detectionRules)) {
-			app.detectionRules.forEach((rule) => {
-				if (rule.pattern) {
-					rule.regex = new RegExp(rule.pattern, 'i');
-				}
-			});
-		}
-	});
-
-	// Compile regex patterns for infra
-	infraList.forEach((infra) => {
-		if (Array.isArray(infra.detectionRules)) {
-			infra.detectionRules.forEach((rule) => {
-				if (rule.pattern) {
-					rule.regex = new RegExp(rule.pattern, 'i');
-				}
-			});
-		}
-	});
-
-	// Compile regex patterns for gateways
-	gatewaysList.forEach((gw) => {
-		if (Array.isArray(gw.detectionRules)) {
-			gw.detectionRules.forEach((rule) => {
-				if (rule.pattern) {
-					rule.regex = new RegExp(rule.pattern, 'i');
-				}
-			});
-		}
-	});
-
-	// Compile regex patterns for pixels
-	pixelsList.forEach((px) => {
-		if (Array.isArray(px.detectionRules)) {
-			px.detectionRules.forEach((rule) => {
-				if (rule.pattern) {
-					rule.regex = new RegExp(rule.pattern, 'i');
-				}
-			});
-		}
-	});
+	compileRules(cmsList);
+	compileRules(appsList);
+	compileRules(infraList);
+	compileRules(gatewaysList);
+	compileRules(pixelsList);
 
 	console.log(
 		`[TechRulesLoader] Rules loaded and compiled: ${cmsList.length} CMS, ${appsList.length} Apps, ${infraList.length} Infra, ${gatewaysList.length} Gateways, ${pixelsList.length} Pixels.`

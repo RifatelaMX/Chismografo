@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "special-offers",
-	"name": "USO: Ultimate Special Offers",
-	"developer": "Pixel Union",
-	"category": "Checkout / Ofertas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://apps.shopify.com/special-offers",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "special-offers"
-		}
-	],
-	"logo": {
-		"id": "uso-ultimate-special-offers.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "special-offers|special[_-]?offers",
-			"description": "Script o recurso de integración de USO: Ultimate Special Offers detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "USO: Ultimate Special Offers",
+			"desarrollador": "Pixel Union",
+			"web": "https://apps.shopify.com/special-offers",
+			"categoria": "Checkout / Ofertas",
+			"logo": {
+				"id": "uso-ultimate-special-offers.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "special-offers",
+				"enlace": "special-offers"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "special-offers|special[_-]?offers",
+				"descripcion": "Script o recurso de integración de USO: Ultimate Special Offers detectado"
+			}
+		]
+	}
 }

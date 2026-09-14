@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "auto-currency-converter-1",
-	"name": "Supernova Currency Converter",
-	"developer": "Supernova Currency Converter",
-	"category": "Otros",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://apps.shopify.com/auto-currency-converter-1",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "auto-currency-converter-1"
-		}
-	],
-	"logo": {
-		"id": "auto-currency-converter-1.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "auto-currency-converter-1|auto[_-]?currency[_-]?converter[_-]?1",
-			"description": "Script o recurso de integración de Supernova Currency Converter detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Supernova Currency Converter",
+			"desarrollador": "Supernova Currency Converter",
+			"web": "https://apps.shopify.com/auto-currency-converter-1",
+			"categoria": "Otros",
+			"logo": {
+				"id": "auto-currency-converter-1.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "auto-currency-converter-1",
+				"enlace": "auto-currency-converter-1"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "auto-currency-converter-1|auto[_-]?currency[_-]?converter[_-]?1",
+				"descripcion": "Script o recurso de integración de Supernova Currency Converter detectado"
+			}
+		]
+	}
 }

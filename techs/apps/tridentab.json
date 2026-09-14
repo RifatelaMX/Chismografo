@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "tridentab",
-	"name": "A/B: Product and Price Testing",
-	"developer": "TridentAB",
-	"category": "A/B Testing / Optimización",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://tridentab.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "tridentab"
-		}
-	],
-	"logo": {
-		"id": "tridentab.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "tridentab|trident-ab|trident_ab",
-			"description": "Script o recurso de integración de A/B Product and Price Testing detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "A/B: Product and Price Testing",
+			"desarrollador": "TridentAB",
+			"web": "https://tridentab.com",
+			"categoria": "A/B Testing / Optimización",
+			"logo": {
+				"id": "tridentab.com",
+				"proveedor": "logodev"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "tridentab",
+				"enlace": "tridentab"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "tridentab|trident-ab|trident_ab",
+				"descripcion": "Script o recurso de integración de A/B Product and Price Testing detectado"
+			}
+		]
+	}
 }

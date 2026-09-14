@@ -1,23 +1,49 @@
 {
+	"$schema": "../../schemas/gateway-v2.schema.json",
 	"id": "dlocal",
-	"name": "dLocal",
-	"category": "Pasarela de Pago",
-	"web": "https://dlocal.com",
-	"precios": [],
-	"logo": {
-		"id": "dlocal.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 3,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "dlocal\\.com|dlocal-sdk",
-			"description": "Script de integración de dLocal detectado"
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "dLocal",
+			"web": "https://dlocal.com",
+			"categoria": "Pasarela de Pago",
+			"logo": {
+				"id": "dlocal.com",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"type": "html",
-			"pattern": "\\bdlocal\\b",
-			"description": "Clase o marca HTML de dLocal detectada"
-		}
-	]
+		"cmsCompatibles": [
+			{
+				"id": "shopify",
+				"comisionMinima": 2,
+				"comisionMaxima": 3.6
+			},
+			{
+				"id": "woocommerce",
+				"comisionMinima": 2,
+				"comisionMaxima": 3.6
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "dlocal\\.com|dlocal-sdk",
+				"descripcion": "Script de integración de dLocal detectado"
+			},
+			{
+				"tipo": "html",
+				"patron": "\\bdlocal\\b",
+				"descripcion": "Clase o marca HTML de dLocal detectada"
+			}
+		]
+	}
 }

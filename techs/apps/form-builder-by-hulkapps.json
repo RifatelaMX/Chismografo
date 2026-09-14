@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "form-builder-by-hulkapps",
-	"name": "Hulk Contact Form Builder",
-	"developer": "HulkApps",
-	"category": "Formularios / Contacto",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.hulkapps.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "form-builder-by-hulkapps"
-		}
-	],
-	"logo": {
-		"id": "form-builder-by-hulkapps.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "form-builder-by-hulkapps|form[_-]?builder[_-]?by[_-]?hulkapps",
-			"description": "Script o recurso de integración de Hulk Contact Form Builder detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Hulk Contact Form Builder",
+			"desarrollador": "HulkApps",
+			"web": "https://www.hulkapps.com",
+			"categoria": "Formularios / Contacto",
+			"logo": {
+				"id": "form-builder-by-hulkapps.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "form-builder-by-hulkapps",
+				"enlace": "form-builder-by-hulkapps"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "form-builder-by-hulkapps|form[_-]?builder[_-]?by[_-]?hulkapps",
+				"descripcion": "Script o recurso de integración de Hulk Contact Form Builder detectado"
+			}
+		]
+	}
 }

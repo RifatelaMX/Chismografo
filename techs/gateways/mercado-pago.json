@@ -1,23 +1,49 @@
 {
+	"$schema": "../../schemas/gateway-v2.schema.json",
 	"id": "mercado-pago",
-	"name": "Mercado Pago",
-	"category": "Pasarela de Pago",
-	"web": "https://mercadopago.com",
-	"precios": [],
-	"logo": {
-		"id": "mercadopago.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 3,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "mercadopago\\.js|sdk\\.mercadopago\\.com",
-			"description": "Script de integración de Mercado Pago detectado"
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Mercado Pago",
+			"web": "https://mercadopago.com",
+			"categoria": "Pasarela de Pago",
+			"logo": {
+				"id": "mercadopago.com",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"type": "html",
-			"pattern": "\\bmercadopago\\b|\\bmercado-pago\\b",
-			"description": "Clase o marca HTML de Mercado Pago detectada"
-		}
-	]
+		"cmsCompatibles": [
+			{
+				"id": "shopify",
+				"comisionMinima": 2,
+				"comisionMaxima": 3.6
+			},
+			{
+				"id": "woocommerce",
+				"comisionMinima": 2,
+				"comisionMaxima": 3.6
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "mercadopago\\.js|sdk\\.mercadopago\\.com",
+				"descripcion": "Script de integración de Mercado Pago detectado"
+			},
+			{
+				"tipo": "html",
+				"patron": "\\bmercadopago\\b|\\bmercado-pago\\b",
+				"descripcion": "Clase o marca HTML de Mercado Pago detectada"
+			}
+		]
+	}
 }

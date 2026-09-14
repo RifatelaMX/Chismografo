@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "subi-subscriptions-memberships",
-	"name": "Subi Subscriptions App",
-	"developer": "Subi",
-	"category": "Suscripciones",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://subi.co",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "subi-subscriptions-memberships"
-		}
-	],
-	"logo": {
-		"id": "subi.co",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "subi-subscriptions-memberships|subi[_-]?subscriptions[_-]?memberships|subi",
-			"description": "Script o recurso de integración de Subi Subscriptions App detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Subi Subscriptions App",
+			"desarrollador": "Subi",
+			"web": "https://subi.co",
+			"categoria": "Suscripciones",
+			"logo": {
+				"id": "subi.co",
+				"proveedor": "logodev"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "subi-subscriptions-memberships",
+				"enlace": "subi-subscriptions-memberships"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "subi-subscriptions-memberships|subi[_-]?subscriptions[_-]?memberships|subi",
+				"descripcion": "Script o recurso de integración de Subi Subscriptions App detectado"
+			}
+		]
+	}
 }

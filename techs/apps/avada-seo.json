@@ -1,26 +1,40 @@
 {
-	"id": "avada-seo",
-	"name": "Avada SEO",
-	"developer": "Avada SEO",
-	"category": "SEO",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.avada.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "avada-seo"
-		}
-	],
-	"logo": {
-		"id": "avada.io",
-		"provider": ""
+	"$schema": "../../schemas/app-v2.schema.json",
+	"id": "avada-seo-suite",
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "avada-seo|avada\\.io",
-			"description": "Avada SEO integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Avada SEO",
+			"desarrollador": "Avada SEO",
+			"web": "https://www.avada.io",
+			"categoria": "SEO",
+			"logo": {
+				"id": "avada-seo-suite.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "avada-seo-suite",
+				"enlace": "avada-seo-suite"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "avada-seo|avada\\.io",
+				"descripcion": "Avada SEO integration script or resource detected"
+			}
+		]
+	}
 }

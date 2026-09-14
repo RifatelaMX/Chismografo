@@ -1,23 +1,49 @@
 {
+	"$schema": "../../schemas/gateway-v2.schema.json",
 	"id": "braintree",
-	"name": "Braintree",
-	"category": "Pasarela de Pago",
-	"web": "https://braintreepayments.com",
-	"precios": [],
-	"logo": {
-		"id": "braintreepayments.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 3,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "braintreegateway\\.com|braintree\\.js",
-			"description": "Script de integración de Braintree detectado"
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Braintree",
+			"web": "https://braintreepayments.com",
+			"categoria": "Pasarela de Pago",
+			"logo": {
+				"id": "braintreepayments.com",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"type": "html",
-			"pattern": "\\bbraintree\\b",
-			"description": "Clase o marca HTML de Braintree detectada"
-		}
-	]
+		"cmsCompatibles": [
+			{
+				"id": "shopify",
+				"comisionMinima": 2,
+				"comisionMaxima": 3.6
+			},
+			{
+				"id": "woocommerce",
+				"comisionMinima": 2,
+				"comisionMaxima": 3.6
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "braintreegateway\\.com|braintree\\.js",
+				"descripcion": "Script de integración de Braintree detectado"
+			},
+			{
+				"tipo": "html",
+				"patron": "\\bbraintree\\b",
+				"descripcion": "Clase o marca HTML de Braintree detectada"
+			}
+		]
+	}
 }

@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "colissimo-1",
-	"name": "Colissimo by Common‑Services",
-	"developer": "Colissimo by Common",
-	"category": "Envíos / Pedidos",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://apps.shopify.com/colissimo-1",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "colissimo-1"
-		}
-	],
-	"logo": {
-		"id": "colissimo-1.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "colissimo-1|colissimo[_-]?1",
-			"description": "Script o recurso de integración de Colissimo by Common‑Services detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Colissimo by Common‑Services",
+			"desarrollador": "Colissimo by Common",
+			"web": "https://apps.shopify.com/colissimo-1",
+			"categoria": "Envíos / Pedidos",
+			"logo": {
+				"id": "colissimo-1.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "colissimo-1",
+				"enlace": "colissimo-1"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "colissimo-1|colissimo[_-]?1",
+				"descripcion": "Script o recurso de integración de Colissimo by Common‑Services detectado"
+			}
+		]
+	}
 }

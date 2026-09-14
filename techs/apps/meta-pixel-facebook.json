@@ -1,18 +1,51 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "meta-pixel-facebook",
-	"name": "Meta Pixel (Facebook)",
-	"developer": "Meta Pixel (Facebook)",
-	"category": "Analítica / Marketing",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.facebook.com",
-	"precios": [],
-	"appStores": [],
-	"logo": "facebook.com",
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "connect\\.facebook\\.net\\/[a-zA-Z_]+\\/fbevents\\.js",
-			"description": "Meta Pixel (Facebook) integration script or resource detected"
-		}
-	]
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
+	},
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Meta Pixel (Facebook)",
+			"desarrollador": "Meta Pixel (Facebook)",
+			"web": "https://www.facebook.com",
+			"categoria": "Analítica / Marketing"
+		},
+		"cmsCompatibles": [
+			{
+				"id": "shopify",
+				"slug": "meta-pixel-facebook"
+			},
+			{
+				"id": "magento",
+				"slug": "meta-pixel-facebook"
+			},
+			{
+				"id": "woocommerce",
+				"slug": "meta-pixel-facebook"
+			},
+			{
+				"id": "prestashop",
+				"slug": "meta-pixel-facebook"
+			},
+			{
+				"id": "vtex",
+				"slug": "meta-pixel-facebook"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "connect\\.facebook\\.net\\/[a-zA-Z_]+\\/fbevents\\.js",
+				"descripcion": "Meta Pixel (Facebook) integration script or resource detected"
+			}
+		]
+	}
 }

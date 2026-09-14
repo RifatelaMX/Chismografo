@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "pagefly",
-	"name": "PageFly",
-	"developer": "PageFly",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.pagefly.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "pagefly"
-		}
-	],
-	"logo": {
-		"id": "pagefly.com",
-		"provider": ""
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "pagefly",
-			"description": "PageFly integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "PageFly",
+			"desarrollador": "PageFly",
+			"web": "https://www.pagefly.com",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "pagefly.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "pagefly",
+				"enlace": "pagefly"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "pagefly",
+				"descripcion": "PageFly integration script or resource detected"
+			}
+		]
+	}
 }

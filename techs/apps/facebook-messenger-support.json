@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "facebook-messenger-support",
-	"name": "PD Facebook Messenger Support",
-	"developer": "Pushdaddy",
-	"category": "Soporte / Chat",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://pushdaddy.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "facebook-messenger-support"
-		}
-	],
-	"logo": {
-		"id": "facebook-messenger-support.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "facebook-messenger-support|facebook[_-]?messenger[_-]?support",
-			"description": "Script o recurso de integración de PD Facebook Messenger Support detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "PD Facebook Messenger Support",
+			"desarrollador": "Pushdaddy",
+			"web": "https://pushdaddy.com",
+			"categoria": "Soporte / Chat",
+			"logo": {
+				"id": "facebook-messenger-support.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "facebook-messenger-support",
+				"enlace": "facebook-messenger-support"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "facebook-messenger-support|facebook[_-]?messenger[_-]?support",
+				"descripcion": "Script o recurso de integración de PD Facebook Messenger Support detectado"
+			}
+		]
+	}
 }

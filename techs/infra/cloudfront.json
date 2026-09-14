@@ -1,25 +1,39 @@
 {
+	"$schema": "../../schemas/infra-v2.schema.json",
 	"id": "cloudfront",
-	"name": "Amazon CloudFront",
-	"category": "CDN / Proxy",
-	"web": "https://aws.amazon.com/cloudfront",
-	"precios": [],
-	"logo": {
-		"id": "aws.amazon.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 4,
+		"version": "1.0.0",
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 2
 	},
-	"detectionRules": [
-		{
-			"type": "header",
-			"key": "x-amz-cf-id",
-			"pattern": ".*",
-			"description": "Amazon CloudFront request ID header present"
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Amazon CloudFront",
+			"web": "https://aws.amazon.com/cloudfront",
+			"categoria": "CDN / Proxy",
+			"logo": {
+				"id": "aws.amazon.com",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"type": "header",
-			"key": "via",
-			"pattern": "cloudfront",
-			"description": "Via header contains cloudfront"
-		}
-	]
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "header",
+				"llave": "x-amz-cf-id",
+				"patron": ".*",
+				"descripcion": "Amazon CloudFront request ID header present"
+			},
+			{
+				"tipo": "header",
+				"llave": "via",
+				"patron": "cloudfront",
+				"descripcion": "Via header contains cloudfront"
+			}
+		]
+	}
 }

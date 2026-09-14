@@ -1,56 +1,70 @@
 {
+	"$schema": "../../schemas/cms-v2.schema.json",
 	"id": "magento",
-	"name": "Magento",
-	"web": "https://magento.com",
-	"precios": [],
-	"logo": {
-		"id": "magento.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 2,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"id": "magento-meta-generator",
-			"type": "meta",
-			"key": "generator",
-			"pattern": "magento",
-			"description": "Meta generator contains \"Magento\"",
-			"weight": 1
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Magento",
+			"web": "https://magento.com",
+			"logo": {
+				"id": "magento.com",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"id": "magento-cookie-frontend",
-			"type": "header",
-			"key": "set-cookie",
-			"pattern": "frontend=",
-			"description": "Set-Cookie header contains Magento \"frontend\" session cookie",
-			"weight": 0.8
-		},
-		{
-			"id": "magento-script-src-static",
-			"type": "script-src",
-			"pattern": "\\/static\\/frontend\\/|js\\/mage\\/|\\/skin\\/frontend\\/",
-			"description": "Magento typical JS folder structures",
-			"weight": 0.9
-		},
-		{
-			"id": "magento-link-href",
-			"type": "link-href",
-			"pattern": "\\/static\\/frontend\\/|\\/skin\\/frontend\\/|\\/media\\/css\\/",
-			"description": "Magento typical CSS folder structures",
-			"weight": 0.8
-		},
-		{
-			"id": "magento-inline-require",
-			"type": "script-content",
-			"pattern": "require\\(\\s*\\[\\s*['\"]jquery['\"]\\s*,\\s*['\"]domReady!['\"]",
-			"description": "Magento RequireJS template loader found",
-			"weight": 0.85
-		},
-		{
-			"id": "magento-js-mage",
-			"type": "script-content",
-			"pattern": "Mage\\.Cookies|Mage\\.translate|var Mage\\b",
-			"description": "Magento legacy global object found",
-			"weight": 0.95
-		}
-	]
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"id": "magento-meta-generator",
+				"tipo": "meta",
+				"llave": "generator",
+				"patron": "magento",
+				"descripcion": "Meta generator contains \"Magento\"",
+				"peso": 1
+			},
+			{
+				"id": "magento-cookie-frontend",
+				"tipo": "header",
+				"llave": "set-cookie",
+				"patron": "frontend=",
+				"descripcion": "Set-Cookie header contains Magento \"frontend\" session cookie",
+				"peso": 0.8
+			},
+			{
+				"id": "magento-script-src-static",
+				"tipo": "script-src",
+				"patron": "\\/static\\/frontend\\/|js\\/mage\\/|\\/skin\\/frontend\\/",
+				"descripcion": "Magento typical JS folder structures",
+				"peso": 0.9
+			},
+			{
+				"id": "magento-link-href",
+				"tipo": "link-href",
+				"patron": "\\/static\\/frontend\\/|\\/skin\\/frontend\\/|\\/media\\/css\\/",
+				"descripcion": "Magento typical CSS folder structures",
+				"peso": 0.8
+			},
+			{
+				"id": "magento-inline-require",
+				"tipo": "script-content",
+				"patron": "require\\(\\s*\\[\\s*['\"]jquery['\"]\\s*,\\s*['\"]domReady!['\"]",
+				"descripcion": "Magento RequireJS template loader found",
+				"peso": 0.85
+			},
+			{
+				"id": "magento-js-mage",
+				"tipo": "script-content",
+				"patron": "Mage\\.Cookies|Mage\\.translate|var Mage\\b",
+				"descripcion": "Magento legacy global object found",
+				"peso": 0.95
+			}
+		]
+	}
 }

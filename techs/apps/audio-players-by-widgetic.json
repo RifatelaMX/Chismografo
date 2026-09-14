@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "audio-players-by-widgetic",
-	"name": "Widgetic (Audio Players)",
-	"developer": "Widgetic",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://widgetic.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "audio-players-by-widgetic"
-		}
-	],
-	"logo": {
-		"id": "widgetic-audio-players.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "audio-players-by-widgetic|audio[_-]?players[_-]?by[_-]?widgetic",
-			"description": "Script o recurso de integración de Widgetic (Audio Players) detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Widgetic (Audio Players)",
+			"desarrollador": "Widgetic",
+			"web": "https://widgetic.com",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "widgetic-audio-players.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "audio-players-by-widgetic",
+				"enlace": "audio-players-by-widgetic"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "audio-players-by-widgetic|audio[_-]?players[_-]?by[_-]?widgetic",
+				"descripcion": "Script o recurso de integración de Widgetic (Audio Players) detectado"
+			}
+		]
+	}
 }

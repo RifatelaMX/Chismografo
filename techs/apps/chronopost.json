@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "chronopost",
-	"name": "Chronopost",
-	"developer": "Chronopost",
-	"category": "Envíos / Pedidos",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://apps.shopify.com/chronopost",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "chronopost"
-		}
-	],
-	"logo": {
-		"id": "chronopost.jpg",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "chronopost",
-			"description": "Script o recurso de integración de Chronopost detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Chronopost",
+			"desarrollador": "Chronopost",
+			"web": "https://apps.shopify.com/chronopost",
+			"categoria": "Envíos / Pedidos",
+			"logo": {
+				"id": "chronopost.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "chronopost",
+				"enlace": "chronopost"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "chronopost",
+				"descripcion": "Script o recurso de integración de Chronopost detectado"
+			}
+		]
+	}
 }

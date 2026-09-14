@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "way2enjoy-image-optimizer",
-	"name": "Way2Enjoy Image Optimizer",
-	"developer": "Way2Enjoy",
-	"category": "SEO",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://apps.shopify.com/way2enjoy-image-optimizer",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "way2enjoy-image-optimizer"
-		}
-	],
-	"logo": {
-		"id": "way2enjoy-image-optimizer.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "way2enjoy-image-optimizer|way2enjoy[_-]?image[_-]?optimizer",
-			"description": "Script o recurso de integración de Way2Enjoy Image Optimizer detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Way2Enjoy Image Optimizer",
+			"desarrollador": "Way2Enjoy",
+			"web": "https://apps.shopify.com/way2enjoy-image-optimizer",
+			"categoria": "SEO",
+			"logo": {
+				"id": "way2enjoy-image-optimizer.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "way2enjoy-image-optimizer",
+				"enlace": "way2enjoy-image-optimizer"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "way2enjoy-image-optimizer|way2enjoy[_-]?image[_-]?optimizer",
+				"descripcion": "Script o recurso de integración de Way2Enjoy Image Optimizer detectado"
+			}
+		]
+	}
 }

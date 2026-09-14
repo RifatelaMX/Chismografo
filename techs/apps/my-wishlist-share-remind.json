@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "my-wishlist-share-remind",
-	"name": "Hulk AI Wishlist & Favorites",
-	"developer": "HulkApps",
-	"category": "Fidelización / Lealtad",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.hulkapps.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "my-wishlist-share-remind"
-		}
-	],
-	"logo": {
-		"id": "my-wishlist-share-remind.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "my-wishlist-share-remind|my[_-]?wishlist[_-]?share[_-]?remind",
-			"description": "Script o recurso de integración de Hulk AI Wishlist & Favorites detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Hulk AI Wishlist & Favorites",
+			"desarrollador": "HulkApps",
+			"web": "https://www.hulkapps.com",
+			"categoria": "Fidelización / Lealtad",
+			"logo": {
+				"id": "my-wishlist-share-remind.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "my-wishlist-share-remind",
+				"enlace": "my-wishlist-share-remind"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "my-wishlist-share-remind|my[_-]?wishlist[_-]?share[_-]?remind",
+				"descripcion": "Script o recurso de integración de Hulk AI Wishlist & Favorites detectado"
+			}
+		]
+	}
 }

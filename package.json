@@ -18,7 +18,8 @@
 		"vercel:pull": "vercel env pull .env.development.local",
 		"maildev": "maildev",
 		"cli": "chismografo",
-		"build": "node ./cli/bin/index.js build-index",
+		"build": "node ./cli/bin/index.js build-index --optimize-logos",
+		"optimize-logos": "node ./cli/bin/index.js optimize-logos",
 		"test": "node test-detector.js",
 		"lint": "biome lint .",
 		"format": "biome format --write .",
@@ -51,7 +52,8 @@
 		"morgan": "^1.12.0",
 		"node-cron": "^4.6.0",
 		"nodemailer": "^9.0.6",
-		"screenshotmachine": "^2.0.0"
+		"screenshotmachine": "^2.0.0",
+		"sharp": "^0.35.4"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.5.2",

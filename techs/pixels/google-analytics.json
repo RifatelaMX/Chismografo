@@ -1,31 +1,45 @@
 {
+	"$schema": "../../schemas/pixel-v2.schema.json",
 	"id": "google-analytics",
-	"name": "Google Analytics",
-	"category": "Analítica",
-	"web": "https://analytics.google.com/",
-	"precios": [],
-	"logo": {
-		"id": "googleanalytics4.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 5,
+		"version": "1.0.0",
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 2
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "googletagmanager\\.com\\/gtag\\/js",
-			"description": "Google Analytics (gtag.js) detectado",
-			"weight": 1
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Google Analytics",
+			"web": "https://analytics.google.com/",
+			"categoria": "Analítica",
+			"logo": {
+				"id": "googleanalytics4.com",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"type": "script-src",
-			"pattern": "google-analytics\\.com\\/analytics\\.js",
-			"description": "Google Analytics (analytics.js) detectado",
-			"weight": 1
-		},
-		{
-			"type": "script-content",
-			"pattern": "gtag\\('config'",
-			"description": "Google Analytics configuration detectado",
-			"weight": 0.8
-		}
-	]
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "googletagmanager\\.com\\/gtag\\/js",
+				"descripcion": "Google Analytics (gtag.js) detectado",
+				"peso": 1
+			},
+			{
+				"tipo": "script-src",
+				"patron": "google-analytics\\.com\\/analytics\\.js",
+				"descripcion": "Google Analytics (analytics.js) detectado",
+				"peso": 1
+			},
+			{
+				"tipo": "script-content",
+				"patron": "gtag\\('config'",
+				"descripcion": "Google Analytics configuration detectado",
+				"peso": 0.8
+			}
+		]
+	}
 }

@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "simple-reorder",
-	"name": "Reorder Buy Again Repeat Order",
-	"developer": "Reorder Buy Again Repeat Order",
-	"category": "Envíos / Pedidos",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://apps.shopify.com/simple-reorder",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "simple-reorder"
-		}
-	],
-	"logo": {
-		"id": "simple-reorder.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "simple-reorder|simple[_-]?reorder",
-			"description": "Script o recurso de integración de Reorder Buy Again Repeat Order detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Reorder Buy Again Repeat Order",
+			"desarrollador": "Reorder Buy Again Repeat Order",
+			"web": "https://apps.shopify.com/simple-reorder",
+			"categoria": "Envíos / Pedidos",
+			"logo": {
+				"id": "simple-reorder.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "simple-reorder",
+				"enlace": "simple-reorder"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "simple-reorder|simple[_-]?reorder",
+				"descripcion": "Script o recurso de integración de Reorder Buy Again Repeat Order detectado"
+			}
+		]
+	}
 }

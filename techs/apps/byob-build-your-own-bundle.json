@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "byob-build-your-own-bundle",
-	"name": "BYOB ‑ Build Your Own Bundles",
-	"developer": "ILoveBYOB",
-	"category": "Checkout / Ofertas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://ilovebyob.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "byob-build-your-own-bundle"
-		}
-	],
-	"logo": {
-		"id": "byob-build-your-own-bundles.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "byob-build-your-own-bundle|ilovebyob|byob-bundle",
-			"description": "Script o recurso de integración de BYOB Build Your Own Bundles detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "BYOB ‑ Build Your Own Bundles",
+			"desarrollador": "ILoveBYOB",
+			"web": "https://ilovebyob.com",
+			"categoria": "Checkout / Ofertas",
+			"logo": {
+				"id": "byob-build-your-own-bundles.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "byob-build-your-own-bundle",
+				"enlace": "byob-build-your-own-bundle"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "byob-build-your-own-bundle|ilovebyob|byob-bundle",
+				"descripcion": "Script o recurso de integración de BYOB Build Your Own Bundles detectado"
+			}
+		]
+	}
 }

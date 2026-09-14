@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "powr-faq",
-	"name": "POWR: FAQ Page | Help Center",
-	"developer": "POWR",
-	"category": "Soporte / Chat",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.powr.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "powr-faq"
-		}
-	],
-	"logo": {
-		"id": "powr-faq.jpg",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "powr-faq|powr[_-]?faq",
-			"description": "Script o recurso de integración de POWR: FAQ Page | Help Center detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "POWR: FAQ Page | Help Center",
+			"desarrollador": "POWR",
+			"web": "https://www.powr.io",
+			"categoria": "Soporte / Chat",
+			"logo": {
+				"id": "powr-faq.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "powr-faq",
+				"enlace": "powr-faq"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "powr-faq|powr[_-]?faq",
+				"descripcion": "Script o recurso de integración de POWR: FAQ Page | Help Center detectado"
+			}
+		]
+	}
 }

@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "powr-image-slider",
-	"name": "POWR Image Slider & Carousel",
-	"developer": "POWR",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.powr.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "powr-image-slider"
-		}
-	],
-	"logo": {
-		"id": "powr-image-slider.jpg",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "powr-image-slider|powr[_-]?image[_-]?slider",
-			"description": "Script o recurso de integración de POWR Image Slider & Carousel detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "POWR Image Slider & Carousel",
+			"desarrollador": "POWR",
+			"web": "https://www.powr.io",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "powr-image-slider.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "powr-image-slider",
+				"enlace": "powr-image-slider"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "powr-image-slider|powr[_-]?image[_-]?slider",
+				"descripcion": "Script o recurso de integración de POWR Image Slider & Carousel detectado"
+			}
+		]
+	}
 }

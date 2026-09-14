@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "social-media-icons",
-	"name": "POWR: Social Media Icons Bar",
-	"developer": "POWR",
-	"category": "Analítica / Marketing",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.powr.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "social-media-icons"
-		}
-	],
-	"logo": {
-		"id": "social-media-icons.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "social-media-icons|social[_-]?media[_-]?icons",
-			"description": "Script o recurso de integración de POWR: Social Media Icons Bar detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "POWR: Social Media Icons Bar",
+			"desarrollador": "POWR",
+			"web": "https://www.powr.io",
+			"categoria": "Analítica / Marketing",
+			"logo": {
+				"id": "social-media-icons.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "social-media-icons",
+				"enlace": "social-media-icons"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "social-media-icons|social[_-]?media[_-]?icons",
+				"descripcion": "Script o recurso de integración de POWR: Social Media Icons Bar detectado"
+			}
+		]
+	}
 }

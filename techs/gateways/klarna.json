@@ -1,23 +1,49 @@
 {
+	"$schema": "../../schemas/gateway-v2.schema.json",
 	"id": "klarna",
-	"name": "Klarna",
-	"category": "Pago a Plazos (BNPL)",
-	"web": "https://klarna.com",
-	"precios": [],
-	"logo": {
-		"id": "klarna.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 3,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "klarna\\.com|klarnacdn\\.net",
-			"description": "Script de integración de Klarna detectado"
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Klarna",
+			"web": "https://klarna.com",
+			"categoria": "Pago a Plazos (BNPL)",
+			"logo": {
+				"id": "klarna.com",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"type": "html",
-			"pattern": "\\bklarna\\b",
-			"description": "Clase o marca HTML de Klarna detectada"
-		}
-	]
+		"cmsCompatibles": [
+			{
+				"id": "shopify",
+				"comisionMinima": 2,
+				"comisionMaxima": 3.6
+			},
+			{
+				"id": "woocommerce",
+				"comisionMinima": 2,
+				"comisionMaxima": 3.6
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "klarna\\.com|klarnacdn\\.net",
+				"descripcion": "Script de integración de Klarna detectado"
+			},
+			{
+				"tipo": "html",
+				"patron": "\\bklarna\\b",
+				"descripcion": "Clase o marca HTML de Klarna detectada"
+			}
+		]
+	}
 }

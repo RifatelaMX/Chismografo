@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "connected-inventory",
-	"name": "NASP Connected Inventory",
-	"developer": "Not A Side Project",
-	"category": "Inventario / Sincronización",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://notasideproject.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "connected-inventory"
-		}
-	],
-	"logo": {
-		"id": "notasideproject.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "connected-inventory|notasideproject",
-			"description": "Script o recurso de integración de NASP Connected Inventory detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "NASP Connected Inventory",
+			"desarrollador": "Not A Side Project",
+			"web": "https://notasideproject.com",
+			"categoria": "Inventario / Sincronización",
+			"logo": {
+				"id": "nasp-connected-inventory.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "connected-inventory",
+				"enlace": "connected-inventory"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "connected-inventory|notasideproject",
+				"descripcion": "Script o recurso de integración de NASP Connected Inventory detectado"
+			}
+		]
+	}
 }

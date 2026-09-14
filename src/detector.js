@@ -194,13 +194,16 @@ export function detectPaymentGateways(html, scripts, links) {
 
 	gatewayRulesList.forEach((gw) => {
 		let isMatched = false;
+		const gwRules = gw.herramienta?.reglasDeteccion || gw.reglasDeteccion || gw.detectionRules;
+		const gwName = gw.acercaDe?.detallesGenerales?.nombre || gw.nombre || gw.name || gw.id;
 
-		if (Array.isArray(gw.detectionRules)) {
-			for (const rule of gw.detectionRules) {
+		if (Array.isArray(gwRules)) {
+			for (const rule of gwRules) {
 				const regex = rule.regex;
 				if (!regex) continue;
+				const rType = rule.tipo || rule.type;
 
-				if (rule.type === 'script-src') {
+				if (rType === 'script-src') {
 					const matchedScript = scripts.find(
 						(s) => (s.src && regex.test(s.src)) || (s.content && regex.test(s.content))
 					);
@@ -209,7 +212,7 @@ export function detectPaymentGateways(html, scripts, links) {
 						isMatched = true;
 						break;
 					}
-				} else if (rule.type === 'html') {
+				} else if (rType === 'html') {
 					// Check overall html string
 					if (regex.test(html)) {
 						isMatched = true;
@@ -225,8 +228,8 @@ export function detectPaymentGateways(html, scripts, links) {
 			}
 		}
 
-		if (isMatched) {
-			gateways.add(gw.name);
+		if (isMatched && gwName) {
+			gateways.add(gwName);
 		}
 	});
 
@@ -250,20 +253,10 @@ export function analyze(html, headers = {}, baseUrl = '') {
 		lowerHeaders[key.toLowerCase()] = String(val);
 	}
 
-	// Pre-extract HTML metadata to speed up matching
-	const metaTags = [];
-	$('meta').each((_i, el) => {
-		const name = $(el).attr('name') || $(el).attr('property') || $(el).attr('http-equiv');
-		const content = $(el).attr('content');
-		if (name && content) {
-			metaTags.push({ name: name.toLowerCase(), content });
-		}
-	});
-
 	const scripts = [];
 	$('script').each((_i, el) => {
 		const src = $(el).attr('src');
-		const content = $(el).text();
+		const content = $(el).html();
 		scripts.push({ src, content });
 	});
 
@@ -271,49 +264,86 @@ export function analyze(html, headers = {}, baseUrl = '') {
 	$('link').each((_i, el) => {
 		const href = $(el).attr('href');
 		const rel = $(el).attr('rel');
-		if (href) {
-			links.push({ href, rel });
+		links.push({ href, rel });
+	});
+
+	const metaTags = [];
+	$('meta').each((_i, el) => {
+		const name = $(el).attr('name') || $(el).attr('property');
+		const content = $(el).attr('content');
+		if (name && content) {
+			metaTags.push({ name: name.toLowerCase(), content });
 		}
 	});
 
-	const classes = new Set();
+	const classes = [];
 	$('[class]').each((_i, el) => {
-		const className = $(el).attr('class');
-		if (className) {
-			className.split(/\s+/).forEach((c) => {
-				if (c) classes.add(c);
-			});
+		const classAttr = $(el).attr('class');
+		if (classAttr) {
+			classes.push(classAttr);
+		}
+	});
+
+	// Extract Shopify script tags with Dynamic URLs (to match async apps)
+	const shopifyDynamicUrls = [];
+	scripts.forEach((s) => {
+		if (s.content) {
+			const urlsMatch = s.content.match(/var\s+urls\s*=\s*(\[[^\]]+\]);?/i);
+			if (urlsMatch && urlsMatch[1]) {
+				try {
+					const cleanUrlsStr = urlsMatch[1].replace(/'/g, '"').replace(/,\s*\]/g, ']');
+					const parsedUrls = JSON.parse(cleanUrlsStr);
+					if (Array.isArray(parsedUrls)) {
+						shopifyDynamicUrls.push(...parsedUrls);
+					}
+				} catch (_e) {
+					// Fallback regex match for URLs in content if JSON parse fails
+					const urlMatches = s.content.match(/https?:\/\/[^\s"']+/g);
+					if (urlMatches) {
+						shopifyDynamicUrls.push(...urlMatches);
+					}
+				}
+			}
 		}
 	});
 
 	// Evaluate rules for each CMS platform loaded dynamically
 	const cmsPlatforms = getCmsRules();
 	for (const cms of cmsPlatforms) {
-		const tech = cms.name;
+		const tech = cms.acercaDe?.detallesGenerales?.nombre || cms.nombre || cms.name || cms.id;
 		const matchedRules = [];
 		const unmatchedRules = [];
 		const matchedWeights = [];
+		const cmsRules = cms.herramienta?.reglasDeteccion || cms.reglasDeteccion || cms.detectionRules;
 
-		if (Array.isArray(cms.detectionRules)) {
-			for (const rule of cms.detectionRules) {
+		if (Array.isArray(cmsRules)) {
+			for (const rule of cmsRules) {
 				let isMatch = false;
 				let matchContext = '';
 				const regex = rule.regex;
 
 				if (!regex) continue;
 
-				switch (rule.type) {
+				const rType = rule.tipo || rule.type;
+				const rKey = rule.llave || rule.clave || rule.key;
+				const rAttr = rule.atributo || rule.attribute;
+				const rPattern = rule.patron || rule.pattern;
+				const rDesc = rule.descripcion || rule.description;
+				const rWeight =
+					rule.peso !== undefined ? rule.peso : rule.weight !== undefined ? rule.weight : 0.5;
+
+				switch (rType) {
 					case 'header': {
-						const headerVal = lowerHeaders[rule.key.toLowerCase()];
+						const headerVal = rKey ? lowerHeaders[rKey.toLowerCase()] : undefined;
 						if (headerVal && regex.test(headerVal)) {
 							isMatch = true;
-							matchContext = `${rule.key}: ${headerVal}`;
+							matchContext = `${rKey}: ${headerVal}`;
 						}
 						break;
 					}
 
 					case 'meta': {
-						const matchingMeta = metaTags.find((m) => m.name === rule.key.toLowerCase());
+						const matchingMeta = rKey ? metaTags.find((m) => m.name === rKey.toLowerCase()) : null;
 						if (matchingMeta && regex.test(matchingMeta.content)) {
 							isMatch = true;
 							matchContext = `<meta name="${matchingMeta.name}" content="${matchingMeta.content}">`;
@@ -352,56 +382,62 @@ export function analyze(html, headers = {}, baseUrl = '') {
 					}
 
 					case 'html-class': {
-						for (const c of classes) {
-							if (regex.test(c)) {
-								isMatch = true;
-								matchContext = `class="${c}"`;
-								break;
+						for (const classAttr of classes) {
+							const classList = classAttr.split(/\s+/);
+							for (const c of classList) {
+								if (c && regex.test(c)) {
+									isMatch = true;
+									matchContext = `class="${c}"`;
+									break;
+								}
 							}
+							if (isMatch) break;
 						}
 						break;
 					}
 
 					case 'html-attribute': {
-						$(`[${rule.attribute}]`).each((_i, el) => {
-							const val = $(el).attr(rule.attribute);
-							if (val && regex.test(val)) {
-								isMatch = true;
-								matchContext = `<${el.name} ${rule.attribute}="${val}">`;
-								return false; // break cheerio loop
-							}
-						});
+						if (rAttr) {
+							$(`[${rAttr}]`).each((_i, el) => {
+								const val = $(el).attr(rAttr);
+								if (val && regex.test(val)) {
+									isMatch = true;
+									matchContext = `<${el.name} ${rAttr}="${val}">`;
+									return false; // break cheerio loop
+								}
+							});
+						}
 						break;
 					}
 				}
 
 				if (isMatch) {
 					matchedRules.push({
-						id: rule.id || `${tech}-${rule.type}`,
-						description: rule.description,
-						type: rule.type,
+						id: rule.id || `${tech}-${rType}`,
+						description: rDesc,
+						type: rType,
 						context: matchContext,
-						weight: rule.weight || 0.5,
-						pattern: rule.pattern,
+						weight: rWeight,
+						pattern: rPattern,
 						passed: true,
 					});
-					matchedWeights.push(rule.weight || 0.5);
+					matchedWeights.push(rWeight);
 				} else {
 					unmatchedRules.push({
-						id: rule.id || `${tech}-${rule.type}`,
-						description: rule.description,
-						type: rule.type,
-						pattern: rule.pattern,
-						key: rule.key,
-						attribute: rule.attribute,
-						weight: rule.weight || 0.5,
+						id: rule.id || `${tech}-${rType}`,
+						description: rDesc,
+						type: rType,
+						pattern: rPattern,
+						key: rKey,
+						attribute: rAttr,
+						weight: rWeight,
 						passed: false,
 					});
 				}
 			}
 		}
 
-		const totalRules = (cms.detectionRules || []).length;
+		const totalRules = (cmsRules || []).length;
 		if (matchedRules.length > 0) {
 			let complementProduct = 1.0;
 			for (const w of matchedWeights) {
@@ -441,23 +477,6 @@ export function analyze(html, headers = {}, baseUrl = '') {
 			.join(' ');
 	};
 
-	// Shopify dynamically loaded scripts (asyncLoad urls list)
-	const shopifyDynamicUrls = [];
-	scripts.forEach((s) => {
-		if (s.content && /asyncLoad|loadScripts|loadMultiple/i.test(s.content)) {
-			const urlRegex = /(https?:)?\\?\/\\?\/[a-zA-Z0-9-_./?&+=*%~#]+/gi;
-			let m;
-			// biome-ignore lint/suspicious/noAssignInExpressions: standard regex exec loop idiom
-			while ((m = urlRegex.exec(s.content)) !== null) {
-				let cleanUrl = m[0].replace(/\\/g, ''); // Remove backslashes
-				if (cleanUrl.startsWith('//')) {
-					cleanUrl = `https:${cleanUrl}`;
-				}
-				shopifyDynamicUrls.push(cleanUrl);
-			}
-		}
-	});
-
 	// 1. App Signatures Scan (Shopify Apps, Analytics, Chat, Gateways)
 	const checkedApps = new Set();
 	const appRulesList = getAppRules();
@@ -466,11 +485,27 @@ export function analyze(html, headers = {}, baseUrl = '') {
 		let isAppMatched = false;
 		let matchedEvidence = '';
 		const evaluatedRules = [];
+		const appRules = app.herramienta?.reglasDeteccion || app.reglasDeteccion || app.detectionRules;
+		const appName = app.acercaDe?.detallesGenerales?.nombre || app.nombre || app.name || app.id;
+		const appDev =
+			app.acercaDe?.detallesGenerales?.desarrollador ||
+			app.desarrollador ||
+			app.developer ||
+			appName;
+		const appCat = app.acercaDe?.detallesGenerales?.categoria || app.categoria || app.category;
+		const appWeb = app.acercaDe?.detallesGenerales?.web || app.web || '';
+		const appStores = app.acercaDe?.cmsCompatibles || app.tiendasApp || app.appStores || [];
+		const appCms = app.acercaDe?.cmsCompatibles || app.cmsCompatibles || app.compatibleCMS || [];
 
-		if (Array.isArray(app.detectionRules)) {
-			for (const rule of app.detectionRules) {
+		if (Array.isArray(appRules)) {
+			for (const rule of appRules) {
 				const regex = rule.regex;
 				if (!regex) continue;
+
+				const rType = rule.tipo || rule.type || 'script-src';
+				const rPattern = rule.patron || rule.pattern;
+				const rDesc =
+					rule.descripcion || rule.description || `Firma de integración detectada para ${appName}`;
 
 				const matchedScript = scripts.find(
 					(s) => (s.src && regex.test(s.src)) || (s.content && regex.test(s.content))
@@ -486,9 +521,9 @@ export function analyze(html, headers = {}, baseUrl = '') {
 						: matchedDynamicUrl || '';
 
 				evaluatedRules.push({
-					description: rule.description || `Firma de integración detectada para ${app.name}`,
-					type: rule.type || 'script-src',
-					pattern: rule.pattern,
+					description: rDesc,
+					type: rType,
+					pattern: rPattern,
 					passed,
 					context: evidence || undefined,
 				});
@@ -501,24 +536,46 @@ export function analyze(html, headers = {}, baseUrl = '') {
 		}
 
 		if (isAppMatched) {
-			if (!checkedApps.has(app.name)) {
-				checkedApps.add(app.name);
+			if (!checkedApps.has(appName)) {
+				checkedApps.add(appName);
+				const normalizedStores = appStores.map((store) => {
+					const link = store.enlace || store.link || store.slug;
+					const cmsId = store.id || store.cms;
+					if ((cmsId === 'Shopify' || cmsId === 'shopify') && link && !link.startsWith('http')) {
+						return {
+							...store,
+							id: 'shopify',
+							cms: 'Shopify',
+							link: `https://apps.shopify.com/${link}`,
+							enlace: `https://apps.shopify.com/${link}`,
+						};
+					}
+					return store;
+				});
+
 				detectedPlugins.push({
-					name: app.name,
-					developer: app.developer || app.name,
-					compatibleCMS: app.compatibleCMS || [],
-					web: app.web || '',
-					appStores: (app.appStores || []).map((store) => {
-						if (store.cms === 'Shopify' && store.link && !store.link.startsWith('http')) {
-							return { ...store, link: `https://apps.shopify.com/${store.link}` };
-						}
-						return store;
-					}),
+					id: app.id || appName.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+					nombre: appName,
+					name: appName,
+					desarrollador: appDev,
+					developer: appDev,
+					categoria: appCat,
+					category: appCat,
+					web: appWeb,
+					calificacion: app.acercaDe?.calificacion || app.calificacion,
+					precios: app.acercaDe?.precios || app.precios || [],
+					chismografo: app.chismografo || app.toolData,
+					acercaDe: app.acercaDe,
+					herramienta: app.herramienta,
+					cmsCompatibles: appCms,
+					compatibleCMS: appCms,
+					tiendasApp: normalizedStores,
+					appStores: normalizedStores,
 					logo: getProxyLogoUrl(app, 'apps'),
-					category: app.category,
 					type: 'signature',
 					evidence: matchedEvidence,
 					rules: evaluatedRules,
+					reglas: evaluatedRules,
 				});
 			}
 		}
@@ -532,20 +589,35 @@ export function analyze(html, headers = {}, baseUrl = '') {
 		let isInfraMatched = false;
 		let matchedEvidence = '';
 		const evaluatedRules = [];
+		const infraRules =
+			infra.herramienta?.reglasDeteccion || infra.reglasDeteccion || infra.detectionRules;
+		const infraName =
+			infra.acercaDe?.detallesGenerales?.nombre || infra.nombre || infra.name || infra.id;
+		const infraCat =
+			infra.acercaDe?.detallesGenerales?.categoria ||
+			infra.categoria ||
+			infra.category ||
+			'Infraestructura';
+		const infraWeb = infra.acercaDe?.detallesGenerales?.web || infra.web || '';
 
-		if (Array.isArray(infra.detectionRules)) {
-			for (const rule of infra.detectionRules) {
+		if (Array.isArray(infraRules)) {
+			for (const rule of infraRules) {
 				const regex = rule.regex;
 				if (!regex) continue;
 				let passed = false;
 				let evidence = '';
+				const rType = rule.tipo || rule.type;
+				const rKey = rule.llave || rule.clave || rule.key;
+				const rPattern = rule.patron || rule.pattern;
+				const rDesc =
+					rule.descripcion || rule.description || `Regla de infraestructura para ${infraName}`;
 
-				switch (rule.type) {
+				switch (rType) {
 					case 'header': {
-						const headerVal = lowerHeaders[rule.key.toLowerCase()];
+						const headerVal = rKey ? lowerHeaders[rKey.toLowerCase()] : undefined;
 						if (headerVal && regex.test(headerVal)) {
 							passed = true;
-							evidence = `${rule.key}: ${headerVal}`;
+							evidence = `${rKey}: ${headerVal}`;
 						}
 						break;
 					}
@@ -570,9 +642,9 @@ export function analyze(html, headers = {}, baseUrl = '') {
 				}
 
 				evaluatedRules.push({
-					description: rule.description || `Regla de infraestructura para ${infra.name}`,
-					type: rule.type,
-					pattern: rule.pattern,
+					description: rDesc,
+					type: rType,
+					pattern: rPattern,
 					passed,
 					context: evidence || undefined,
 				});
@@ -586,12 +658,20 @@ export function analyze(html, headers = {}, baseUrl = '') {
 
 		if (isInfraMatched) {
 			detectedInfra.push({
-				name: infra.name,
-				category: infra.category || 'Infraestructura',
-				web: infra.web || '',
+				id: infra.id || infraName.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+				nombre: infraName,
+				name: infraName,
+				categoria: infraCat,
+				category: infraCat,
+				web: infraWeb,
+				precios: infra.acercaDe?.precios || infra.precios || [],
+				chismografo: infra.chismografo || infra.toolData,
+				acercaDe: infra.acercaDe,
+				herramienta: infra.herramienta,
 				logo: getProxyLogoUrl(infra, 'infra'),
 				evidence: matchedEvidence,
 				rules: evaluatedRules,
+				reglas: evaluatedRules,
 			});
 		}
 	});
@@ -604,15 +684,28 @@ export function analyze(html, headers = {}, baseUrl = '') {
 		let isPixelMatched = false;
 		let matchedEvidence = '';
 		const evaluatedRules = [];
+		const pxRules = px.herramienta?.reglasDeteccion || px.reglasDeteccion || px.detectionRules;
+		const pxName = px.acercaDe?.detallesGenerales?.nombre || px.nombre || px.name || px.id;
+		const pxDev =
+			px.acercaDe?.detallesGenerales?.desarrollador || px.desarrollador || px.developer || pxName;
+		const pxCat =
+			px.acercaDe?.detallesGenerales?.categoria ||
+			px.categoria ||
+			px.category ||
+			'Píxeles / Tracking';
+		const pxWeb = px.acercaDe?.detallesGenerales?.web || px.web || '';
 
-		if (Array.isArray(px.detectionRules)) {
-			for (const rule of px.detectionRules) {
+		if (Array.isArray(pxRules)) {
+			for (const rule of pxRules) {
 				const regex = rule.regex;
 				if (!regex) continue;
 				let passed = false;
 				let evidence = '';
+				const rType = rule.tipo || rule.type;
+				const rPattern = rule.patron || rule.pattern;
+				const rDesc = rule.descripcion || rule.description || `Firma de píxel para ${pxName}`;
 
-				if (rule.type === 'script-src' || rule.type === 'script-content') {
+				if (rType === 'script-src' || rType === 'script-content') {
 					const matchedScript = scripts.find(
 						(s) => (s.src && regex.test(s.src)) || (s.content && regex.test(s.content))
 					);
@@ -623,9 +716,9 @@ export function analyze(html, headers = {}, baseUrl = '') {
 				}
 
 				evaluatedRules.push({
-					description: rule.description || `Firma de píxel para ${px.name}`,
-					type: rule.type,
-					pattern: rule.pattern,
+					description: rDesc,
+					type: rType,
+					pattern: rPattern,
 					passed,
 					context: evidence || undefined,
 				});
@@ -639,12 +732,22 @@ export function analyze(html, headers = {}, baseUrl = '') {
 
 		if (isPixelMatched) {
 			detectedPixels.push({
-				name: px.name,
-				category: px.category || 'Píxeles / Tracking',
-				web: px.web || '',
+				id: px.id || pxName.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+				nombre: pxName,
+				name: pxName,
+				desarrollador: pxDev,
+				developer: pxDev,
+				categoria: pxCat,
+				category: pxCat,
+				web: pxWeb,
+				precios: px.acercaDe?.precios || px.precios || [],
+				chismografo: px.chismografo || px.toolData,
+				acercaDe: px.acercaDe,
+				herramienta: px.herramienta,
 				logo: getProxyLogoUrl(px, 'pixels'),
 				evidence: matchedEvidence,
 				rules: evaluatedRules,
+				reglas: evaluatedRules,
 			});
 		}
 	});
@@ -756,8 +859,17 @@ export function analyze(html, headers = {}, baseUrl = '') {
 	// Filter plugins/apps corresponding to the primary tech
 	const filteredPlugins = primaryTech
 		? detectedPlugins.filter((p) => {
-				if (Array.isArray(p.compatibleCMS)) {
-					return p.compatibleCMS.includes(primaryTech);
+				if (Array.isArray(p.compatibleCMS) && p.compatibleCMS.length > 0) {
+					return p.compatibleCMS.some((c) => {
+						if (typeof c === 'string') {
+							return c.toLowerCase() === primaryTech.toLowerCase();
+						}
+						if (typeof c === 'object' && c !== null) {
+							const cmsId = c.id || c.cms || '';
+							return cmsId.toLowerCase() === primaryTech.toLowerCase();
+						}
+						return false;
+					});
 				}
 				return p.platform === primaryTech || p.platform === 'Universal';
 			})
@@ -1478,34 +1590,42 @@ export function evaluateCustomRules(html = '', headers = {}, rules = []) {
 			let regexError = null;
 			let regex = null;
 
+			const rPattern = rule.patron || rule.pattern;
+			const rType = rule.tipo || rule.type;
+			const rKey = rule.llave || rule.clave || rule.key;
+			const rAttr = rule.atributo || rule.attribute;
+			const rDesc = rule.descripcion || rule.description;
+			const weight =
+				typeof rule.peso === 'number'
+					? rule.peso
+					: typeof rule.weight === 'number'
+						? rule.weight
+						: parseFloat(rule.peso || rule.weight) || 0.5;
+
 			try {
-				if (rule.pattern) {
-					regex = new RegExp(rule.pattern, 'i');
+				if (rPattern) {
+					regex = new RegExp(rPattern, 'i');
 				}
 			} catch (err) {
 				regexError = err.message;
 			}
 
 			if (regex && !regexError) {
-				const ruleType = rule.type;
-				const weight =
-					typeof rule.weight === 'number' ? rule.weight : parseFloat(rule.weight) || 0.5;
-
-				switch (ruleType) {
+				switch (rType) {
 					case 'header': {
-						if (rule.key) {
-							const headerVal = lowerHeaders[rule.key.toLowerCase()];
+						if (rKey) {
+							const headerVal = lowerHeaders[rKey.toLowerCase()];
 							if (headerVal && regex.test(headerVal)) {
 								isMatch = true;
-								matchContext = `${rule.key}: ${headerVal}`;
+								matchContext = `${rKey}: ${headerVal}`;
 							}
 						}
 						break;
 					}
 
 					case 'meta': {
-						if (rule.key) {
-							const matchingMeta = metaTags.find((m) => m.name === rule.key.toLowerCase());
+						if (rKey) {
+							const matchingMeta = metaTags.find((m) => m.name === rKey.toLowerCase());
 							if (matchingMeta && regex.test(matchingMeta.content)) {
 								isMatch = true;
 								matchContext = `<meta name="${matchingMeta.name}" content="${matchingMeta.content}">`;
@@ -1556,12 +1676,12 @@ export function evaluateCustomRules(html = '', headers = {}, rules = []) {
 					}
 
 					case 'html-attribute': {
-						if (rule.attribute) {
-							$(`[${rule.attribute}]`).each((_i, el) => {
-								const val = $(el).attr(rule.attribute);
+						if (rAttr) {
+							$(`[${rAttr}]`).each((_i, el) => {
+								const val = $(el).attr(rAttr);
 								if (val && regex.test(val)) {
 									isMatch = true;
-									matchContext = `<${el.name} ${rule.attribute}="${val}">`;
+									matchContext = `<${el.name} ${rAttr}="${val}">`;
 									return false;
 								}
 							});
@@ -1581,7 +1701,14 @@ export function evaluateCustomRules(html = '', headers = {}, rules = []) {
 				isMatch,
 				matchContext,
 				regexError,
-				weight: typeof rule.weight === 'number' ? rule.weight : parseFloat(rule.weight) || 0.5,
+				weight,
+				id: rule.id || `rule-${i + 1}`,
+				description: rDesc || undefined,
+				type: rType,
+				pattern: rPattern,
+				passed: isMatch,
+				context: matchContext || undefined,
+				error: regexError || undefined,
 			});
 		}
 	}

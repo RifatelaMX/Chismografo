@@ -1,23 +1,49 @@
 {
+	"$schema": "../../schemas/gateway-v2.schema.json",
 	"id": "aplazo",
-	"name": "Aplazo",
-	"category": "Pago a Plazos (BNPL)",
-	"web": "https://aplazo.mx",
-	"precios": [],
-	"logo": {
-		"id": "aplazo.mx",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 3,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "aplazo\\.mx|aplazo-sdk",
-			"description": "Script de integración de Aplazo detectado"
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Aplazo",
+			"web": "https://aplazo.mx",
+			"categoria": "Pago a Plazos (BNPL)",
+			"logo": {
+				"id": "aplazo.mx",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"type": "html",
-			"pattern": "\\baplazo\\b",
-			"description": "Clase o marca HTML de Aplazo detectada"
-		}
-	]
+		"cmsCompatibles": [
+			{
+				"id": "shopify",
+				"comisionMinima": 2,
+				"comisionMaxima": 3.6
+			},
+			{
+				"id": "woocommerce",
+				"comisionMinima": 2,
+				"comisionMaxima": 3.6
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "aplazo\\.mx|aplazo-sdk",
+				"descripcion": "Script de integración de Aplazo detectado"
+			},
+			{
+				"tipo": "html",
+				"patron": "\\baplazo\\b",
+				"descripcion": "Clase o marca HTML de Aplazo detectada"
+			}
+		]
+	}
 }

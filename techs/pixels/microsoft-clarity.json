@@ -1,25 +1,39 @@
 {
+	"$schema": "../../schemas/pixel-v2.schema.json",
 	"id": "microsoft-clarity",
-	"name": "Microsoft Clarity",
-	"category": "Analítica",
-	"web": "https://clarity.microsoft.com",
-	"precios": [],
-	"logo": {
-		"id": "clarity.microsoft.com",
-		"provider": "brandicons"
+	"chismografo": {
+		"tipo": 5,
+		"version": "1.0.0",
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 2
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "clarity\\.ms\\/tag\\/|clarity\\.ms\\/s\\/|scripts\\.clarity\\.ms|www\\.clarity\\.ms|clarity\\.js",
-			"description": "Microsoft Clarity script detectado",
-			"weight": 1
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Microsoft Clarity",
+			"web": "https://clarity.microsoft.com",
+			"categoria": "Analítica",
+			"logo": {
+				"id": "clarity.microsoft.com",
+				"proveedor": "brandicons"
+			}
 		},
-		{
-			"type": "script-content",
-			"pattern": "clarity\\.ms\\/tag|\\(window,\\s*document,\\s*[\"']clarity[\"']|window\\[[\"']clarity[\"']\\]|window\\.clarity\\s*=|clarity\\([\"']set[\"']|clarity\\([\"']identify[\"']|clarity\\([\"']consent[\"']",
-			"description": "Microsoft Clarity configuración o inicialización detectada",
-			"weight": 0.8
-		}
-	]
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "clarity\\.ms\\/tag\\/|clarity\\.ms\\/s\\/|scripts\\.clarity\\.ms|www\\.clarity\\.ms|clarity\\.js",
+				"descripcion": "Microsoft Clarity script detectado",
+				"peso": 1
+			},
+			{
+				"tipo": "script-content",
+				"patron": "clarity\\.ms\\/tag|\\(window,\\s*document,\\s*[\"']clarity[\"']|window\\[[\"']clarity[\"']\\]|window\\.clarity\\s*=|clarity\\([\"']set[\"']|clarity\\([\"']identify[\"']|clarity\\([\"']consent[\"']",
+				"descripcion": "Microsoft Clarity configuración o inicialización detectada",
+				"peso": 0.8
+			}
+		]
+	}
 }

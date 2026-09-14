@@ -1,19 +1,33 @@
 {
+	"$schema": "../schemas/infra-v2.schema.json",
 	"id": "{{slug}}",
-	"name": "{{name}}",
-	"category": "{{category}}",
-	"web": "{{web}}",
-	"precios": [],
-	"logo": {
-		"id": "{{id_logo}}",
-		"provider": "{{provider_logo}}"
+	"chismografo": {
+		"tipo": 4,
+		"version": 1.0,
+		"ultimaActualizacion": "{{fechaActualizacion}}",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "header",
-			"key": "server",
-			"pattern": "{{slug}}",
-			"description": "Cabecera de servidor de {{name}} detectada"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "{{nombre}}",
+			"categoria": "{{categoria}}",
+			"web": "{{web}}",
+			"logo": {
+				"id": "{{id_logo}}",
+				"proveedor": "local"
+			}
+		},
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "header",
+				"llave": "server",
+				"patron": "{{slug}}",
+				"descripcion": "Cabecera de servidor de {{nombre}} detectada"
+			}
+		]
+	}
 }

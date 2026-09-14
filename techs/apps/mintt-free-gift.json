@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "mintt-free-gift",
-	"name": "Mintt Free Gift & BOGO Upsell",
-	"developer": "Mintt",
-	"category": "Checkout / Ofertas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://mintt.co",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "mintt-free-gift"
-		}
-	],
-	"logo": {
-		"id": "mintt-free-gift.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "mintt-free-gift|mintt[_-]?free[_-]?gift",
-			"description": "Script o recurso de integración de Mintt Free Gift & BOGO Upsell detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Mintt Free Gift & BOGO Upsell",
+			"desarrollador": "Mintt",
+			"web": "https://mintt.co",
+			"categoria": "Checkout / Ofertas",
+			"logo": {
+				"id": "mintt-free-gift.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "mintt-free-gift",
+				"enlace": "mintt-free-gift"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "mintt-free-gift|mintt[_-]?free[_-]?gift",
+				"descripcion": "Script o recurso de integración de Mintt Free Gift & BOGO Upsell detectado"
+			}
+		]
+	}
 }

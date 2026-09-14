@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "mintt-tiktok-feed",
-	"name": "Mintt TikTok Feed",
-	"developer": "Mintt",
-	"category": "Analítica / Marketing",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://mintt.co",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "mintt-tiktok-feed"
-		}
-	],
-	"logo": {
-		"id": "mintt-tiktok-feed.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "mintt-tiktok-feed|mintt[_-]?tiktok[_-]?feed",
-			"description": "Script o recurso de integración de Mintt TikTok Feed detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Mintt TikTok Feed",
+			"desarrollador": "Mintt",
+			"web": "https://mintt.co",
+			"categoria": "Analítica / Marketing",
+			"logo": {
+				"id": "mintt-tiktok-feed.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "mintt-tiktok-feed",
+				"enlace": "mintt-tiktok-feed"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "mintt-tiktok-feed|mintt[_-]?tiktok[_-]?feed",
+				"descripcion": "Script o recurso de integración de Mintt TikTok Feed detectado"
+			}
+		]
+	}
 }

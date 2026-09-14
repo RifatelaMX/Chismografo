@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "live-chat-and-cloud-api",
-	"name": "Pushdaddy Many Chat ,Cloud API",
-	"developer": "Pushdaddy",
-	"category": "Soporte / Chat",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://pushdaddy.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "live-chat-and-cloud-api"
-		}
-	],
-	"logo": {
-		"id": "live-chat-and-cloud-api.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "live-chat-and-cloud-api|live[_-]?chat[_-]?and[_-]?cloud[_-]?api",
-			"description": "Script o recurso de integración de Pushdaddy Many Chat ,Cloud API detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Pushdaddy Many Chat ,Cloud API",
+			"desarrollador": "Pushdaddy",
+			"web": "https://pushdaddy.com",
+			"categoria": "Soporte / Chat",
+			"logo": {
+				"id": "live-chat-and-cloud-api.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "live-chat-and-cloud-api",
+				"enlace": "live-chat-and-cloud-api"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "live-chat-and-cloud-api|live[_-]?chat[_-]?and[_-]?cloud[_-]?api",
+				"descripcion": "Script o recurso de integración de Pushdaddy Many Chat ,Cloud API detectado"
+			}
+		]
+	}
 }

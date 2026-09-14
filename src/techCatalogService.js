@@ -40,6 +40,307 @@ function assertValidCollection(collection) {
 }
 
 /**
+ * Normaliza y valida el objeto chismografo para el esquema v2
+ * @param {object} [inputChismografo]
+ * @param {object} [inputToolData]
+ * @param {string} [collection='apps']
+ * @returns {{ tipo: number, version: number|string, ultimaActualizacion: string, revision: number, entorno: number }}
+ */
+export function normalizeChismografo(inputChismografo, inputToolData, collection = 'apps') {
+	const tipoMap = { apps: 1, cms: 2, gateways: 3, infra: 4, pixels: 5 };
+	const today = new Date().toISOString().split('T')[0];
+	const ch = inputChismografo && typeof inputChismografo === 'object' ? inputChismografo : null;
+	const td = inputToolData && typeof inputToolData === 'object' ? inputToolData : null;
+
+	let tipo = tipoMap[collection] || 1;
+	if (ch && ch.tipo !== undefined) {
+		tipo = Number(ch.tipo) || tipo;
+	}
+
+	let version = 1.0;
+	if (ch && ch.version !== undefined) {
+		version = ch.version;
+	} else if (td && td.version !== undefined) {
+		version = Number.isNaN(Number(td.version)) ? td.version : Number(td.version);
+	}
+
+	let ultimaActualizacion = today;
+	if (ch && (ch.ultimaActualizacion || ch.utlimaActualizacion)) {
+		ultimaActualizacion = String(ch.ultimaActualizacion || ch.utlimaActualizacion);
+	} else if (td && td.fechaActualizacion) {
+		ultimaActualizacion = String(td.fechaActualizacion);
+	}
+
+	let revision = 0; // 0=ia, 1=manual, 2=ambos
+	if (ch && ch.revision !== undefined) {
+		if (typeof ch.revision === 'number') {
+			revision = [0, 1, 2].includes(ch.revision) ? ch.revision : 0;
+		} else {
+			const revStr = String(ch.revision).toLowerCase().trim();
+			if (revStr === 'manual' || revStr === '1') revision = 1;
+			else if (revStr === 'ambos' || revStr === '2') revision = 2;
+			else revision = 0;
+		}
+	} else if (td && td.revision !== undefined) {
+		const revStr = String(td.revision).toLowerCase().trim();
+		revision = revStr === 'manual' || revStr === '1' ? 1 : 0;
+	}
+
+	let entorno = 0; // 0=desarrollo, 1=preview, 2=producción
+	if (ch && ch.entorno !== undefined) {
+		entorno = [0, 1, 2].includes(Number(ch.entorno)) ? Number(ch.entorno) : 0;
+	}
+
+	return {
+		tipo,
+		version,
+		ultimaActualizacion,
+		revision,
+		entorno,
+	};
+}
+
+/**
+ * Normaliza y valida el objeto toolData para compatibilidad con el esquema legacy v1
+ * @param {object} [inputToolData]
+ * @param {object} [inputChismografo]
+ * @returns {{ version: string, versionJson: string, fechaActualizacion: string, revision: 'ia'|'manual' }}
+ */
+export function normalizeToolData(inputToolData, inputChismografo) {
+	const today = new Date().toISOString().split('T')[0];
+	const td = inputToolData && typeof inputToolData === 'object' ? inputToolData : null;
+	const ch = inputChismografo && typeof inputChismografo === 'object' ? inputChismografo : null;
+
+	if (td) {
+		const revisionRaw = (td.revision || 'ia').toString().toLowerCase().trim();
+		if (td.revision !== undefined && !['ia', 'manual', '0', '1', '2'].includes(revisionRaw)) {
+			throw new Error(
+				`El campo "revision" en toolData solo permite los valores: "ia" o "manual". Valor recibido: "${td.revision}"`
+			);
+		}
+		return {
+			version: td.version ? String(td.version) : '1.0.0',
+			versionJson: td.versionJson ? String(td.versionJson) : 'v1',
+			fechaActualizacion: td.fechaActualizacion ? String(td.fechaActualizacion) : today,
+			revision: ['manual', '1'].includes(revisionRaw) ? 'manual' : 'ia',
+		};
+	}
+
+	if (ch) {
+		return {
+			version: ch.version ? String(ch.version) : '1.0.0',
+			versionJson: 'v2',
+			fechaActualizacion: ch.ultimaActualizacion || ch.utlimaActualizacion || today,
+			revision: ch.revision === 1 ? 'manual' : 'ia',
+		};
+	}
+
+	return {
+		version: '1.0.0',
+		versionJson: 'v1',
+		fechaActualizacion: today,
+		revision: 'ia',
+	};
+}
+
+/**
+ * Normaliza CMS compatibles a formato estructurado v2 y retrocompatible
+ * @param {Array} rawCms
+ * @param {Array} [rawStores]
+ * @returns {Array<{ id: string, slug: string, enlace?: string }>}
+ */
+export function normalizeCmsCompatibles(rawCms, rawStores) {
+	if (Array.isArray(rawCms) && rawCms.length > 0) {
+		return rawCms.map((item) => {
+			if (typeof item === 'object' && item !== null) {
+				const id = slugify(item.id || item.cms || '');
+				const slug = item.slug || id;
+				const res = { id, slug };
+				if (item.enlace || item.link) res.enlace = item.enlace || item.link;
+				return res;
+			}
+			const slug = slugify(String(item));
+			return { id: slug, slug };
+		});
+	}
+
+	if (Array.isArray(rawStores) && rawStores.length > 0) {
+		return rawStores.map((s) => {
+			const id = slugify(s.cms || s.id || '');
+			const link = s.enlace || s.link || '';
+			const extractedSlug = link ? link.split('/').filter(Boolean).pop() : id;
+			const res = { id, slug: extractedSlug || id };
+			if (link) res.enlace = link;
+			return res;
+		});
+	}
+
+	return [];
+}
+
+/**
+ * Normaliza tiendas de aplicaciones a formato legacy español
+ * @param {Array} rawStores
+ * @returns {Array<{ cms: string, enlace: string }>}
+ */
+function normalizeTiendasApp(rawStores) {
+	if (!Array.isArray(rawStores)) return [];
+	return rawStores.map((s) => ({
+		cms: s.cms || s.id || '',
+		enlace: s.enlace || s.link || '',
+	}));
+}
+
+/**
+ * Normaliza la configuración de logo
+ * @param {object} rawLogo
+ * @returns {object|undefined}
+ */
+function normalizeLogo(rawLogo) {
+	if (!rawLogo || typeof rawLogo !== 'object') return undefined;
+	const proveedor = rawLogo.proveedor || rawLogo.provider || 'local';
+	return {
+		id: rawLogo.id || '',
+		proveedor,
+		provider: proveedor, // Compatibilidad
+	};
+}
+
+/**
+ * Normaliza las reglas de detección a formato en español con compatibilidad
+ * @param {Array} rawRules
+ * @returns {Array<object>}
+ */
+function normalizeReglasDeteccion(rawRules) {
+	if (!Array.isArray(rawRules)) return [];
+	return rawRules.map((r) => {
+		const tipo = r.tipo || r.type || 'script-src';
+		const patron = r.patron || r.pattern || '';
+		const descripcion = r.descripcion || r.description || '';
+		const llave = r.llave || r.clave || r.key;
+		const atributo = r.atributo || r.attribute;
+		const peso = r.peso !== undefined ? r.peso : r.weight;
+
+		const rule = {};
+		if (r.id) rule.id = r.id;
+		rule.tipo = tipo;
+		rule.type = tipo; // Compatibilidad
+		if (llave) {
+			rule.llave = llave;
+			rule.key = llave;
+		}
+		if (atributo) {
+			rule.atributo = atributo;
+			rule.attribute = atributo;
+		}
+		rule.patron = patron;
+		rule.pattern = patron;
+		if (descripcion) {
+			rule.descripcion = descripcion;
+			rule.description = descripcion;
+		}
+		if (peso !== undefined) {
+			rule.peso = peso;
+			rule.weight = peso;
+		}
+		return rule;
+	});
+}
+
+/**
+ * Normaliza un objeto de tecnología leído para asegurar compatibilidad de lectura en v2 (actual) y v1 (legacy)
+ * @param {object} parsed
+ * @param {string} id
+ * @param {string} [collection='apps']
+ * @returns {object}
+ */
+function normalizeTechRead(parsed, id, collection = 'apps') {
+	const cleanId = parsed.id || id;
+	const detalles = parsed.acercaDe?.detallesGenerales || {};
+
+	const nombre = detalles.nombre || parsed.nombre || parsed.name || cleanId;
+	const categoria = detalles.categoria || parsed.categoria || parsed.category || 'Otros';
+	const desarrollador = detalles.desarrollador || parsed.desarrollador || parsed.developer;
+	const web = detalles.web || parsed.web;
+	const logo = normalizeLogo(detalles.logo || parsed.logo);
+
+	const cmsCompatibles = normalizeCmsCompatibles(
+		parsed.acercaDe?.cmsCompatibles || parsed.cmsCompatibles || parsed.compatibleCMS,
+		parsed.tiendasApp || parsed.appStores
+	);
+
+	const calificacion =
+		parsed.acercaDe?.calificacion !== undefined
+			? parsed.acercaDe.calificacion
+			: parsed.calificacion;
+
+	const precios = Array.isArray(parsed.acercaDe?.precios)
+		? parsed.acercaDe.precios
+		: Array.isArray(parsed.precios)
+			? parsed.precios
+			: [];
+
+	const reglasDeteccion = normalizeReglasDeteccion(
+		parsed.herramienta?.reglasDeteccion || parsed.reglasDeteccion || parsed.detectionRules
+	);
+
+	const chismografo = normalizeChismografo(
+		parsed.chismografo,
+		parsed.toolData || parsed.datosHerramienta,
+		collection
+	);
+	const toolData = normalizeToolData(parsed.toolData || parsed.datosHerramienta, chismografo);
+
+	const tiendasApp = cmsCompatibles.map((c) => ({
+		cms: c.id,
+		enlace: c.enlace || '',
+	}));
+
+	const isV2 = Boolean(parsed.$schema || parsed.chismografo || parsed.acercaDe);
+
+	return {
+		...parsed,
+		...(isV2 || collection === 'apps'
+			? {
+					$schema: parsed.$schema || '../../schemas/app-v2.schema.json',
+					chismografo,
+					acercaDe: {
+						detallesGenerales: {
+							nombre,
+							...(desarrollador ? { desarrollador } : {}),
+							...(web ? { web } : {}),
+							categoria,
+							...(logo ? { logo } : {}),
+						},
+						cmsCompatibles,
+						...(calificacion !== undefined ? { calificacion } : {}),
+						precios,
+					},
+					herramienta: {
+						reglasDeteccion,
+					},
+				}
+			: {}),
+		// Propiedades planas para máxima compatibilidad con código existente y tests v1
+		id: cleanId,
+		nombre,
+		name: nombre,
+		...(desarrollador ? { desarrollador, developer: desarrollador } : {}),
+		categoria,
+		category: categoria,
+		...(cmsCompatibles.length > 0 ? { cmsCompatibles, compatibleCMS: cmsCompatibles } : {}),
+		...(web ? { web } : {}),
+		...(calificacion !== undefined ? { calificacion } : {}),
+		precios,
+		...(tiendasApp.length > 0 ? { tiendasApp, appStores: tiendasApp } : {}),
+		...(logo ? { logo } : {}),
+		toolData,
+		reglasDeteccion,
+		detectionRules: reglasDeteccion,
+	};
+}
+
+/**
  * Obtiene el listado de tecnologías de una colección con soporte para filtrado por categoría y paginación
  * @param {string} collection - Tipo de tecnología ('apps', 'infra', 'pixels', 'gateways', 'cms')
  * @param {object} options - Opciones de filtrado y paginación
@@ -63,20 +364,16 @@ export function listTechs(collection, options = {}) {
 		};
 	}
 
-	const files = fs.readdirSync(folderPath).filter((f) => f.endsWith('.json'));
+	const files = fs
+		.readdirSync(folderPath)
+		.filter((f) => f.endsWith('.json') && !f.includes('sample') && !f.startsWith('_'));
 	let items = [];
 
 	for (const file of files) {
 		try {
 			const raw = fs.readFileSync(path.join(folderPath, file), 'utf-8');
 			const parsed = JSON.parse(raw);
-			if (!parsed.id) {
-				parsed.id = file.replace(/\.json$/, '');
-			}
-			if (!Array.isArray(parsed.precios)) {
-				parsed.precios = [];
-			}
-			items.push(parsed);
+			items.push(normalizeTechRead(parsed, file.replace(/\.json$/, '')));
 		} catch (err) {
 			console.error(`[TechCatalog] Error al leer archivo ${file}:`, err.message);
 		}
@@ -87,7 +384,9 @@ export function listTechs(collection, options = {}) {
 	if (categoryFilter) {
 		const filterLower = categoryFilter.toLowerCase();
 		items = items.filter(
-			(item) => item.category && item.category.toLowerCase().includes(filterLower)
+			(item) =>
+				(item.categoria && item.categoria.toLowerCase().includes(filterLower)) ||
+				(item.category && item.category.toLowerCase().includes(filterLower))
 		);
 	}
 
@@ -135,9 +434,7 @@ export function getTechById(collection, id) {
 	try {
 		const raw = fs.readFileSync(filePath, 'utf-8');
 		const parsed = JSON.parse(raw);
-		if (!parsed.id) parsed.id = cleanId;
-		if (!Array.isArray(parsed.precios)) parsed.precios = [];
-		return parsed;
+		return normalizeTechRead(parsed, cleanId);
 	} catch (err) {
 		console.error(`[TechCatalog] Error al leer ${cleanId}.json:`, err.message);
 		return null;
@@ -156,11 +453,13 @@ export function createTech(collection, techData) {
 		throw new Error('El cuerpo de la solicitud debe ser un objeto JSON válido.');
 	}
 
-	if (!techData.name) {
-		throw new Error('El campo "name" es obligatorio para registrar una tecnología.');
+	const detalles = techData.acercaDe?.detallesGenerales || {};
+	const nombre = detalles.nombre || techData.nombre || techData.name;
+	if (!nombre) {
+		throw new Error('El campo "nombre" (o "name") es obligatorio para registrar una tecnología.');
 	}
 
-	const id = slugify(techData.id || techData.name);
+	const id = slugify(techData.id || nombre);
 	if (!id) {
 		throw new Error('No se pudo generar un ID válido para la tecnología.');
 	}
@@ -177,26 +476,278 @@ export function createTech(collection, techData) {
 		);
 	}
 
-	const normalized = {
-		id,
-		name: techData.name,
-		...(techData.developer ? { developer: techData.developer } : {}),
-		category: techData.category || 'Otros',
-		...(techData.compatibleCMS ? { compatibleCMS: techData.compatibleCMS } : {}),
-		...(techData.web ? { web: techData.web } : {}),
-		precios: Array.isArray(techData.precios) ? techData.precios : [],
-		...(techData.appStores ? { appStores: techData.appStores } : {}),
-		...(techData.logo ? { logo: techData.logo } : {}),
-		detectionRules: Array.isArray(techData.detectionRules) ? techData.detectionRules : [],
-	};
+	const desarrollador = detalles.desarrollador || techData.desarrollador || techData.developer;
+	const categoria = detalles.categoria || techData.categoria || techData.category || 'Otros';
+	const web = detalles.web || techData.web;
+	const logo = normalizeLogo(detalles.logo || techData.logo);
 
-	fs.writeFileSync(filePath, JSON.stringify(normalized, null, '\t') + '\n', 'utf-8');
+	const cmsCompatibles = normalizeCmsCompatibles(
+		techData.acercaDe?.cmsCompatibles || techData.cmsCompatibles || techData.compatibleCMS,
+		techData.tiendasApp || techData.appStores
+	);
+
+	const precios = Array.isArray(techData.acercaDe?.precios)
+		? techData.acercaDe.precios
+		: Array.isArray(techData.precios)
+			? techData.precios
+			: [];
+
+	const rawRules =
+		techData.herramienta?.reglasDeteccion ||
+		techData.reglasDeteccion ||
+		techData.detectionRules ||
+		[];
+	const reglasDeteccion = normalizeReglasDeteccion(rawRules);
+
+	const chismografo = normalizeChismografo(
+		techData.chismografo,
+		techData.toolData || techData.datosHerramienta,
+		collection
+	);
+	const toolData = normalizeToolData(techData.toolData || techData.datosHerramienta, chismografo);
+
+	const calificacion =
+		techData.acercaDe?.calificacion !== undefined
+			? techData.acercaDe.calificacion
+			: techData.calificacion;
+
+	let diskRecord;
+	if (collection === 'apps') {
+		diskRecord = {
+			$schema: techData.$schema || '../../schemas/app-v2.schema.json',
+			id,
+			chismografo,
+			acercaDe: {
+				detallesGenerales: {
+					nombre,
+					...(desarrollador ? { desarrollador } : {}),
+					...(web ? { web } : {}),
+					categoria,
+					...(logo
+						? {
+								logo: {
+									id: logo.id || '',
+									proveedor: logo.proveedor || logo.provider || 'local',
+								},
+							}
+						: {}),
+				},
+				cmsCompatibles,
+				...(calificacion !== undefined ? { calificacion } : {}),
+				precios,
+			},
+			herramienta: {
+				reglasDeteccion: reglasDeteccion.map((r) => {
+					const rule = {};
+					if (r.id) rule.id = r.id;
+					rule.tipo = r.tipo || r.type || 'script-src';
+					if (r.llave || r.key) rule.llave = r.llave || r.key;
+					if (r.atributo || r.attribute) rule.atributo = r.atributo || r.attribute;
+					rule.patron = r.patron || r.pattern || '';
+					if (r.descripcion || r.description) rule.descripcion = r.descripcion || r.description;
+					if (r.peso !== undefined || r.weight !== undefined) {
+						rule.peso = r.peso !== undefined ? r.peso : r.weight;
+					}
+					return rule;
+				}),
+			},
+		};
+	} else if (collection === 'cms') {
+		diskRecord = {
+			$schema: techData.$schema || '../../schemas/cms-v2.schema.json',
+			id,
+			chismografo,
+			acercaDe: {
+				detallesGenerales: {
+					nombre,
+					...(web ? { web } : {}),
+					...(logo
+						? {
+								logo: {
+									id: logo.id || '',
+									proveedor: logo.proveedor || logo.provider || 'local',
+								},
+							}
+						: {}),
+				},
+				precios,
+			},
+			herramienta: {
+				reglasDeteccion: reglasDeteccion.map((r) => {
+					const rule = {};
+					if (r.id) rule.id = r.id;
+					rule.tipo = r.tipo || r.type || 'meta';
+					if (r.llave || r.key) rule.llave = r.llave || r.key;
+					if (r.atributo || r.attribute) rule.atributo = r.atributo || r.attribute;
+					rule.patron = r.patron || r.pattern || '';
+					if (r.descripcion || r.description) rule.descripcion = r.descripcion || r.description;
+					if (r.peso !== undefined || r.weight !== undefined) {
+						rule.peso = r.peso !== undefined ? r.peso : r.weight;
+					}
+					return rule;
+				}),
+			},
+		};
+	} else if (collection === 'gateways') {
+		diskRecord = {
+			$schema: techData.$schema || '../../schemas/gateway-v2.schema.json',
+			id,
+			chismografo,
+			acercaDe: {
+				detallesGenerales: {
+					nombre,
+					...(desarrollador ? { empresaResponsable: desarrollador } : {}),
+					...(web ? { web } : {}),
+					categoria: categoria || 'Pasarela de Pago',
+					...(logo
+						? {
+								logo: {
+									id: logo.id || '',
+									proveedor: logo.proveedor || logo.provider || 'local',
+								},
+							}
+						: {}),
+				},
+				cmsCompatibles,
+				precios,
+			},
+			herramienta: {
+				reglasDeteccion: reglasDeteccion.map((r) => {
+					const rule = {};
+					if (r.id) rule.id = r.id;
+					rule.tipo = r.tipo || r.type || 'script-src';
+					if (r.llave || r.key) rule.llave = r.llave || r.key;
+					if (r.atributo || r.attribute) rule.atributo = r.atributo || r.attribute;
+					rule.patron = r.patron || r.pattern || '';
+					if (r.descripcion || r.description) rule.descripcion = r.descripcion || r.description;
+					if (r.peso !== undefined || r.weight !== undefined) {
+						rule.peso = r.peso !== undefined ? r.peso : r.weight;
+					}
+					return rule;
+				}),
+			},
+		};
+	} else if (collection === 'infra') {
+		diskRecord = {
+			$schema: techData.$schema || '../../schemas/infra-v2.schema.json',
+			id,
+			chismografo,
+			acercaDe: {
+				detallesGenerales: {
+					nombre,
+					...(web ? { web } : {}),
+					categoria: categoria || 'Servidores Web',
+					...(logo
+						? {
+								logo: {
+									id: logo.id || '',
+									proveedor: logo.proveedor || logo.provider || 'local',
+								},
+							}
+						: {}),
+				},
+				precios,
+			},
+			herramienta: {
+				reglasDeteccion: reglasDeteccion.map((r) => {
+					const rule = {};
+					if (r.id) rule.id = r.id;
+					rule.tipo = r.tipo || r.type || 'headers';
+					if (r.llave || r.key) rule.llave = r.llave || r.key;
+					if (r.atributo || r.attribute) rule.atributo = r.atributo || r.attribute;
+					rule.patron = r.patron || r.pattern || '';
+					if (r.descripcion || r.description) rule.descripcion = r.descripcion || r.description;
+					if (r.peso !== undefined || r.weight !== undefined) {
+						rule.peso = r.peso !== undefined ? r.peso : r.weight;
+					}
+					return rule;
+				}),
+			},
+		};
+	} else if (collection === 'pixels') {
+		diskRecord = {
+			$schema: techData.$schema || '../../schemas/pixel-v2.schema.json',
+			id,
+			chismografo,
+			acercaDe: {
+				detallesGenerales: {
+					nombre,
+					...(desarrollador ? { desarrollador } : {}),
+					...(web ? { web } : {}),
+					categoria: categoria || 'Píxeles / Tracking',
+					...(logo
+						? {
+								logo: {
+									id: logo.id || '',
+									proveedor: logo.proveedor || logo.provider || 'local',
+								},
+							}
+						: {}),
+				},
+				precios,
+			},
+			herramienta: {
+				reglasDeteccion: reglasDeteccion.map((r) => {
+					const rule = {};
+					if (r.id) rule.id = r.id;
+					rule.tipo = r.tipo || r.type || 'script-src';
+					if (r.llave || r.key) rule.llave = r.llave || r.key;
+					if (r.atributo || r.attribute) rule.atributo = r.atributo || r.attribute;
+					rule.patron = r.patron || r.pattern || '';
+					if (r.descripcion || r.description) rule.descripcion = r.descripcion || r.description;
+					if (r.peso !== undefined || r.weight !== undefined) {
+						rule.peso = r.peso !== undefined ? r.peso : r.weight;
+					}
+					return rule;
+				}),
+			},
+		};
+	} else {
+		const tiendasApp = cmsCompatibles.map((c) => ({
+			cms: c.id,
+			enlace: c.enlace || '',
+		}));
+		diskRecord = {
+			id,
+			nombre,
+			...(desarrollador ? { desarrollador } : {}),
+			categoria,
+			...(cmsCompatibles.length > 0 ? { cmsCompatibles } : {}),
+			...(web ? { web } : {}),
+			precios,
+			...(tiendasApp.length > 0 ? { tiendasApp } : {}),
+			...(logo
+				? {
+						logo: {
+							id: logo.id || '',
+							proveedor: logo.proveedor || logo.provider || 'local',
+						},
+					}
+				: {}),
+			toolData,
+			reglasDeteccion: reglasDeteccion.map((r) => {
+				const rule = {};
+				if (r.id) rule.id = r.id;
+				rule.tipo = r.tipo || r.type || 'script-src';
+				if (r.llave || r.key) rule.llave = r.llave || r.key;
+				if (r.atributo || r.attribute) rule.atributo = r.atributo || r.attribute;
+				rule.patron = r.patron || r.pattern || '';
+				if (r.descripcion || r.description) rule.descripcion = r.descripcion || r.description;
+				if (r.peso !== undefined || r.weight !== undefined) {
+					rule.peso = r.peso !== undefined ? r.peso : r.weight;
+				}
+				return rule;
+			}),
+		};
+	}
+
+	fs.writeFileSync(filePath, JSON.stringify(diskRecord, null, '\t') + '\n', 'utf-8');
 
 	// Reconstruir index y recargar reglas en memoria
 	buildIndex();
 	loadAllTechRules();
 
-	return normalized;
+	return normalizeTechRead(diskRecord, id, collection);
 }
 
 /**
@@ -225,31 +776,333 @@ export function updateTech(collection, id, techData) {
 		existing = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 	} catch (_e) {}
 
-	const updated = {
-		...existing,
-		...techData,
-		id: cleanId, // Mantener o fijar ID correspondiente
-		name: techData.name || existing.name || cleanId,
-		category: techData.category || existing.category || 'Otros',
-		precios: Array.isArray(techData.precios)
-			? techData.precios
-			: Array.isArray(existing.precios)
-				? existing.precios
-				: [],
-		detectionRules: Array.isArray(techData.detectionRules)
-			? techData.detectionRules
-			: Array.isArray(existing.detectionRules)
-				? existing.detectionRules
-				: [],
-	};
+	const normalizedExisting = normalizeTechRead(existing, cleanId, collection);
+	const incomingDetalles = techData.acercaDe?.detallesGenerales || {};
 
-	fs.writeFileSync(filePath, JSON.stringify(updated, null, '\t') + '\n', 'utf-8');
+	const nombre =
+		incomingDetalles.nombre ||
+		techData.nombre ||
+		techData.name ||
+		normalizedExisting.nombre ||
+		cleanId;
+
+	const desarrollador =
+		incomingDetalles.desarrollador !== undefined
+			? incomingDetalles.desarrollador
+			: techData.desarrollador !== undefined
+				? techData.desarrollador
+				: techData.developer !== undefined
+					? techData.developer
+					: normalizedExisting.desarrollador;
+
+	const categoria =
+		incomingDetalles.categoria ||
+		techData.categoria ||
+		techData.category ||
+		normalizedExisting.categoria ||
+		'Otros';
+
+	const web =
+		incomingDetalles.web !== undefined
+			? incomingDetalles.web
+			: techData.web !== undefined
+				? techData.web
+				: normalizedExisting.web;
+
+	const rawLogo =
+		incomingDetalles.logo !== undefined
+			? incomingDetalles.logo
+			: techData.logo !== undefined
+				? techData.logo
+				: normalizedExisting.logo;
+	const logo = normalizeLogo(rawLogo);
+
+	const rawCms =
+		techData.acercaDe?.cmsCompatibles !== undefined
+			? techData.acercaDe.cmsCompatibles
+			: techData.cmsCompatibles !== undefined
+				? techData.cmsCompatibles
+				: techData.compatibleCMS !== undefined
+					? techData.compatibleCMS
+					: normalizedExisting.cmsCompatibles;
+
+	const cmsCompatibles = normalizeCmsCompatibles(
+		rawCms,
+		techData.tiendasApp || techData.appStores || normalizedExisting.tiendasApp
+	);
+
+	const precios = Array.isArray(techData.acercaDe?.precios)
+		? techData.acercaDe.precios
+		: Array.isArray(techData.precios)
+			? techData.precios
+			: normalizedExisting.precios || [];
+
+	const rawRules =
+		techData.herramienta?.reglasDeteccion !== undefined
+			? techData.herramienta.reglasDeteccion
+			: techData.reglasDeteccion !== undefined
+				? techData.reglasDeteccion
+				: techData.detectionRules !== undefined
+					? techData.detectionRules
+					: normalizedExisting.reglasDeteccion || [];
+	const reglasDeteccion = normalizeReglasDeteccion(rawRules);
+
+	const chismografo = normalizeChismografo(
+		techData.chismografo || normalizedExisting.chismografo,
+		techData.toolData || techData.datosHerramienta || normalizedExisting.toolData,
+		collection
+	);
+	chismografo.ultimaActualizacion = new Date().toISOString().split('T')[0];
+
+	const toolData = normalizeToolData(
+		techData.toolData || techData.datosHerramienta || normalizedExisting.toolData,
+		chismografo
+	);
+
+	const calificacion =
+		techData.acercaDe?.calificacion !== undefined
+			? techData.acercaDe.calificacion
+			: techData.calificacion !== undefined
+				? techData.calificacion
+				: normalizedExisting.calificacion;
+
+	let diskRecord;
+	if (collection === 'apps') {
+		diskRecord = {
+			$schema: existing.$schema || techData.$schema || '../../schemas/app-v2.schema.json',
+			id: cleanId,
+			chismografo,
+			acercaDe: {
+				detallesGenerales: {
+					nombre,
+					...(desarrollador ? { desarrollador } : {}),
+					...(web ? { web } : {}),
+					categoria,
+					...(logo
+						? {
+								logo: {
+									id: logo.id || '',
+									proveedor: logo.proveedor || logo.provider || 'local',
+								},
+							}
+						: {}),
+				},
+				cmsCompatibles,
+				...(calificacion !== undefined ? { calificacion } : {}),
+				precios,
+			},
+			herramienta: {
+				reglasDeteccion: reglasDeteccion.map((r) => {
+					const rule = {};
+					if (r.id) rule.id = r.id;
+					rule.tipo = r.tipo || r.type || 'script-src';
+					if (r.llave || r.key) rule.llave = r.llave || r.key;
+					if (r.atributo || r.attribute) rule.atributo = r.atributo || r.attribute;
+					rule.patron = r.patron || r.pattern || '';
+					if (r.descripcion || r.description) rule.descripcion = r.descripcion || r.description;
+					if (r.peso !== undefined || r.weight !== undefined) {
+						rule.peso = r.peso !== undefined ? r.peso : r.weight;
+					}
+					return rule;
+				}),
+			},
+		};
+	} else if (collection === 'cms') {
+		diskRecord = {
+			$schema: existing.$schema || techData.$schema || '../../schemas/cms-v2.schema.json',
+			id: cleanId,
+			chismografo,
+			acercaDe: {
+				detallesGenerales: {
+					nombre,
+					...(web ? { web } : {}),
+					...(logo
+						? {
+								logo: {
+									id: logo.id || '',
+									proveedor: logo.proveedor || logo.provider || 'local',
+								},
+							}
+						: {}),
+				},
+				precios,
+			},
+			herramienta: {
+				reglasDeteccion: reglasDeteccion.map((r) => {
+					const rule = {};
+					if (r.id) rule.id = r.id;
+					rule.tipo = r.tipo || r.type || 'meta';
+					if (r.llave || r.key) rule.llave = r.llave || r.key;
+					if (r.atributo || r.attribute) rule.atributo = r.atributo || r.attribute;
+					rule.patron = r.patron || r.pattern || '';
+					if (r.descripcion || r.description) rule.descripcion = r.descripcion || r.description;
+					if (r.peso !== undefined || r.weight !== undefined) {
+						rule.peso = r.peso !== undefined ? r.peso : r.weight;
+					}
+					return rule;
+				}),
+			},
+		};
+	} else if (collection === 'gateways') {
+		diskRecord = {
+			$schema: existing.$schema || techData.$schema || '../../schemas/gateway-v2.schema.json',
+			id: cleanId,
+			chismografo,
+			acercaDe: {
+				detallesGenerales: {
+					nombre,
+					...(desarrollador ? { empresaResponsable: desarrollador } : {}),
+					...(web ? { web } : {}),
+					categoria: categoria || 'Pasarela de Pago',
+					...(logo
+						? {
+								logo: {
+									id: logo.id || '',
+									proveedor: logo.proveedor || logo.provider || 'local',
+								},
+							}
+						: {}),
+				},
+				cmsCompatibles,
+				precios,
+			},
+			herramienta: {
+				reglasDeteccion: reglasDeteccion.map((r) => {
+					const rule = {};
+					if (r.id) rule.id = r.id;
+					rule.tipo = r.tipo || r.type || 'script-src';
+					if (r.llave || r.key) rule.llave = r.llave || r.key;
+					if (r.atributo || r.attribute) rule.atributo = r.atributo || r.attribute;
+					rule.patron = r.patron || r.pattern || '';
+					if (r.descripcion || r.description) rule.descripcion = r.descripcion || r.description;
+					if (r.peso !== undefined || r.weight !== undefined) {
+						rule.peso = r.peso !== undefined ? r.peso : r.weight;
+					}
+					return rule;
+				}),
+			},
+		};
+	} else if (collection === 'infra') {
+		diskRecord = {
+			$schema: existing.$schema || techData.$schema || '../../schemas/infra-v2.schema.json',
+			id: cleanId,
+			chismografo,
+			acercaDe: {
+				detallesGenerales: {
+					nombre,
+					...(web ? { web } : {}),
+					categoria: categoria || 'Servidores Web',
+					...(logo
+						? {
+								logo: {
+									id: logo.id || '',
+									proveedor: logo.proveedor || logo.provider || 'local',
+								},
+							}
+						: {}),
+				},
+				precios,
+			},
+			herramienta: {
+				reglasDeteccion: reglasDeteccion.map((r) => {
+					const rule = {};
+					if (r.id) rule.id = r.id;
+					rule.tipo = r.tipo || r.type || 'headers';
+					if (r.llave || r.key) rule.llave = r.llave || r.key;
+					if (r.atributo || r.attribute) rule.atributo = r.atributo || r.attribute;
+					rule.patron = r.patron || r.pattern || '';
+					if (r.descripcion || r.description) rule.descripcion = r.descripcion || r.description;
+					if (r.peso !== undefined || r.weight !== undefined) {
+						rule.peso = r.peso !== undefined ? r.peso : r.weight;
+					}
+					return rule;
+				}),
+			},
+		};
+	} else if (collection === 'pixels') {
+		diskRecord = {
+			$schema: existing.$schema || techData.$schema || '../../schemas/pixel-v2.schema.json',
+			id: cleanId,
+			chismografo,
+			acercaDe: {
+				detallesGenerales: {
+					nombre,
+					...(desarrollador ? { desarrollador } : {}),
+					...(web ? { web } : {}),
+					categoria: categoria || 'Píxeles / Tracking',
+					...(logo
+						? {
+								logo: {
+									id: logo.id || '',
+									proveedor: logo.proveedor || logo.provider || 'local',
+								},
+							}
+						: {}),
+				},
+				precios,
+			},
+			herramienta: {
+				reglasDeteccion: reglasDeteccion.map((r) => {
+					const rule = {};
+					if (r.id) rule.id = r.id;
+					rule.tipo = r.tipo || r.type || 'script-src';
+					if (r.llave || r.key) rule.llave = r.llave || r.key;
+					if (r.atributo || r.attribute) rule.atributo = r.atributo || r.attribute;
+					rule.patron = r.patron || r.pattern || '';
+					if (r.descripcion || r.description) rule.descripcion = r.descripcion || r.description;
+					if (r.peso !== undefined || r.weight !== undefined) {
+						rule.peso = r.peso !== undefined ? r.peso : r.weight;
+					}
+					return rule;
+				}),
+			},
+		};
+	} else {
+		const tiendasApp = cmsCompatibles.map((c) => ({
+			cms: c.id,
+			enlace: c.enlace || '',
+		}));
+		diskRecord = {
+			id: cleanId,
+			nombre,
+			...(desarrollador ? { desarrollador } : {}),
+			categoria,
+			...(cmsCompatibles.length > 0 ? { cmsCompatibles } : {}),
+			...(web ? { web } : {}),
+			precios,
+			...(tiendasApp.length > 0 ? { tiendasApp } : {}),
+			...(logo
+				? {
+						logo: {
+							id: logo.id || '',
+							proveedor: logo.proveedor || logo.provider || 'local',
+						},
+					}
+				: {}),
+			toolData,
+			reglasDeteccion: reglasDeteccion.map((r) => {
+				const rule = {};
+				if (r.id) rule.id = r.id;
+				rule.tipo = r.tipo || r.type || 'script-src';
+				if (r.llave || r.key) rule.llave = r.llave || r.key;
+				if (r.atributo || r.attribute) rule.atributo = r.atributo || r.attribute;
+				rule.patron = r.patron || r.pattern || '';
+				if (r.descripcion || r.description) rule.descripcion = r.descripcion || r.description;
+				if (r.peso !== undefined || r.weight !== undefined) {
+					rule.peso = r.peso !== undefined ? r.peso : r.weight;
+				}
+				return rule;
+			}),
+		};
+	}
+
+	fs.writeFileSync(filePath, JSON.stringify(diskRecord, null, '\t') + '\n', 'utf-8');
 
 	// Reconstruir index y recargar reglas en memoria
 	buildIndex();
 	loadAllTechRules();
 
-	return updated;
+	return normalizeTechRead(diskRecord, cleanId, collection);
 }
 
 /**

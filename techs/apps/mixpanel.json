@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "mixpanel",
-	"name": "Mixpanel",
-	"developer": "Mixpanel",
-	"category": "Analítica",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.mixpanel.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "mixpanel"
-		}
-	],
-	"logo": {
-		"id": "mixpanel.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "mixpanel-2-latest\\.min\\.js|api\\.mixpanel\\.com",
-			"description": "Mixpanel integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Mixpanel",
+			"desarrollador": "Mixpanel",
+			"web": "https://www.mixpanel.com",
+			"categoria": "Analítica",
+			"logo": {
+				"id": "mixpanel.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "mixpanel",
+				"enlace": "mixpanel"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "mixpanel-2-latest\\.min\\.js|api\\.mixpanel\\.com",
+				"descripcion": "Mixpanel integration script or resource detected"
+			}
+		]
+	}
 }

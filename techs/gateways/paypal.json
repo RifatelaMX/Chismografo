@@ -1,23 +1,49 @@
 {
+	"$schema": "../../schemas/gateway-v2.schema.json",
 	"id": "paypal",
-	"name": "PayPal",
-	"category": "Pasarela de Pago",
-	"web": "https://paypal.com",
-	"precios": [],
-	"logo": {
-		"id": "paypal.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 3,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "paypal\\.com/sdk/js|checkout\\.js|paypal-objects",
-			"description": "Script de integración de PayPal detectado"
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "PayPal",
+			"web": "https://paypal.com",
+			"categoria": "Pasarela de Pago",
+			"logo": {
+				"id": "paypal.com",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"type": "html",
-			"pattern": "payment_method_paypal|\\bpaypal\\b|\\bpay-pal\\b",
-			"description": "Clase o marca HTML de PayPal detectada"
-		}
-	]
+		"cmsCompatibles": [
+			{
+				"id": "shopify",
+				"comisionMinima": 2,
+				"comisionMaxima": 3.6
+			},
+			{
+				"id": "woocommerce",
+				"comisionMinima": 2,
+				"comisionMaxima": 3.6
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "paypal\\.com/sdk/js|checkout\\.js|paypal-objects",
+				"descripcion": "Script de integración de PayPal detectado"
+			},
+			{
+				"tipo": "html",
+				"patron": "payment_method_paypal|\\bpaypal\\b|\\bpay-pal\\b",
+				"descripcion": "Clase o marca HTML de PayPal detectada"
+			}
+		]
+	}
 }

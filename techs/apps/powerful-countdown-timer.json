@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "powerful-countdown-timer",
-	"name": "Pushdaddy Countdown Timer",
-	"developer": "Pushdaddy",
-	"category": "Checkout / Ofertas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://pushdaddy.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "powerful-countdown-timer"
-		}
-	],
-	"logo": {
-		"id": "powerful-countdown-timer.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "powerful-countdown-timer|powerful[_-]?countdown[_-]?timer",
-			"description": "Script o recurso de integración de Pushdaddy Countdown Timer detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Pushdaddy Countdown Timer",
+			"desarrollador": "Pushdaddy",
+			"web": "https://pushdaddy.com",
+			"categoria": "Checkout / Ofertas",
+			"logo": {
+				"id": "powerful-countdown-timer.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "powerful-countdown-timer",
+				"enlace": "powerful-countdown-timer"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "powerful-countdown-timer|powerful[_-]?countdown[_-]?timer",
+				"descripcion": "Script o recurso de integración de Pushdaddy Countdown Timer detectado"
+			}
+		]
+	}
 }

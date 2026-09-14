@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "frequently-bought-together",
-	"name": "Frequently Bought Together",
-	"developer": "Frequently Bought Together",
-	"category": "Checkout / Ofertas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.frequently-bought-together.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "frequently-bought-together"
-		}
-	],
-	"logo": {
-		"id": "frequently-bought-together.com",
-		"provider": ""
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "frequently-bought-together",
-			"description": "Frequently Bought Together integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Frequently Bought Together",
+			"desarrollador": "Frequently Bought Together",
+			"web": "https://www.frequently-bought-together.com",
+			"categoria": "Checkout / Ofertas",
+			"logo": {
+				"id": "frequently-bought-together.com",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "frequently-bought-together",
+				"enlace": "frequently-bought-together"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "frequently-bought-together",
+				"descripcion": "Frequently Bought Together integration script or resource detected"
+			}
+		]
+	}
 }

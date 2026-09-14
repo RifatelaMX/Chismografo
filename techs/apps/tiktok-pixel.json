@@ -1,18 +1,51 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "tiktok-pixel",
-	"name": "TikTok Pixel",
-	"developer": "TikTok Pixel",
-	"category": "Analítica / Marketing",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.tiktok.com",
-	"precios": [],
-	"appStores": [],
-	"logo": "tiktok.com",
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "analytics\\.tiktok\\.com\\/i18n\\/pixel\\/events\\.js|analytics\\.tiktok\\.com\\/i18n\\/pixel\\/sdk\\.js",
-			"description": "TikTok Pixel integration script or resource detected"
-		}
-	]
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
+	},
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "TikTok Pixel",
+			"desarrollador": "TikTok Pixel",
+			"web": "https://www.tiktok.com",
+			"categoria": "Analítica / Marketing"
+		},
+		"cmsCompatibles": [
+			{
+				"id": "shopify",
+				"slug": "tiktok-pixel"
+			},
+			{
+				"id": "magento",
+				"slug": "tiktok-pixel"
+			},
+			{
+				"id": "woocommerce",
+				"slug": "tiktok-pixel"
+			},
+			{
+				"id": "prestashop",
+				"slug": "tiktok-pixel"
+			},
+			{
+				"id": "vtex",
+				"slug": "tiktok-pixel"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "analytics\\.tiktok\\.com\\/i18n\\/pixel\\/events\\.js|analytics\\.tiktok\\.com\\/i18n\\/pixel\\/sdk\\.js",
+				"descripcion": "TikTok Pixel integration script or resource detected"
+			}
+		]
+	}
 }

@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "powr-tabs",
-	"name": "POWR: Accordion Product Tabs",
-	"developer": "POWR",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.powr.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "powr-tabs"
-		}
-	],
-	"logo": {
-		"id": "powr-tabs.jpg",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "powr-tabs|powr[_-]?tabs",
-			"description": "Script o recurso de integración de POWR: Accordion Product Tabs detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "POWR: Accordion Product Tabs",
+			"desarrollador": "POWR",
+			"web": "https://www.powr.io",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "powr-tabs.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "powr-tabs",
+				"enlace": "powr-tabs"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "powr-tabs|powr[_-]?tabs",
+				"descripcion": "Script o recurso de integración de POWR: Accordion Product Tabs detectado"
+			}
+		]
+	}
 }

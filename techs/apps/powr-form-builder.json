@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "powr-form-builder",
-	"name": "POWR Contact Form Builder",
-	"developer": "POWR",
-	"category": "Formularios / Contacto",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.powr.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "powr-form-builder"
-		}
-	],
-	"logo": {
-		"id": "powr-contact-form-builder.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "powr-form-builder|powr[_-]?form[_-]?builder",
-			"description": "Script o recurso de integración de POWR Contact Form Builder detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "POWR Contact Form Builder",
+			"desarrollador": "POWR",
+			"web": "https://www.powr.io",
+			"categoria": "Formularios / Contacto",
+			"logo": {
+				"id": "powr-contact-form-builder.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "powr-form-builder",
+				"enlace": "powr-form-builder"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "powr-form-builder|powr[_-]?form[_-]?builder",
+				"descripcion": "Script o recurso de integración de POWR Contact Form Builder detectado"
+			}
+		]
+	}
 }

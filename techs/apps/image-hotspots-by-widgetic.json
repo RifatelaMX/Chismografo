@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "image-hotspots-by-widgetic",
-	"name": "Widgetic (Image Hotspots)",
-	"developer": "Widgetic",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://widgetic.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "image-hotspots-by-widgetic"
-		}
-	],
-	"logo": {
-		"id": "widgetic-image-hotspots.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "image-hotspots-by-widgetic|image[_-]?hotspots[_-]?by[_-]?widgetic",
-			"description": "Script o recurso de integración de Widgetic (Image Hotspots) detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Widgetic (Image Hotspots)",
+			"desarrollador": "Widgetic",
+			"web": "https://widgetic.com",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "widgetic-image-hotspots.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "image-hotspots-by-widgetic",
+				"enlace": "image-hotspots-by-widgetic"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "image-hotspots-by-widgetic|image[_-]?hotspots[_-]?by[_-]?widgetic",
+				"descripcion": "Script o recurso de integración de Widgetic (Image Hotspots) detectado"
+			}
+		]
+	}
 }

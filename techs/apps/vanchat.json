@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "vanchat",
-	"name": "VanChat AI Chatbot & Live Chat",
-	"developer": "VanChat",
-	"category": "Soporte / Chat",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://vanchat.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "vanchat"
-		}
-	],
-	"logo": {
-		"id": "vanchat.io",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "vanchat",
-			"description": "Script o recurso de integración de VanChat AI Chatbot & Live Chat detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "VanChat AI Chatbot & Live Chat",
+			"desarrollador": "VanChat",
+			"web": "https://vanchat.io",
+			"categoria": "Soporte / Chat",
+			"logo": {
+				"id": "vanchat.io",
+				"proveedor": "logodev"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "vanchat",
+				"enlace": "vanchat"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "vanchat",
+				"descripcion": "Script o recurso de integración de VanChat AI Chatbot & Live Chat detectado"
+			}
+		]
+	}
 }

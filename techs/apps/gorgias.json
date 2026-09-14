@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "gorgias",
-	"name": "Gorgias: AI, Helpdesk & Chat",
-	"developer": "Gorgias Inc.",
-	"category": "Soporte / Chat",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.gorgias.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "helpdesk"
-		}
-	],
-	"logo": {
-		"id": "gorgias.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "gorgias\\.js|gorgias\\.io",
-			"description": "Gorgias integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Gorgias: AI, Helpdesk & Chat",
+			"desarrollador": "Gorgias Inc.",
+			"web": "https://www.gorgias.com",
+			"categoria": "Soporte / Chat",
+			"logo": {
+				"id": "gorgias.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "shopify",
+				"slug": "helpdesk",
+				"enlace": "helpdesk"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "gorgias\\.js|gorgias\\.io",
+				"descripcion": "Gorgias integration script or resource detected"
+			}
+		]
+	}
 }

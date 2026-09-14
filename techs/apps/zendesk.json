@@ -1,22 +1,56 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "zendesk",
-	"name": "Zendesk",
-	"developer": "Zendesk",
-	"category": "Soporte / Chat",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.zendesk.com",
-	"precios": [],
-	"appStores": [],
-	"logo": {
-		"id": "zendesk.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "zopim\\.com|zendesk\\.com",
-			"description": "Integración o recurso de Zendesk detectado",
-			"weight": 1
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Zendesk",
+			"desarrollador": "Zendesk",
+			"web": "https://www.zendesk.com",
+			"categoria": "Soporte / Chat",
+			"logo": {
+				"id": "zendesk.com",
+				"proveedor": "logodev"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "shopify",
+				"slug": "zendesk"
+			},
+			{
+				"id": "magento",
+				"slug": "zendesk"
+			},
+			{
+				"id": "woocommerce",
+				"slug": "zendesk"
+			},
+			{
+				"id": "prestashop",
+				"slug": "zendesk"
+			},
+			{
+				"id": "vtex",
+				"slug": "zendesk"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "zopim\\.com|zendesk\\.com",
+				"descripcion": "Integración o recurso de Zendesk detectado",
+				"peso": 1
+			}
+		]
+	}
 }

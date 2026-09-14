@@ -1,26 +1,109 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "smile-io",
-	"name": "Smile: Lealtad y Recompensas",
-	"developer": "Smile.io",
-	"category": "Fidelización / Lealtad",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.smile.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "smile-io"
-		}
-	],
-	"logo": {
-		"id": "smile.io",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-13",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "smile\\.io",
-			"description": "Smile.io integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Smile: Lealtad y Recompensas",
+			"desarrollador": "Smile.io",
+			"web": "https://smile.io",
+			"categoria": "Fidelización / Lealtad",
+			"logo": {
+				"id": "smile-io.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "shopify",
+				"slug": "smile-io",
+				"enlace": "smile-io"
+			}
+		],
+		"calificacion": {
+			"puntaje": 4.9,
+			"resenas": 4572
+		},
+		"precios": [
+			{
+				"plan": "Gratis",
+				"precio": {
+					"monto": 0,
+					"moneda": "USD"
+				},
+				"frecuencia": "mes",
+				"features": [
+					"Puntos, recompensas y referidos",
+					"+15 formas de ganar y canjear",
+					"Descuentos y envíos gratis",
+					"Personalización de marca completa",
+					"Soporte multilingüe (+20 idiomas)",
+					"Funciona perfectamente con Shopify POS"
+				]
+			},
+			{
+				"plan": "Esencial",
+				"precio": {
+					"monto": 15,
+					"moneda": "USD"
+				},
+				"frecuencia": "mes",
+				"features": [
+					"Página de lealtad dedicada",
+					"Recompensas de productos gratis",
+					"Nudges (recordatorios en la web)",
+					"Analíticas e informes",
+					"Activa recompensas con Shopify Flow",
+					"1 integración (ej. Klaviyo)"
+				]
+			},
+			{
+				"plan": "Estándar",
+				"precio": {
+					"monto": 79,
+					"moneda": "USD"
+				},
+				"frecuencia": "mes",
+				"features": [
+					"Eventos de bonus (fin de semana x2)",
+					"Puntos en la página de gracias",
+					"Suscripción y tarjetas regalo",
+					"Tarjetas regalo y suscripciones",
+					"Segmentos de lealtad, ROI y CLV",
+					"2 integraciones (ej. Klaviyo, Judge.me)"
+				]
+			},
+			{
+				"plan": "Crecimiento",
+				"precio": {
+					"monto": 199,
+					"moneda": "USD"
+				},
+				"frecuencia": "mes",
+				"features": [
+					"Loyalty Hub (para miembros registrados)",
+					"Canjea en el pago (Shopify Plus)",
+					"Niveles VIP y caducidad de puntos",
+					"Benchmarks de rendimiento",
+					"+25 informes de lealtad predefinidos",
+					"Integraciones ilimitadas"
+				]
+			}
+		]
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "smile-io|smile[_-]?io",
+				"descripcion": "Script o recurso de integración de Smile: Lealtad y Recompensas detectado"
+			}
+		]
+	}
 }

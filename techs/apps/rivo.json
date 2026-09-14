@@ -1,27 +1,41 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "rivo",
-	"name": "Rivo: Loyalty Program, Rewards",
-	"developer": "Rivo",
-	"category": "Fidelización / Lealtad",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.rivo.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "rivo-loyalty"
-		}
-	],
-	"logo": {
-		"id": "rivo.io",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "rivo\\.io|rivo-app",
-			"description": "Integración o recurso de Rivo detectado",
-			"weight": 1
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Rivo: Loyalty Program, Rewards",
+			"desarrollador": "Rivo",
+			"web": "https://www.rivo.io",
+			"categoria": "Fidelización / Lealtad",
+			"logo": {
+				"id": "rivo.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "rivo-loyalty",
+				"enlace": "rivo-loyalty"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "rivo\\.io|rivo-app",
+				"descripcion": "Integración o recurso de Rivo detectado",
+				"peso": 1
+			}
+		]
+	}
 }

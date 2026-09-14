@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "powr-map",
-	"name": "POWR: Store Locator Map",
-	"developer": "POWR",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.powr.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "powr-map"
-		}
-	],
-	"logo": {
-		"id": "powr-maps.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "powr-map|powr[_-]?map",
-			"description": "Script o recurso de integración de POWR: Store Locator Map detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "POWR: Store Locator Map",
+			"desarrollador": "POWR",
+			"web": "https://www.powr.io",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "powr-maps.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "powr-map",
+				"enlace": "powr-map"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "powr-map|powr[_-]?map",
+				"descripcion": "Script o recurso de integración de POWR: Store Locator Map detectado"
+			}
+		]
+	}
 }

@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "loox",
-	"name": "Loox",
-	"developer": "Loox",
-	"category": "Reseñas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.loox.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "loox"
-		}
-	],
-	"logo": {
-		"id": "loox.io",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "loox\\.io|loox-cdn",
-			"description": "Loox integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Loox",
+			"desarrollador": "Loox",
+			"web": "https://www.loox.io",
+			"categoria": "Reseñas",
+			"logo": {
+				"id": "loox.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "loox",
+				"enlace": "loox"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "loox\\.io|loox-cdn",
+				"descripcion": "Loox integration script or resource detected"
+			}
+		]
+	}
 }

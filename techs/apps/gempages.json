@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "gempages",
-	"name": "GemPages",
-	"developer": "GemPages",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.gempages.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "gempages"
-		}
-	],
-	"logo": {
-		"id": "gempages.com",
-		"provider": ""
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "gempages",
-			"description": "GemPages integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "GemPages",
+			"desarrollador": "GemPages",
+			"web": "https://www.gempages.com",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "gempages.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "gempages",
+				"enlace": "gempages"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "gempages",
+				"descripcion": "GemPages integration script or resource detected"
+			}
+		]
+	}
 }

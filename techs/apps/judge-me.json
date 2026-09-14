@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "judge-me",
-	"name": "Judge.me",
-	"developer": "Judge.me",
-	"category": "Reseñas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.judge.me",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "judge-me"
-		}
-	],
-	"logo": {
-		"id": "judge.me",
-		"provider": ""
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "judgeme|judge\\.me",
-			"description": "Judge.me integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Judge.me",
+			"desarrollador": "Judge.me",
+			"web": "https://www.judge.me",
+			"categoria": "Reseñas",
+			"logo": {
+				"id": "judge-me.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "shopify",
+				"slug": "judge-me",
+				"enlace": "judge-me"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "judgeme|judge\\.me",
+				"descripcion": "Judge.me integration script or resource detected"
+			}
+		]
+	}
 }

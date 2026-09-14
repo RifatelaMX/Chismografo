@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "instafeed",
-	"name": "Instafeed ‑ Instagram Feed",
-	"developer": "Instafeed",
-	"category": "Otros",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://apps.shopify.com/instafeed",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "instafeed"
-		}
-	],
-	"logo": {
-		"id": "instafeed.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "instafeed",
-			"description": "Script o recurso de integración de Instafeed ‑ Instagram Feed detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Instafeed ‑ Instagram Feed",
+			"desarrollador": "Instafeed",
+			"web": "https://apps.shopify.com/instafeed",
+			"categoria": "Otros",
+			"logo": {
+				"id": "instafeed.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "instafeed",
+				"enlace": "instafeed"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "instafeed",
+				"descripcion": "Script o recurso de integración de Instafeed ‑ Instagram Feed detectado"
+			}
+		]
+	}
 }

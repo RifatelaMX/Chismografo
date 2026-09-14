@@ -11,11 +11,15 @@ import {
 console.log('=== Iniciando Pruebas Unitarias de Icon Proxy ===\n');
 
 // 1. Prueba de archivo local existente
-const localResult = getLocalIcon('infinite-microsoft-clarity.png');
-assert.ok(localResult, 'Debe encontrar el archivo local infinite-microsoft-clarity.png');
-assert.strictEqual(localResult.contentType, 'image/png');
+const localResult =
+	getLocalIcon('infinite-microsoft-clarity.webp') || getLocalIcon('infinite-microsoft-clarity.png');
+assert.ok(localResult, 'Debe encontrar el archivo local infinite-microsoft-clarity');
+assert.ok(
+	localResult.contentType === 'image/webp' || localResult.contentType === 'image/png',
+	'El Content-Type debe ser image/webp o image/png'
+);
 assert.ok(Buffer.isBuffer(localResult.buffer));
-assert.ok(localResult.buffer.length > 1000);
+assert.ok(localResult.buffer.length > 500);
 console.log(
 	'✅ [1/9] getLocalIcon encuentra archivos locales existentes con Content-Type adecuado'
 );
@@ -23,8 +27,11 @@ console.log(
 // 2. Prueba de resolución sin extensión explícita
 const localNoExt = getLocalIcon('infinite-microsoft-clarity');
 assert.ok(localNoExt, 'Debe autocompletar la extensión para infinite-microsoft-clarity');
-assert.strictEqual(localNoExt.contentType, 'image/png');
-console.log('✅ [2/9] getLocalIcon resuelve extensiones automáticamente (.png, .svg)');
+assert.ok(
+	localNoExt.contentType === 'image/webp' || localNoExt.contentType === 'image/png',
+	'Debe resolver con Content-Type adecuado (.webp o .png)'
+);
+console.log('✅ [2/9] getLocalIcon resuelve extensiones automáticamente (.webp, .png, .svg)');
 
 // 3. Prueba de seguridad contra Path Traversal
 const traversalAttempt1 = getLocalIcon('../../package.json');
@@ -46,7 +53,10 @@ console.log('✅ [4/9] generateFallbackSvg genera SVG válido con letra inicial'
 // 5. Prueba de getTechIcon para tecnología con provider local
 const techIconLocal = await getTechIcon('apps', 'infinite-microsoft-clarity');
 assert.ok(techIconLocal, 'Debe resolver el ícono de infinite-microsoft-clarity');
-assert.strictEqual(techIconLocal.contentType, 'image/png');
+assert.ok(
+	techIconLocal.contentType === 'image/webp' || techIconLocal.contentType === 'image/png',
+	'El tipo de contenido debe ser image/webp o image/png'
+);
 assert.strictEqual(techIconLocal.source, 'local');
 console.log('✅ [5/9] getTechIcon resuelve correctamente tecnología con proveedor local');
 

@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "shogun-personalization",
-	"name": "Shogun ‑ Personalization",
-	"developer": "Shogun Labs Inc.",
-	"category": "A/B Testing / Optimización",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://getshogun.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "shogun-personalization"
-		}
-	],
-	"logo": {
-		"id": "shogun-personalization.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "shogun-personalization|shogun[_-]?personalization",
-			"description": "Script o recurso de integración de Shogun ‑ Personalization detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Shogun ‑ Personalization",
+			"desarrollador": "Shogun Labs Inc.",
+			"web": "https://getshogun.com",
+			"categoria": "A/B Testing / Optimización",
+			"logo": {
+				"id": "shogun-personalization.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "shogun-personalization",
+				"enlace": "shogun-personalization"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "shogun-personalization|shogun[_-]?personalization",
+				"descripcion": "Script o recurso de integración de Shogun ‑ Personalization detectado"
+			}
+		]
+	}
 }

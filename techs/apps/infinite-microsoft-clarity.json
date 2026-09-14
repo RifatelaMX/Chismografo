@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "infinite-microsoft-clarity",
-	"name": "∞ Microsoft Clarity & Heatmap",
-	"developer": "Infinite Apps",
-	"category": "Analítica",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://clarity.microsoft.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "infinite-microsoft-clarity"
-		}
-	],
-	"logo": {
-		"id": "infinite-microsoft-clarity.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "infinite-microsoft-clarity|clarity-infinite",
-			"description": "Script o recurso de integración de ∞ Microsoft Clarity & Heatmap detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "∞ Microsoft Clarity & Heatmap",
+			"desarrollador": "Infinite Apps",
+			"web": "https://clarity.microsoft.com",
+			"categoria": "Analítica",
+			"logo": {
+				"id": "infinite-microsoft-clarity.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "infinite-microsoft-clarity",
+				"enlace": "infinite-microsoft-clarity"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "infinite-microsoft-clarity|clarity-infinite",
+				"descripcion": "Script o recurso de integración de ∞ Microsoft Clarity & Heatmap detectado"
+			}
+		]
+	}
 }

@@ -1,25 +1,39 @@
 {
+	"$schema": "../../schemas/infra-v2.schema.json",
 	"id": "fastly",
-	"name": "Fastly",
-	"category": "CDN / Proxy",
-	"web": "https://www.fastly.com",
-	"precios": [],
-	"logo": {
-		"id": "fastly.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 4,
+		"version": "1.0.0",
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 2
 	},
-	"detectionRules": [
-		{
-			"type": "header",
-			"key": "x-served-by",
-			"pattern": "cache-",
-			"description": "Served by Fastly cache header"
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Fastly",
+			"web": "https://www.fastly.com",
+			"categoria": "CDN / Proxy",
+			"logo": {
+				"id": "fastly.com",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"type": "header",
-			"key": "x-cache",
-			"pattern": "HIT|MISS",
-			"description": "Fastly cache status header"
-		}
-	]
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "header",
+				"llave": "x-served-by",
+				"patron": "cache-",
+				"descripcion": "Served by Fastly cache header"
+			},
+			{
+				"tipo": "header",
+				"llave": "x-cache",
+				"patron": "HIT|MISS",
+				"descripcion": "Fastly cache status header"
+			}
+		]
+	}
 }

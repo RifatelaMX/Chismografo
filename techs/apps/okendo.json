@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "okendo",
-	"name": "Okendo: Reviews & Loyalty",
-	"developer": "Okendo",
-	"category": "Reseñas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.okendo.co",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "okendo-reviews"
-		}
-	],
-	"logo": {
-		"id": "okendo.io",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "okendo\\.co|okendocdn",
-			"description": "Okendo integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Okendo: Reviews & Loyalty",
+			"desarrollador": "Okendo",
+			"web": "https://www.okendo.co",
+			"categoria": "Reseñas",
+			"logo": {
+				"id": "okendo.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "okendo-reviews",
+				"enlace": "okendo-reviews"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "okendo\\.co|okendocdn",
+				"descripcion": "Okendo integration script or resource detected"
+			}
+		]
+	}
 }

@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "route",
-	"name": "Route ‑ Protection & Tracking",
-	"developer": "RouteApp LLC",
-	"category": "Envíos / Seguros",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.route.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "route"
-		}
-	],
-	"logo": {
-		"id": "route.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "routeapp\\.io",
-			"description": "Route integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Route ‑ Protection & Tracking",
+			"desarrollador": "RouteApp LLC",
+			"web": "https://www.route.com",
+			"categoria": "Envíos / Seguros",
+			"logo": {
+				"id": "route.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "route",
+				"enlace": "route"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "routeapp\\.io",
+				"descripcion": "Route integration script or resource detected"
+			}
+		]
+	}
 }

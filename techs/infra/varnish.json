@@ -1,25 +1,39 @@
 {
+	"$schema": "../../schemas/infra-v2.schema.json",
 	"id": "varnish",
-	"name": "Varnish",
-	"category": "CDN / Proxy",
-	"web": "https://varnish-cache.org",
-	"precios": [],
-	"logo": {
-		"id": "varnish-cache.org",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 4,
+		"version": "1.0.0",
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 2
 	},
-	"detectionRules": [
-		{
-			"type": "header",
-			"key": "via",
-			"pattern": "varnish",
-			"description": "Via header contains varnish cache"
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Varnish",
+			"web": "https://varnish-cache.org",
+			"categoria": "CDN / Proxy",
+			"logo": {
+				"id": "varnish-cache.org",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"type": "header",
-			"key": "x-varnish",
-			"pattern": ".*",
-			"description": "X-Varnish ID header present"
-		}
-	]
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "header",
+				"llave": "via",
+				"patron": "varnish",
+				"descripcion": "Via header contains varnish cache"
+			},
+			{
+				"tipo": "header",
+				"llave": "x-varnish",
+				"patron": ".*",
+				"descripcion": "X-Varnish ID header present"
+			}
+		]
+	}
 }

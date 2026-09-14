@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "audio-player-by-powr",
-	"name": "POWR: Background Music Player",
-	"developer": "POWR",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.powr.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "audio-player-by-powr"
-		}
-	],
-	"logo": {
-		"id": "audio-player-by-powr.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "audio-player-by-powr|audio[_-]?player[_-]?by[_-]?powr",
-			"description": "Script o recurso de integración de POWR: Background Music Player detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "POWR: Background Music Player",
+			"desarrollador": "POWR",
+			"web": "https://www.powr.io",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "audio-player-by-powr.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "audio-player-by-powr",
+				"enlace": "audio-player-by-powr"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "audio-player-by-powr|audio[_-]?player[_-]?by[_-]?powr",
+				"descripcion": "Script o recurso de integración de POWR: Background Music Player detectado"
+			}
+		]
+	}
 }

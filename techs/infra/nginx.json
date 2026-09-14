@@ -1,19 +1,33 @@
 {
+	"$schema": "../../schemas/infra-v2.schema.json",
 	"id": "nginx",
-	"name": "Nginx",
-	"category": "Servidor Web",
-	"web": "https://www.nginx.com",
-	"precios": [],
-	"logo": {
-		"id": "nginx.org",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 4,
+		"version": "1.0.0",
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 2
 	},
-	"detectionRules": [
-		{
-			"type": "header",
-			"key": "server",
-			"pattern": "^nginx",
-			"description": "Server header starts with 'nginx'"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Nginx",
+			"web": "https://www.nginx.com",
+			"categoria": "Servidor Web",
+			"logo": {
+				"id": "nginx.org",
+				"proveedor": "logodev"
+			}
+		},
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "header",
+				"llave": "server",
+				"patron": "^nginx",
+				"descripcion": "Server header starts with 'nginx'"
+			}
+		]
+	}
 }

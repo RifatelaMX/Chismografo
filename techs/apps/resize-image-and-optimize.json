@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "resize-image-and-optimize",
-	"name": "Pushdaddy Resize Image",
-	"developer": "Pushdaddy",
-	"category": "Marketing / Popups",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://pushdaddy.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "resize-image-and-optimize"
-		}
-	],
-	"logo": {
-		"id": "resize-image-and-optimize.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "resize-image-and-optimize|resize[_-]?image[_-]?and[_-]?optimize",
-			"description": "Script o recurso de integración de Pushdaddy Resize Image detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Pushdaddy Resize Image",
+			"desarrollador": "Pushdaddy",
+			"web": "https://pushdaddy.com",
+			"categoria": "Marketing / Popups",
+			"logo": {
+				"id": "resize-image-and-optimize.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "resize-image-and-optimize",
+				"enlace": "resize-image-and-optimize"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "resize-image-and-optimize|resize[_-]?image[_-]?and[_-]?optimize",
+				"descripcion": "Script o recurso de integración de Pushdaddy Resize Image detectado"
+			}
+		]
+	}
 }

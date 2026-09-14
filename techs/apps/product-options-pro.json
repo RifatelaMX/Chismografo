@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "product-options-pro",
-	"name": "Globo Product Options, Variant",
-	"developer": "Globo Product Options, Variant",
-	"category": "Checkout / Ofertas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://apps.shopify.com/product-options-pro",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "product-options-pro"
-		}
-	],
-	"logo": {
-		"id": "globo-product-options-variant.jpg",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "product-options-pro|product[_-]?options[_-]?pro",
-			"description": "Script o recurso de integración de Globo Product Options, Variant detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Globo Product Options, Variant",
+			"desarrollador": "Globo Product Options, Variant",
+			"web": "https://apps.shopify.com/product-options-pro",
+			"categoria": "Checkout / Ofertas",
+			"logo": {
+				"id": "globo-product-options-variant.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "product-options-pro",
+				"enlace": "product-options-pro"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "product-options-pro|product[_-]?options[_-]?pro",
+				"descripcion": "Script o recurso de integración de Globo Product Options, Variant detectado"
+			}
+		]
+	}
 }

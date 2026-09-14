@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "accordion-by-widgetic",
-	"name": "Widgetic (Accordion Gallery)",
-	"developer": "Widgetic",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://widgetic.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "accordion-by-widgetic"
-		}
-	],
-	"logo": {
-		"id": "widgetic-accordion-gallery.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "accordion-by-widgetic|accordion[_-]?by[_-]?widgetic",
-			"description": "Script o recurso de integración de Widgetic (Accordion Gallery) detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Widgetic (Accordion Gallery)",
+			"desarrollador": "Widgetic",
+			"web": "https://widgetic.com",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "widgetic-accordion-gallery.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "accordion-by-widgetic",
+				"enlace": "accordion-by-widgetic"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "accordion-by-widgetic|accordion[_-]?by[_-]?widgetic",
+				"descripcion": "Script o recurso de integración de Widgetic (Accordion Gallery) detectado"
+			}
+		]
+	}
 }

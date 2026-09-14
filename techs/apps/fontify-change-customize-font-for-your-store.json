@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "fontify-change-customize-font-for-your-store",
-	"name": "Fontify: Google & Custom Fonts",
-	"developer": "Fontify",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://apps.shopify.com/fontify-change-customize-font-for-your-store",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "fontify-change-customize-font-for-your-store"
-		}
-	],
-	"logo": {
-		"id": "fontify.jpeg",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "fontify-change-customize-font-for-your-store|fontify[_-]?change[_-]?customize[_-]?font[_-]?for[_-]?your[_-]?store",
-			"description": "Script o recurso de integración de Fontify: Google & Custom Fonts detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Fontify: Google & Custom Fonts",
+			"desarrollador": "Fontify",
+			"web": "https://apps.shopify.com/fontify-change-customize-font-for-your-store",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "fontify.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "fontify-change-customize-font-for-your-store",
+				"enlace": "fontify-change-customize-font-for-your-store"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "fontify-change-customize-font-for-your-store|fontify[_-]?change[_-]?customize[_-]?font[_-]?for[_-]?your[_-]?store",
+				"descripcion": "Script o recurso de integración de Fontify: Google & Custom Fonts detectado"
+			}
+		]
+	}
 }

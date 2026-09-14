@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "amazon-3",
-	"name": "CS Amazon Integration & Sync",
-	"developer": "CS Amazon Integration & Sync",
-	"category": "Envíos / Pedidos",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://apps.shopify.com/amazon-3",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "amazon-3"
-		}
-	],
-	"logo": {
-		"id": "amazon-3.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "amazon-3|amazon[_-]?3",
-			"description": "Script o recurso de integración de CS Amazon Integration & Sync detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "CS Amazon Integration & Sync",
+			"desarrollador": "CS Amazon Integration & Sync",
+			"web": "https://apps.shopify.com/amazon-3",
+			"categoria": "Envíos / Pedidos",
+			"logo": {
+				"id": "amazon-3.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "amazon-3",
+				"enlace": "amazon-3"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "amazon-3|amazon[_-]?3",
+				"descripcion": "Script o recurso de integración de CS Amazon Integration & Sync detectado"
+			}
+		]
+	}
 }

@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "age-verification-check",
-	"name": "Hulk Age Verification Popup",
-	"developer": "HulkApps",
-	"category": "Seguridad",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.hulkapps.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "age-verification-check"
-		}
-	],
-	"logo": {
-		"id": "age-verification-check.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "age-verification-check|age[_-]?verification[_-]?check",
-			"description": "Script o recurso de integración de Hulk Age Verification Popup detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Hulk Age Verification Popup",
+			"desarrollador": "HulkApps",
+			"web": "https://www.hulkapps.com",
+			"categoria": "Seguridad",
+			"logo": {
+				"id": "age-verification-check.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "age-verification-check",
+				"enlace": "age-verification-check"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "age-verification-check|age[_-]?verification[_-]?check",
+				"descripcion": "Script o recurso de integración de Hulk Age Verification Popup detectado"
+			}
+		]
+	}
 }

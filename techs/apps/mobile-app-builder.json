@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "mobile-app-builder",
-	"name": "Hulk Mobile App Builder",
-	"developer": "HulkApps",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.hulkapps.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "mobile-app-builder"
-		}
-	],
-	"logo": {
-		"id": "mobile-app-builder.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "mobile-app-builder|mobile[_-]?app[_-]?builder",
-			"description": "Script o recurso de integración de Hulk Mobile App Builder detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Hulk Mobile App Builder",
+			"desarrollador": "HulkApps",
+			"web": "https://www.hulkapps.com",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "mobile-app-builder.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "mobile-app-builder",
+				"enlace": "mobile-app-builder"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "mobile-app-builder|mobile[_-]?app[_-]?builder",
+				"descripcion": "Script o recurso de integración de Hulk Mobile App Builder detectado"
+			}
+		]
+	}
 }

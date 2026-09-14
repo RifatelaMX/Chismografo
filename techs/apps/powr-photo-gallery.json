@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "powr-photo-gallery",
-	"name": "POWR Lookbook Gallery",
-	"developer": "POWR",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.powr.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "powr-photo-gallery"
-		}
-	],
-	"logo": {
-		"id": "powr-photo-gallery.jpg",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "powr-photo-gallery|powr[_-]?photo[_-]?gallery",
-			"description": "Script o recurso de integración de POWR Lookbook Gallery detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "POWR Lookbook Gallery",
+			"desarrollador": "POWR",
+			"web": "https://www.powr.io",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "powr-photo-gallery.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "powr-photo-gallery",
+				"enlace": "powr-photo-gallery"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "powr-photo-gallery|powr[_-]?photo[_-]?gallery",
+				"descripcion": "Script o recurso de integración de POWR Lookbook Gallery detectado"
+			}
+		]
+	}
 }

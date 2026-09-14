@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "recharge",
-	"name": "Recharge Subscriptions App",
-	"developer": "Recharge",
-	"category": "Suscripciones",
-	"compatibleCMS": ["Shopify", "Magento", "WooCommerce", "PrestaShop", "VTEX"],
-	"web": "https://www.rechargepayments.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "subscription-payments"
-		}
-	],
-	"logo": {
-		"id": "rechargepayments.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "rechargecdn\\.com|recharge",
-			"description": "Recharge integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Recharge Subscriptions App",
+			"desarrollador": "Recharge",
+			"web": "https://www.rechargepayments.com",
+			"categoria": "Suscripciones",
+			"logo": {
+				"id": "recharge.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "subscription-payments",
+				"enlace": "subscription-payments"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "rechargecdn\\.com|recharge",
+				"descripcion": "Recharge integration script or resource detected"
+			}
+		]
+	}
 }

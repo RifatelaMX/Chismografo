@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "shoppop",
-	"name": "SalesPop: Order & Sales Popup",
-	"developer": "SalesPop",
-	"category": "Marketing / Popups",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://salespop.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "shoppop"
-		}
-	],
-	"logo": {
-		"id": "salespop.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "shoppop|salespop",
-			"description": "Script o recurso de integración de SalesPop: Order & Sales Popup detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "SalesPop: Order & Sales Popup",
+			"desarrollador": "SalesPop",
+			"web": "https://salespop.com",
+			"categoria": "Marketing / Popups",
+			"logo": {
+				"id": "salespop.com",
+				"proveedor": "logodev"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "shoppop",
+				"enlace": "shoppop"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "shoppop|salespop",
+				"descripcion": "Script o recurso de integración de SalesPop: Order & Sales Popup detectado"
+			}
+		]
+	}
 }

@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "product-options-by-hulkapps-1",
-	"name": "Hulk Product Options",
-	"developer": "HulkApps",
-	"category": "Checkout / Ofertas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.hulkapps.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "product-options-by-hulkapps-1"
-		}
-	],
-	"logo": {
-		"id": "product-options-by-hulkapps-1.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "product-options-by-hulkapps-1|product[_-]?options[_-]?by[_-]?hulkapps[_-]?1",
-			"description": "Script o recurso de integración de Hulk Product Options detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Hulk Product Options",
+			"desarrollador": "HulkApps",
+			"web": "https://www.hulkapps.com",
+			"categoria": "Checkout / Ofertas",
+			"logo": {
+				"id": "product-options-by-hulkapps-1.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "product-options-by-hulkapps-1",
+				"enlace": "product-options-by-hulkapps-1"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "product-options-by-hulkapps-1|product[_-]?options[_-]?by[_-]?hulkapps[_-]?1",
+				"descripcion": "Script o recurso de integración de Hulk Product Options detectado"
+			}
+		]
+	}
 }

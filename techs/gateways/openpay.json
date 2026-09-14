@@ -1,23 +1,49 @@
 {
+	"$schema": "../../schemas/gateway-v2.schema.json",
 	"id": "openpay",
-	"name": "Openpay",
-	"category": "Pasarela de Pago",
-	"web": "https://openpay.mx",
-	"precios": [],
-	"logo": {
-		"id": "openpay.mx",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 3,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "openpay\\.js|openpay\\.mx|openpay\\.co",
-			"description": "Script de integración de Openpay detectado"
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Openpay",
+			"web": "https://openpay.mx",
+			"categoria": "Pasarela de Pago",
+			"logo": {
+				"id": "openpay.mx",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"type": "html",
-			"pattern": "\\bopenpay\\b",
-			"description": "Clase o marca HTML de Openpay detectada"
-		}
-	]
+		"cmsCompatibles": [
+			{
+				"id": "shopify",
+				"comisionMinima": 2,
+				"comisionMaxima": 3.6
+			},
+			{
+				"id": "woocommerce",
+				"comisionMinima": 2,
+				"comisionMaxima": 3.6
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "openpay\\.js|openpay\\.mx|openpay\\.co",
+				"descripcion": "Script de integración de Openpay detectado"
+			},
+			{
+				"tipo": "html",
+				"patron": "\\bopenpay\\b",
+				"descripcion": "Clase o marca HTML de Openpay detectada"
+			}
+		]
+	}
 }

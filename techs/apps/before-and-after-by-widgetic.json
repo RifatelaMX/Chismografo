@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "before-and-after-by-widgetic",
-	"name": "Widgetic (Before and After)",
-	"developer": "Widgetic",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://widgetic.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "before-and-after-by-widgetic"
-		}
-	],
-	"logo": {
-		"id": "widgetic-before-and-after.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "before-and-after-by-widgetic|before[_-]?and[_-]?after[_-]?by[_-]?widgetic",
-			"description": "Script o recurso de integración de Widgetic (Before and After) detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Widgetic (Before and After)",
+			"desarrollador": "Widgetic",
+			"web": "https://widgetic.com",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "widgetic-before-and-after.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "before-and-after-by-widgetic",
+				"enlace": "before-and-after-by-widgetic"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "before-and-after-by-widgetic|before[_-]?and[_-]?after[_-]?by[_-]?widgetic",
+				"descripcion": "Script o recurso de integración de Widgetic (Before and After) detectado"
+			}
+		]
+	}
 }

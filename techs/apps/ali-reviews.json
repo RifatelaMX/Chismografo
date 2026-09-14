@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "ali-reviews",
-	"name": "Ali Reviews",
-	"developer": "Ali Reviews",
-	"category": "Reseñas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://kudosi.ai",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "ali-reviews"
-		}
-	],
-	"logo": {
-		"id": "alireviews.io",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "alireviews",
-			"description": "Ali Reviews integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Ali Reviews",
+			"desarrollador": "Ali Reviews",
+			"web": "https://kudosi.ai",
+			"categoria": "Reseñas",
+			"logo": {
+				"id": "ali-reviews.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "ali-reviews",
+				"enlace": "ali-reviews"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "alireviews",
+				"descripcion": "Ali Reviews integration script or resource detected"
+			}
+		]
+	}
 }

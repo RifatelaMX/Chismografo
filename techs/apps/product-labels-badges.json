@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "product-labels-badges",
-	"name": "Labeler: Product Labels Badges",
-	"developer": "BSS Commerce",
-	"category": "Insignias / Etiquetas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://bsscommerce.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "product-labels-badges"
-		}
-	],
-	"logo": {
-		"id": "bsscommerce.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "product-labels-badges|bss-labels|bsscommerce.*label|bss-product-label",
-			"description": "Script o recurso de integración de Labeler Product Labels Badges detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Labeler: Product Labels Badges",
+			"desarrollador": "BSS Commerce",
+			"web": "https://bsscommerce.com",
+			"categoria": "Insignias / Etiquetas",
+			"logo": {
+				"id": "product-labels-badges.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "product-labels-badges",
+				"enlace": "product-labels-badges"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "product-labels-badges|bss-labels|bsscommerce.*label|bss-product-label",
+				"descripcion": "Script o recurso de integración de Labeler Product Labels Badges detectado"
+			}
+		]
+	}
 }

@@ -1,23 +1,45 @@
 {
+	"$schema": "../schemas/gateway-v2.schema.json",
 	"id": "{{slug}}",
-	"name": "{{name}}",
-	"category": "Pasarela de Pago",
-	"web": "{{web}}",
-	"precios": [],
-	"logo": {
-		"id": "{{id_logo}}",
-		"provider": "{{provider_logo}}"
+	"chismografo": {
+		"tipo": 3,
+		"version": 1.0,
+		"ultimaActualizacion": "{{fechaActualizacion}}",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "{{scriptPattern}}",
-			"description": "Script de integración de {{name}} detectado"
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "{{nombre}}",
+			"empresaResponsable": "{{desarrollador}}",
+			"web": "{{web}}",
+			"categoria": "{{categoria}}",
+			"logo": {
+				"id": "{{id_logo}}",
+				"proveedor": "local"
+			}
 		},
-		{
-			"type": "html",
-			"pattern": "{{htmlPattern}}",
-			"description": "Clase o marca HTML de {{name}} detectada"
-		}
-	]
+		"cmsCompatibles": [
+			{
+				"id": "shopify",
+				"comisionMinima": 2,
+				"comisionMaxima": 3.6
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "{{scriptPattern}}",
+				"descripcion": "Script de integración de {{nombre}} detectado"
+			},
+			{
+				"tipo": "html",
+				"patron": "{{htmlPattern}}",
+				"descripcion": "Clase o marca HTML de {{nombre}} detectada"
+			}
+		]
+	}
 }

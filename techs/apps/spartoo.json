@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "spartoo",
-	"name": "Spartoo",
-	"developer": "Spartoo",
-	"category": "Envíos / Pedidos",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://apps.shopify.com/spartoo",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "spartoo"
-		}
-	],
-	"logo": {
-		"id": "spartoo.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "spartoo",
-			"description": "Script o recurso de integración de Spartoo detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Spartoo",
+			"desarrollador": "Spartoo",
+			"web": "https://apps.shopify.com/spartoo",
+			"categoria": "Envíos / Pedidos",
+			"logo": {
+				"id": "spartoo.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "spartoo",
+				"enlace": "spartoo"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "spartoo",
+				"descripcion": "Script o recurso de integración de Spartoo detectado"
+			}
+		]
+	}
 }

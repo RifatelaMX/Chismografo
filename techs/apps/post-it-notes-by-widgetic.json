@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "post-it-notes-by-widgetic",
-	"name": "Widgetic (Post It Notes)",
-	"developer": "Widgetic",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://widgetic.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "post-it-notes-by-widgetic"
-		}
-	],
-	"logo": {
-		"id": "widgetic-post-it-notes.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "post-it-notes-by-widgetic|post[_-]?it[_-]?notes[_-]?by[_-]?widgetic",
-			"description": "Script o recurso de integración de Widgetic (Post It Notes) detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Widgetic (Post It Notes)",
+			"desarrollador": "Widgetic",
+			"web": "https://widgetic.com",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "widgetic-post-it-notes.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "post-it-notes-by-widgetic",
+				"enlace": "post-it-notes-by-widgetic"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "post-it-notes-by-widgetic|post[_-]?it[_-]?notes[_-]?by[_-]?widgetic",
+				"descripcion": "Script o recurso de integración de Widgetic (Post It Notes) detectado"
+			}
+		]
+	}
 }

@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "add-to-cart-animator-shaker",
-	"name": "Pushdaddy Add to Cart Animator",
-	"developer": "Pushdaddy",
-	"category": "Checkout / Ofertas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://pushdaddy.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "add-to-cart-animator-shaker"
-		}
-	],
-	"logo": {
-		"id": "add-to-cart-animator-shaker.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "add-to-cart-animator-shaker|add[_-]?to[_-]?cart[_-]?animator[_-]?shaker",
-			"description": "Script o recurso de integración de Pushdaddy Add to Cart Animator detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Pushdaddy Add to Cart Animator",
+			"desarrollador": "Pushdaddy",
+			"web": "https://pushdaddy.com",
+			"categoria": "Checkout / Ofertas",
+			"logo": {
+				"id": "add-to-cart-animator-shaker.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "add-to-cart-animator-shaker",
+				"enlace": "add-to-cart-animator-shaker"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "add-to-cart-animator-shaker|add[_-]?to[_-]?cart[_-]?animator[_-]?shaker",
+				"descripcion": "Script o recurso de integración de Pushdaddy Add to Cart Animator detectado"
+			}
+		]
+	}
 }

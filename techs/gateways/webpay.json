@@ -1,23 +1,49 @@
 {
+	"$schema": "../../schemas/gateway-v2.schema.json",
 	"id": "webpay",
-	"name": "Webpay",
-	"category": "Pasarela de Pago",
-	"web": "https://www.transbank.cl",
-	"precios": [],
-	"logo": {
-		"id": "webpay.cl",
-		"provider": "brandicons"
+	"chismografo": {
+		"tipo": 3,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "webpay\\.js",
-			"description": "Script de integración de Webpay detectado"
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Webpay",
+			"web": "https://www.transbank.cl",
+			"categoria": "Pasarela de Pago",
+			"logo": {
+				"id": "webpay.cl",
+				"proveedor": "brandicons"
+			}
 		},
-		{
-			"type": "html",
-			"pattern": "\\bwebpay\\b",
-			"description": "Clase o marca HTML de Webpay detectada"
-		}
-	]
+		"cmsCompatibles": [
+			{
+				"id": "shopify",
+				"comisionMinima": 2,
+				"comisionMaxima": 3.6
+			},
+			{
+				"id": "woocommerce",
+				"comisionMinima": 2,
+				"comisionMaxima": 3.6
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "webpay\\.js",
+				"descripcion": "Script de integración de Webpay detectado"
+			},
+			{
+				"tipo": "html",
+				"patron": "\\bwebpay\\b",
+				"descripcion": "Clase o marca HTML de Webpay detectada"
+			}
+		]
+	}
 }

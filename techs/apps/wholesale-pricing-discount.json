@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "wholesale-pricing-discount",
-	"name": "Wholesale Pricing Discount B2B",
-	"developer": "Wholesale Helper",
-	"category": "B2B / Precios al Mayoreo",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://wholesalehelper.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "wholesale-pricing-discount"
-		}
-	],
-	"logo": {
-		"id": "wholesalehelper.io",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "wholesale-pricing-discount|wholesalehelper|wipd-",
-			"description": "Script o recurso de integración de Wholesale Pricing Discount B2B detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Wholesale Pricing Discount B2B",
+			"desarrollador": "Wholesale Helper",
+			"web": "https://wholesalehelper.io",
+			"categoria": "B2B / Precios al Mayoreo",
+			"logo": {
+				"id": "wholesalehelper.io",
+				"proveedor": "logodev"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "wholesale-pricing-discount",
+				"enlace": "wholesale-pricing-discount"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "wholesale-pricing-discount|wholesalehelper|wipd-",
+				"descripcion": "Script o recurso de integración de Wholesale Pricing Discount B2B detectado"
+			}
+		]
+	}
 }

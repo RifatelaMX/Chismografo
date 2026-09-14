@@ -1,25 +1,39 @@
 {
+	"$schema": "../../schemas/pixel-v2.schema.json",
 	"id": "meta-pixel",
-	"name": "Meta Pixel",
-	"category": "Redes Sociales",
-	"web": "https://www.facebook.com/business/tools/meta-pixel",
-	"precios": [],
-	"logo": {
-		"id": "facebook.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 5,
+		"version": "1.0.0",
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 2
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "connect\\.facebook\\.net\\/en_US\\/fbevents\\.js",
-			"description": "Meta Pixel script detectado",
-			"weight": 1
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Meta Pixel",
+			"web": "https://www.facebook.com/business/tools/meta-pixel",
+			"categoria": "Redes Sociales",
+			"logo": {
+				"id": "facebook.com",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"type": "script-content",
-			"pattern": "fbq\\('init'",
-			"description": "Meta Pixel initialization detectado",
-			"weight": 0.8
-		}
-	]
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "connect\\.facebook\\.net\\/en_US\\/fbevents\\.js",
+				"descripcion": "Meta Pixel script detectado",
+				"peso": 1
+			},
+			{
+				"tipo": "script-content",
+				"patron": "fbq\\('init'",
+				"descripcion": "Meta Pixel initialization detectado",
+				"peso": 0.8
+			}
+		]
+	}
 }

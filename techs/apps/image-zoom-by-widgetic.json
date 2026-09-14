@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "image-zoom-by-widgetic",
-	"name": "Widgetic (Image Zoom)",
-	"developer": "Widgetic",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://widgetic.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "image-zoom-by-widgetic"
-		}
-	],
-	"logo": {
-		"id": "widgetic-image-zoom.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "image-zoom-by-widgetic|image[_-]?zoom[_-]?by[_-]?widgetic",
-			"description": "Script o recurso de integración de Widgetic (Image Zoom) detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Widgetic (Image Zoom)",
+			"desarrollador": "Widgetic",
+			"web": "https://widgetic.com",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "widgetic-image-zoom.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "image-zoom-by-widgetic",
+				"enlace": "image-zoom-by-widgetic"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "image-zoom-by-widgetic|image[_-]?zoom[_-]?by[_-]?widgetic",
+				"descripcion": "Script o recurso de integración de Widgetic (Image Zoom) detectado"
+			}
+		]
+	}
 }

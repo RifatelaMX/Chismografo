@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "mercado-pago-antifraud-plus",
-	"name": "Mercado Pago Antifraude Plus",
-	"developer": "Mercado Pago",
-	"category": "Seguridad",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.mercadopago.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "mercado-pago-antifraud-plus"
-		}
-	],
-	"logo": {
-		"id": "mercadopago.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "mercado-pago-antifraud|mercadopago-antifraud|antifraud-plus|mercadopago\\.com.*antifraud",
-			"description": "Script o recurso de integración de Mercado Pago Antifraude Plus detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Mercado Pago Antifraude Plus",
+			"desarrollador": "Mercado Pago",
+			"web": "https://www.mercadopago.com",
+			"categoria": "Seguridad",
+			"logo": {
+				"id": "mercadopago.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "mercado-pago-antifraud-plus",
+				"enlace": "mercado-pago-antifraud-plus"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "mercado-pago-antifraud|mercadopago-antifraud|antifraud-plus|mercadopago\\.com.*antifraud",
+				"descripcion": "Script o recurso de integración de Mercado Pago Antifraude Plus detectado"
+			}
+		]
+	}
 }

@@ -1,25 +1,39 @@
 {
+	"$schema": "../../schemas/pixel-v2.schema.json",
 	"id": "linkedin-pixel",
-	"name": "LinkedIn Insight Tag",
-	"category": "Redes Sociales",
-	"web": "https://business.linkedin.com/marketing-solutions/insight-tag",
-	"precios": [],
-	"logo": {
-		"id": "linkedin.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 5,
+		"version": "1.0.0",
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 2
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "snap\\.licdn\\.com/li\\.lms-analytics/insight\\.min\\.js|licdn\\.com.*insight",
-			"description": "LinkedIn Insight Tag script detectado",
-			"weight": 1
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "LinkedIn Insight Tag",
+			"web": "https://business.linkedin.com/marketing-solutions/insight-tag",
+			"categoria": "Redes Sociales",
+			"logo": {
+				"id": "linkedin.com",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"type": "script-content",
-			"pattern": "_linkedin_partner_id",
-			"description": "LinkedIn Insight Tag configuración detectada",
-			"weight": 0.8
-		}
-	]
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "snap\\.licdn\\.com/li\\.lms-analytics/insight\\.min\\.js|licdn\\.com.*insight",
+				"descripcion": "LinkedIn Insight Tag script detectado",
+				"peso": 1
+			},
+			{
+				"tipo": "script-content",
+				"patron": "_linkedin_partner_id",
+				"descripcion": "LinkedIn Insight Tag configuración detectada",
+				"peso": 0.8
+			}
+		]
+	}
 }

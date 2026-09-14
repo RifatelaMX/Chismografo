@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "loop-subscriptions",
-	"name": "Loop Subscriptions",
-	"developer": "Loop Solutions Inc.",
-	"category": "Suscripciones",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.loop-subscriptions.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "loop-subscriptions"
-		}
-	],
-	"logo": {
-		"id": "loop-work.co",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "loop-work|loop-subscription",
-			"description": "Loop Subscriptions integration script or resource detected"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Loop Subscriptions",
+			"desarrollador": "Loop Solutions Inc.",
+			"web": "https://www.loop-subscriptions.com",
+			"categoria": "Suscripciones",
+			"logo": {
+				"id": "loop-subscriptions.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "loop-subscriptions",
+				"enlace": "loop-subscriptions"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "loop-work|loop-subscription",
+				"descripcion": "Loop Subscriptions integration script or resource detected"
+			}
+		]
+	}
 }

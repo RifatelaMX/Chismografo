@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "powr-link-in-bio",
-	"name": "POWR: Link‑in‑Bio",
-	"developer": "POWR",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.powr.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "powr-link-in-bio"
-		}
-	],
-	"logo": {
-		"id": "powr-link-in-bio.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "powr-link-in-bio|powr[_-]?link[_-]?in[_-]?bio",
-			"description": "Script o recurso de integración de POWR: Link‑in‑Bio detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "POWR: Link‑in‑Bio",
+			"desarrollador": "POWR",
+			"web": "https://www.powr.io",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "powr-link-in-bio.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "powr-link-in-bio",
+				"enlace": "powr-link-in-bio"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "powr-link-in-bio|powr[_-]?link[_-]?in[_-]?bio",
+				"descripcion": "Script o recurso de integración de POWR: Link‑in‑Bio detectado"
+			}
+		]
+	}
 }

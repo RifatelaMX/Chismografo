@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "powr-survey",
-	"name": "POWR: Customer Survey | Poll",
-	"developer": "POWR",
-	"category": "Formularios / Contacto",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.powr.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "powr-survey"
-		}
-	],
-	"logo": {
-		"id": "powr-survey.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "powr-survey|powr[_-]?survey",
-			"description": "Script o recurso de integración de POWR: Customer Survey | Poll detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "POWR: Customer Survey | Poll",
+			"desarrollador": "POWR",
+			"web": "https://www.powr.io",
+			"categoria": "Formularios / Contacto",
+			"logo": {
+				"id": "powr-survey.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "powr-survey",
+				"enlace": "powr-survey"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "powr-survey|powr[_-]?survey",
+				"descripcion": "Script o recurso de integración de POWR: Customer Survey | Poll detectado"
+			}
+		]
+	}
 }

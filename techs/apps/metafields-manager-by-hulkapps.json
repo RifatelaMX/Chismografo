@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "metafields-manager-by-hulkapps",
-	"name": "Hulk Custom Fields Metafields",
-	"developer": "HulkApps",
-	"category": "Seguridad",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.hulkapps.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "metafields-manager-by-hulkapps"
-		}
-	],
-	"logo": {
-		"id": "metafields-manager-by-hulkapps.png",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "metafields-manager-by-hulkapps|metafields[_-]?manager[_-]?by[_-]?hulkapps",
-			"description": "Script o recurso de integración de Hulk Custom Fields Metafields detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Hulk Custom Fields Metafields",
+			"desarrollador": "HulkApps",
+			"web": "https://www.hulkapps.com",
+			"categoria": "Seguridad",
+			"logo": {
+				"id": "metafields-manager-by-hulkapps.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "metafields-manager-by-hulkapps",
+				"enlace": "metafields-manager-by-hulkapps"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "metafields-manager-by-hulkapps|metafields[_-]?manager[_-]?by[_-]?hulkapps",
+				"descripcion": "Script o recurso de integración de Hulk Custom Fields Metafields detectado"
+			}
+		]
+	}
 }

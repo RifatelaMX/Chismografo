@@ -1,56 +1,70 @@
 {
+	"$schema": "../../schemas/cms-v2.schema.json",
 	"id": "shopify",
-	"name": "Shopify",
-	"web": "https://www.shopify.com",
-	"precios": [],
-	"logo": {
-		"id": "shopify.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 2,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"id": "shopify-meta-generator",
-			"type": "meta",
-			"key": "generator",
-			"pattern": "shopify",
-			"description": "Meta generator contains \"Shopify\"",
-			"weight": 1
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Shopify",
+			"web": "https://www.shopify.com",
+			"logo": {
+				"id": "shopify.com",
+				"proveedor": "logodev"
+			}
 		},
-		{
-			"id": "shopify-cdn-script",
-			"type": "script-src",
-			"pattern": "cdn\\.shopify\\.com",
-			"description": "Scripts loaded from Shopify CDN",
-			"weight": 0.9
-		},
-		{
-			"id": "shopify-cdn-link",
-			"type": "link-href",
-			"pattern": "cdn\\.shopify\\.com",
-			"description": "Styles loaded from Shopify CDN",
-			"weight": 0.9
-		},
-		{
-			"id": "shopify-js-object",
-			"type": "script-content",
-			"pattern": "window\\.Shopify\\b|Shopify\\.theme\\b|Shopify\\.shop\\b",
-			"description": "Shopify JS object defined in script",
-			"weight": 0.95
-		},
-		{
-			"id": "shopify-booster-path",
-			"type": "script-src",
-			"pattern": "shopify-active|shopify-booster",
-			"description": "Shopify booster scripts detected",
-			"weight": 0.7
-		},
-		{
-			"id": "shopify-cart-path",
-			"type": "html-attribute",
-			"attribute": "action",
-			"pattern": "\\/cart\\/add",
-			"description": "Forms submitting to Shopify /cart/add endpoint",
-			"weight": 0.5
-		}
-	]
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"id": "shopify-meta-generator",
+				"tipo": "meta",
+				"llave": "generator",
+				"patron": "shopify",
+				"descripcion": "Meta generator contains \"Shopify\"",
+				"peso": 1
+			},
+			{
+				"id": "shopify-cdn-script",
+				"tipo": "script-src",
+				"patron": "cdn\\.shopify\\.com",
+				"descripcion": "Scripts loaded from Shopify CDN",
+				"peso": 0.9
+			},
+			{
+				"id": "shopify-cdn-link",
+				"tipo": "link-href",
+				"patron": "cdn\\.shopify\\.com",
+				"descripcion": "Styles loaded from Shopify CDN",
+				"peso": 0.9
+			},
+			{
+				"id": "shopify-js-object",
+				"tipo": "script-content",
+				"patron": "window\\.Shopify\\b|Shopify\\.theme\\b|Shopify\\.shop\\b",
+				"descripcion": "Shopify JS object defined in script",
+				"peso": 0.95
+			},
+			{
+				"id": "shopify-booster-path",
+				"tipo": "script-src",
+				"patron": "shopify-active|shopify-booster",
+				"descripcion": "Shopify booster scripts detected",
+				"peso": 0.7
+			},
+			{
+				"id": "shopify-cart-path",
+				"tipo": "html-attribute",
+				"atributo": "action",
+				"patron": "\\/cart\\/add",
+				"descripcion": "Forms submitting to Shopify /cart/add endpoint",
+				"peso": 0.5
+			}
+		]
+	}
 }

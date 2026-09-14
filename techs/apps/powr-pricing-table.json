@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "powr-pricing-table",
-	"name": "POWR: Pricing Table Comparison",
-	"developer": "POWR",
-	"category": "Checkout / Ofertas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.powr.io",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "powr-pricing-table"
-		}
-	],
-	"logo": {
-		"id": "powr-pricing-table.jpg",
-		"provider": "local"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "powr-pricing-table|powr[_-]?pricing[_-]?table",
-			"description": "Script o recurso de integración de POWR: Pricing Table Comparison detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "POWR: Pricing Table Comparison",
+			"desarrollador": "POWR",
+			"web": "https://www.powr.io",
+			"categoria": "Checkout / Ofertas",
+			"logo": {
+				"id": "powr-pricing-table.webp",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "powr-pricing-table",
+				"enlace": "powr-pricing-table"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "powr-pricing-table|powr[_-]?pricing[_-]?table",
+				"descripcion": "Script o recurso de integración de POWR: Pricing Table Comparison detectado"
+			}
+		]
+	}
 }

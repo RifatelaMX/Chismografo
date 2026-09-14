@@ -1,26 +1,40 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "privy",
-	"name": "Privy ‑ Email, SMS & Pop Ups",
-	"developer": "Privy",
-	"category": "Marketing / Popups",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://privy.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "privy"
-		}
-	],
-	"logo": {
-		"id": "privy.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "privy|privi",
-			"description": "Script o recurso de integración de Privy ‑ Email, SMS & Pop Ups detectado"
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Privy ‑ Email, SMS & Pop Ups",
+			"desarrollador": "Privy",
+			"web": "https://privy.com",
+			"categoria": "Marketing / Popups",
+			"logo": {
+				"id": "privy.png",
+				"proveedor": "local"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "privy",
+				"enlace": "privy"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "privy|privi",
+				"descripcion": "Script o recurso de integración de Privy ‑ Email, SMS & Pop Ups detectado"
+			}
+		]
+	}
 }

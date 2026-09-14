@@ -1,27 +1,41 @@
 {
+	"$schema": "../../schemas/app-v2.schema.json",
 	"id": "shogun",
-	"name": "Shogun - Landing Page Builder",
-	"developer": "Shogun Labs Inc.",
-	"category": "Constructor de Páginas",
-	"compatibleCMS": ["Shopify"],
-	"web": "https://www.getshogun.com",
-	"precios": [],
-	"appStores": [
-		{
-			"cms": "Shopify",
-			"link": "shogun"
-		}
-	],
-	"logo": {
-		"id": "getshogun.com",
-		"provider": "logodev"
+	"chismografo": {
+		"tipo": 1,
+		"version": 1,
+		"ultimaActualizacion": "2026-09-11",
+		"revision": 0,
+		"entorno": 0
 	},
-	"detectionRules": [
-		{
-			"type": "script-src",
-			"pattern": "shogun",
-			"description": "Integración o recurso de Shogun detectado",
-			"weight": 1
-		}
-	]
+	"acercaDe": {
+		"detallesGenerales": {
+			"nombre": "Shogun - Landing Page Builder",
+			"desarrollador": "Shogun Labs Inc.",
+			"web": "https://www.getshogun.com",
+			"categoria": "Constructor de Páginas",
+			"logo": {
+				"id": "getshogun.com",
+				"proveedor": "logodev"
+			}
+		},
+		"cmsCompatibles": [
+			{
+				"id": "Shopify",
+				"slug": "shogun",
+				"enlace": "shogun"
+			}
+		],
+		"precios": []
+	},
+	"herramienta": {
+		"reglasDeteccion": [
+			{
+				"tipo": "script-src",
+				"patron": "shogun",
+				"descripcion": "Integración o recurso de Shogun detectado",
+				"peso": 1
+			}
+		]
+	}
 }
