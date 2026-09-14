@@ -1,0 +1,141 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Chismografo Pixel Schema v2",
+	"description": "Esquema JSON versión 2 para la definición de píxeles y etiquetas de tracking en Chismógrafo",
+	"type": "object",
+	"required": ["id", "chismografo", "acercaDe", "herramienta"],
+	"properties": {
+		"$schema": {
+			"type": "string",
+			"description": "Ruta o URI al esquema JSON de validación"
+		},
+		"id": {
+			"type": "string",
+			"pattern": "^([a-z0-9]+(?:-[a-z0-9]+)*|\\{\\{[^}]+\\}\\}|\\{\\{slug\\}\\})$",
+			"description": "Identificador único en formato kebab-case"
+		},
+		"chismografo": {
+			"type": "object",
+			"required": ["tipo", "version", "ultimaActualizacion", "revision", "entorno"],
+			"properties": {
+				"tipo": {
+					"type": "integer",
+					"enum": [5],
+					"description": "Tipo de tecnología: 5=Píxel / Tracking"
+				},
+				"version": {
+					"type": ["number", "string"],
+					"description": "Versión semántica del archivo o herramienta (ej. 1.0 o '1.0.0')"
+				},
+				"ultimaActualizacion": {
+					"type": "string",
+					"pattern": "^(\\d{4}-\\d{2}-\\d{2}|\\{\\{[^}]+\\}\\}|\\{\\{fechaActualizacion\\}\\})$",
+					"description": "Fecha de última actualización en formato YYYY-MM-DD"
+				},
+				"utlimaActualizacion": {
+					"type": "string",
+					"pattern": "^(\\d{4}-\\d{2}-\\d{2}|\\{\\{[^}]+\\}\\}|\\{\\{fechaActualizacion\\}\\})$",
+					"description": "Alias compatible para última actualización"
+				},
+				"revision": {
+					"type": ["integer", "string"],
+					"description": "Tipo de revisión: 0='ia', 1='manual', 2='ambos'"
+				},
+				"entorno": {
+					"type": "integer",
+					"enum": [0, 1, 2],
+					"description": "Entorno del registro: 0=desarrollo, 1=preview, 2=producción"
+				}
+			}
+		},
+		"acercaDe": {
+			"type": "object",
+			"required": ["detallesGenerales"],
+			"properties": {
+				"detallesGenerales": {
+					"type": "object",
+					"required": ["nombre"],
+					"properties": {
+						"nombre": {
+							"type": "string",
+							"description": "Nombre oficial del píxel o etiqueta"
+						},
+						"desarrollador": {
+							"type": "string",
+							"description": "Empresa o plataforma responsable (ej. Google, Meta, Microsoft)"
+						},
+						"web": {
+							"type": "string",
+							"description": "Sitio web o portal oficial"
+						},
+						"categoria": {
+							"type": "string",
+							"description": "Categoría de tracking (ej. 'Píxeles / Tracking', 'Analítica / Publicidad')"
+						},
+						"logo": {
+							"type": "object",
+							"properties": {
+								"id": {
+									"type": "string",
+									"description": "Identificador o nombre del archivo de ícono/logo"
+								},
+								"proveedor": {
+									"type": "string",
+									"enum": ["local", "logodev", "brandicons", "brandfetch", "ninjapear", "shopify"],
+									"description": "Proveedor de ícono autorizado"
+								}
+							}
+						}
+					}
+				},
+				"precios": {
+					"type": "array",
+					"description": "Planes de precios",
+					"items": {
+						"type": "object"
+					}
+				}
+			}
+		},
+		"herramienta": {
+			"type": "object",
+			"required": ["reglasDeteccion"],
+			"properties": {
+				"reglasDeteccion": {
+					"type": "array",
+					"description": "Reglas del motor para detectar el píxel",
+					"items": {
+						"type": "object",
+						"required": ["tipo", "patron"],
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"tipo": {
+								"type": "string",
+								"description": "Tipo de regla (ej. 'script-src', 'script-content')"
+							},
+							"patron": {
+								"type": "string",
+								"description": "Expresión regular o patrón a coincidir"
+							},
+							"descripcion": {
+								"type": "string",
+								"description": "Descripción explicativa de la regla"
+							},
+							"llave": {
+								"type": "string"
+							},
+							"atributo": {
+								"type": "string"
+							},
+							"peso": {
+								"type": "number"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

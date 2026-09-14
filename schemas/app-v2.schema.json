@@ -1,0 +1,213 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Chismografo App Schema v2",
+	"description": "Esquema JSON versión 2 para la definición de aplicaciones a detectar en Chismógrafo",
+	"type": "object",
+	"required": ["id", "chismografo", "acercaDe", "herramienta"],
+	"properties": {
+		"$schema": {
+			"type": "string",
+			"description": "Ruta o URI al esquema JSON de validación"
+		},
+		"id": {
+			"type": "string",
+			"pattern": "^([a-z0-9]+(?:-[a-z0-9]+)*|\\{\\{[^}]+\\}\\}|\\{\\{slug\\}\\})$",
+			"description": "Identificador único en formato kebab-case"
+		},
+		"chismografo": {
+			"type": "object",
+			"required": ["tipo", "version", "ultimaActualizacion", "revision", "entorno"],
+			"properties": {
+				"tipo": {
+					"type": "integer",
+					"enum": [1, 2, 3, 4, 5],
+					"description": "Tipo de tecnología: 1=Aplicación, 2=CMS, 3=Pasarela/Gateway, 4=Infraestructura, 5=Pixel"
+				},
+				"version": {
+					"type": ["number", "string"],
+					"description": "Versión semántica del archivo o herramienta (ej. 1.0 o '1.0.0')"
+				},
+				"ultimaActualizacion": {
+					"type": "string",
+					"pattern": "^(\\d{4}-\\d{2}-\\d{2}|\\{\\{[^}]+\\}\\}|\\{\\{fechaActualizacion\\}\\})$",
+					"description": "Fecha de última actualización en formato YYYY-MM-DD"
+				},
+				"utlimaActualizacion": {
+					"type": "string",
+					"pattern": "^(\\d{4}-\\d{2}-\\d{2}|\\{\\{[^}]+\\}\\}|\\{\\{fechaActualizacion\\}\\})$",
+					"description": "Alias compatible para última actualización"
+				},
+				"revision": {
+					"type": ["integer", "string"],
+					"description": "Tipo de revisión: 0='ia', 1='manual', 2='ambos'"
+				},
+				"entorno": {
+					"type": "integer",
+					"enum": [0, 1, 2],
+					"description": "Entorno del registro: 0=desarrollo, 1=preview, 2=producción"
+				}
+			}
+		},
+		"acercaDe": {
+			"type": "object",
+			"required": ["detallesGenerales"],
+			"properties": {
+				"detallesGenerales": {
+					"type": "object",
+					"required": ["nombre"],
+					"properties": {
+						"nombre": {
+							"type": "string",
+							"description": "Nombre oficial de la aplicación"
+						},
+						"desarrollador": {
+							"type": "string",
+							"description": "Nombre del desarrollador o empresa creadora"
+						},
+						"web": {
+							"type": "string",
+							"description": "Sitio web oficial o URL del desarrollador"
+						},
+						"categoria": {
+							"type": "string",
+							"description": "Categoría funcional de la aplicación"
+						},
+						"logo": {
+							"type": "object",
+							"properties": {
+								"id": {
+									"type": "string",
+									"description": "Identificador o nombre del archivo de ícono/logo"
+								},
+								"proveedor": {
+									"type": "string",
+									"enum": ["local", "logodev", "brandicons", "brandfetch", "ninjapear", "shopify"],
+									"description": "Proveedor de ícono autorizado"
+								}
+							}
+						}
+					}
+				},
+				"cmsCompatibles": {
+					"type": "array",
+					"description": "Plataformas de CMS compatibles y sus slugs en tienda",
+					"items": {
+						"type": "object",
+						"required": ["id"],
+						"properties": {
+							"id": {
+								"type": "string",
+								"description": "Identificador del CMS (ej. 'shopify', 'woocommerce', 'magento')"
+							},
+							"slug": {
+								"type": "string",
+								"description": "Slug de la app en la tienda oficial del CMS"
+							},
+							"enlace": {
+								"type": "string",
+								"description": "Enlace directo opcional a la app store"
+							}
+						}
+					}
+				},
+				"calificacion": {
+					"type": ["number", "object"],
+					"description": "Puntaje de calificación oficial de la aplicación (ej. 4.9 o { puntaje: 4.9, resenas: 4500 })",
+					"properties": {
+						"puntaje": {
+							"type": "number",
+							"description": "Puntuación promedio de 0 a 5"
+						},
+						"resenas": {
+							"type": "integer",
+							"description": "Número total de reseñas recibidas"
+						}
+					}
+				},
+				"precios": {
+					"type": "array",
+					"description": "Planes de precios de la aplicación",
+					"items": {
+						"type": "object",
+						"properties": {
+							"plan": {
+								"type": "string",
+								"description": "Nombre del plan (ej. 'Gratis', 'Básico', 'Pro')"
+							},
+							"precio": {
+								"type": ["object", "number", "string"],
+								"description": "Detalle del costo o monto del plan",
+								"properties": {
+									"monto": {
+										"type": "number"
+									},
+									"moneda": {
+										"type": "string"
+									}
+								}
+							},
+							"frecuencia": {
+								"type": "string",
+								"description": "Frecuencia de cobro (ej. 'mes', 'año', 'único', 'por orden')"
+							},
+							"features": {
+								"type": "array",
+								"description": "Lista de características y ventajas incluidas en el plan",
+								"items": {
+									"type": "string"
+								}
+							},
+							"caracteristicas": {
+								"type": "array",
+								"description": "Alias en español para la lista de características",
+								"items": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"herramienta": {
+			"type": "object",
+			"required": ["reglasDeteccion"],
+			"properties": {
+				"reglasDeteccion": {
+					"type": "array",
+					"description": "Reglas del motor para detectar la tecnología",
+					"items": {
+						"type": "object",
+						"required": ["tipo", "patron"],
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"tipo": {
+								"type": "string",
+								"description": "Tipo de selector o regla (ej. 'script-src', 'meta', 'html', 'js-var')"
+							},
+							"patron": {
+								"type": "string",
+								"description": "Expresión regular o patrón de texto a coincidir"
+							},
+							"descripcion": {
+								"type": "string",
+								"description": "Descripción explicativa de la regla"
+							},
+							"llave": {
+								"type": "string"
+							},
+							"atributo": {
+								"type": "string"
+							},
+							"peso": {
+								"type": "number"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

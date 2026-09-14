@@ -1,0 +1,200 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Chismografo Gateway Schema v2",
+	"description": "Esquema JSON versión 2 para la definición de Pasarelas de Pago en Chismógrafo",
+	"type": "object",
+	"required": ["id", "chismografo", "acercaDe", "herramienta"],
+	"properties": {
+		"$schema": {
+			"type": "string",
+			"description": "Ruta o URI al esquema JSON de validación"
+		},
+		"id": {
+			"type": "string",
+			"pattern": "^([a-z0-9]+(?:-[a-z0-9]+)*|\\{\\{[^}]+\\}\\}|\\{\\{slug\\}\\})$",
+			"description": "Identificador único en formato kebab-case"
+		},
+		"chismografo": {
+			"type": "object",
+			"required": ["tipo", "version", "ultimaActualizacion", "revision", "entorno"],
+			"properties": {
+				"tipo": {
+					"type": "integer",
+					"enum": [3],
+					"description": "Tipo de tecnología: 3=Pasarela de Pago (Gateway)"
+				},
+				"version": {
+					"type": ["number", "string"],
+					"description": "Versión semántica del archivo o herramienta (ej. 1.0 o '1.0.0')"
+				},
+				"ultimaActualizacion": {
+					"type": "string",
+					"pattern": "^(\\d{4}-\\d{2}-\\d{2}|\\{\\{[^}]+\\}\\}|\\{\\{fechaActualizacion\\}\\})$",
+					"description": "Fecha de última actualización en formato YYYY-MM-DD"
+				},
+				"utlimaActualizacion": {
+					"type": "string",
+					"pattern": "^(\\d{4}-\\d{2}-\\d{2}|\\{\\{[^}]+\\}\\}|\\{\\{fechaActualizacion\\}\\})$",
+					"description": "Alias compatible para última actualización"
+				},
+				"revision": {
+					"type": ["integer", "string"],
+					"description": "Tipo de revisión: 0='ia', 1='manual', 2='ambos'"
+				},
+				"entorno": {
+					"type": "integer",
+					"enum": [0, 1, 2],
+					"description": "Entorno del registro: 0=desarrollo, 1=preview, 2=producción"
+				}
+			}
+		},
+		"acercaDe": {
+			"type": "object",
+			"required": ["detallesGenerales"],
+			"properties": {
+				"detallesGenerales": {
+					"type": "object",
+					"required": ["nombre"],
+					"properties": {
+						"nombre": {
+							"type": "string",
+							"description": "Nombre oficial de la pasarela de pago"
+						},
+						"empresaResponsable": {
+							"type": "string",
+							"description": "Nombre de la empresa responsable o desarrollador"
+						},
+						"desarrollador": {
+							"type": "string",
+							"description": "Alias compatible de empresa responsable"
+						},
+						"web": {
+							"type": "string",
+							"description": "Sitio web oficial de la pasarela"
+						},
+						"categoria": {
+							"type": "string",
+							"description": "Categoría de método de pago (ej. 'Tarjeta de crédito/débito', 'Tarjetas Prepago', 'Compra Ahora y Paga Después', 'Billetera', 'Transferencia SPEI', 'Efectivo')"
+						},
+						"logo": {
+							"type": "object",
+							"properties": {
+								"id": {
+									"type": "string",
+									"description": "Identificador o nombre del archivo de ícono/logo"
+								},
+								"proveedor": {
+									"type": "string",
+									"enum": ["local", "logodev", "brandicons", "brandfetch", "ninjapear", "shopify"],
+									"description": "Proveedor de ícono autorizado"
+								}
+							}
+						}
+					}
+				},
+				"cmsCompatibles": {
+					"type": "array",
+					"description": "Plataformas de CMS compatibles y comisiones asociadas",
+					"items": {
+						"type": "object",
+						"required": ["id"],
+						"properties": {
+							"id": {
+								"type": "string",
+								"description": "Identificador del CMS (ej. 'shopify', 'woocommerce', 'magento')"
+							},
+							"comisionMinima": {
+								"type": "number",
+								"description": "Comisión mínima sobre venta"
+							},
+							"comisionMaxima": {
+								"type": "number",
+								"description": "Comisión máxima sobre venta"
+							}
+						}
+					}
+				},
+				"precios": {
+					"type": "array",
+					"description": "Planes y comisiones de precios",
+					"items": {
+						"type": "object",
+						"properties": {
+							"plan": {
+								"type": "object",
+								"properties": {
+									"nombre": { "type": "string" },
+									"tipo": {
+										"type": "integer",
+										"description": "0=Monto Fijo, 1=Porcentaje, 2=Por Evento, 3=Monto Fijo + Porcentaje"
+									},
+									"precio": {
+										"type": "object",
+										"properties": {
+											"monto": { "type": "number" },
+											"moneda": { "type": "string" }
+										}
+									},
+									"frecuencia": { "type": "integer" },
+									"descuento": {
+										"type": "object",
+										"properties": {
+											"porcentajeDescuento": { "type": "number" },
+											"precioDescuento": {
+												"type": "object",
+												"properties": {
+													"monto": { "type": "number" },
+													"moneda": { "type": "string" }
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"herramienta": {
+			"type": "object",
+			"required": ["reglasDeteccion"],
+			"properties": {
+				"reglasDeteccion": {
+					"type": "array",
+					"description": "Reglas del motor para detectar la pasarela de pago",
+					"items": {
+						"type": "object",
+						"required": ["tipo", "patron"],
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"tipo": {
+								"type": "string",
+								"description": "Tipo de regla (ej. 'script-src', 'link-href', 'html-attr', 'html-content')"
+							},
+							"patron": {
+								"type": "string",
+								"description": "Expresión regular o patrón a coincidir"
+							},
+							"descripcion": {
+								"type": "string",
+								"description": "Descripción explicativa de la regla"
+							},
+							"llave": {
+								"type": "string"
+							},
+							"atributo": {
+								"type": "string"
+							},
+							"peso": {
+								"type": "number"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
